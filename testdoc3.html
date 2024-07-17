@@ -1,50 +1,42 @@
-<!-- Yeah no I dont wanna compile to see if 95% looks better than 90% -->
-<!DOCTYPE HTML PUBLIC-//W3C//DTD HTML 4.01 Transitional//EN"http://www.w3.org/TR/html4/loose.dtd">
+<!-- 
+	Bright flashing colors
+	This is a test of TGUI's handling of passing it simple, obviously working scripts
+	The HTML is simple, the javascript is simple, and all it does is draw a square on the screen that flashes between red and blue
+	the HTML doesnt create the square, the javascript does
+ -->
+
+<!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
-		<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-		<link rel='stylesheet' type='text/css' href='html\browser\common.css'>
+		<title>Flashing Square Test</title>
 	</head>
-	<body scroll=auto>
-		<div class='uiWrapper'>
-			<div class='uiTitleWrapper'><div class='uiTitle'><tt>Tittle</tt></div></div>
-			<div class='uiContent'>
-
-				<center>
-				
-					<table class='table_genital_list'>
-					<tr class='talign'>
-					<td class='talign'>
-					<div class='gen_name'>Unmentionables</div>
-					</td></tr>
-					<tr class='talign'><td class='talign'>
-					<div class='gen_container'>
-						<div class='gen_setting_name'>Has [nad.name]:</div>
-						<a 
-									class='clicky' 
-									href='
-										?src=[REF(nad)];
-										action=open_genital_window'>
-											Open
-								</a>
-						<div class='gen_setting_name'>Has [nad.name]:</div>
-						<a 
-									class='clicky' 
-									href='
-										?src=[REF(nad)];
-										action=open_genital_window'>
-											Peen
-								</a>
-					</div>
-					</td></tr>
-					</table>
-					</center>
-	
-			<div class="wrapper"></div>
-			<div class="scanline"></div>
-			<div class="overlay"></div>
-			</div>
-		</div>
+	<body>
+		<script>
+			var canvas = document.createElement("canvas");
+			canvas.width = 300;
+			canvas.height = 300;
+			canvas.style.backgroundColor = "#f0f0f0";
+			document.body.appendChild(canvas);
+			var ctx = canvas.getContext("2d");
+			var color = "red";
+			setInterval(function() {
+				if (color == "red") {
+					color = "blue";
+				} else {
+					color = "red";
+				}
+				ctx.fillStyle = color;
+				ctx.fillRect(0, 0, 300, 300);
+			}, 1000);
+		</script>
 	</body>
 </html>
+
+
+
+
+
+
+
+
+

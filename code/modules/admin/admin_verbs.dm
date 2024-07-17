@@ -105,6 +105,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/datum/admins/proc/admin_who,
 	/datum/admins/proc/admin_who2,
 	/datum/admins/proc/test_dailies,
+	/datum/admins/proc/make_cool_payload,
 	)
 GLOBAL_LIST_INIT(admin_verbs_ban, list(/client/proc/unban_panel, /client/proc/DB_ban_panel, /client/proc/stickybanpanel))
 GLOBAL_PROTECT(admin_verbs_ban)
@@ -1297,3 +1298,31 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	[span_yellowteamradio("span_yellowteamradio")]\n\
 	")
 
+/datum/admins/proc/make_cool_payload()
+	set category = "Debug"
+	set name = "CoolText Pro"
+	set desc = "Opens a big textbox that you can type things in to send to yourself. Used for testing fancy chat message stuff."
+
+	if(!check_rights(R_ADMIN))
+		message_admins("[ADMIN_TPMONTY(usr)] tried to use mess with make_cool_payload() without admin perms.")
+		log_admin("INVALID ADMIN PROC ACCESS: [key_name(usr)] tried to use mess with make_cool_payload() without admin perms.")
+		return
+	GLOB.cooltext_pro.Open(usr)
+
+GLOBAL_DATUM_INIT(cooltext_pro, /datum/shrimpletext, new)
+
+/datum/shrimpletext
+	var/list/messages_by_ckey = list()
+
+/datum/shrimpletext/proc/Open(someone)
+	var/client/who = extract_mob(someone)
+	var/stored_text = messages_by_ckey[who.ckey]
+	var/text2send = input(
+		who,
+		"Enter the text you want to send to yourself. This is a big textbox, so you can type a lot of stuff.",
+		"CoolText Pro",
+		stored_text
+	) as null|message
+	if(text2send)
+		messages_by_ckey[who.ckey] = text2send
+		to_chat(who, text2send)

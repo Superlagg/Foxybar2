@@ -96,8 +96,21 @@
 	return TRUE
 
 /obj/item/organ/tongue/proc/handle_speech(datum/source, list/speech_args) //this wont proc unless there's initial_accents on the tongue
+	if(!islist(speech_args))
+		return
+	var/datum/rental_mommy/momchat
+	if(istype(message, /datum/rental_mommy/chat))
+		momchat = message
+		message = momchat.message
+	var/list/coolargs = isspeech_args.Copy()
+	coolargs[SPEECH_MESSAGE] = message
 	for(var/datum/accent/speech_modifier in accents)
-		speech_args = speech_modifier.modify_speech(speech_args, source, owner)
+		speech_args = speech_modifier.modify_speech(coolargs, source, owner)
+	if(momchat)
+		momchat.message = coolargs[SPEECH_MESSAGE]
+		momchat.spans = coolargs[SPEECH_SPANS]
+	else
+		speech_args[SPEECH_MESSAGE] = coolargs[SPEECH_MESSAGE]
 
 /obj/item/organ/tongue/applyOrganDamage(d, maximum = maxHealth)
 	. = ..()

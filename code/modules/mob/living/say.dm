@@ -20,6 +20,19 @@
 
 	return new_msg
 
+GLOBAL_LIST_INIT(unconscious_allowed_modes, list(
+	MODE_CHANGELING = TRUE,
+	MODE_ALIEN = TRUE,
+))
+GLOBAL_LIST_INIT(one_character_prefix, list(
+	MODE_HEADSET = TRUE,
+	MODE_ROBOT = TRUE,
+	MODE_WHISPER = TRUE,
+	MODE_SING = TRUE,
+	"$" = TRUE,
+	"#" = TRUE,
+))
+
 /mob/living/say(message, bubble_type, list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null, just_chat)
 	/* var/static/list/crit_allowed_modes = list(
 		MODE_WHISPER = TRUE,
@@ -30,11 +43,6 @@
 		MODE_CHANGELING = TRUE,
 		MODE_ALIEN = TRUE
 		) */
-	var/static/list/unconscious_allowed_modes = list(MODE_CHANGELING = TRUE, MODE_ALIEN = TRUE)
-	var/talk_key = get_key(message)
-
-	var/static/list/one_character_prefix = list(MODE_HEADSET = TRUE, MODE_ROBOT = TRUE, MODE_WHISPER = TRUE, MODE_SING = TRUE, "$" = TRUE, "#" = TRUE)
-
 	var/ic_blocked = FALSE
 
 	if(client && !forced && CHAT_FILTER_CHECK(message))
@@ -51,110 +59,168 @@
 		to_chat(src, span_warning("That message contained a word prohibited in IC chat! Consider reviewing the server rules.\n<span replaceRegex='show_filtered_ic_chat'>\"[message]\"</span>"))
 		SSblackbox.record_feedback("tally", "ic_blocked_words", 1, lowertext(config.ic_filter_regex.match))
 		return
+	var/datum/rental_mommy/chat/momchat = SSrentaldatums.chat_uses_mommy && SSrentaldatums.CheckoutMommy(MOMMY_CHAT)
+	if(momchat)
+		momchat.original_message = message
+		momchat.message = message
+		momchat.source = src
+		momchat.bubble_type = bubble_type
+		momchat.language = language
+		momchat.spans = spans.Copy()
+		momchat.ignore_spam = ignore_spam
+		momchat.forced = forced
+		momchat.only_overhead = just_chat
 
-	var/datum/saymode/saymode = SSradio.saymodes[talk_key]
-	var/message_mode = get_message_mode(message)
+	var/message_range = SSchat.base_say_distance
+	var/datum/saymode/saymode = SSradio.saymodes[get_key(message, momchat)]
+	var/message_mode = get_message_mode(message, momchat)
 	var/original_message = message
 	var/in_critical = InCritical()
 
-	if(one_character_prefix[message_mode])
-		message = copytext_char(message, 2)
-	else if(message_mode || saymode)
-		message = copytext_char(message, 3)
-	message = trim_left(message)
-	if(!message)
-		return
-	if(message_mode == MODE_ADMIN)
-		if(client)
-			client.cmd_admin_say(message)
-		return
-
-	// if(message_mode == MODE_DEADMIN)
-	// 	if(client)
-	// 		client.dsay(message)
-	// 	return
-
-	if(stat == DEAD)
-		say_dead(original_message)
-		return
-
-	if(check_emote(original_message, just_runechat = just_chat) || !can_speak_basic(original_message, ignore_spam))
-		return
-
-	//if(in_critical)
-	//	if(!(crit_allowed_modes[message_mode]))
-	//		return
-	if(stat == UNCONSCIOUS && !(unconscious_allowed_modes[message_mode]))
-		return
-
-	// language comma detection.
-	var/datum/language/message_language = get_message_language(message)
-	if(message_language)
-		// No, you cannot speak in xenocommon just because you know the key
-		if(can_speak_language(message_language))
-			language = message_language
-		message = copytext_char(message, 3)
-
-		// Trim the space if they said ",0 I LOVE LANGUAGES"
-		message = trim_left(message)
-
-	if(!language)
-		language = get_selected_language()
-
-	// Detection of language needs to be before inherent channels, because
-	// AIs use inherent channels for the holopad. Most inherent channels
-	// ignore the language argument however.
-
-	if(saymode && !saymode.handle_message(src, message, language))
-		return
-
-	if(!can_speak_vocal(message))
-		to_chat(src, span_warning("I find yourself unable to speak!"))
-		return
-
-	var/message_range = SSchat.base_say_distance
-
-	//var/succumbed = FALSE
-
-	//var/fullcrit = InFullCritical()
-	if(in_critical || message_mode == MODE_WHISPER)
-		if(!in_critical)
-			message_range = SSchat.base_whisper_distance
-		spans |= SPAN_ITALICS
-		src.log_talk(message, LOG_WHISPER)
+	if(momchat)
+		if(momchat.message_key)
+			momchat.message = copytext_char(message, LAZYLEN(momchat.message_key) + 1)
+		momchat.message = trim(momchat.message)
+		if(!momchat.message)
+			RETURN_MOMMY(momchat)
+		if(momchat.message_mode == MODE_ADMIN)
+			if(client)
+				client.cmd_admin_say(momchat.message)
+			RETURN_MOMMY(momchat)
+		if(stat == DEAD)
+			say_dead(momchat.original_message)
+			RETURN_MOMMY(momchat)
+		if(check_emote(momchat.original_message, just_runechat = momchat.just_chat))
+			RETURN_MOMMY(momchat)
+		if(!can_speak_basic(momchat.original_message, momchat.ignore_spam))
+			RETURN_MOMMY(momchat)
+		if(stat == UNCONSCIOUS && !(GLOB.unconscious_allowed_modes[momchat.message_mode]))
+			RETURN_MOMMY(momchat)
+		// language comma detection.
+		var/datum/language/message_language = get_message_language(momchat.message)
+		if(message_language)
+			// No, you cannot speak in xenocommon just because you know the key
+			if(can_speak_language(message_language))
+				momchat.language = message_language
+			momchat.message = copytext_char(momchat.message, LAZYLEN(momchat.language_key) + 1)
+			// Trim the space if they said ",0 I LOVE LANGUAGES"
+			momchat.message = trim(message)
+		if(!momchat.language)
+			momchat.language = get_selected_language()
+		if(saymode && !saymode.handle_message(src, momchat.message, momchat.language))
+			RETURN_MOMMY(momchat)
+		if(!can_speak_vocal(momchat.message))
+			to_chat(src, span_warning("I find yourself unable to speak!"))
+			RETURN_MOMMY(momchat)
+		if(in_critical || momchat.message_mode == MODE_WHISPER)
+			if(!in_critical)
+				momchat.message_range = SSchat.base_whisper_distance
+			momchat.spans |= SPAN_ITALICS
+			src.log_talk(momchat.message, LOG_WHISPER)
+		else
+			src.log_talk(momchat.message, LOG_SAY, forced_by=momchat.forced)
+		momchat.message = treat_message(momchat.message) // unfortunately we still need this
+		var/list/coolargs = args.Copy()
+		if(LAZYLEN(coolargs) >= 1)
+			coolargs[SPEAK_MESSAGE] = momchat.message
+		var/sigreturn = SEND_SIGNAL(src, COMSIG_MOB_SAY, coolargs)
+		if(!momchat.message)
+			RETURN_MOMMY(momchat)
+		last_words = momchat.message
+		momchat.spans |= speech_span
+		if(momchat.language)
+			var/datum/language/L = GLOB.language_datum_instances[momchat.language]
+			momchat.spans |= L.spans
+		if(momchat.message_mode == MODE_SING)
+			momchat.msg_decor_left |= pick("\u2669", "\u266A", "\u266B")
+			momchat.msg_decor_right |= pick("\u2669", "\u266A", "\u266B")
+			momchat.spans |= SPAN_SINGING
+		if(momchat.message_mode == MODE_YELL)
+			momchat.spans |= SPAN_YELL
+			momchat.spans |= SPAN_ITALICS
+		var/radio_return = radio(message, message_mode, spans, language, momchat)
+		if(radio_return & ITALICS)
+			momchat.spans |= SPAN_ITALICS
+		if(radio_return & REDUCE_RANGE)
+			momchat.message_range = SSchat.base_whisper_distance
+		if(radio_return & NOPASS)
+			momchat.no_pass = TRUE
+			return // but not check the mommy back in, some other proc pinky swears to do it
+		send_speech(mommychat = momchat)
+		RETURN_MOMMY(momchat)
 	else
-		src.log_talk(message, LOG_SAY, forced_by=forced)
+		if(GLOB.one_character_prefix[message_mode])
+			message = copytext_char(message, 2)
+		else if(message_mode || saymode)
+			message = copytext_char(message, 3)
+		message = trim_left(message)
+		if(!message)
+			return
+		if(message_mode == MODE_ADMIN)
+			if(client)
+				client.cmd_admin_say(message)
+			return
+		if(stat == DEAD)
+			say_dead(original_message)
+			return
+		if(check_emote(original_message, just_runechat = just_chat))
+			return
+		if(!can_speak_basic(original_message, ignore_spam))
+			return
+		if(stat == UNCONSCIOUS && !(GLOB.unconscious_allowed_modes[message_mode]))
+			return
+		var/datum/language/message_language = get_message_language(message)
+		if(message_language)
+			// No, you cannot speak in xenocommon just because you know the key
+			if(can_speak_language(message_language))
+				language = message_language
+			message = copytext_char(message, 3)
+			// Trim the space if they said ",0 I LOVE LANGUAGES"
+			message = trim(message)
+		if(!language)
+			language = get_selected_language()
+		// Detection of language needs to be before inherent channels, because
+		// AIs use inherent channels for the holopad. Most inherent channels
+		// ignore the language argument however.
+		if(saymode && !saymode.handle_message(src, message, language))
+			return
+		if(!can_speak_vocal(message))
+			to_chat(src, span_warning("I find yourself unable to speak!"))
+			return
+		if(in_critical || message_mode == MODE_WHISPER)
+			if(!in_critical)
+				message_range = SSchat.base_whisper_distance
+			spans |= SPAN_ITALICS
+			src.log_talk(message, LOG_WHISPER)
+		else
+			src.log_talk(message, LOG_SAY, forced_by=forced)
+		message = treat_message(message) // unfortunately we still need this
+		var/sigreturn = SEND_SIGNAL(src, COMSIG_MOB_SAY, args)
+		if (sigreturn & COMPONENT_UPPERCASE_SPEECH)
+			message = uppertext(message)
+		if(!message)
+			return
+		last_words = message
+		spans |= speech_span
+		if(language)
+			var/datum/language/L = GLOB.language_datum_instances[language]
+			spans |= L.spans
+		if(message_mode == MODE_SING)
+			var/randomnote = pick("\u2669", "\u266A", "\u266B")
+			message = "[randomnote] [message] [randomnote]"
+			spans |= SPAN_SINGING
+		if(message_mode == MODE_YELL)
+			spans |= SPAN_YELL
+		var/radio_return = radio(message, message_mode, spans, language)
+		if(radio_return & ITALICS)
+			spans |= SPAN_ITALICS
+		if(radio_return & REDUCE_RANGE)
+			message_range = 3
+		if(radio_return & NOPASS)
+			return TRUE
+	send_speech(message, message_range, src, bubble_type, spans, language, message_mode, just_chat)
+	return TRUE
 
-	message = treat_message(message) // unfortunately we still need this
-	var/sigreturn = SEND_SIGNAL(src, COMSIG_MOB_SAY, args)
-	if (sigreturn & COMPONENT_UPPERCASE_SPEECH)
-		message = uppertext(message)
-	if(!message)
-		return
-
-	last_words = message
-
-	spans |= speech_span
-
-	if(language)
-		var/datum/language/L = GLOB.language_datum_instances[language]
-		spans |= L.spans
-
-	if(message_mode == MODE_SING)
-		var/randomnote = pick("\u2669", "\u266A", "\u266B")
-		message = "[randomnote] [message] [randomnote]"
-		spans |= SPAN_SINGING
-	
-	if(message_mode == MODE_YELL)
-		spans |= SPAN_YELL
-	
-	var/radio_return = radio(message, message_mode, spans, language)
-	if(radio_return & ITALICS)
-		spans |= SPAN_ITALICS
-	if(radio_return & REDUCE_RANGE)
-		message_range = 3
-	if(radio_return & NOPASS)
-		return 1
 /*Optimisation as we don't use space
 	//No screams in space, unless you're next to someone.
 	var/turf/T = get_turf(src)
@@ -166,13 +232,11 @@
 	if(pressure < ONE_ATMOSPHERE*0.4) //Thin air, let's italicise the message
 		spans |= SPAN_ITALICS
 */
-	send_speech(message, message_range, src, bubble_type, spans, language, message_mode, just_chat)
 
 	/* if(succumbed)
 		succumb()
 		to_chat(src, compose_message(src, language, message, null, spans, message_mode)) */
 
-	return 1
 
 /mob/living/compose_message(atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, message_mode, face_name = FALSE, atom/movable/source)
 	. = ..()
@@ -225,6 +289,11 @@
 				blurbler.play_AC_typing_indicator(raw_message, src, src, TRUE)
 	return message
 
+GLOBAL_LIST_INIT(eavesdropping_modes, list(
+	MODE_WHISPER = TRUE,
+	MODE_WHISPER_CRIT = TRUE,
+))
+
 /mob/living/send_speech(
 	message,
 	message_range = 6,
@@ -233,8 +302,20 @@
 	list/spans,
 	datum/language/message_language=null,
 	message_mode,
-	just_chat
+	just_chat,
+	datum/rental_mommy/chat/mommychat = null
 )
+
+	if(mommychat)
+		message = mommychat.message
+		message_range = mommychat.message_range
+		source = mommychat.source
+		bubble_type = mommychat.bubble_type
+		spans = mommychat.spans
+		language = mommychat.language
+		message_mode = mommychat.message_mode
+		just_chat = mommychat.only_overhead
+
 	var/max_range = 15
 	var/static/list/eavesdropping_modes = list(MODE_WHISPER = TRUE, MODE_WHISPER_CRIT = TRUE)
 	var/quietness = eavesdropping_modes[message_mode]
@@ -296,10 +377,14 @@
 	/// non-players
 	for(var/_AM in listening)
 		var/atom/movable/AM = _AM
+		var/datum/rental_mommies/chat/mom2 = SSrentaldatums.chat_uses_mommy && SSrentaldatums.CheckoutMommy(MOMMY_CHAT)
+		mom2.copy_mommy(momchat)
 		if(!quietness && get_dist(source, AM) > message_range && !(the_dead[AM]))
-			AM.Hear(eavesrendered, src, message_language, eavesdropping, null, spans, message_mode, source, just_chat)
+			AM.Hear(eavesrendered, src, message_language, eavesdropping, null, spans, message_mode, source, just_chat, mom2)
 		else
-			AM.Hear(rendered, src, message_language, message, null, spans, message_mode, source, just_chat)
+			AM.Hear(rendered,      src, message_language, message,       null, spans, message_mode, source, just_chat, mom2)
+		if(mom2)
+			mom2.checkin()
 
 	var/list/sblistening = list()
 	/// players
@@ -426,17 +511,19 @@
 
 	return 1
 
-/mob/living/proc/get_key(message)
+/mob/living/proc/get_key(message, datum/rental_mommy/chat/momchat)
 	var/key = message[1]
 	if(key in GLOB.department_radio_prefixes)
 		return lowertext(message[1 + length(key)])
 
-/mob/living/proc/get_message_language(message)
+/mob/living/proc/get_message_language(message, datum/rental_mommy/chat/momchat)
 	if(message[1] == ",")
 		var/key = message[1 + length(message[1])]
 		for(var/ld in GLOB.all_languages)
 			var/datum/language/LD = ld
 			if(initial(LD.key) == key)
+				if(momchat)
+					momchat.language_key = key
 				return LD
 	return null
 
@@ -470,11 +557,16 @@
 
 	return message
 
-/mob/living/proc/radio(message, message_mode, list/spans, language)
+/mob/living/proc/radio(message, message_mode, list/spans, language, datum/rental_mommy/chat/momchat)
 	var/obj/item/implant/radio/imp = locate() in implants
+	if(momchat)
+		message = momchat.message
+		message_mode = momchat.message_mode
+		spans = momchat.spans
+		language = momchat.language
 	if(imp?.radio.on)
 		if(message_mode == MODE_HEADSET)
-			imp.radio.talk_into(src, message, , spans, language)
+			imp.radio.talk_into(src, message, null, spans, language)
 			return ITALICS | REDUCE_RANGE
 		if(message_mode == MODE_DEPARTMENT || (message_mode in GLOB.radiochannels))
 			imp.radio.talk_into(src, message, message_mode, spans, language)
@@ -486,17 +578,17 @@
 		if(MODE_R_HAND)
 			for(var/obj/item/r_hand in get_held_items_for_side("r", all = TRUE))
 				if (r_hand)
-					return r_hand.talk_into(src, message, , spans, language)
+					return r_hand.talk_into(src, message, null, spans, language)
 				return ITALICS | REDUCE_RANGE
 		if(MODE_L_HAND)
 			for(var/obj/item/l_hand in get_held_items_for_side("l", all = TRUE))
 				if (l_hand)
-					return l_hand.talk_into(src, message, , spans, language)
+					return l_hand.talk_into(src, message, null, spans, language)
 				return ITALICS | REDUCE_RANGE
 
 		if(MODE_INTERCOM)
 			for (var/obj/item/radio/intercom/I in view(1, null))
-				I.talk_into(src, message, , spans, language)
+				I.talk_into(src, message, null, spans, language)
 			return ITALICS | REDUCE_RANGE
 
 		if(MODE_BINARY)

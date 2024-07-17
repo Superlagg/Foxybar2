@@ -25,6 +25,10 @@ Contents:
 
 /obj/item/clothing/mask/gas/space_ninja/handle_speech(datum/source, list/speech_args)
 	var/message = speech_args[SPEECH_MESSAGE]
+	var/datum/rental_mommy/momchat
+	if(istype(message, /datum/rental_mommy/chat))
+		momchat = message
+		message = momchat.message
 	if(message[1] != "*")
 		var/list/temp_message = splittext(message, " ")
 		var/list/pick_list = list()
@@ -63,4 +67,8 @@ Contents:
 		message = replacetext(message, "than", "sen")
 		message = replacetext(message, ".", "")
 		message = lowertext(message)
+
+	if(momchat)
+		momchat.message = message
+	else
 		speech_args[SPEECH_MESSAGE] = message

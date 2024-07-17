@@ -30,7 +30,12 @@
 		else
 			playsound(loc, megaphone_sound, 100, 0, 1)
 			spamcheck = world.time + 50
-			speech_args[SPEECH_SPANS] |= voicespan
+			var/message = speech_args[SPEECH_MESSAGE]
+			if(istype(message, /datum/rental_mommy/chat))
+				var/datum/rental_mommy/chat/momchat = message
+				momchat.spans |= voicespan
+			else
+				speech_args[SPEECH_SPANS] |= voicespan
 
 
 /obj/item/megaphone/emag_act(mob/user)

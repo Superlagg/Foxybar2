@@ -29,15 +29,49 @@ And the base of the send_speech() proc, which is the core of saycode.
 	datum/language/message_language = null,
 	message_mode,
 	just_chat,
+	datum/rental_mommy/mommychat
 )
-	var/rendered = compose_message(src, message_language, message, , spans, message_mode, source)
+	var/rendered = compose_message(src, message_language, message, , spans, message_mode, source, mommychat)
 	for(var/_AM in get_hearers_in_view(range, source))
 		var/atom/movable/AM = _AM
-		AM.Hear(rendered, src, message_language, message, , spans, message_mode, source, just_chat)
+		AM.Hear(rendered, src, message_language, message, , spans, message_mode, source, just_chat, mommychat)
 
-/atom/movable/proc/compose_message(atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, message_mode, face_name = FALSE, atom/movable/source)
+/atom/movable/proc/compose_message(atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, message_mode, face_name = FALSE, atom/movable/source, datum/rental_mommy/mommychat)
 	if(!source)
 		source = speaker
+	if(SSrentaldatum.chat_uses_mommy && !mommychat)
+		CRASH("compose_message() called without a mommychat datum")
+	if(mommychat)
+		//This proc uses text() because it is faster than appending strings. Thanks BYOND. //i'll append my strings to your mom
+		//Radio freq/name display
+		if(mommychat.radio_freq)
+			mommychat.outer_span_class = get_radio_span(radio_freq)
+			mommychat.radio_rendered = "\[[get_radio_name(radio_freq)]\] "
+		else
+			mommychat.outer_span_class = "game say"
+			mommychat.radio_rendered = ""
+		mommychat.outer_span_class_rendered = "<span class='[mommychat.outer_span_class]'>"
+		mommychat.name_span_class = "name"
+		mommychat.name_span_class_rendered = "<span class='[mommychat.name_span_class]'>"
+		mommychat.speaker_voice = speaker.GetVoice()
+		mommychat.speaker_alt_name = speaker.get_alt_name()
+		mommychat.speaker_rendered = "[mommychat.speaker_voice][mommychat.speaker_alt_name]"
+		//Speaker name
+		if(mommychat.face_name && ishuman(mommychat.speaker))
+			var/mob/living/carbon/human/H = speaker
+			mommychat.speaker_rendered = "[H.get_face_name()]" //So "fake" speaking like in hallucinations does not give the speaker away if disguised
+		// language icon stuff
+		mommychat.language_icon = ""
+		var/datum/language/D = GLOB.language_datum_instances[message_language]
+		if(istype(D) && D.display_icon(src))
+			mommychat.language_icon = "[D.get_icon()] "
+		// track href stuff
+		mommychat.track_href = compose_track_href(mommychat.speaker, mommychat.speaker_rendered)
+		// job stuff
+		mommychat.job_rendered = compose_job(mommychat.speaker, mommychat.message_language, mommychat.original_message, mommychat.radio_freq)
+		// the actual message
+
+	
 	//This proc uses text() because it is faster than appending strings. Thanks BYOND.
 	//Basic span
 	var/spanpart1 = "<span class='[radio_freq ? get_radio_span(radio_freq) : "game say"]'>"
@@ -46,7 +80,6 @@ And the base of the send_speech() proc, which is the core of saycode.
 	//Radio freq/name display
 	var/freqpart = radio_freq ? "\[[get_radio_name(radio_freq)]\] " : ""
 	//Speaker name
-	var/namepart = "[speaker.GetVoice()][speaker.get_alt_name()]"
 	if(face_name && ishuman(speaker))
 		var/mob/living/carbon/human/H = speaker
 		namepart = "[H.get_face_name()]" //So "fake" speaking like in hallucinations does not give the speaker away if disguised
@@ -62,6 +95,18 @@ And the base of the send_speech() proc, which is the core of saycode.
 		languageicon = "[D.get_icon()] "
 
 	return "[spanpart1][spanpart2][freqpart][languageicon][compose_track_href(speaker, namepart)][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][endspanpart][messagepart]"
+	// the above, but with example values filled in:
+	/*
+	return "<span class='game say'><span class='name'>[freqpart][languageicon][compose_track_href(speaker, namepart)][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][endspanpart] <span class='message'>[lang_treat(speaker, message_language, raw_message, spans, message_mode)]</span></span>"
+	<span class='game say'>
+		<span class='name'>
+			[freqpart][languageicon][trackref][namepart][jobpart]
+		</span>
+		<span class='message'>
+			[lang_treat(speaker, message_language, raw_message, spans, message_mode)]
+		</span>
+	</span>
+	*/
 
 /atom/movable/proc/compose_track_href(atom/movable/speaker, message_langs, raw_message, radio_freq)
 	return ""
@@ -133,24 +178,29 @@ And the base of the send_speech() proc, which is the core of saycode.
 	var/pos = findtext(input, "*")
 	return pos? copytext(input, pos + 1) : input
 
-/atom/movable/proc/lang_treat(atom/movable/speaker, datum/language/language, raw_message, list/spans, message_mode, no_quote = FALSE)
-	if(has_language(language))
-		var/atom/movable/AM = speaker.GetSource()
-		raw_message = say_emphasis(raw_message)
-		if(AM) //Basically means "if the speaker is virtual"
-			return no_quote ? AM.quoteless_say_quote(raw_message, spans, message_mode) : AM.say_quote(raw_message, spans, message_mode)
-		else
-			return no_quote ? speaker.quoteless_say_quote(raw_message, spans, message_mode) : speaker.say_quote(raw_message, spans, message_mode)
-	else if(language)
-		var/atom/movable/AM = speaker.GetSource()
-		var/datum/language/D = GLOB.language_datum_instances[language]
-		raw_message = D.scramble(raw_message)
-		if(AM)
-			return no_quote ? AM.quoteless_say_quote(raw_message, spans, message_mode) : AM.say_quote(raw_message, spans, message_mode)
-		else
-			return no_quote ? speaker.quoteless_say_quote(raw_message, spans, message_mode) : speaker.say_quote(raw_message, spans, message_mode)
+/atom/movable/proc/lang_treat(atom/movable/speaker, datum/language/language, raw_message, list/spans, message_mode, no_quote = FALSE, datum/rental_mommy/mommychat)
+	if(SSrentaldatum.chat_uses_mommy && !mommychat)
+		CRASH("lang_treat() called without a mommychat datum")
+	if(mommychat) // here goes nothin
+
 	else
-		return "makes a strange sound."
+		if(has_language(language))
+			var/atom/movable/AM = speaker.GetSource()
+			raw_message = say_emphasis(raw_message)
+			if(AM) //Basically means "if the speaker is virtual"
+				return no_quote ? AM.quoteless_say_quote(raw_message, spans, message_mode) : AM.say_quote(raw_message, spans, message_mode)
+			else
+				return no_quote ? speaker.quoteless_say_quote(raw_message, spans, message_mode) : speaker.say_quote(raw_message, spans, message_mode)
+		else if(language)
+			var/atom/movable/AM = speaker.GetSource()
+			var/datum/language/D = GLOB.language_datum_instances[language]
+			raw_message = D.scramble(raw_message)
+			if(AM)
+				return no_quote ? AM.quoteless_say_quote(raw_message, spans, message_mode) : AM.say_quote(raw_message, spans, message_mode)
+			else
+				return no_quote ? speaker.quoteless_say_quote(raw_message, spans, message_mode) : speaker.say_quote(raw_message, spans, message_mode)
+		else
+			return "makes a strange sound."
 
 /proc/get_radio_span(freq)
 	var/returntext = GLOB.freqtospan["[freq]"]

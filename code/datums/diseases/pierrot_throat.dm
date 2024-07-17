@@ -32,6 +32,10 @@
 
 /datum/disease/pierrot_throat/proc/handle_speech(datum/source, list/speech_args)
 	var/message = speech_args[SPEECH_MESSAGE]
+	var/datum/rental_mommy/chat/momchat
+	if(istype(message, /datum/rental_mommy/chat))
+		momchat = message
+		message = momchat.message
 	var/list/split_message = splittext(message, " ") //List each word in the message
 	var/applied = 0
 	for (var/i in 1 to length(split_message))
@@ -44,7 +48,11 @@
 	if (applied)
 		speech_args[SPEECH_SPANS] |= SPAN_CLOWN // a little bonus
 	message = jointext(split_message, " ")
-	speech_args[SPEECH_MESSAGE] = message
+
+	if(momchat)
+		momchat.message = message
+	else
+		speech_args[SPEECH_MESSAGE] = message
 
 /datum/disease/pierrot_throat/Destroy()
 	UnregisterSignal(affected_mob, COMSIG_MOB_SAY)

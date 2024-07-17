@@ -385,6 +385,10 @@
 
 /obj/item/clothing/head/frenchberet/proc/handle_speech(datum/source, mob/speech_args)
 	var/message = speech_args[SPEECH_MESSAGE]
+	var/datum/rental_mommy/momchat
+	if(istype(message, /datum/rental_mommy/chat))
+		momchat = message
+		message = momchat.message
 	if(message[1] != "*")
 		message = " [message]"
 		var/list/french_words = strings("french_replacement.json", "french")
@@ -400,7 +404,11 @@
 
 		if(prob(3))
 			message += pick(" Honh honh honh!"," Honh!"," Zut Alors!")
-	speech_args[SPEECH_MESSAGE] = trim(message)
+	if(momchat)
+		momchat.message = message
+		speech_args[SPEECH_MESSAGE] = trim(momchat)
+	else
+		speech_args[SPEECH_MESSAGE] = trim(message)
 
 /obj/item/clothing/head/assu_helmet
 	name = "DAB helmet"

@@ -56,6 +56,10 @@
 
 /obj/item/clothing/head/hattip/proc/handle_speech(datum/source, mob/speech_args)
 	var/message = speech_args[SPEECH_MESSAGE]
+	var/datum/rental_mommy/momchat
+	if(istype(message, /datum/rental_mommy/chat))
+		momchat = message
+		message = momchat.message
 	var/mob/living/carbon/C = get_wearer()//user
 	var/obj/item/organ/tongue/T = C.getorganslot(ORGAN_SLOT_TONGUE)
 	if (T.name == "fluffy tongue")
@@ -70,7 +74,11 @@
 		message_admins("I really appreciate all the hard work you put into adminning citadel, I hope you're all having a good day and I hope this hidden and rare message_admins brightens up your day.")
 	else
 		message += "\" and tips their hat. \"[pick("Yeehaw!", "Boy howdy.", "Darn tootin'.", "Well don't that beat all.", "Whoooowee, would ya look at that!", "Whoooowee! Makin' bacon!", "Cream Gravy!", "Yippekeeyah-heeyapeeah-kayoh!", "Move 'em out!", "Giddy up!")]"
-	speech_args[SPEECH_MESSAGE] = trim(message)
+	if(momchat)
+		momchat.message = trim(message)
+		speech_args[SPEECH_MESSAGE] = momchat
+	else
+		speech_args[SPEECH_MESSAGE] = trim(message)
 
 /obj/item/clothing/head/hattip/proc/get_wearer()
 	return loc

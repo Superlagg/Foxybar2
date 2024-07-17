@@ -42,6 +42,10 @@
 
 /obj/item/clothing/mask/luchador/handle_speech(datum/source, list/speech_args)
 	var/message = speech_args[SPEECH_MESSAGE]
+	var/datum/rental_mommy/momchat
+	if(istype(message, /datum/rental_mommy/chat))
+		momchat = message
+		message = momchat.message
 	if(message[1] != "*")
 		message = replacetext(message, "captain", "CAPITÁN")
 		message = replacetext(message, "station", "ESTACIÓN")
@@ -62,7 +66,10 @@
 		message = uppertext(message)	//Things end up looking better this way (no mixed cases), and it fits the macho wrestler image.
 		if(prob(25))
 			message += " OLE!"
-	speech_args[SPEECH_MESSAGE] = message
+	if(momchat)
+		momchat.message = message
+	else
+		speech_args[SPEECH_MESSAGE] = message
 
 /obj/item/clothing/mask/luchador/tecnicos
 	name = "Tecnicos Mask"

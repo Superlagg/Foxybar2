@@ -2,7 +2,7 @@
 #define DUMMY_RANDOM_DESIRED_SIZE 20
 
 SUBSYSTEM_DEF(dummy) // who ya callin dummy, dummy?
-	name = "dummy"
+	name = "Dummy"
 	flags = SS_BACKGROUND
 	wait = 30 MINUTES
 

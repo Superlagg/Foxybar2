@@ -62,7 +62,15 @@
 
 /datum/mutation/human/hulk/proc/handle_speech(original_message, wrapped_message)
 	var/message = wrapped_message[1]
+	var/datum/rental_mommy/chat/momchat
+	if(istype(message, /datum/rental_mommy/chat))
+		momchat = message
+		message = momchat.message
 	if(message)
 		message = "[replacetext(message, ".", "!")]!!"
-	wrapped_message[1] = message
+	if(momchat)
+		momchat.message = message
+		momchat.ALL_CAPS = TRUE
+	else
+		wrapped_message[1] = message
 	return COMPONENT_UPPERCASE_SPEECH

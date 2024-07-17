@@ -176,6 +176,10 @@
 
 /datum/brain_trauma/mild/expressive_aphasia/handle_speech(datum/source, list/speech_args)
 	var/message = speech_args[SPEECH_MESSAGE]
+	var/datum/rental_mommy/chat/momchat
+	if(istype(message, /datum/rental_mommy/chat))
+		momchat = message
+		message = momchat.message
 	if(message)
 		var/list/message_split = splittext(message, " ")
 		var/list/new_message = list()
@@ -207,7 +211,11 @@
 
 		message = jointext(new_message, " ")
 
-	speech_args[SPEECH_MESSAGE] = trim(message)
+	if(momchat)
+		momchat.message = trim(message)
+		speech_args[SPEECH_MESSAGE] = momchat
+	else
+		speech_args[SPEECH_MESSAGE] = trim(message)
 
 /datum/brain_trauma/mild/mind_echo
 	name = "Mind Echo"
@@ -236,14 +244,25 @@
 		hear_dejavu += hearing_args[HEARING_RAW_MESSAGE]
 
 /datum/brain_trauma/mild/mind_echo/handle_speech(datum/source, list/speech_args)
+	var/datum/rental_mommy/chat/momchat = istype(speech_args[SPEECH_MESSAGE], /datum/rental_mommy/chat) ? speech_args[SPEECH_MESSAGE] : null
 	if(speak_dejavu.len >= 5)
 		if(prob(25))
 			var/deja_vu = pick_n_take(speak_dejavu)
-			speech_args[SPEECH_MESSAGE] = deja_vu
+			if(momchat)
+				momchat.message = deja_vu
+				speech_args[SPEECH_MESSAGE] = momchat
+			else
+				speech_args[SPEECH_MESSAGE] = deja_vu
 			return
 	if(speak_dejavu.len >= 15)
 		if(prob(50))
 			popleft(speak_dejavu) //Remove the oldest
-			speak_dejavu += speech_args[SPEECH_MESSAGE]
+			if(momchat)
+				speak_dejavu += momchat.message
+			else
+				speak_dejavu += speech_args[SPEECH_MESSAGE]
 	else
-		speak_dejavu += speech_args[SPEECH_MESSAGE]
+		if(momchat)
+			speak_dejavu += momchat.message
+		else
+			speak_dejavu += speech_args[SPEECH_MESSAGE]
