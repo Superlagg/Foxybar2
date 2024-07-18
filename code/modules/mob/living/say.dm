@@ -174,13 +174,13 @@
 
 	return 1
 
-/mob/living/compose_message(atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, message_mode, face_name = FALSE, atom/movable/source)
+/mob/living/compose_message(atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, message_mode, face_name = FALSE, atom/movable/source, list/data = list())
 	. = ..()
-	if(isliving(speaker))
-		var/turf/sourceturf = get_turf(source)
-		var/turf/T = get_turf(src)
-		if(sourceturf && T && !(sourceturf in get_hear(5, T)))
-			. = span_small("[.]")
+	// if(isliving(speaker))
+	// 	var/turf/sourceturf = get_turf(source)
+	// 	var/turf/T = get_turf(src)
+	// 	if(sourceturf && T && !(sourceturf in get_hear(5, T)))
+	// 		. = span_small("[.]")
 
 /mob/living/Hear(message, atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, message_mode, atom/movable/source, just_chat = FALSE, list/data = list())
 	SEND_SIGNAL(src, COMSIG_MOVABLE_HEAR, args) //parent calls can't overwrite the current proc args.
@@ -292,7 +292,9 @@
 		eavesdropping = dots(message)
 		eavesrendered = compose_message(src, message_language, eavesdropping, null, spans, message_mode, FALSE, source)
 
-	var/rendered = compose_message(src, message_language, message, null, spans, message_mode, FALSE, source)
+	var/datum/rental_mommy/momchat = SSrentaldatums.CheckoutMommy("chat_datums")
+	var/list/rental_data = list("mommy" = momchat) // mommy is very disappointed
+	var/rendered = compose_message(src, message_language, message, null, spans, message_mode, FALSE, source, rental_data)
 	/// non-players
 	for(var/_AM in listening)
 		var/atom/movable/AM = _AM
@@ -304,7 +306,9 @@
 	var/list/sblistening = list()
 	/// players
 	for(var/mob/mvc in visible_close)
-		mvc.Hear(rendered, src, message_language, message, null, spans, message_mode, source, just_chat)
+		var/list/data = list()
+		data["horny_stuff"] = composition_list
+		mvc.Hear(rendered, src, message_language, message, null, spans, message_mode, source, just_chat, data)
 		sblistening |= mvc.client
 	// for(var/mob/mvf in visible_far)
 	// 	var/list/coolspans = spans

@@ -35,26 +35,59 @@ And the base of the send_speech() proc, which is the core of saycode.
 		var/atom/movable/AM = _AM
 		AM.Hear(rendered, src, message_language, message, , spans, message_mode, source, just_chat)
 
-/atom/movable/proc/compose_message(atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, message_mode, face_name = FALSE, atom/movable/source)
+/atom/movable/proc/compose_message(
+	atom/movable/speaker,
+	datum/language/message_language,
+	raw_message,
+	radio_freq,
+	list/spans= list(),
+	message_mode,
+	face_name = FALSE,
+	atom/movable/source,
+	list/data = list()
+) // 9 ARGS! 15 BUTTS!!!! SECRET THIRD LEG!!!!!!!!
 	if(!source)
 		source = speaker
+	var/datum/rental_mommy/momchat = LAZYACCESS(data["momchat"], 1)
+	if(momchat)
+		momchat.original_message = raw_message
+		momchat.message = momchat.original_message
+		momchat.message_mode = message_mode
+		momchat.radio_freq = radio_freq
+		momchat.spans = spans.Copy()
+		momchat.sanitize = TRUE
+		momchat.source = source
+		momchat.language = message_language
+		momchat.face_name = face_name
+		momchat.data = data.Copy()
 	//This proc uses text() because it is faster than appending strings. Thanks BYOND.
 	//Basic span
-	var/spanpart1 = "<span class='[radio_freq ? get_radio_span(radio_freq) : "game say"]'>"
+	var/outer_span = "[radio_freq ? get_radio_span(radio_freq) : "game say"]"
+	var/spanpart1 = "<span class='[outer_span]'>"
+	if(momchat)
+		momchat.outer_span_class = outer_span
+		momchat
 	//Start name span.
 	var/spanpart2 = "<span class='name'>"
+	if(momchat)
+		momchat.name_span_class = "name"
+		momchat.name_span = spanpart2
 	//Radio freq/name display
 	var/freqpart = radio_freq ? "\[[get_radio_name(radio_freq)]\] " : ""
+	if(momchat)
+		momchat.freqpart = freqpart
 	//Speaker name
 	var/namepart = "[speaker.GetVoice()][speaker.get_alt_name()]"
 	if(face_name && ishuman(speaker))
 		var/mob/living/carbon/human/H = speaker
 		namepart = "[H.get_face_name()]" //So "fake" speaking like in hallucinations does not give the speaker away if disguised
+	if(momchat)
+		momchat.speaker_name = namepart
 	//End name span.
 	var/endspanpart = "</span>"
 	
 	//Message
-	var/messagepart = " <span class='message'>[lang_treat(speaker, message_language, raw_message, spans, message_mode)]</span></span>"
+	var/messagepart = " <span class='message'>[lang_treat(speaker, message_language, raw_message, spans, message_mode, momchat)]</span></span>"
 
 	var/languageicon = ""
 	var/datum/language/D = GLOB.language_datum_instances[message_language]
@@ -88,18 +121,26 @@ And the base of the send_speech() proc, which is the core of saycode.
 		. = verb_say
 	return get_random_if_list(.)
 
-/atom/movable/proc/say_quote(input, list/spans=list(speech_span), message_mode)
+/atom/movable/proc/say_quote(input, list/spans=list(speech_span), message_mode, datum/rental_mommy/momchat)
 	if(!input)
 		input = "..."
 
 	if(copytext_char(input, -2) == "!!")
 		spans |= SPAN_YELL
 
-	var/reformatted = SSchat.emoticonify(src, input, message_mode, spans)
+	var/reformatted = SSchat.emoticonify(src, input, message_mode, spans, momchat)
 	if(reformatted)
 		return reformatted
 	var/spanned = attach_spans(input, spans)
-	return "[say_mod(input, message_mode)][spanned ? ", \"[spanned]\"" : ""]"
+	if(momchat)
+		momchat.message_langtreated_spanned = spanned
+		momchat.message_langtreated_spanned_quotes = "[spanned]"
+	var/saymod = say_mod(input, message_mode)
+	if(momchat)
+		momchat.message_saymod = saymod
+		if(spanned)
+			momchat.message_saymod_comma = "[saymod] ,"
+	return "[momchat][spanned ? ", \"[spanned]\"" : ""]"
 	// Citadel edit [spanned ? ", \"[spanned]\"" : ""]"
 
 #define ENCODE_HTML_EPHASIS(input, char, html, varname) \
@@ -124,31 +165,64 @@ And the base of the send_speech() proc, which is the core of saycode.
 	return
 
 /// Quirky citadel proc for our custom sayverbs to strip the verb out. Snowflakey as hell, say rewrite 3.0 when?
-/atom/movable/proc/quoteless_say_quote(input, list/spans = list(speech_span), message_mode)
+/atom/movable/proc/quoteless_say_quote(input, list/spans = list(speech_span), message_mode, list/bundle)
 	if((input[1] == "!") && (length_char(input) > 1))
 		return ""
-	var/emoticontext = SSchat.emoticonify(src, input, message_mode, spans)
+	var/emoticontext = SSchat.emoticonify(src, input, message_mode, spans, bundle)
 	if(emoticontext)
 		return emoticontext
 	var/pos = findtext(input, "*")
-	return pos? copytext(input, pos + 1) : input
+	var/message = pos? copytext(input, 1, pos - 1) : input
+	return message
 
-/atom/movable/proc/lang_treat(atom/movable/speaker, datum/language/language, raw_message, list/spans, message_mode, no_quote = FALSE)
+/// This proc is used to treat the language of a message. It will either scramble the message or leave it as is.
+/// it will also do like 5 other things totally unrelated to language, because why not.
+/atom/movable/proc/lang_treat(
+	atom/movable/speaker,
+	datum/language/language,
+	raw_message,
+	list/spans,
+	message_mode,
+	no_quote = FALSE,
+	datum/rental_mommy/momchat,
+)
 	if(has_language(language))
 		var/atom/movable/AM = speaker.GetSource()
 		raw_message = say_emphasis(raw_message)
+		var/msg_out
 		if(AM) //Basically means "if the speaker is virtual"
-			return no_quote ? AM.quoteless_say_quote(raw_message, spans, message_mode) : AM.say_quote(raw_message, spans, message_mode)
+			if(no_quote)
+				msg_out = AM.quoteless_say_quote(raw_message, spans, message_mode, momchat)
+			else // ^ V these used to be ternary operators that were so long they burst out of my sweatpants
+				msg_out = AM.say_quote(raw_message, spans, message_mode, momchat)
+			if(momchat)
+				momchat.message_langtreated_with_verb = msg_out
+			return msg_out
 		else
-			return no_quote ? speaker.quoteless_say_quote(raw_message, spans, message_mode) : speaker.say_quote(raw_message, spans, message_mode)
+			if(no_quote)
+				msg_out = speaker.quoteless_say_quote(raw_message, spans, message_mode, momchat)
+			else
+				msg_out = speaker.say_quote(raw_message, spans, message_mode, momchat)
+			if(momchat)
+				momchat.message_langtreated_with_verb = msg_out
 	else if(language)
 		var/atom/movable/AM = speaker.GetSource()
 		var/datum/language/D = GLOB.language_datum_instances[language]
 		raw_message = D.scramble(raw_message)
 		if(AM)
-			return no_quote ? AM.quoteless_say_quote(raw_message, spans, message_mode) : AM.say_quote(raw_message, spans, message_mode)
+			if(no_quote)
+				return AM.quoteless_say_quote(raw_message, spans, message_mode, momchat)
+			else
+				return AM.say_quote(raw_message, spans, message_mode, momchat)
+			if(momchat)
+				momchat.message_langtreated_with_verb = msg_out
 		else
-			return no_quote ? speaker.quoteless_say_quote(raw_message, spans, message_mode) : speaker.say_quote(raw_message, spans, message_mode)
+			if(no_quote)
+				return speaker.quoteless_say_quote(raw_message, spans, message_mode, momchat)
+			else
+				return speaker.say_quote(raw_message, spans, message_mode, momchat)
+			if(momchat)
+				momchat.message_langtreated_with_verb = msg_out
 	else
 		return "makes a strange sound."
 
