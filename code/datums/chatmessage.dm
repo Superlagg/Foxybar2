@@ -241,7 +241,11 @@ GLOBAL_LIST_INIT(verbal_punch_lasers, list(null,null,null,null,null,null,null,nu
  * * raw_message - The text content of the message
  * * spans - Additional classes to be added to the message
  */
-/mob/proc/create_chat_message(atom/movable/speaker, datum/language/message_language, raw_message, list/spans, runechat_flags = NONE, list/data = list())
+/mob/proc/create_chat_message(atom/movable/speaker, datum/language/message_language, raw_message, list/spans, runechat_flags = NONE, datum/rental_mommy/mommychat)
+	if(mommychat)
+		mommychat.runechat_spans = mommychat.runechat_spans.Copy()
+		
+	
 	// Ensure the list we are using, if present, is a copy so we don't modify the list provided to us
 	spans = spans ? spans.Copy() : list()
 

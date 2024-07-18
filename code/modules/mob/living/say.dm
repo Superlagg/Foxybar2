@@ -246,10 +246,53 @@ GLOBAL_LIST_INIT(one_character_prefix, list(
 		if(sourceturf && T && !(sourceturf in get_hear(5, T)))
 			. = span_small("[.]")
 
-/mob/living/Hear(message, atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, message_mode, atom/movable/source, just_chat = FALSE, list/data = list())
+/mob/living/Hear(
+	message,
+	atom/movable/speaker,
+	datum/language/message_language,
+	raw_message,
+	radio_freq,
+	list/spans,
+	message_mode,
+	atom/movable/source,
+	just_chat = FALSE,
+	list/data = list(),
+	datum/rental_mommy/chat/momchat
+	)
 	SEND_SIGNAL(src, COMSIG_MOVABLE_HEAR, args) //parent calls can't overwrite the current proc args.
 	if(!client)
 		return
+	if(SSrentaldatums.chat_uses_mommy && !momchat)
+		CRASH("Hear called without a mommychat")
+	if(momchat)
+		if(momchat.speaker != src)
+			if(!radio_freq) 
+				momchat.deaf_message = "[momchat.speaker_rendered] [get_random_if_list(momchat.speaker.verb_say)] something, but I cannot hear [momchat.speaker.p_them()]."
+				momchat.deaf_type = 1
+		else
+			momchat.deaf_message = span_notice("I can't hear myself!")
+			momchat.deaf_type = 2 // Since you should be able to hear yourself without looking
+		/// make a runechat message
+		if(client?.prefs.chat_on_map)
+			if(stat != UNCONSCIOUS)
+				if((client?.prefs.see_chat_non_mob) || ismob(momchat.speaker))
+					if(can_hear())
+						if(momchat.is_eaves || momchat.is_far || momchat.display_turf)
+							var/datum/mom3 = SSrentaldatums.CheckoutMommy(MOMMY_CHAT)
+							mom3.copy_mommy(momchat)
+							mom3.is_eaves = FALSE
+							mom3.is_far = FALSE
+							mom3.display_turf = null
+							create_chat_message(momchat.speaker, message_language, raw_message, spans, NONE, mom3)
+							RETURN_MOMMY(mom3) // put mommy back on her hook
+						create_chat_message(momchat.speaker, message_language, raw_message, spans, NONE, momchat)
+		if(momchat.only_overhead)
+			RETURN_MOMMY(momchat)
+		/// recompose message for AI hrefs, language incomprehension
+		compose_message(mommychat = mommychat)
+		/// 
+
+
 	var/deaf_message
 	var/deaf_type
 	if(speaker != src)

@@ -70,7 +70,7 @@ SUBSYSTEM_DEF(chat)
 /datum/controller/subsystem/chat/proc/setup_emoticon_cache()
 	emoticon_cache.Cut()
 	var/json_emoticons = file2text("strings/sausage_rolls.json") // am hungy
-	/// there was a comment here, but it was fucking enormous and made it hard to read
+	/// there was a comment here, but it was fuccing enormous and made it hard to read
 	var/list/emoticons = safe_json_decode(json_emoticons)
 	if(!LAZYLEN(emoticons))
 		return // :(
@@ -84,9 +84,11 @@ SUBSYSTEM_DEF(chat)
 			var/datum/emoticon_bank/E = new(emo, emotilist)
 			emoticon_cache[html_decode(emotie)] = E
 
-/datum/controller/subsystem/chat/proc/emoticonify(atom/movable/sayer, message, messagemode, list/spans)
+/datum/controller/subsystem/chat/proc/emoticonify(atom/movable/sayer, message, messagemode, list/spans, datum/rental_mommy/mommychat)
 	if(!sayer)
 		return
+	if(SSrentaldatums.chat_uses_mommy || !mommychat)
+		CRASH("emotionify called without a mommychat")
 	if(istype(sayer, /mob))
 		var/mob/they = sayer
 		if(!they.client)
@@ -428,7 +430,7 @@ SUBSYSTEM_DEF(chat)
 
 /datum/controller/subsystem/chat/proc/can_usr_flirt_with_this(mob/A)
 	if(!isliving(usr)) // fight me
-		to_chat(usr, span_hypnophrase("Touch grass, you ghostly fucker. Spawn in to swap spit with them."))
+		to_chat(usr, span_hypnophrase("Touch grass, you ghostly fuccer. Spawn in to swap spit with them."))
 		return
 	if(isanimal(A) && !A.client)
 		if(prob(1))

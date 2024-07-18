@@ -174,32 +174,16 @@
 /mob/proc/lingcheck()
 	return LINGHIVE_NONE
 
-/mob/proc/get_message_mode(message, datum/rental_mommy/chat/momchat)
+/mob/proc/get_message_mode(message)
 	var/key = message[1]
 	if(key == "#")
-		if(momchat)
-			momchat.mode_key = "#"
-			momchat.message_mode = MODE_WHISPER
 		return MODE_WHISPER
 	else if(key == "%")
-		if(momchat)
-			momchat.mode_key = "%"
-			momchat.message_mode = MODE_SING
 		return MODE_SING
 	else if(key == ";")
-		if(momchat)
-			momchat.mode_key = ";"
-			momchat.message_mode = MODE_HEADSET
 		return MODE_HEADSET
 	else if(key == "$")
-		if(momchat)
-			momchat.mode_key = "$"
-			momchat.message_mode = MODE_YELL
 		return MODE_YELL
 	else if((length(message) > (length(key) + 1)) && (key in GLOB.department_radio_prefixes))
 		var/key_symbol = lowertext(message[length(key) + 1])
-		var/saymode = GLOB.department_radio_keys[key_symbol]
-		if(momchat)
-			momchat.mode_key = key_symbol
-			momchat.message_mode = saymode
-		return saymode
+		return GLOB.department_radio_keys[key_symbol]
