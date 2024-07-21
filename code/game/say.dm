@@ -48,7 +48,7 @@ And the base of the send_speech() proc, which is the core of saycode.
 ) // 9 ARGS! 15 BUTTS!!!! SECRET THIRD LEG!!!!!!!!
 	if(!source)
 		source = speaker
-	var/datum/rental_mommy/momchat = LAZYACCESS(data["momchat"], 1)
+	var/datum/rental_mommy/chat/momchat = LAZYACCESS(data["mommy"], 1)
 	if(momchat)
 		momchat.original_message = raw_message
 		momchat.message = momchat.original_message
@@ -59,6 +59,7 @@ And the base of the send_speech() proc, which is the core of saycode.
 		momchat.source = source
 		momchat.language = message_language
 		momchat.face_name = face_name
+		data["mommy"] = null //Prevent infinite recursion
 		momchat.data = data.Copy()
 	//This proc uses text() because it is faster than appending strings. Thanks BYOND.
 	//Basic span
@@ -66,7 +67,7 @@ And the base of the send_speech() proc, which is the core of saycode.
 	var/spanpart1 = "<span class='[outer_span]'>"
 	if(momchat)
 		momchat.outer_span_class = outer_span
-		momchat
+		momchat.outer_span = spanpart1
 	//Start name span.
 	var/spanpart2 = "<span class='name'>"
 	if(momchat)
@@ -82,7 +83,8 @@ And the base of the send_speech() proc, which is the core of saycode.
 		var/mob/living/carbon/human/H = speaker
 		namepart = "[H.get_face_name()]" //So "fake" speaking like in hallucinations does not give the speaker away if disguised
 	if(momchat)
-		momchat.speaker_name = namepart
+		momchat.speakername = namepart
+		momchat.original_speakername = namepart
 	//End name span.
 	var/endspanpart = "</span>"
 	
@@ -93,6 +95,8 @@ And the base of the send_speech() proc, which is the core of saycode.
 	var/datum/language/D = GLOB.language_datum_instances[message_language]
 	if(istype(D) && D.display_icon(src))
 		languageicon = "[D.get_icon()] "
+	if(momchat)
+		momchat.language_icon = languageicon
 
 	return "[spanpart1][spanpart2][freqpart][languageicon][compose_track_href(speaker, namepart)][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][endspanpart][messagepart]"
 
@@ -121,16 +125,15 @@ And the base of the send_speech() proc, which is the core of saycode.
 		. = verb_say
 	return get_random_if_list(.)
 
-/atom/movable/proc/say_quote(input, list/spans=list(speech_span), message_mode, datum/rental_mommy/momchat)
+/atom/movable/proc/say_quote(input, list/spans=list(speech_span), message_mode, datum/rental_mommy/chat/momchat)
 	if(!input)
 		input = "..."
 
 	if(copytext_char(input, -2) == "!!")
 		spans |= SPAN_YELL
+		if(momchat)
+			momchat.spans |= SPAN_YELL
 
-	var/reformatted = SSchat.emoticonify(src, input, message_mode, spans, momchat)
-	if(reformatted)
-		return reformatted
 	var/spanned = attach_spans(input, spans)
 	if(momchat)
 		momchat.message_langtreated_spanned = spanned
@@ -165,14 +168,15 @@ And the base of the send_speech() proc, which is the core of saycode.
 	return
 
 /// Quirky citadel proc for our custom sayverbs to strip the verb out. Snowflakey as hell, say rewrite 3.0 when?
-/atom/movable/proc/quoteless_say_quote(input, list/spans = list(speech_span), message_mode, list/bundle)
+/atom/movable/proc/quoteless_say_quote(input, list/spans = list(speech_span), message_mode, datum/rental_mommy/chat/momchat)
 	if((input[1] == "!") && (length_char(input) > 1))
+		if(momchat)
+			momchat.message_langtreated_quoteless = input
 		return ""
-	var/emoticontext = SSchat.emoticonify(src, input, message_mode, spans, bundle)
-	if(emoticontext)
-		return emoticontext
 	var/pos = findtext(input, "*")
 	var/message = pos? copytext(input, 1, pos - 1) : input
+	if(momchat)
+		momchat.message_langtreated_quoteless = message
 	return message
 
 /// This proc is used to treat the language of a message. It will either scramble the message or leave it as is.
@@ -184,7 +188,7 @@ And the base of the send_speech() proc, which is the core of saycode.
 	list/spans,
 	message_mode,
 	no_quote = FALSE,
-	datum/rental_mommy/momchat,
+	datum/rental_mommy/chat/momchat,
 )
 	if(has_language(language))
 		var/atom/movable/AM = speaker.GetSource()
@@ -209,18 +213,19 @@ And the base of the send_speech() proc, which is the core of saycode.
 		var/atom/movable/AM = speaker.GetSource()
 		var/datum/language/D = GLOB.language_datum_instances[language]
 		raw_message = D.scramble(raw_message)
+		var/msg_out
 		if(AM)
 			if(no_quote)
-				return AM.quoteless_say_quote(raw_message, spans, message_mode, momchat)
+				msg_out = AM.quoteless_say_quote(raw_message, spans, message_mode, momchat)
 			else
-				return AM.say_quote(raw_message, spans, message_mode, momchat)
+				msg_out = AM.say_quote(raw_message, spans, message_mode, momchat)
 			if(momchat)
 				momchat.message_langtreated_with_verb = msg_out
 		else
 			if(no_quote)
-				return speaker.quoteless_say_quote(raw_message, spans, message_mode, momchat)
+				msg_out = speaker.quoteless_say_quote(raw_message, spans, message_mode, momchat)
 			else
-				return speaker.say_quote(raw_message, spans, message_mode, momchat)
+				msg_out = speaker.say_quote(raw_message, spans, message_mode, momchat)
 			if(momchat)
 				momchat.message_langtreated_with_verb = msg_out
 	else

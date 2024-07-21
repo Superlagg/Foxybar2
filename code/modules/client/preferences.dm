@@ -150,12 +150,31 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/chat_on_map = TRUE
 	var/max_chat_length = CHAT_MESSAGE_MAX_LENGTH
 	var/see_chat_non_mob = TRUE
+	var/see_furry_dating_sim = TRUE
 	///Whether emotes will be displayed on runechat. Requires chat_on_map to have effect. Boolean.
 	var/see_rc_emotes = TRUE
 	///Whether to apply mobs' runechat color to the chat log as well
 	var/color_chat_log = TRUE
 	///Keeping track of chat bg color
 	var/chatbgcolor = "#131313"
+
+	var/list/mommychat_settings = list(
+		"top_gradient_color_1" = "333333",
+		"top_gradient_color_2" = "111111",
+		"top_gradient_angle" = 0,
+		"bottom_gradient_color_1" = "333333",
+		"bottom_gradient_color_2" = "111111",
+		"bottom_gradient_angle" = 0,
+		"button_background_color_1" = "FFFFFF",
+		"button_background_color_2" = "FFFFFF",
+		"button_background_angle" = 0,
+		"outer_border_color" = "000000",
+		"top_border_color" = "000000",
+		"bottom_border_color" = "000000",
+		"image_border_color" = "000000",
+		"image_border_size" = 0,
+		"image_border_style" = "solid",
+	)
 
 	var/list/aghost_squelches = list()
 

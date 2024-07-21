@@ -144,6 +144,207 @@ SUBSYSTEM_DEF(chat)
 			return
 		LAZYADD(payload_by_client[client], list(message))
 
+/datum/controller/subsystem/chat/proc/PreviewHornyFurryDatingSimMessage(mob/target, message_mode)
+	if(!istype(target))
+		CRASH("PreviewHornyFurryDatingSimMessage called with invalid arguments! [speaker]! [target]!")
+	if(!message_mode)
+		CRASH("PreviewHornyFurryDatingSimMessage called with invalid arguments! [message_mode]!")
+
+	var/mob/living/carbon/human/dummy/D = SSdummy.get_dummy()
+	var/datum/preferences/P = extract_prefs(target)
+	if(!P)
+		CRASH("PreviewHornyFurryDatingSimMessage called with invalid arguments! [P]!")
+	P.copy_to(D)
+	D.dummyckey = target.ckey
+	var/msg = "Hey there! How's it going? I was thinking we could go on a date sometime. I'm a vampire and"
+	switch(message_mode)
+		if(MODE_SAY)
+			msg = msg
+		if(MODE_WHISPER)
+			msg = "#[msg]"
+		if(MODE_SING)
+			msg = "%[msg]"
+		if(MODE_ASK)
+			msg = "[msg]?"
+		if(MODE_EXCLAIM)
+			msg = "[msg]!"
+		if(MODE_YELL)
+			msg = "$[msg]"
+
+	var/datum/rental_mommy/chat/mommy = D.say(msg, message_mode)
+	mommy.prefs_override = P
+	var/mommess = BuildHornyFurryDatingSimMessage(mommy, TRUE)
+	mommy.checkin()
+	SSdummy.return_dummy(D)
+	to_chat(target, mommess)
+
+/datum/controller/subsystem/chat/proc/BuildHornyFurryDatingSimMessage(datum/rental_mommy/chat/mommy)
+	if(!istype(mommy))
+		CRASH("BuildHornyFurryDatingSimMessage called with invalid arguments! [target]! [mommy]!")
+	if(!istype(mommy.recipiant))
+		CRASH("BuildHornyFurryDatingSimMessage called with invalid arguments! [target]!")
+	if(!mommy.source)
+		CRASH("BuildHornyFurryDatingSimMessage called with invalid arguments! [mommy.source]!!!!")
+	var/datum/preferences/P = mommy.prefs_override || extract_prefs(mommy.source)
+	if(!P)
+		CRASH("BuildHornyFurryDatingSimMessage called with invalid arguments! [P]!")
+	/// SO. now we need a few things from the speaker (mommy)
+	/// - Name
+	/// - Spoken Verb
+	/// - Rendered message, with quotes
+	/// - The message mode, for reasons i'll get into later
+	/// - A list of profile images
+	/// - A link to their chardir profile
+	/// - A link to DM them
+	/// - A link to flirt with them
+	/// - A link to "interact" with them
+	/// - A color for the text background
+	/// - A color for the header background
+	/// and from this, we will make a furry dating sim style message that will be sent to the target *and* the speaker
+	var/m_name       = mommy.namepart
+	var/m_verb       = mommy.message_saymod_comma
+	var/m_rawmessage = mommy.original_message
+	var/m_message    = mommy.message_langtreated_spanned_quotes
+	var/m_mode       = mommy.message_mode
+
+	/// look for something in m_rawmessage formatted as :exammple: and extract that to look up a custom image
+	/// We'll extract this, store it as a var, and use it as an override for the profile image
+	var/list/m_images = P ? P.profilePics.Copy() : test_pics
+	var/m_pfp = get_horny_pfp(m_rawmessage, m_images, m_mode)
+	
+	
+	/// now all the many many colors for everything!
+	// first the background gradients (and their angles)
+	var/tgc_1 =   "#[P.mommychat_settings["top_gradient_color_1"]]"
+	var/tgc_2 =   "#[P.mommychat_settings["top_gradient_color_2"]]"
+	var/tgangle =  "[P.mommychat_settings["top_gradient_angle"]]"
+	var/bgc_1 =   "#[P.mommychat_settings["bottom_gradient_color_1"]]"
+	var/bgc_2 =   "#[P.mommychat_settings["bottom_gradient_color_2"]]"
+	var/bgangle =  "[P.mommychat_settings["bottom_gradient_angle"]]"
+	var/bbc_1 =   "#[P.mommychat_settings["button_background_color_1"]]"
+	var/bbc_2 =   "#[P.mommychat_settings["button_background_color_2"]]"
+	var/bbangle =  "[P.mommychat_settings["button_background_angle"]]"
+	// now the borders
+	var/obc =     "#[P.mommychat_settings["outer_border_color"]]"
+	var/tbc =     "#[P.mommychat_settings["top_border_color"]]"
+	var/bbc =     "#[P.mommychat_settings["bottom_border_color"]]"
+	var/ibc =     "#[P.mommychat_settings["image_border_color"]]"
+	var/ibs =      "[P.mommychat_settings["image_border_size"]]"
+	var/ibt =      "[P.mommychat_settings["image_border_style"]]"
+	// now the text colors
+	// most are defined by mommy, but some arent, so we'll need to get a color that contrasts with the average of the top and bottom gradient colors
+	var/tgc_to_num = hex2num(tgc_1) + hex2num(tgc_2)
+	var/bgc_to_num = hex2num(bgc_1) + hex2num(bgc_2)
+	var/avg_color = (tgc_to_num + bgc_to_num) / 4
+	/// now we need to get the contrast color
+	var/contrast_color = num2hex(16777215 - avg_color)
+	var/dtc = "#[contrast_color]"
+
+	/// Character Directory link
+	var/m_charlink = {"<button style="grid-area: profile; background: linear-gradient(0deg, [bbc_1], [bbc_2]);
+		border: 2px solid [bbc];"><a href="?src=[REF(src)];CHARDIR=1;reciever_quid=[mommy.sender_quid];sender_quid=[target.ckey]">P
+		rofile</a></button><a href="?src=[REF(src)];CHARDIR=1;reciever_quid=[mommy.sender_quid];sender_quid=[target.ckey]">Profile</a></button>"}
+	/// DM link
+	var/m_dmlink = {"<button style="grid-area: dm; background: linear-gradient(0deg, [bbc_1], [bbc_2]);
+		border: 2px solid [bbc];"><a href="?src=[REF(src)];DM=1;reciever_quid=[mommy.sender_ckey];sender_quid=[target.ckey]">
+		DM</a></button><a href="?src=[REF(src)];DM=1;reciever_quid=[mommy.sender_ckey];sender_quid=[target.ckey]">DM</a></button>"}
+	/// Flirt link
+	var/m_flirtlink = {"<button style="grid-area: flirt; background: linear-gradient(0deg, [bbc_1], [bbc_2]);
+		border: 2px solid [bbc];"><a href="?src=[REF(src)];FLIRT=1;reciever_quid=[mommy.sender_quid];sender_quid=[target.ckey]">
+		Flirt</a></button><a href="?src=[REF(src)];FLIRT=1;reciever_quid=[mommy.sender_quid];sender_quid=[target.ckey]">Flirt</a></button>"}
+	/// Interact link
+	var/m_interactlink = {"<button style="grid-area: interact; background: linear-gradient(0deg, [bbc_1], [bbc_2]); 
+		border: 2px solid [bbc];"><a href="?src=[REF(src)];INTERACT=1;reciever_quid=[mommy.sender_quid];sender_quid=[target.ckey]">
+		Interact</a></button><a href="?src=[REF(src)];INTERACT=1;reciever_quid=[mommy.sender_quid];sender_quid=[target.ckey]">Interact</a></button>"}
+
+	/// now we need to build the message
+	var/list/cum = list()
+	// First, the full body container
+	cum += "<div style='width: 100%; border: 2px solid [obc]'>"
+	// first the head
+	cum += "<div style='width: 100%; background: linear-gradient([tgangle]deg, [tgc_1], [tgc_2]); border: 2px solid [tbc]; display: flex;'>"
+	// now the profile picture
+	cum += "<div style='height: 75px; width: 75px; background: [tgc_1]; border: [ibs]px [ibt] [ibc]; border-radius: 10px; margin: 2px;'>"
+	cum += "<img src='[m_pfp]' style='height: 75px; width: 75px; border-radius: 10px;'>"
+	cum += "</div>"
+	// now the rest of the head
+	cum += "<div style='flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;'>"
+	cum += "<span style='font-weight: bold;'>[m_name]</span>" // already formatted!
+	// now the button panel
+	cum += "<div style='display: grid; grid-template-areas: 'profile dm' 'flirt yiff'; grid-gap: 2px;'>" // yiff is a joke, dont worry
+	cum += m_charlink
+	cum += m_dmlink
+	cum += m_flirtlink
+	cum += m_interactlink
+	cum += "</div>"
+	cum += "</div>"
+	cum += "</div>"
+	// now the body
+	cum += "<div style='width: 100%; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]); border: 2px solid [bbc]; padding: 2px;'>"
+	cum += "<p style='font-weight: bold; margin: 0;'>[m_name] <span style='font-style: italic; color: [dtc];'>[m_verb]</span></p>"
+	cum += "<p style='margin: 0; color: [dtc];'>[m_message]</p>"
+	cum += "</div>"
+	cum += "</div>"
+	// now we need to send it to the target
+	return cum.Join()
+
+
+
+
+
+
+	// <!-- FurryHead -->
+	// <div style="width: 100%; background: linear-gradient(0deg, #FFC0CB, #FF1493); border: 2px solid #FF69B4; display: flex;">
+	// 	<!-- Profile Picture -->
+	// 	<div style="height: 75px; width: 75px; background: #FFC0CB; border: 2px solid #FF1493; border-radius: 10px; margin: 2px;">
+	// 		<img src="https://via.placeholder.com/75" style="height: 75px; width: 75px; border-radius: 10px;">
+	// 	</div>
+	// 	<!-- Rest of the Furryhead -->
+	// 	<div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+	// 	<!-- Button Panel -->
+	// 		<span style="font-weight: bold; color:darkmagenta;">Foxxxy Vixen</span>
+	// 		<div style="display: grid; grid-template-areas: 'profile dm' 'flirt yiff'; grid-gap: 2px;">
+	// 			<button style="grid-area: profile; background: #FFC0CB; border: 2px solid #FF1493;">Profile</button>
+	// 			<button style="grid-area: dm; background: #FFC0CB; border: 2px solid #FF1493;">DM</button>
+	// 			<button style="grid-area: flirt; background: #FFC0CB; border: 2px solid #FF1493;">Flirt</button>
+	// 			<button style="grid-area: yiff; background: #FFC0CB; border: 2px solid #FF1493;">Yiff</button>
+	// 		</div>
+	// 	</div>
+	// </div>
+	// <!-- FurryBody -->
+	// <div style="width: 100%; background: linear-gradient(0deg, #FFC0CB, #FF1493); border: 2px solid #FF69B4; padding: 2px;">
+	// 	<p style="font-weight: bold; margin: 0; color:darkmagenta;">Foxxxy Vixen <span style="font-style: italic;">asks,</span></p>
+	// 	<p style="margin: 0; color: darkmagenta;">Hey there! How's it going? I was thinking we could go on a date sometime. What do you say?</p>
+
+
+/datum/mob/proc/get_horny_pfp(m_rawmessage, list/m_images, m_mode)
+	var/image2use = ""
+	var/first_colon = findtext(m_rawmessage, ":")
+	if(first_colon)
+		var/list/splittify = splittext(m_rawmessage, ":")
+		for(var/splut in splittify)
+			var/testpart = ":[splut]:"
+			if(findtext(m_rawmessage, testpart))
+				if(m_images[testpart])
+					var/list/imgz = m_images[testpart]
+					if(imgz["link"] != "" && imgz["host"] != "")
+						image2use = PfpHostLink(imgz["link"], imgz["host"])
+	/// then extract the message mode and see if they have a corresponting image
+	if(!SanitizePfpLink(image2use))
+		var/list/testimages = m_images[m_mode]
+		if(testimages["link"] != "" && testimages["host"] != "")
+			image2use = PfpHostLink(testimages["link"], testimages["host"])
+	// just grab their default one
+	if(!SanitizePfpLink(image2use))
+		var/list/testimages = m_images[MODE_SAY]
+		if(testimages["link"] != "" && testimages["host"] != "")
+			image2use = PfpHostLink(testimages["link"], testimages["host"])
+	// if we still dont have one, just use a placeholder
+	if(!SanitizePfpLink(image2use))
+		image2use = "https://www.placehold.it/100x100.png"
+	return image2use
+
+
 /datum/controller/subsystem/chat/proc/build_flirt_datums()
 	if(LAZYLEN(flirts))
 		QDEL_LIST_ASSOC_VAL(flirts)

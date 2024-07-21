@@ -17,7 +17,7 @@
 
 SUBSYSTEM_DEF(rentaldatums)
 	name = "RentalDatums"
-	flags = SS_TICKER
+	flags = SS_TICKER | SS_NO_FIRE
 	wait = 1 MINUTES
 	init_order = INIT_ORDER_RENTALS
 
@@ -25,8 +25,7 @@ SUBSYSTEM_DEF(rentaldatums)
 
 	/// now for the rental mommies
 	var/list/chat_datums = list()
-	var/chat_uses_mommy = TRUE
-
+	var/chat_uses_mommy = TRUE // my code my names
 
 /datum/controller/subsystem/rentaldatums/Initialize(start_timeofday)
 	init_datums()
@@ -39,12 +38,12 @@ SUBSYSTEM_DEF(rentaldatums)
 	var/list/mymom = LAZYACCESS(vars, mom)
 	if(!mymom)
 		return null
-	for(var/datum/rental_mommy/mommy in mommies)
+	for(var/datum/rental_mommy/chat/mommy in mommies)
 		if(mommy.available)
 			mommy.checkout()
 			return mommy
-	var/datum/rental_mommy/mommy = LAZYACCESS(mymom, 1) // there will always be at least one mommy
-	var/datum/rental_mommy/mommy2 = new mommy.path()
+	var/datum/rental_mommy/chat/mommy = LAZYACCESS(mymom, 1) // there will always be at least one mommy
+	var/datum/rental_mommy/chat/mommy2 = new mommy.type()
 	mymom += mommy2
 	mommy2.checkout()
 	return mommy2
@@ -66,7 +65,7 @@ SUBSYSTEM_DEF(rentaldatums)
 /datum/rental_mommy/proc/wipe()
 	return
 
-/datum/rental_mommy/proc/copy_mommy(datum/rental_mommy/mommy)
+/datum/rental_mommy/proc/copy_mommy(datum/rental_mommy/chat/mommy)
 	if(mommy.type != type)
 		return
 	for(var/V in vars)
@@ -107,4 +106,27 @@ SUBSYSTEM_DEF(rentaldatums)
 	var/no_pass
 	/// SHOULD THE MESSAGE BE RENDERED IN ALL CAPS???????????????
 	var/ALL_CAPS
+	var/runechat_mode
+	var/mob/recipiant
+	var/display_turf
+	var/is_eavesdropping
+	var/chat_color_base
+	var/chat_color_sanitized
+	var/furry_dating_sim
+	var/namepart
+	var/face_name
+	var/data = list()
+	var/outer_span_class
+	var/outer_span
+	var/name_span_class
+	var/name_span
+	var/freqpart
+	var/speaker_name
+	var/message_langtreated_spanned
+	var/message_langtreated_spanned_quotes
+	var/message_saymod
+	var/message_saymod_comma
+	var/message_langtreated_quoteless
+	var/message_langtreated_with_verb
+	var/language_icon
 

@@ -86,39 +86,43 @@
 /mob/proc/get_photo_description(obj/item/camera/camera)
 	return "a ... thing?"
 
-/mob/proc/show_message(msg, type, alt_msg, alt_type, pref_check)//Message, type of message (1 or 2), alternative message, alt message type (1 or 2)
-	if(audiovisual_redirect)
-		audiovisual_redirect.show_message(msg ? "<avredirspan class='small'>[msg]</avredirspan>" : null, type, alt_msg ? "<avredirspan class='small'>[alt_msg]</avredirspan>" : null, alt_type)
+/mob/proc/show_message(msg, type, alt_msg, alt_type, pref_check, datum/rental_mommy/chat/momchat, force)//Message, type of message (1 or 2), alternative message, alt message type (1 or 2)
+	if(!force)
+		if(audiovisual_redirect)
+			audiovisual_redirect.show_message(msg ? "<avredirspan class='small'>[msg]</avredirspan>" : null, type, alt_msg ? "<avredirspan class='small'>[alt_msg]</avredirspan>" : null, alt_type)
 
-	if(!client)
-		return
-	
-	if(pref_check && !CHECK_PREFS(src, pref_check))
-		return
+		if(!client)
+			return
+		
+		if(pref_check && !CHECK_PREFS(src, pref_check))
+			return
 
-	msg = copytext_char(msg, 1, MAX_MESSAGE_LEN)
+		msg = copytext_char(msg, 1, MAX_MESSAGE_LEN)
 
-	if(type)
-		if(type & MSG_VISUAL && eye_blind )//Vision related
-			if(!alt_msg)
-				return
-			else
-				msg = alt_msg
-				type = alt_type
-
-		if(type & MSG_AUDIBLE && !can_hear())//Hearing related
-			if(!alt_msg)
-				return
-			else
-				msg = alt_msg
-				type = alt_type
-				if(type & MSG_VISUAL && eye_blind)
+		if(type)
+			if(type & MSG_VISUAL && eye_blind )//Vision related
+				if(!alt_msg)
 					return
-	// voice muffling
-	if(stat == UNCONSCIOUS)
-		if(type & MSG_AUDIBLE) //audio
-			to_chat(src, "<I>... You can almost hear something ...</I>")
-		return
+				else
+					msg = alt_msg
+					type = alt_type
+
+			if(type & MSG_AUDIBLE && !can_hear())//Hearing related
+				if(!alt_msg)
+					return
+				else
+					msg = alt_msg
+					type = alt_type
+					if(type & MSG_VISUAL && eye_blind)
+						return
+		// voice muffling
+		if(stat == UNCONSCIOUS)
+			if(type & MSG_AUDIBLE) //audio
+				to_chat(src, "<I>... You can almost hear something ...</I>")
+			return
+	///NOW HOLD ON THERE BUCKO, I think you're forgetting something~
+	if(momchat && momchat.furry_dating_sim && (isdummy(momchat.source) || CHECK_PREFS(src, SHOW_ME_HORNY_FURRIES))) // its right here
+		msg = SSchat.BuildHornyFurryDatingSimMessage(src, momchat) // in my subsystem~
 	to_chat(src, msg)
 
 /**
