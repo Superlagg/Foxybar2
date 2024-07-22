@@ -84,7 +84,7 @@ SUBSYSTEM_DEF(chat)
 			var/datum/emoticon_bank/E = new(emo, emotilist)
 			emoticon_cache[html_decode(emotie)] = E
 
-/datum/controller/subsystem/chat/proc/emoticonify(atom/movable/sayer, message, messagemode, list/spans)
+/datum/controller/subsystem/chat/proc/emoticonify(atom/movable/sayer, message, messagemode, list/spans, datum/rental_datum/momchat)
 	if(!sayer)
 		return
 	if(istype(sayer, /mob))
