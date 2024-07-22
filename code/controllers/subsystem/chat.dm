@@ -88,7 +88,7 @@ SUBSYSTEM_DEF(chat)
 	if(!sayer)
 		return
 	if(istype(sayer, /mob))
-		var/mob/they = sayer
+		var/mob/they = sayer 
 		if(!they.client)
 			return
 	if(!(messagemode in list(MODE_SAY, MODE_WHISPER, MODE_SING, MODE_ASK, MODE_EXCLAIM, MODE_YELL)))
