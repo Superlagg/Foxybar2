@@ -340,6 +340,8 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 	dummyckey = null
 	destroy_genitals()
 	cut_overlays()
+	if(loc)
+		moveToNullspace()
 
 //Inefficient pooling/caching way.
 // GLOBAL_LIST_EMPTY(human_dummy_list)

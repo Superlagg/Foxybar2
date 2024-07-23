@@ -32,13 +32,15 @@ SUBSYSTEM_DEF(rentaldatums)
 	. = ..()
 
 /datum/controller/subsystem/rentaldatums/proc/init_datums()
-	// 
+	chat_datums = list()
+	chat_datums += new /datum/rental_mommy/chat()
+
 
 /datum/controller/subsystem/rentaldatums/proc/CheckoutMommy(mom)
 	var/list/mymom = LAZYACCESS(vars, mom)
 	if(!mymom)
 		return null
-	for(var/datum/rental_mommy/chat/mommy in mommies)
+	for(var/datum/rental_mommy/chat/mommy in mymom)
 		if(mommy.available)
 			mommy.checkout()
 			return mommy
@@ -68,10 +70,7 @@ SUBSYSTEM_DEF(rentaldatums)
 /datum/rental_mommy/proc/copy_mommy(datum/rental_mommy/chat/mommy)
 	if(mommy.type != type)
 		return
-	for(var/V in vars)
-		if(V == "vars")
-			continue
-		vars[V] = mommy.vars[V]
+	return TRUE
 
 /// Charlotte, chat's rental mommy
 /// Holds a dynamic glob of chat data that can be easily manipulated and passed around
@@ -115,13 +114,12 @@ SUBSYSTEM_DEF(rentaldatums)
 	var/furry_dating_sim
 	var/namepart
 	var/face_name
-	var/data = list()
+	var/list/data = list()
 	var/outer_span_class
 	var/outer_span
 	var/name_span_class
 	var/name_span
 	var/freqpart
-	var/speaker_name
 	var/message_langtreated_spanned
 	var/message_langtreated_spanned_quotes
 	var/message_saymod
@@ -129,4 +127,61 @@ SUBSYSTEM_DEF(rentaldatums)
 	var/message_langtreated_quoteless
 	var/message_langtreated_with_verb
 	var/language_icon
+	var/source_quid
+	var/source_ckey
+	var/datum/preferences/prefs_override
+
+/datum/rental_mommy/chat/copy_mommy(datum/rental_mommy/chat/mommy)
+	if(!..())
+		CRASH("Tried to copy a mommy of a different type")
+	original_message                   = mommy.original_message
+	message                            = mommy.message
+	original_speakername               = mommy.original_speakername
+	speakername                        = mommy.speakername
+	source                             = mommy.source
+	message_mode                       = mommy.message_mode
+	message_key                        = mommy.message_key
+	spans                              = mommy.spans
+	sanitize                           = mommy.sanitize
+	bubble_type                        = mommy.bubble_type
+	language                           = mommy.language
+	language_key                       = mommy.language_key
+	saymode                            = mommy.saymode
+	ignore_spam                        = mommy.ignore_spam
+	forced                             = mommy.forced
+	only_overhead                      = mommy.only_overhead
+	is_radio                           = mommy.is_radio
+	radio_freq                         = mommy.radio_freq
+	close_message_range                = mommy.close_message_range
+	far_message_range                  = mommy.far_message_range
+	msg_decor_left                     = mommy.msg_decor_left
+	msg_decor_right                    = mommy.msg_decor_right
+	no_pass                            = mommy.no_pass
+	ALL_CAPS                           = mommy.ALL_CAPS
+	runechat_mode                      = mommy.runechat_mode
+	recipiant                          = mommy.recipiant
+	display_turf                       = mommy.display_turf
+	is_eavesdropping                   = mommy.is_eavesdropping
+	chat_color_base                    = mommy.chat_color_base
+	chat_color_sanitized               = mommy.chat_color_sanitized
+	furry_dating_sim                   = mommy.furry_dating_sim
+	namepart                           = mommy.namepart
+	face_name                          = mommy.face_name
+	data                               = mommy.data
+	outer_span_class                   = mommy.outer_span_class
+	outer_span                         = mommy.outer_span
+	name_span_class                    = mommy.name_span_class
+	name_span                          = mommy.name_span
+	freqpart                           = mommy.freqpart
+	message_langtreated_spanned        = mommy.message_langtreated_spanned
+	message_langtreated_spanned_quotes = mommy.message_langtreated_spanned_quotes
+	message_saymod                     = mommy.message_saymod
+	message_saymod_comma               = mommy.message_saymod_comma
+	message_langtreated_quoteless      = mommy.message_langtreated_quoteless
+	message_langtreated_with_verb      = mommy.message_langtreated_with_verb
+	language_icon                      = mommy.language_icon
+	source_quid                        = mommy.source_quid
+	source_ckey                        = mommy.source_ckey
+	prefs_override                     = mommy.prefs_override
+
 

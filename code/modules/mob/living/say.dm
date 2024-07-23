@@ -180,7 +180,7 @@
 	// 	if(sourceturf && T && !(sourceturf in get_hear(5, T)))
 	// 		. = span_small("[.]")
 
-/mob/living/Hear(
+/mob/Hear(
 	message,
 	atom/movable/speaker,
 	datum/language/message_language,
@@ -207,7 +207,7 @@
 		deaf_type = 2 // Since you should be able to hear yourself without looking
 	
 	// Create map text prior to modifying message for goonchat
-	if (!isdummy(src) && client?.prefs?.chat_on_map && stat != UNCONSCIOUS && (client.prefs.see_chat_non_mob || ismob(speaker)) && can_hear())
+	if (!isdummy(source) && client?.prefs?.chat_on_map && stat != UNCONSCIOUS && (client.prefs.see_chat_non_mob || ismob(speaker)) && can_hear())
 		if(momchat)
 			if(momchat.runechat_mode == "hidden_pathable")
 				/// make one that's just normal, to display at the real source
@@ -234,21 +234,18 @@
 	// Recompose message for AI hrefs, language incomprehension.
 	message = compose_message(speaker, message_language, raw_message, radio_freq, spans, message_mode, FALSE, source, data)
 	var/client/C = client
-	if(isdummy(src))
-		var/mob/living/carbon/human/dummy/D = src
-		C = extract_client(D.dummyckey)
-	if(client.prefs.color_chat_log)
+	if(C.prefs.color_chat_log)
 		var/base_chat_color = speaker.get_chat_color()
-		var/sanitizedsaycolor = client.sanitize_chat_color(base_chat_color)
+		var/sanitizedsaycolor = C.sanitize_chat_color(base_chat_color)
 		if(momchat)
 			momchat.chat_color_base = base_chat_color
 			momchat.chat_color_sanitized = sanitizedsaycolor
 		message = color_for_chatlog(message, sanitizedsaycolor, speaker.name, momchat)
-	if(momchat && should_hornify())
+	if(momchat && should_hornify(momchat))
 		momchat.furry_dating_sim = TRUE
-	if(isdummy(src) && momchat)
+	if(momchat && isdummy(momchat.source))
 		return momchat
-	show_message(message, MSG_AUDIBLE, deaf_message, deaf_type, null, momchat, force)
+	show_message(message, MSG_AUDIBLE, deaf_message, deaf_type, null, momchat)
 	if(islist(data) && LAZYACCESS(data, "is_radio") && (data["ckey"] in GLOB.directory) && !SSchat.debug_block_radio_blurbles)
 		if(CHECK_PREFS(src, RADIOPREF_HEAR_RADIO_STATIC))
 			playsound(src, RADIO_STATIC_SOUND, 20, FALSE, SOUND_DISTANCE(2), ignore_walls = TRUE)
@@ -580,7 +577,7 @@
 		return mind.get_language_holder()
 	. = ..()
 
-/mob/living/proc/should_hornify(datum/rental_mommy/chat/mommy)
+/mob/proc/should_hornify(datum/rental_mommy/chat/mommy)
 	if(!mommy)
 		return FALSE
 	if(!ishuman(mommy.source))

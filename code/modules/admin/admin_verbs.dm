@@ -106,6 +106,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/datum/admins/proc/admin_who2,
 	/datum/admins/proc/test_dailies,
 	/datum/admins/proc/make_cool_payload,
+	/client/proc/test_horny_furries,
 	)
 GLOBAL_LIST_INIT(admin_verbs_ban, list(/client/proc/unban_panel, /client/proc/DB_ban_panel, /client/proc/stickybanpanel))
 GLOBAL_PROTECT(admin_verbs_ban)
@@ -435,6 +436,12 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 		else
 			mob.invisibility = INVISIBILITY_OBSERVER
 			to_chat(mob, "<span class='adminnotice'><b>Invisimin on. You are now as invisible as a ghost.</b></span>")
+
+/client/proc/test_horny_furries()
+	set name = "hornyfurry"
+	set category = "Debug"
+	set desc = "spams you with horny furries"
+	SSchat.TestHorny()
 
 /client/proc/toggle_experimental_clickdrag_thing()
 	set name = "Toggle Clickdrag Changes"

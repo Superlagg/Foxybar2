@@ -48,7 +48,7 @@ And the base of the send_speech() proc, which is the core of saycode.
 ) // 9 ARGS! 15 BUTTS!!!! SECRET THIRD LEG!!!!!!!!
 	if(!source)
 		source = speaker
-	var/datum/rental_mommy/chat/momchat = LAZYACCESS(data["mommy"], 1)
+	var/datum/rental_mommy/chat/momchat = LAZYACCESS(data, "mommy")
 	if(momchat)
 		momchat.original_message = raw_message
 		momchat.message = momchat.original_message
@@ -89,7 +89,7 @@ And the base of the send_speech() proc, which is the core of saycode.
 	var/endspanpart = "</span>"
 	
 	//Message
-	var/messagepart = " <span class='message'>[lang_treat(speaker, message_language, raw_message, spans, message_mode, momchat)]</span></span>"
+	var/messagepart = " <span class='message'>[lang_treat(speaker, message_language, raw_message, spans, message_mode, null, momchat)]</span></span>"
 
 	var/languageicon = ""
 	var/datum/language/D = GLOB.language_datum_instances[message_language]
@@ -142,7 +142,7 @@ And the base of the send_speech() proc, which is the core of saycode.
 	if(momchat)
 		momchat.message_saymod = saymod
 		if(spanned)
-			momchat.message_saymod_comma = "[saymod] ,"
+			momchat.message_saymod_comma = "[saymod], "
 	return "[momchat][spanned ? ", \"[spanned]\"" : ""]"
 	// Citadel edit [spanned ? ", \"[spanned]\"" : ""]"
 
@@ -209,6 +209,7 @@ And the base of the send_speech() proc, which is the core of saycode.
 				msg_out = speaker.say_quote(raw_message, spans, message_mode, momchat)
 			if(momchat)
 				momchat.message_langtreated_with_verb = msg_out
+			return msg_out
 	else if(language)
 		var/atom/movable/AM = speaker.GetSource()
 		var/datum/language/D = GLOB.language_datum_instances[language]
@@ -221,6 +222,7 @@ And the base of the send_speech() proc, which is the core of saycode.
 				msg_out = AM.say_quote(raw_message, spans, message_mode, momchat)
 			if(momchat)
 				momchat.message_langtreated_with_verb = msg_out
+			return msg_out
 		else
 			if(no_quote)
 				msg_out = speaker.quoteless_say_quote(raw_message, spans, message_mode, momchat)
@@ -228,6 +230,7 @@ And the base of the send_speech() proc, which is the core of saycode.
 				msg_out = speaker.say_quote(raw_message, spans, message_mode, momchat)
 			if(momchat)
 				momchat.message_langtreated_with_verb = msg_out
+			return msg_out
 	else
 		return "makes a strange sound."
 

@@ -884,4 +884,4 @@ GLOBAL_LIST_INIT(hex_6toc, list("6","7","8","9","a","b","c"))
 	. = out
 	if(momchat) // do it again, but this time with all our dumb vars
 		momchat.namepart = color_keyword(momchat.namepart, color, name)
-		momchat.message = alternating_color_span(momchat.message, color, "\"", FALSE)
+		momchat.message = alternating_color_span(momchat.message_langtreated_spanned_quotes, color, "\"", FALSE)

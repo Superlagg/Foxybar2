@@ -122,7 +122,7 @@
 			return
 	///NOW HOLD ON THERE BUCKO, I think you're forgetting something~
 	if(momchat && momchat.furry_dating_sim && (isdummy(momchat.source) || CHECK_PREFS(src, SHOW_ME_HORNY_FURRIES))) // its right here
-		msg = SSchat.BuildHornyFurryDatingSimMessage(src, momchat) // in my subsystem~
+		msg = SSchat.BuildHornyFurryDatingSimMessage(momchat) // in my subsystem~
 	to_chat(src, msg)
 
 /**

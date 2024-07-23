@@ -56,6 +56,41 @@ SUBSYSTEM_DEF(chat)
 	var/flirt_cooldown_time = 5 SECONDS
 	var/debug_character_directory = 0
 
+	var/list/test_pics = list( // warning: boobs
+		MODE_SAY = list(
+			"host" = "catbox.moe",
+			"link" = "4m71t6.jpg",
+		),
+		MODE_ASK = list(
+			"host" = "catbox.moe",
+			"link" = "jm3f2c.jpg",
+		),
+		MODE_SING = list(
+			"host" = "catbox.moe",
+			"link" = "em5bgb.jpg",
+		),
+		MODE_EXCLAIM = list(
+			"host" = "catbox.moe",
+			"link" = "3ggp5e.jpg",
+		),
+		MODE_YELL = list(
+			"host" = "catbox.moe",
+			"link" = "1dmlu5.jpg",
+		),
+		MODE_WHISPER = list(
+			"host" = "catbox.moe",
+			"link" = "t040sg.jpg",
+		),
+		MODE_CUSTOM_SAY = list(
+			"host" = "catbox.moe",
+			"link" = "fcm6yw.jpg",
+		),
+		":example:" = list(
+			"host" = "catbox.moe",
+			"link" = "fcm6yw.jpg",
+		),
+	)
+
 	var/debug_chud = FALSE
 
 /datum/controller/subsystem/chat/Initialize(start_timeofday)
@@ -70,7 +105,7 @@ SUBSYSTEM_DEF(chat)
 /datum/controller/subsystem/chat/proc/setup_emoticon_cache()
 	emoticon_cache.Cut()
 	var/json_emoticons = file2text("strings/sausage_rolls.json") // am hungy
-	/// there was a comment here, but it was fucking enormous and made it hard to read
+	/// there was a comment here, but it was fukcing enormous and made it hard to read
 	var/list/emoticons = safe_json_decode(json_emoticons)
 	if(!LAZYLEN(emoticons))
 		return // :(
@@ -84,11 +119,11 @@ SUBSYSTEM_DEF(chat)
 			var/datum/emoticon_bank/E = new(emo, emotilist)
 			emoticon_cache[html_decode(emotie)] = E
 
-/datum/controller/subsystem/chat/proc/emoticonify(atom/movable/sayer, message, messagemode, list/spans, datum/rental_datum/momchat)
+/datum/controller/subsystem/chat/proc/emoticonify(atom/movable/sayer, message, messagemode, list/spans, datum/rental_mommy/chat/momchat)
 	if(!sayer)
 		return
 	if(istype(sayer, /mob))
-		var/mob/they = sayer 
+		var/mob/they = sayer
 		if(!they.client)
 			return
 	if(!(messagemode in list(MODE_SAY, MODE_WHISPER, MODE_SING, MODE_ASK, MODE_EXCLAIM, MODE_YELL)))
@@ -144,18 +179,26 @@ SUBSYSTEM_DEF(chat)
 			return
 		LAZYADD(payload_by_client[client], list(message))
 
+/datum/controller/subsystem/chat/proc/TestHorny()
+	var/mob/user = usr
+	to_chat(user, "Testing the horny")
+	for(var/mmode in test_pics)
+		PreviewHornyFurryDatingSimMessage(user, mmode)
+	to_chat(user, "Test complete")
+
 /datum/controller/subsystem/chat/proc/PreviewHornyFurryDatingSimMessage(mob/target, message_mode)
 	if(!istype(target))
-		CRASH("PreviewHornyFurryDatingSimMessage called with invalid arguments! [speaker]! [target]!")
+		CRASH("PreviewHornyFurryDatingSimMessage called with invalid arguments! [target]!")
 	if(!message_mode)
 		CRASH("PreviewHornyFurryDatingSimMessage called with invalid arguments! [message_mode]!")
 
-	var/mob/living/carbon/human/dummy/D = SSdummy.get_dummy()
+	var/mob/living/carbon/human/dummy/D = SSdummy.get_a_dummy()
 	var/datum/preferences/P = extract_prefs(target)
 	if(!P)
 		CRASH("PreviewHornyFurryDatingSimMessage called with invalid arguments! [P]!")
 	P.copy_to(D)
 	D.dummyckey = target.ckey
+	D.forceMove(get_turf(target))
 	var/msg = "Hey there! How's it going? I was thinking we could go on a date sometime. I'm a vampire and"
 	switch(message_mode)
 		if(MODE_SAY)
@@ -171,7 +214,7 @@ SUBSYSTEM_DEF(chat)
 		if(MODE_YELL)
 			msg = "$[msg]"
 
-	var/datum/rental_mommy/chat/mommy = D.say(msg, message_mode)
+	var/datum/rental_mommy/chat/mommy = D.say(msg, message_mode, direct_to_mob = target)
 	mommy.prefs_override = P
 	var/mommess = BuildHornyFurryDatingSimMessage(mommy, TRUE)
 	mommy.checkin()
@@ -180,9 +223,10 @@ SUBSYSTEM_DEF(chat)
 
 /datum/controller/subsystem/chat/proc/BuildHornyFurryDatingSimMessage(datum/rental_mommy/chat/mommy)
 	if(!istype(mommy))
-		CRASH("BuildHornyFurryDatingSimMessage called with invalid arguments! [target]! [mommy]!")
+		CRASH("BuildHornyFurryDatingSimMessage called with invalid arguments! [mommy]!")
+	var/mob/living/target = mommy.recipiant
 	if(!istype(mommy.recipiant))
-		CRASH("BuildHornyFurryDatingSimMessage called with invalid arguments! [target]!")
+		CRASH("BuildHornyFurryDatingSimMessage called with invalid arguments! [target]!!")
 	if(!mommy.source)
 		CRASH("BuildHornyFurryDatingSimMessage called with invalid arguments! [mommy.source]!!!!")
 	var/datum/preferences/P = mommy.prefs_override || extract_prefs(mommy.source)
@@ -201,15 +245,15 @@ SUBSYSTEM_DEF(chat)
 	/// - A color for the text background
 	/// - A color for the header background
 	/// and from this, we will make a furry dating sim style message that will be sent to the target *and* the speaker
-	var/m_name       = mommy.namepart
+	var/m_name       = mommy.speakername
 	var/m_verb       = mommy.message_saymod_comma
 	var/m_rawmessage = mommy.original_message
-	var/m_message    = mommy.message_langtreated_spanned_quotes
-	var/m_mode       = mommy.message_mode
+	var/m_message    = mommy.message
+	var/m_mode       = mommy.message_mode || MODE_SAY
 
 	/// look for something in m_rawmessage formatted as :exammple: and extract that to look up a custom image
 	/// We'll extract this, store it as a var, and use it as an override for the profile image
-	var/list/m_images = P ? P.profilePics.Copy() : test_pics
+	var/list/m_images = /* P ? P.profilePics.Copy() :  */test_pics
 	var/m_pfp = get_horny_pfp(m_rawmessage, m_images, m_mode)
 	
 	
@@ -233,29 +277,32 @@ SUBSYSTEM_DEF(chat)
 	var/ibt =      "[P.mommychat_settings["image_border_style"]]"
 	// now the text colors
 	// most are defined by mommy, but some arent, so we'll need to get a color that contrasts with the average of the top and bottom gradient colors
-	var/tgc_to_num = hex2num(tgc_1) + hex2num(tgc_2)
-	var/bgc_to_num = hex2num(bgc_1) + hex2num(bgc_2)
+	var/tgc_to_num = hex2num(replacetext(tgc_1,"#", "")) + hex2num(replacetext(tgc_2,"#", ""))
+	var/bgc_to_num = hex2num(replacetext(bgc_1,"#", "")) + hex2num(replacetext(bgc_2,"#", ""))
 	var/avg_color = (tgc_to_num + bgc_to_num) / 4
 	/// now we need to get the contrast color
 	var/contrast_color = num2hex(16777215 - avg_color)
 	var/dtc = "#[contrast_color]"
 
+	var/senderquid = mommy.source_quid
+	var/senderckey = mommy.source_ckey
+
 	/// Character Directory link
-	var/m_charlink = {"<button style="grid-area: profile; background: linear-gradient(0deg, [bbc_1], [bbc_2]);
-		border: 2px solid [bbc];"><a href="?src=[REF(src)];CHARDIR=1;reciever_quid=[mommy.sender_quid];sender_quid=[target.ckey]">P
-		rofile</a></button><a href="?src=[REF(src)];CHARDIR=1;reciever_quid=[mommy.sender_quid];sender_quid=[target.ckey]">Profile</a></button>"}
+	var/m_charlink = {"<button style="grid-area: profile; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]);
+		border: 2px solid [bbc];"><a href="?src=[REF(src)];CHARDIR=1;reciever_quid=[senderquid];sender_quid=[target.ckey]">P
+		rofile</a></button><a href="?src=[REF(src)];CHARDIR=1;reciever_quid=[senderquid];sender_quid=[target.ckey]">Profile</a></button>"}
 	/// DM link
-	var/m_dmlink = {"<button style="grid-area: dm; background: linear-gradient(0deg, [bbc_1], [bbc_2]);
-		border: 2px solid [bbc];"><a href="?src=[REF(src)];DM=1;reciever_quid=[mommy.sender_ckey];sender_quid=[target.ckey]">
-		DM</a></button><a href="?src=[REF(src)];DM=1;reciever_quid=[mommy.sender_ckey];sender_quid=[target.ckey]">DM</a></button>"}
+	var/m_dmlink = {"<button style="grid-area: dm; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]);
+		border: 2px solid [bbc];"><a href="?src=[REF(src)];DM=1;reciever_quid=[senderckey];sender_quid=[target.ckey]">
+		DM</a></button><a href="?src=[REF(src)];DM=1;reciever_quid=[senderckey];sender_quid=[target.ckey]">DM</a></button>"}
 	/// Flirt link
-	var/m_flirtlink = {"<button style="grid-area: flirt; background: linear-gradient(0deg, [bbc_1], [bbc_2]);
-		border: 2px solid [bbc];"><a href="?src=[REF(src)];FLIRT=1;reciever_quid=[mommy.sender_quid];sender_quid=[target.ckey]">
-		Flirt</a></button><a href="?src=[REF(src)];FLIRT=1;reciever_quid=[mommy.sender_quid];sender_quid=[target.ckey]">Flirt</a></button>"}
+	var/m_flirtlink = {"<button style="grid-area: flirt; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]);
+		border: 2px solid [bbc];"><a href="?src=[REF(src)];FLIRT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]">
+		Flirt</a></button><a href="?src=[REF(src)];FLIRT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]">Flirt</a></button>"}
 	/// Interact link
-	var/m_interactlink = {"<button style="grid-area: interact; background: linear-gradient(0deg, [bbc_1], [bbc_2]); 
-		border: 2px solid [bbc];"><a href="?src=[REF(src)];INTERACT=1;reciever_quid=[mommy.sender_quid];sender_quid=[target.ckey]">
-		Interact</a></button><a href="?src=[REF(src)];INTERACT=1;reciever_quid=[mommy.sender_quid];sender_quid=[target.ckey]">Interact</a></button>"}
+	var/m_interactlink = {"<button style="grid-area: interact; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]); 
+		border: 2px solid [bbc];"><a href="?src=[REF(src)];INTERACT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]">
+		Interact</a></button><a href="?src=[REF(src)];INTERACT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]">Interact</a></button>"}
 
 	/// now we need to build the message
 	var/list/cum = list()
@@ -317,7 +364,7 @@ SUBSYSTEM_DEF(chat)
 	// 	<p style="margin: 0; color: darkmagenta;">Hey there! How's it going? I was thinking we could go on a date sometime. What do you say?</p>
 
 
-/datum/mob/proc/get_horny_pfp(m_rawmessage, list/m_images, m_mode)
+/datum/controller/subsystem/chat/proc/get_horny_pfp(m_rawmessage, list/m_images, m_mode)
 	var/image2use = ""
 	var/first_colon = findtext(m_rawmessage, ":")
 	if(first_colon)
@@ -330,17 +377,17 @@ SUBSYSTEM_DEF(chat)
 					if(imgz["link"] != "" && imgz["host"] != "")
 						image2use = PfpHostLink(imgz["link"], imgz["host"])
 	/// then extract the message mode and see if they have a corresponting image
-	if(!SanitizePfpLink(image2use))
+	if(!image2use)
 		var/list/testimages = m_images[m_mode]
 		if(testimages["link"] != "" && testimages["host"] != "")
 			image2use = PfpHostLink(testimages["link"], testimages["host"])
 	// just grab their default one
-	if(!SanitizePfpLink(image2use))
+	if(!image2use)
 		var/list/testimages = m_images[MODE_SAY]
 		if(testimages["link"] != "" && testimages["host"] != "")
 			image2use = PfpHostLink(testimages["link"], testimages["host"])
 	// if we still dont have one, just use a placeholder
-	if(!SanitizePfpLink(image2use))
+	if(!image2use)
 		image2use = "https://www.placehold.it/100x100.png"
 	return image2use
 
