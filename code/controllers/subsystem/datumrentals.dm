@@ -184,4 +184,55 @@ SUBSYSTEM_DEF(rentaldatums)
 	source_ckey                        = mommy.source_ckey
 	prefs_override                     = mommy.prefs_override
 
+/datum/rental_mommy/chat/wipe()
+	original_message                   = ""
+	message                            = ""
+	original_speakername               = ""
+	speakername                        = ""
+	source                             = null
+	message_mode                       = null
+	message_key                        = null
+	spans                              = list()
+	sanitize                           = null
+	bubble_type                        = null
+	language                           = null
+	language_key                       = null
+	saymode                            = null
+	ignore_spam                        = null
+	forced                             = null
+	only_overhead                      = null
+	is_radio                           = null
+	radio_freq                         = null
+	close_message_range                = 7
+	far_message_range                  = 15
+	msg_decor_left                     = list()
+	msg_decor_right                    = list()
+	no_pass                            = null
+	ALL_CAPS                           = null
+	runechat_mode                      = null
+	recipiant                          = null
+	display_turf                       = null
+	is_eavesdropping                   = null
+	chat_color_base                    = null
+	chat_color_sanitized               = null
+	furry_dating_sim                   = null
+	namepart                           = null
+	face_name                          = null
+	data                               = list()
+	outer_span_class                   = null
+	outer_span                         = null
+	name_span_class                    = null
+	name_span                          = null
+	freqpart                           = null
+	message_langtreated_spanned        = null
+	message_langtreated_spanned_quotes = null
+	message_saymod                     = null
+	message_saymod_comma               = null
+	message_langtreated_quoteless      = null
+	message_langtreated_with_verb      = null
+	language_icon                      = null
+	source_quid                        = null
+	source_ckey                        = null
+	prefs_override                     = null
+
 

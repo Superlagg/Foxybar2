@@ -1332,4 +1332,6 @@ GLOBAL_DATUM_INIT(cooltext_pro, /datum/shrimpletext, new)
 	) as null|message
 	if(text2send)
 		messages_by_ckey[who.ckey] = text2send
+		text2send = replacetext(text2send, "\n", "")
+		text2send = replacetext(text2send, "	", "")
 		to_chat(who, text2send)

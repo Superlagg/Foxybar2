@@ -91,6 +91,8 @@ SUBSYSTEM_DEF(chat)
 		),
 	)
 
+	var/img_size = 75
+	var/headspace = 4
 	var/debug_chud = FALSE
 
 /datum/controller/subsystem/chat/Initialize(start_timeofday)
@@ -288,42 +290,64 @@ SUBSYSTEM_DEF(chat)
 	var/senderckey = mommy.source_ckey
 
 	/// Character Directory link
-	var/m_charlink = {"<button style="grid-area: profile; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]);
-		border: 2px solid [bbc];"><a href="?src=[REF(src)];CHARDIR=1;reciever_quid=[senderquid];sender_quid=[target.ckey]">P
-		rofile</a></button><a href="?src=[REF(src)];CHARDIR=1;reciever_quid=[senderquid];sender_quid=[target.ckey]">Profile</a></button>"}
+	var/m_charlink = "<button style='width: 100% background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]);\
+		border: 2px solid [bbc];'><a href='?src=[REF(src)];CHARDIR=1;reciever_quid=[senderquid];sender_quid=[target.ckey]'>\
+		Profile</a></button>"
 	/// DM link
-	var/m_dmlink = {"<button style="grid-area: dm; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]);
-		border: 2px solid [bbc];"><a href="?src=[REF(src)];DM=1;reciever_quid=[senderckey];sender_quid=[target.ckey]">
-		DM</a></button><a href="?src=[REF(src)];DM=1;reciever_quid=[senderckey];sender_quid=[target.ckey]">DM</a></button>"}
+	var/m_dmlink = "<button style='width: 100%; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]);\
+		border: 2px solid [bbc];'><a href='?src=[REF(src)];DM=1;reciever_quid=[senderckey];sender_quid=[target.ckey]'>\
+		DM</a></button>"
 	/// Flirt link
-	var/m_flirtlink = {"<button style="grid-area: flirt; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]);
-		border: 2px solid [bbc];"><a href="?src=[REF(src)];FLIRT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]">
-		Flirt</a></button><a href="?src=[REF(src)];FLIRT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]">Flirt</a></button>"}
+	var/m_flirtlink = "<button style='width: 100%; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]);\
+		border: 2px solid [bbc];'><a href='?src=[REF(src)];FLIRT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]'>\
+		Flirt</a></button>"
 	/// Interact link
-	var/m_interactlink = {"<button style="grid-area: interact; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]); 
-		border: 2px solid [bbc];"><a href="?src=[REF(src)];INTERACT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]">
-		Interact</a></button><a href="?src=[REF(src)];INTERACT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]">Interact</a></button>"}
+	var/m_interactlink = "<button style='width: 100%; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]);\
+		border: 2px solid [bbc];'><a href='?src=[REF(src)];INTERACT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]'>\
+		Interact</a></button>"
+
+
+/* 
+	<button style='width: 100%; background: linear-gradient(0deg, #FFFFFF, #FFFFFF);border: 2px solid #000000;'><a href='?src=[0x21000073];CHARDIR=1;reciever_quid=superlagg-numbering-crossly-5964-6337;sender_quid=superlagg'>Profile</a></button>
+	<button style='width: 100%; background: linear-gradient(0deg, #FFFFFF, #FFFFFF);border: 2px solid #000000;'><a href='?src=[0x21000073];DM=1;reciever_quid=superlagg;sender_quid=superlagg'>DM</a></button>
+	<button style='width: 100%; background: linear-gradient(0deg, #FFFFFF, #FFFFFF);border: 2px solid #000000;'><a href='?src=[0x21000073];FLIRT=1;reciever_quid=superlagg-numbering-crossly-5964-6337;sender_quid=superlagg'>Flirt</a></button>
+	<button style='width: 100%; background: linear-gradient(0deg, #FFFFFF, #FFFFFF);border: 2px solid #000000;'><a href='?src=[0x21000073];INTERACT=1;reciever_quid=superlagg-numbering-crossly-5964-6337;sender_quid=superlagg'>Interact</a></button>
+ */
 
 	/// now we need to build the message
 	var/list/cum = list()
 	// First, the full body container
 	cum += "<div style='width: 100%; border: 2px solid [obc]'>"
+
+
 	// first the head
 	cum += "<div style='width: 100%; background: linear-gradient([tgangle]deg, [tgc_1], [tgc_2]); border: 2px solid [tbc]; display: flex;'>"
 	// now the profile picture
-	cum += "<div style='height: 75px; width: 75px; background: [tgc_1]; border: [ibs]px [ibt] [ibc]; border-radius: 10px; margin: 2px;'>"
-	cum += "<img src='[m_pfp]' style='height: 75px; width: 75px; border-radius: 10px;'>"
+	cum += "<div style='height: [img_size]px; width: [img_size]px; background: [tgc_1]; border: [ibs]px [ibt] [ibc]; border-radius: 10px; margin: 2px;'>"
+	cum += "<img src='[m_pfp]' style='height: [img_size]px; width: [img_size]px; border-radius: 10px;'>"
 	cum += "</div>"
 	// now the rest of the head
-	cum += "<div style='flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;'>"
+	cum += "<div style='text-align: center; width: calc(100% - [img_size + headspace]px); max-width: calc(100% - [img_size + headspace]px);'>"
 	cum += "<span style='font-weight: bold;'>[m_name]</span>" // already formatted!
 	// now the button panel
-	cum += "<div style='display: grid; grid-template-areas: 'profile dm' 'flirt yiff'; grid-gap: 2px;'>" // yiff is a joke, dont worry
+	cum += "<table style='margin: 0 auto;'>"
+	cum += "<tr>"
+	cum += "<td style='width: 50%;'>"
 	cum += m_charlink
+	cum += "</td>"
+	cum += "<td style='width: 50%;'>"
 	cum += m_dmlink
+	cum += "</td>"
+	cum += "</tr>"
+	cum += "<tr>"
+	cum += "<td style='width: 50%;'>"
 	cum += m_flirtlink
+	cum += "</td>"
+	cum += "<td style='width: 50%;'>"
 	cum += m_interactlink
-	cum += "</div>"
+	cum += "</td>"
+	cum += "</tr>"
+	cum += "</table>"
 	cum += "</div>"
 	cum += "</div>"
 	// now the body

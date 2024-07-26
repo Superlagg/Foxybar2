@@ -137,13 +137,14 @@ And the base of the send_speech() proc, which is the core of saycode.
 	var/spanned = attach_spans(input, spans)
 	if(momchat)
 		momchat.message_langtreated_spanned = spanned
-		momchat.message_langtreated_spanned_quotes = "[spanned]"
+		momchat.message_langtreated_spanned_quotes = "\"[spanned]\""
 	var/saymod = say_mod(input, message_mode)
 	if(momchat)
 		momchat.message_saymod = saymod
 		if(spanned)
 			momchat.message_saymod_comma = "[saymod], "
-	return "[momchat][spanned ? ", \"[spanned]\"" : ""]"
+		momchat.message = momchat.message_langtreated_spanned_quotes
+	return "[saymod][spanned ? ", \"[spanned]\"" : ""]"
 	// Citadel edit [spanned ? ", \"[spanned]\"" : ""]"
 
 #define ENCODE_HTML_EPHASIS(input, char, html, varname) \
@@ -172,11 +173,13 @@ And the base of the send_speech() proc, which is the core of saycode.
 	if((input[1] == "!") && (length_char(input) > 1))
 		if(momchat)
 			momchat.message_langtreated_quoteless = input
+			momchat.message = input
 		return ""
 	var/pos = findtext(input, "*")
 	var/message = pos? copytext(input, 1, pos - 1) : input
 	if(momchat)
 		momchat.message_langtreated_quoteless = message
+		momchat.message = message
 	return message
 
 /// This proc is used to treat the language of a message. It will either scramble the message or leave it as is.
