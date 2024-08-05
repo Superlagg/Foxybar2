@@ -158,24 +158,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	///Keeping track of chat bg color
 	var/chatbgcolor = "#131313"
 
-	var/list/mommychat_settings = list(
-		"top_gradient_color_1" = "333333",
-		"top_gradient_color_2" = "111111",
-		"top_gradient_angle" = 0,
-		"bottom_gradient_color_1" = "333333",
-		"bottom_gradient_color_2" = "111111",
-		"bottom_gradient_angle" = 0,
-		"button_background_color_1" = "FFFFFF",
-		"button_background_color_2" = "FFFFFF",
-		"button_background_angle" = 0,
-		"outer_border_color" = "000000",
-		"top_border_color" = "000000",
-		"bottom_border_color" = "000000",
-		"image_border_color" = "000000",
-		"image_border_size" = 0,
-		"image_border_style" = "solid",
-	)
-
 	var/list/aghost_squelches = list()
 
 	/// Custom Keybindings
@@ -316,6 +298,45 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/creature_pfphost = ""
 	var/creature_body_size = 1
 	var/creature_fuzzy = FALSE
+
+	var/list/ProfilePics = list(
+		list(
+			"Mode" = MODE_SAY,
+			"Host" = "",
+			"URL" = "",
+		),
+		list(
+			"Mode" = MODE_ASK,
+			"Host" = "",
+			"URL" = "",
+		),
+		list(
+			"Mode" = MODE_SING,
+			"Host" = "",
+			"URL" = "",
+		),
+		list(
+			"Mode" = MODE_EXCLAIM,
+			"Host" = "",
+			"URL" = "",
+		),
+		list(
+			"Mode" = MODE_YELL,
+			"Host" = "",
+			"URL" = "",
+		),
+		list(
+			"Mode" = MODE_WHISPER,
+			"Host" = "",
+			"URL" = "",
+		),
+		list(
+			"Mode" = ":example:",
+			"Host" = "",
+			"URL" = "",
+		),
+	)
+	var/list/mommychat_settings = list() // will be set by SSchat (goodness me)
 
 	/// Quirk list
 	/// okay lets compromise, we'll have type paths, but they're strings, happy?

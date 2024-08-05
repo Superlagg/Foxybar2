@@ -107,6 +107,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/datum/admins/proc/test_dailies,
 	/datum/admins/proc/make_cool_payload,
 	/client/proc/test_horny_furries,
+	/datum/admins/proc/test_hornychat_prefs,
 	)
 GLOBAL_LIST_INIT(admin_verbs_ban, list(/client/proc/unban_panel, /client/proc/DB_ban_panel, /client/proc/stickybanpanel))
 GLOBAL_PROTECT(admin_verbs_ban)
@@ -1315,6 +1316,14 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 		log_admin("INVALID ADMIN PROC ACCESS: [key_name(usr)] tried to use mess with make_cool_payload() without admin perms.")
 		return
 	GLOB.cooltext_pro.Open(usr)
+
+/datum/admins/proc/test_hornychat_prefs()
+	set category = "Debug"
+	set name = "Access Hornychat"
+	set desc = "Opens the Hornychat preferences panel."
+
+	SSchat.HornyPreferences(usr)
+	to_chat(usr, "Hornychat preferences opened! Hopefully!")
 
 GLOBAL_DATUM_INIT(cooltext_pro, /datum/shrimpletext, new)
 

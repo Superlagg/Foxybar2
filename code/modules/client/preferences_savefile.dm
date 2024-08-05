@@ -1270,6 +1270,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	creature_profilepic = sanitize_text(creature_profilepic)
 	creature_pfphost 	= sanitize_inlist(creature_pfphost, GLOB.pfp_filehosts, "")
 
+	SSchat.SanitizeUserImages(src)
+	SSchat.SanitizeUserPreferences(src)
+
 	features_override["grad_color"]		= sanitize_hexcolor(features_override["grad_color"], 6, FALSE, default = COLOR_ALMOST_BLACK)
 	features_override["grad_style"]		= sanitize_inlist(features_override["grad_style"], GLOB.hair_gradients, "none")
 

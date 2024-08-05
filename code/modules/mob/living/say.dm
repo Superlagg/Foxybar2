@@ -136,7 +136,7 @@
 
 	spans |= speech_span
 
-	if(language)
+	if(language && LAZYLEN(GLOB.language_datum_instances))
 		var/datum/language/L = GLOB.language_datum_instances[language]
 		spans |= L.spans
 

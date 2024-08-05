@@ -149,40 +149,6 @@ GLOBAL_LIST_INIT(pfp_filehost_safe_suffixes, list(
 	var/profilePicture = ""
 	var/pfphost = ""
 
-	var/list/profilePics = list(
-		MODE_SING = list(
-			"host" = "",
-			"link" = "",
-		),
-		MODE_SAY = list(
-			"host" = "",
-			"link" = "",
-		),
-		MODE_ASK = list(
-			"host" = "",
-			"link" = "",
-		),
-		MODE_EXCLAIM = list(
-			"host" = "",
-			"link" = "",
-		),
-		MODE_YELL = list(
-			"host" = "",
-			"link" = "",
-		),
-		MODE_WHISPER = list(
-			"host" = "",
-			"link" = "",
-		),
-		MODE_CUSTOM_SAY = list(
-			"host" = "",
-			"link" = "",
-		),
-		":example:" = list(
-			"host" = "",
-			"link" = "",
-		),
-	)
 
 // Moved this to preferences_savefile.dm as we're having issues with overriding the function I think.
 // My speculation is that us trying to open the save file multiple times with multiple users is causing a memory overflow on the server end and refusing to open it
