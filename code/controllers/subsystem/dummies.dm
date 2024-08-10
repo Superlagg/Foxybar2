@@ -314,6 +314,7 @@ SUBSYSTEM_DEF(dummy) // who ya callin dummy, dummy?
 	real_name = "Test Dummy"
 	status_flags = GODMODE|CANPUSH
 	mouse_drag_pointer = MOUSE_INACTIVE_POINTER
+	put_away_them_grippers_hooh_you_got_them_grippers = TRUE
 	var/in_use = FALSE
 	var/dummyckey
 	COOLDOWN_DECLARE(unuse_timer)

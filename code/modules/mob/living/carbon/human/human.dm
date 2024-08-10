@@ -7,6 +7,7 @@ GLOBAL_VAR_INIT(crotch_call_cooldown, 0)
 	icon = 'icons/mob/human.dmi'
 	icon_state = "caucasian_m"
 	appearance_flags = KEEP_TOGETHER|TILE_BOUND|PIXEL_SCALE|LONG_GLIDE
+	var/put_away_them_grippers_hooh_you_got_them_grippers = 0
 	var/potato = FALSE
 
 /mob/living/carbon/human/twoman
@@ -39,7 +40,8 @@ GLOBAL_VAR_INIT(crotch_call_cooldown, 0)
 	physiology = new()
 
 	AddComponent(/datum/component/personal_crafting)
-	AddComponent(/datum/component/footstep, FOOTSTEP_MOB_HUMAN, 0.3, 5)
+	if(!put_away_them_grippers_hooh_you_got_them_grippers)
+		AddComponent(/datum/component/footstep, FOOTSTEP_MOB_HUMAN, 0.3, 5)
 	. = ..()
 
 	if(CONFIG_GET(flag/disable_stambuffer))

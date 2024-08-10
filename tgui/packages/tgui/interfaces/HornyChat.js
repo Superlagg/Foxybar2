@@ -446,27 +446,25 @@ const ProfilePicsTab = (props, context) => {
   // we need to calculate the longest message mode, and set the width to that
   // plus a bit of padding cus why not
   const LongestMode = UserImages.reduce((a, b) => a.Mode.length > b.Mode.length ? a : b);
-  const ModeWidth = `${(LongestMode.Mode.length) * 0.80}em`;
+  const ModeWidth = `${(LongestMode.Mode.length) * 0.55}em`;
   // same for the host column, it is *short*, too short for the hosts
   const LongestHost = ValidHosts.reduce((a, b) => a.length > b.length ? a : b);
-  const HostWidth = `${(LongestHost.length) * 0.75}rem`;
+  const HostWidth = `${(LongestHost.length) * 0.65}rem`;
 
   return (
-    <Table>
+    <Table width="100%" m={0}>
       {/* Column names */}
       <Table.Row>
-        <Table.Cell {...CellStyleCenter} />
-        <Table.Cell {...CellStyleCenter}
-          width={ModeWidth}>
+        <Table.Cell {...CellStyleCenter} width={ModeWidth}>
           Message Mode
         </Table.Cell>
         <Table.Cell {...CellStyleCenter}>
-          Host
+          Image Link
         </Table.Cell>
-        <Table.Cell {...CellStyleCenter}>
+        {/* <Table.Cell {...CellStyleCenter}>
           Filename
-        </Table.Cell>
-        <Table.Cell {...CellStyleCenter}>
+        </Table.Cell> */}
+        <Table.Cell {...CellStyleCenter} width="0">
           Preview
         </Table.Cell>
         <Table.Cell {...CellStyleCenter} />
@@ -478,26 +476,6 @@ const ProfilePicsTab = (props, context) => {
             key={index}
             {...CellStyle(PFPentry.Mode, index)}>
             {/* Copy */}
-            <Table.Cell {...CellStyleCenter}>
-              <Button
-                icon="copy"
-                onClick={() => act('CopyImage', {
-                  UserCkey: UserCKEY,
-                  Mode: PFPentry.Mode,
-                  Host: PFPentry.Host,
-                  URL: PFPentry.URL,
-                })} />
-              {/* Paste, if we have a valid clipboard entry */}
-              <Button
-                disabled={!HasValidClipboard}
-                icon="paste"
-                onClick={() => act('PasteImage', {
-                  UserCkey: UserCKEY,
-                  Mode: PFPentry.Mode,
-                  Host: PFPentry.Host,
-                  URL: PFPentry.URL,
-                })} />
-            </Table.Cell>
             {/* Message Mode */}
             {/* Is static text for the hardcoded message modes */}
             {/* Is a text input for custom message modes */}
@@ -518,26 +496,56 @@ const ProfilePicsTab = (props, context) => {
             </Table.Cell>
             {/* Host, is a dropdown box */}
             <Table.Cell {...CellStyleCenter}>
-              <Dropdown
-                fluid
-                width={HostWidth}
-                options={ValidHosts}
-                selected={PFPentry.Host}
-                onSelected={value => act('ModifyHost', {
-                  UserCkey: UserCKEY,
-                  Mode: PFPentry.Mode,
-                  NewHost: value,
-                })} />
-            </Table.Cell>
-            {/* Filename, is a text input */}
-            <Table.Cell {...CellStyleCenter}>
-              <Input
-                value={PFPentry.URL}
-                onChange={(e, value) => act('ModifyURL', {
-                  UserCkey: UserCKEY,
-                  Mode: PFPentry.Mode,
-                  NewURL: value,
-                })} />
+              <Stack fill>
+                <Stack.Item>
+                  <Button
+                    icon="copy"
+                    onClick={() => act('CopyImage', {
+                      UserCkey: UserCKEY,
+                      Mode: PFPentry.Mode,
+                      Host: PFPentry.Host,
+                      URL: PFPentry.URL,
+                    })} />
+                </Stack.Item>
+                <Stack.Item>
+                  {/* Paste, if we have a valid clipboard entry */}
+                  <Button
+                    disabled={!HasValidClipboard}
+                    icon="paste"
+                    onClick={() => act('PasteImage', {
+                      UserCkey: UserCKEY,
+                      Mode: PFPentry.Mode,
+                      Host: PFPentry.Host,
+                      URL: PFPentry.URL,
+                    })} />
+                </Stack.Item>
+                <Stack.Item>
+                  <Dropdown
+                    fluid
+                    width={HostWidth}
+                    options={ValidHosts}
+                    displayText={PFPentry.Host}
+                    selected={PFPentry.Host}
+                    onSelected={value => act('ModifyHost', {
+                      UserCkey: UserCKEY,
+                      Mode: PFPentry.Mode,
+                      NewHost: value,
+                    })} />
+                </Stack.Item>
+                {/* </Table.Cell> */}
+                {/* Filename, is a text input */}
+                {/* <Table.Cell {...CellStyleCenter}> */}
+                <Stack.Item grow>
+                  <Input
+                    width="100%"
+                    value={PFPentry.URL}
+                    onChange={(e, value) => act('ModifyURL', {
+                      UserCkey: UserCKEY,
+                      Mode: PFPentry.Mode,
+                      NewURL: value,
+                    })} />
+                </Stack.Item>
+              </Stack>
             </Table.Cell>
             {/* Preview */}
             {/* Limit to, oh, lets say 100px x 100px */}
@@ -974,6 +982,7 @@ const SettingBlock = (props, context) => {
                 return (
                   <Dropdown
                     options={Options}
+                    displayText={Val}
                     selected={Val}
                     onSelected={value => act('EditSelect', {
                       UserCkey: UserCKEY,

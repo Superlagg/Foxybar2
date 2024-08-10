@@ -57,11 +57,16 @@
 	var/original_message = message
 	var/in_critical = InCritical()
 
-	if(one_character_prefix[message_mode])
-		message = copytext_char(message, 2)
-	else if(message_mode || saymode)
-		message = copytext_char(message, 3)
-	message = trim_left(message)
+	/// a regex that will look for a word surrounded by colons, such as :bingus: or :wamfosm: . Spaces are not allowed in the word.
+	var/regex/colonizer_regex = regex(@":(\w+):", "g")
+	var/is_colone = colonizer_regex.Find(message)
+
+	if(!is_colone)
+		if(one_character_prefix[message_mode])
+			message = copytext_char(message, 2)
+		else if(message_mode || saymode)
+			message = copytext_char(message, 2)
+	message = trim(message)
 	if(!message)
 		return
 	if(message_mode == MODE_ADMIN)
@@ -578,6 +583,9 @@
 	. = ..()
 
 /mob/proc/should_hornify(datum/rental_mommy/chat/mommy)
+	return FALSE // quit seducing ghosts in the lobby, wacky
+
+/mob/living/should_hornify(datum/rental_mommy/chat/mommy)
 	if(!mommy)
 		return FALSE
 	if(!ishuman(mommy.source))
@@ -589,7 +597,7 @@
 		return FALSE
 	if(z != H.z)
 		return FALSE
-	if(get_dist(H, src) > 1) //If they're not right next to you, don't hornify them
+	if(get_dist(H, src) > SSchat.max_horny_distance) //If they're not right next to you, don't hornify them
 		return FALSE
 	return TRUE // lets get yiffy
 

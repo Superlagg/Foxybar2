@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: MIT
  */
 
+/// hosts, and their respective tags
 GLOBAL_LIST_INIT(supported_img_hosts, list(
-	"https://files.catbox.moe",
-	"https://i.gyazo.com",
+	"https://files.catbox.moe" = list("catbox"),
+	"https://i.gyazo.com" = list("gyazo"),
 ))
 
 GLOBAL_LIST_INIT(supported_img_exts, list(
@@ -103,6 +104,8 @@ SUBSYSTEM_DEF(chat)
 	/// how long between flirts can we flirt
 	var/flirt_cooldown_time = 5 SECONDS
 	var/debug_character_directory = 0
+	var/same_mode_timeout = 1 MINUTES
+	var/max_horny_distance = 2
 
 	var/list/stock_image_packs = list() // see: [code\__DEFINES\mommychat_image_packs.dm]
 	var/list/mandatory_modes = list(MODE_PROFILE_PIC, MODE_SAY, MODE_WHISPER, MODE_SING, MODE_ASK, MODE_EXCLAIM, MODE_YELL)
@@ -343,6 +346,9 @@ SUBSYSTEM_DEF(chat)
 								valid = FALSE
 							else
 								valid = TRUE // good enough, i guess
+		for(var/hoste in GLOB.supported_img_hosts)
+			if(findtext(eurl, "[hoste]/"))
+				eurl = replacetext(eurl, "[hoste]/", "") // for convenience
 		if(valid)
 			eurl = html_encode(eurl) // this probably sanitizes it and makes the above checks redundant, but I belive in belt and suspenders (even if neither fit around my big fat blubbery fox breasts) // dan // I mean, it is, isnt it?
 		else
@@ -502,6 +508,7 @@ SUBSYSTEM_DEF(chat)
 
 	var/datum/rental_mommy/chat/mommy = D.say(msg, direct_to_mob = target)
 	mommy.prefs_override = P
+	mommy.dummy = TRUE
 	var/mommess = BuildHornyFurryDatingSimMessage(mommy, TRUE)
 	mommy.checkin()
 	SSdummy.return_dummy(D)
@@ -554,8 +561,16 @@ SUBSYSTEM_DEF(chat)
 					for(var/list/moud in m_images)
 						if(moud["Mode"] == testpart)
 							m_mode = testpart
-							m_message = replacetext(m_message, testpart, "")
-							m_rawmessage = replacetext(m_rawmessage, testpart, "") // remove the custom mode from the message
+							// now the fun part, surgically remove the custom mode from the message, *and* remove any spaces around it
+							m_rawmessage = replacetext(m_rawmessage, " [testpart] ", "")
+							m_rawmessage = replacetext(m_rawmessage, "[testpart] ", "")
+							m_rawmessage = replacetext(m_rawmessage, " [testpart]", "")
+							m_rawmessage = replacetext(m_rawmessage, "[testpart]", "")
+							// now the fun part, surgically remove the custom mode from the message, *and* remove any spaces around it
+							m_message = replacetext(m_message, " [testpart] ", "")
+							m_message = replacetext(m_message, "[testpart] ", "")
+							m_message = replacetext(m_message, " [testpart]", "")
+							m_message = replacetext(m_message, "[testpart]", "")
 							break math // mathematical
 	var/m_pfp = get_horny_pfp(m_rawmessage, m_images, m_mode)
 	var/list/set4mode = P.mommychat_settings["[m_mode]"]
@@ -605,23 +620,43 @@ SUBSYSTEM_DEF(chat)
 	var/mommyquid = mommy.source_quid
 	var/targetquid = SSeconomy.extract_quid(target)
 
+	/// OFF WITH THEIR HEADS if we've already heard them speak with the same mode in the last, uh, minute?
+	/// Listener (target) has a list of the quids they've heard from, along with the last time they heard them, and their last message mode
+	/// If the message mode is the same, and the time is less than a minute or so ago, we'll lop off their head
+	var/giv_head = TRUE
+	var/giv_body = TRUE
+	var/list/heard_em = LAZYACCESS(target.heard_data, mommyquid)
+	if(LAZYLEN(heard_em) && !isdummy(mommy.source))
+		var/message_mode = heard_em["message_mode"]
+		if(message_mode == m_mode)
+			var/timecheck = heard_em["last_heard"] + same_mode_timeout
+			if(timecheck > world.time)
+				giv_head = FALSE // (get them) OFF WITH YOUR HEADS!
+	target.heard_data[mommyquid] = list("last_heard" = world.time, "message_mode" = m_mode)
+	if(m_rawmessage == "" || m_rawmessage == " " || m_rawmessage == ".")
+		m_rawmessage = " "
+		giv_body = FALSE
+	// if both are false......... give em the head back
+	if(!giv_head && !giv_body)
+		giv_head = TRUE
+
 	/// Character Directory link
-	var/m_charlink = "<a href='?src=[REF(src)];CHARDIR=1;reciever_quid=[targetquid];sender_quid=[mommyquid]'>\
+	var/m_charlink = "<a href='?src=[REF(src)];CHARDIR=1;reciever_quid=[mommyquid];sender_quid=[targetquid]'>\
 	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
 	border: [bbs]px [bbt] [bbc];'>\
 	Examine</div></a>"
 	/// DM link
-	var/m_dmlink = "<a href='?src=[REF(src)];DM=1;reciever_quid=[targetquid];sender_quid=[targetquid]'>\
+	var/m_dmlink = "<a href='?src=[REF(src)];DM=1;reciever_quid=[mommyquid];sender_quid=[targetquid]'>\
 	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
 	border: [bbs]px [bbt] [bbc];'>\
 	DM</div></a>"
 	/// Flirt link
-	var/m_flirtlink = "<a href='?src=[REF(src)];FLIRT=1;reciever_quid=[targetquid];sender_quid=[targetquid]'>\
+	var/m_flirtlink = "<a href='?src=[REF(src)];FLIRT=1;reciever_quid=[mommyquid];sender_quid=[targetquid]'>\
 	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
 	border: [bbs]px [bbt] [bbc];'>\
 	Flirt</div></a>"
 	/// Interact link
-	var/m_interactlink = "<a href='?src=[REF(src)];INTERACT=1;reciever_quid=[targetquid];sender_quid=[targetquid]'>\
+	var/m_interactlink = "<a href='?src=[REF(src)];INTERACT=1;reciever_quid=[mommyquid];sender_quid=[targetquid]'>\
 	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
 	border: [bbs]px [bbt] [bbc];'>\
 	Interact</div></a>"
@@ -639,40 +674,42 @@ SUBSYSTEM_DEF(chat)
 	// First, the full body container
 	cum += "<div style='width: 100%; border: [obs]px [obt] [obc];'>"
 	// first the head
-	cum += "<div style='width: 100%; background: linear-gradient([tgangle]deg, [tgc_1], [tgc_2]); border: [tbs]px [tbt] [tbc]; display: flex;'>"
-	// now the profile picture
-	cum += "<div style='height: [img_size]px; width: [img_size]px; background: [tgc_1]; border: [ibs]px [ibt] [ibc]; border-radius: 10px; margin: 2px;'>"
-	cum += "<img src='[m_pfp]' style='height: [img_size]px; width: [img_size]px; border-radius: 10px;'>"
-	cum += "</div>"
-	// now the rest of the head
-	cum += "<div style='text-align: center; width: calc(100% - [img_size + headspace]px); max-width: calc(100% - [img_size + headspace]px);'>"
-	cum += "<span style='font-weight: bold;'>[m_name]</span>" // already formatted!
-	// now the button panel
-	cum += "<table style='margin: 0 auto;'>"
-	cum += "<tr>"
-	cum += "<td style='width: 50%;'>"
-	cum += m_charlink
-	cum += "</td>"
-	cum += "<td style='width: 50%;'>"
-	cum += m_dmlink
-	cum += "</td>"
-	cum += "</tr>"
-	cum += "<tr>"
-	cum += "<td style='width: 50%;'>"
-	cum += m_flirtlink
-	cum += "</td>"
-	cum += "<td style='width: 50%;'>"
-	cum += m_interactlink
-	cum += "</td>"
-	cum += "</tr>"
-	cum += "</table>"
-	cum += "</div>"
-	cum += "</div>"
+	if(giv_head)
+		cum += "<div style='width: 100%; background: linear-gradient([tgangle]deg, [tgc_1], [tgc_2]); border: [tbs]px [tbt] [tbc]; display: flex;'>"
+		// now the profile picture
+		cum += "<div style='height: [img_size]px; width: [img_size]px; background: [tgc_1]; border: [ibs]px [ibt] [ibc]; border-radius: 10px; margin: 2px;'>"
+		cum += "<img src='[m_pfp]' style='height: [img_size]px; width: [img_size]px; border-radius: 10px;'>"
+		cum += "</div>"
+		// now the rest of the head
+		cum += "<div style='text-align: center; width: calc(100% - [img_size + headspace]px); max-width: calc(100% - [img_size + headspace]px);'>"
+		cum += "<span style='font-weight: bold;'>[m_name]</span>" // already formatted!
+		// now the button panel
+		cum += "<table style='margin: 0 auto;'>"
+		cum += "<tr>"
+		cum += "<td style='width: 50%;'>"
+		cum += m_charlink
+		cum += "</td>"
+		cum += "<td style='width: 50%;'>"
+		cum += m_dmlink
+		cum += "</td>"
+		cum += "</tr>"
+		cum += "<tr>"
+		cum += "<td style='width: 50%;'>"
+		cum += m_flirtlink
+		cum += "</td>"
+		cum += "<td style='width: 50%;'>"
+		cum += m_interactlink
+		cum += "</td>"
+		cum += "</tr>"
+		cum += "</table>"
+		cum += "</div>"
+		cum += "</div>"
 	// now the body - the BottomBox
-	cum += "<div style='width: 100%; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]); border: [bbbs]px [bbbt] [bbbc]; padding: 2px;'>"
-	cum += "<p style='font-weight: bold; margin: 0;'>[m_name] <span style='font-style: italic; color: [dtc];'>[m_verb]</span></p>"
-	cum += "<p style='margin: 0; color: [dtc];'>[m_message]</p>"
-	cum += "</div>"
+	if(giv_body)
+		cum += "<div style='width: 100%; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]); border: [bbbs]px [bbbt] [bbbc]; padding: 2px;'>"
+		cum += "<p style='font-weight: bold; margin: 0;'>[m_name] <span style='font-style: italic; color: [dtc];'>[m_verb]</span></p>"
+		cum += "<p style='margin: 0; color: [dtc];'>[m_message]</p>"
+		cum += "</div>"
 	cum += "</div>"
 	// now we need to send it to the target
 	return cum.Join()
@@ -1476,7 +1513,8 @@ SUBSYSTEM_DEF(chat)
 	data["UserImages"] = P.ProfilePics
 	data["UserCKEY"] = user.ckey
 	data["Clipboard"] = clipboard.Copy()
-	data["ValidHosts"] = GLOB.supported_img_hosts
+	var/list/vhosts = assoc_list_strip_value(GLOB.supported_img_hosts)
+	data["ValidHosts"] = vhosts
 	/// Also all the previews
 	var/list/previewmsgs = list()
 	/// Anatomy of a msgmode entry in ProfilePics:
@@ -1920,17 +1958,30 @@ SUBSYSTEM_DEF(chat)
 				return FALSE
 			var/valid = TRUE
 			var/list/splittest = splittext(newurl, ".")
-			if(LAZYLEN(splittest) != 2)
-				valid = FALSE
-			if(!(uppertext(splittest[2]) in GLOB.supported_img_exts))
+			if(!(uppertext(LAZYACCESS(splittest,LAZYLEN(splittest))) in GLOB.supported_img_exts))
 				valid = FALSE
 			if(!valid)
 				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], URL is not valid! :c"))
 				return FALSE
+			/// rudimar, we need to check if the URL is a valid URL
+			/// actually we dont, but im just gonna filter out any domains that got pasted in
+			/// rudimar: oh, okay // also extract the domain from the URL, if it exists
+			var/newhost
+			spank:
+				for(var/hoste in GLOB.supported_img_hosts)
+					var/list/checkemup = list(hoste) + GLOB.supported_img_hosts[hoste]
+					for(var/checc in checkemup)
+						if(findtext(newurl, checc))
+							var/list/splup = splittext(newurl, "/")
+							newurl = LAZYACCESS(splup, LAZYLEN(splup)) // get the last part of the URL
+							newhost = hoste
+							break spank // thats going in the spank break
 			for(var/list/PPc in P.ProfilePics)
 				if(PPc["Mode"] != mode)
 					continue
 				PPc["URL"] = newurl
+				if(!isnull(newhost))
+					PPc["Host"] = newhost // UX SUPREME
 				to_chat(M, span_notice("URL for [mode2string(mode)] has been updated to [newurl]!"))
 				. = CHANGED_IMAGES
 				break
@@ -2251,16 +2302,6 @@ SUBSYSTEM_DEF(chat)
 			if(!foundit)
 				P.mommychat_settings[PPc["Mode"]] = GLOB.default_horny_settings.Copy()
 		P.mommychat_settings = horny_settings
-
-
-
-
-
-
-
-
-
-
 
 /datum/horny_tgui_holder/proc/mode2string(mode)
 	switch(mode)

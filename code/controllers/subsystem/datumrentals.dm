@@ -130,6 +130,7 @@ SUBSYSTEM_DEF(rentaldatums)
 	var/source_quid
 	var/source_ckey
 	var/datum/preferences/prefs_override
+	var/dummy
 
 /datum/rental_mommy/chat/copy_mommy(datum/rental_mommy/chat/mommy)
 	if(!..())
@@ -183,6 +184,7 @@ SUBSYSTEM_DEF(rentaldatums)
 	source_quid                        = mommy.source_quid
 	source_ckey                        = mommy.source_ckey
 	prefs_override                     = mommy.prefs_override
+	dummy                              = mommy.dummy
 
 /datum/rental_mommy/chat/wipe()
 	original_message                   = ""
@@ -234,5 +236,5 @@ SUBSYSTEM_DEF(rentaldatums)
 	source_quid                        = null
 	source_ckey                        = null
 	prefs_override                     = null
-
+	dummy                              = null
 
