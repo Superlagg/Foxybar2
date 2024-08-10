@@ -247,9 +247,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/eye_type = DEFAULT_EYES_TYPE	//Eye type
 	var/split_eye_colors = FALSE
 	var/tbs = TBS_DEFAULT // turner broadcasting system
-	var/kisser = KISS_DEFAULT // Kiss this  /      V      \/
-	/// which quester UID we're using      |       |       |
-	var/quester_uid //                     (_______|_______)
+	var/kisser = KISS_DEFAULT // Kiss this  /         V         \.
+	/// which quester UID we're using      (          |          ).
+	var/quester_uid //                    (__________) (__________)
 	var/dm_open = TRUE
 	var/needs_a_friend = FALSE // for the quest
 	var/list/blocked_from_dms = list() // list of quids
@@ -300,6 +300,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/creature_fuzzy = FALSE
 
 	var/list/ProfilePics = list(
+		list(
+			"Mode" = MODE_PROFILE_PIC,
+			"Host" = "",
+			"URL" = "",
+		),
 		list(
 			"Mode" = MODE_SAY,
 			"Host" = "",
@@ -578,6 +583,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			if(jobban_isbanned(user, "appearance"))
 				dat += "<b>You are banned from using custom names and appearances. You can continue to adjust your characters, but you will be randomised once you join the game.</b><br>"
 
+			dat += "<a href='?_src_=prefs;preference=setup_hornychat;task=input'>Configure CoolChat / Profile Pictures!</a><BR>"
 			dat += "<b>Name:</b> "
 			dat += "<a href='?_src_=prefs;preference=name;task=input'>[real_name]</a><BR>"
 
@@ -604,8 +610,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 */
 			//Right column
 			dat +="<td width='30%' valign='top'>"
-			dat += "<h2>Profile Picture ([pfphost]):</h2><BR>"
-			dat += "<b>Picture:</b> <a href='?_src_=prefs;preference=ProfilePicture;task=input'>[profilePicture ? "<img src=[PfpHostLink(profilePicture, pfphost)] width='125' height='auto' max-height='300'>" : "Upload a picture!"]</a><BR>"
+			dat += "<a href='?_src_=prefs;preference=setup_hornychat;task=input'>Configure CoolChat / Profile Pictures!</a><BR>"
+			// dat += "<h2>Profile Picture ([pfphost]):</h2><BR>"
+			var/pfplink = SSchat.GetPicForMode(user, MODE_PROFILE_PIC)
+			dat += "<b>Picture:</b> <a href='?_src_=prefs;preference=setup_hornychat;task=input'>[pfplink ? "<img src=[pfplink] width='125' height='auto' max-height='300'>" : "Upload a picture!"]</a><BR>"
 			dat += "</td>"
 			/*
 			dat += "<b>Special Names:</b><BR>"
@@ -1049,6 +1057,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += APPEARANCE_CATEGORY_COLUMN
 			dat += "<h3>Flavor Text</h3>"
 			dat += "<a href='?_src_=prefs;preference=flavor_text;task=input'><b>Set Examine Text</b></a><br>"
+			dat += "<a href='?_src_=prefs;preference=setup_hornychat;task=input'>Configure CoolChat / Profile Pictures!</a><BR>"
 			if(length(features["flavor_text"]) <= 40)
 				if(!length(features["flavor_text"]))
 					dat += "\[...\]"
@@ -3732,6 +3741,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/new_toggle_color = input(user, "Choose your HUD toggle flash color:", "Game Preference",hud_toggle_color) as color|null
 					if(new_toggle_color)
 						hud_toggle_color = new_toggle_color
+
+				if("setup_hornychat")
+					SSchat.HornyPreferences(user)
 
 				if("gender")
 					var/chosengender = input(user, "Select your character's gender.", "Gender Selection", gender) as null|anything in list(MALE,FEMALE,"nonbinary","object")

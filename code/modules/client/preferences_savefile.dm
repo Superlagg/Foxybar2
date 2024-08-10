@@ -53,6 +53,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		return TRUE
 	for(var/clog in missing_updates)
 		switch(clog)
+			if(PMR_ADDED_COOLCHAT) // i broke it =3
+				S["chat_toggles"] >> chat_toggles
+				chat_toggles |= CHAT_SEE_COOLCHAT
+				chat_toggles = sanitize_integer(chat_toggles, 0, INFINITY, TOGGLES_DEFAULT_CHAT)
+				current_revision |= PMR_ADDED_COOLCHAT
 			if(PMR_ADDED_RADIO_BLURBLES) // i broke it =3
 				S["chat_toggles"] >> chat_toggles
 				chat_toggles |= CHAT_HEAR_RADIOBLURBLES
@@ -909,6 +914,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	// !! COYOTE SAVE FILE STUFF !!
 	S["profilePicture"] >> profilePicture // Profile picklies
 	S["pfphost"] 		>> pfphost
+	// !! DAN IS COOL SAVE FILE STUFF !!
+	var/list/pfp_list = safe_json_decode(S["ProfilePics"])
+	ProfilePics = islist(pfp_list) ? pfp_list : list()
+	var/list/milfhub = safe_json_decode(S["mommychat_settings"])
+	mommychat_settings = islist(milfhub) ? milfhub : list()
 
 	S["gradient_color"]		>> features_override["grad_color"] // Hair gradients!
 	S["gradient_style"]		>> features_override["grad_style"] // Hair gradients electric boogaloo 2!!
@@ -1572,6 +1582,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	// !! COYOTE SAVEFILE STUFF !!
 	WRITE_FILE(S["profilePicture"],				profilePicture)
 	WRITE_FILE(S["pfphost"],					pfphost)
+	// !! DEER GETS EATEN BY COYOTE !!
+	var/pfpjson = safe_json_encode(ProfilePics)
+	if(pfpjson)
+		WRITE_FILE(S["ProfilePics"], pfpjson)
+	var/milfjson = safe_json_encode(mommychat_settings)
+	if(milfjson)
+		WRITE_FILE(S["mommychat_settings"], milfjson)
 
 	WRITE_FILE(S["creature_profilepic"],		creature_profilepic)
 	WRITE_FILE(S["creature_pfphost"],			creature_pfphost)

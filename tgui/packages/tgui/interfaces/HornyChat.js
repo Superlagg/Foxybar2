@@ -16,6 +16,7 @@ import {
   NoticeBox,
   NumberInput,
   Icon,
+  Knob,
   Stack,
   Fragment,
   Table,
@@ -255,7 +256,8 @@ const MainWindow = (props, context) => {
 const LowerRowBar = (props, context) => {
   const { act, data } = useBackend(context);
   const {
-    UserCkey,
+    UserCKEY,
+    SeeOthers,
   } = data;
 
   return (
@@ -267,7 +269,9 @@ const LowerRowBar = (props, context) => {
           fluid
           icon="images"
           content="Get Profile Pics"
-          onClick={() => act('OpenStockPicker')} />
+          onClick={() => act('OpenPerchance', {
+            UserCkey: UserCKEY,
+          })} />
       </Stack.Item>
       <Stack.Item shrink>
         {/* A link to catbox.moe, where you can upload your own images */}
@@ -275,7 +279,9 @@ const LowerRowBar = (props, context) => {
           fluid
           icon="upload"
           content="Upload Images (to Catbox.moe)"
-          onClick={() => act('OpenCatbox')} />
+          onClick={() => act('OpenCatbox', {
+            UserCkey: UserCKEY,
+          })} />
       </Stack.Item>
       <Stack.Item shrink>
         {/* A link to gyazo, another place to upload images */}
@@ -283,7 +289,23 @@ const LowerRowBar = (props, context) => {
           fluid
           icon="upload"
           content="Upload Images (to Gyazo)"
-          onClick={() => act('OpenGyazo')} />
+          onClick={() => act('OpenGyazo', {
+            UserCkey: UserCKEY,
+          })} />
+      </Stack.Item>
+      <Stack.Item shrink>
+        {/* A link to gyazo, another place to upload images */}
+        <Button
+          fluid
+          icon={SeeOthers ? "eye-slash" : "eye"}
+          content={
+            SeeOthers
+              ? "CoolChat Visible"
+              : "CoolChat Hidden"
+          }
+          onClick={() => act('ToggleWhinyLittleBazingaMode', {
+            UserCkey: UserCKEY,
+          })} />
       </Stack.Item>
       <Stack.Item grow />
       <Stack.Item shrink>
@@ -292,7 +314,9 @@ const LowerRowBar = (props, context) => {
           fluid
           icon="save"
           content="Save"
-          onClick={() => act('SaveEverything')} />
+          onClick={() => act('SaveEverything', {
+            UserCkey: UserCKEY,
+          })} />
       </Stack.Item>
     </Stack>
   );
@@ -320,6 +344,7 @@ const LowerRowBar = (props, context) => {
 const ProfilePicsTab = (props, context) => {
   const { act, data } = useBackend(context);
   const {
+    UserCKEY,
     UserImages = [],
     Clipboard = {
       ProfilePic: {},
@@ -374,9 +399,9 @@ const ProfilePicsTab = (props, context) => {
     const ColorGrad1_RGB_to_S = ColorGrad1_RGB_to_L - Math.min(ColorGrad1_R / 255, ColorGrad1_G / 255, ColorGrad1_B / 255);
     const ColorGrad1_RGB_to_HSL = [ColorGrad1_RGB_to_H, ColorGrad1_RGB_to_S, ColorGrad1_RGB_to_L];
     const ColorGrad1_H_Shift = (A, B) => {
-      return (A + Math.clz32(B + 10 ** 20)) % 360;
+      return (A + Math.hypot((B + 1) + 10 ** 20)) % 360;
     };
-    const ColorGrad1_H = ColorGrad1_H_Shift(ColorGrad1_RGB_to_HSL[0], Iter);
+    const ColorGrad1_H = ColorGrad1_H_Shift(ColorGrad1_RGB_to_HSL[0], (Iter + 1));
     const ColorGrad1_S = Math.max(Math.min(Math.abs(Math.tanh(Iter) * 0.5), 0.5), 0.1);
     const ColorGrad1_L = ColorGrad1_RGB_to_HSL[2];
     const ColorGrad1 = `hsl(${ColorGrad1_H}, ${ColorGrad1_S * 100}%, ${ColorGrad1_L * 100}%)`;
@@ -388,9 +413,9 @@ const ProfilePicsTab = (props, context) => {
     const ColorGrad2_RGB_to_S = ColorGrad2_RGB_to_L - Math.min(ColorGrad2_R / 255, ColorGrad2_G / 255, ColorGrad2_B / 255);
     const ColorGrad2_RGB_to_HSL = [ColorGrad2_RGB_to_H, ColorGrad2_RGB_to_S, ColorGrad2_RGB_to_L];
     const ColorGrad2_H_Shift = (A, B) => {
-      return (A + B ^ 0xFDED10 | B) % 360;
+      return (A + (B + 1) & 0xFDED10 | (B + 1)) % 360;
     };
-    const ColorGrad2_H = ColorGrad2_H_Shift(ColorGrad2_RGB_to_HSL[0], Iter);
+    const ColorGrad2_H = ColorGrad2_H_Shift(ColorGrad2_RGB_to_HSL[0], (Iter + 1));
     const ColorGrad2_S = ColorGrad2_RGB_to_HSL[1];
     const ColorGrad2_L = ColorGrad2_RGB_to_HSL[2];
     const ColorGrad2 = `hsl(${ColorGrad2_H}, ${ColorGrad2_S * 100}%, ${ColorGrad2_L * 100}%)`;
@@ -398,16 +423,9 @@ const ProfilePicsTab = (props, context) => {
       style: {
         "background": `linear-gradient(180deg, ${ColorGrad1}, ${ColorGrad2})`,
         "border": `1px solid #${ColorD}`,
-        "border-radius": "5%",
       },
     };
   };
-
-
-
-
-
-
 
   // style for each of the individual cells
   // centers the elements vertically
@@ -416,18 +434,30 @@ const ProfilePicsTab = (props, context) => {
   // also makes the cells shrink to fit the content
   const CellStyleCenter = {
     style: {
+      "text-align": "center",
       "vertical-align": "middle",
       "font-size": "1em",
       "text-shadow": "1px 1px 1px #000000",
+      "border": "1px solid #000000",
     },
   };
+
+  // since the damn message mode column becomes huge for no reason
+  // we need to calculate the longest message mode, and set the width to that
+  // plus a bit of padding cus why not
+  const LongestMode = UserImages.reduce((a, b) => a.Mode.length > b.Mode.length ? a : b);
+  const ModeWidth = `${(LongestMode.Mode.length) * 0.80}em`;
+  // same for the host column, it is *short*, too short for the hosts
+  const LongestHost = ValidHosts.reduce((a, b) => a.length > b.length ? a : b);
+  const HostWidth = `${(LongestHost.length) * 0.75}rem`;
 
   return (
     <Table>
       {/* Column names */}
       <Table.Row>
         <Table.Cell {...CellStyleCenter} />
-        <Table.Cell {...CellStyleCenter}>
+        <Table.Cell {...CellStyleCenter}
+          width={ModeWidth}>
           Message Mode
         </Table.Cell>
         <Table.Cell {...CellStyleCenter}>
@@ -452,6 +482,7 @@ const ProfilePicsTab = (props, context) => {
               <Button
                 icon="copy"
                 onClick={() => act('CopyImage', {
+                  UserCkey: UserCKEY,
                   Mode: PFPentry.Mode,
                   Host: PFPentry.Host,
                   URL: PFPentry.URL,
@@ -461,6 +492,7 @@ const ProfilePicsTab = (props, context) => {
                 disabled={!HasValidClipboard}
                 icon="paste"
                 onClick={() => act('PasteImage', {
+                  UserCkey: UserCKEY,
                   Mode: PFPentry.Mode,
                   Host: PFPentry.Host,
                   URL: PFPentry.URL,
@@ -475,11 +507,10 @@ const ProfilePicsTab = (props, context) => {
                   content={PFPentry.Mode}
                   currentValue={PFPentry.Mode}
                   defaultValue={":cutecat:"}
-                  onCommit={value => act('ModifyProfileEntry', {
+                  onCommit={(e, value) => act('ModifyModename', {
+                    UserCkey: UserCKEY,
                     Mode: PFPentry.Mode,
-                    Host: PFPentry.Host,
-                    URL: PFPentry.URL,
-                    NewMode: value,
+                    NewName: value,
                   })} />
               ) : (
                 DisplayMessageMode(PFPentry.Mode)
@@ -488,22 +519,24 @@ const ProfilePicsTab = (props, context) => {
             {/* Host, is a dropdown box */}
             <Table.Cell {...CellStyleCenter}>
               <Dropdown
+                fluid
+                width={HostWidth}
                 options={ValidHosts}
                 selected={PFPentry.Host}
-                onSelected={value => act('ModifyProfileEntry', {
+                onSelected={value => act('ModifyHost', {
+                  UserCkey: UserCKEY,
                   Mode: PFPentry.Mode,
-                  Host: value,
-                  URL: PFPentry.URL,
+                  NewHost: value,
                 })} />
             </Table.Cell>
             {/* Filename, is a text input */}
             <Table.Cell {...CellStyleCenter}>
               <Input
                 value={PFPentry.URL}
-                onChange={value => act('ModifyProfileEntry', {
+                onChange={(e, value) => act('ModifyURL', {
+                  UserCkey: UserCKEY,
                   Mode: PFPentry.Mode,
-                  Host: PFPentry.Host,
-                  URL: value,
+                  NewURL: value,
                 })} />
             </Table.Cell>
             {/* Preview */}
@@ -536,6 +569,7 @@ const ProfilePicsTab = (props, context) => {
                   ) // eat my a$$ eslint
                 }
                 onClick={() => act('ClearProfileEntry', {
+                  UserCkey: UserCKEY,
                   Mode: PFPentry.Mode,
                 })} />
             </Table.Cell>
@@ -549,7 +583,9 @@ const ProfilePicsTab = (props, context) => {
               <Button
                 icon="plus"
                 content="Add Message Mode"
-                onClick={() => act('AddProfileEntry')} />
+                onClick={() => act('AddProfileEntry', {
+                  UserCkey: UserCKEY,
+                })} />
             </Table.Cell>
             <Table.Cell />
             <Table.Cell />
@@ -593,8 +629,10 @@ const MessageAppearanceTab = (props, context) => {
     Buttons = [], // Then we will sort them into two columns based on Loc
     OuterBox = [], // and pass them all to SettingBlock
     ImageBox = [], // which will render them
+    UserCKEY,
     Clipboard = {
       MessageAppearance: {}, // and also pass the clipboard
+      ModeBatch: {},
     },
   } = data;
 
@@ -609,12 +647,14 @@ const MessageAppearanceTab = (props, context) => {
   ] = useLocalState(context, 'SettingsModeSelected', "Top Box");
 
   // extract a list of message modes from the UserImages
-  const MessageModes = UserImages.map(PFPentry => PFPentry.Mode);
+  const PreMessageModes = UserImages.map(PFPentry => PFPentry.Mode);
+  // remove the "Profile / Examine" message mode, cus its not a real message mode
+  const MessageModes = PreMessageModes.filter(Mode => Mode !== "Profile / Examine");
 
   // Objectify the settings as key => array of settings
   const ValidSettings = {
     "Top Box": TopBox || [],
-    "Image Box": ImageBox || [],
+    // "Image Box": ImageBox || [], // turns out the image box is beansed
     "Buttons": Buttons || [],
     "Bottom Box": BottomBox || [],
     "Outer Box": OuterBox || [],
@@ -660,6 +700,10 @@ const MessageAppearanceTab = (props, context) => {
     .Settings // filter() works by going through each element in the array, and returning a new array with only the elements that return true
     .filter(Setting => Setting.Loc === "R");
 
+  // Check if we have a valid clipboard entry that's compatible with modes
+  const HasValidModeClipboard = Clipboard.MessageAppearance
+    && Clipboard.MessageAppearance.length > 0; // backend will know what do
+
   return (
     // Horizontal stack, with two columns
     <Stack fill>
@@ -668,12 +712,36 @@ const MessageAppearanceTab = (props, context) => {
         <Stack fill vertical> {/* Vertical stack of message mode butts */}
           {MessageModes.map((Mode, index) => (
             <Stack.Item key={index}>
-              <Button
-                fluid
-                selected={Mode === MsgModeTabSelected}
-                onClick={() => setMsgModeTabSelected(Mode)}>
-                {DisplayMessageMode(Mode)}
-              </Button>
+              {/* Copy Paste, cus I love croppy piss */}
+              <Stack fill>
+                <Stack.Item>
+                  <Button
+                    icon="copy"
+                    onClick={() => act('CopyModeSettings', {
+                      UserCkey: UserCKEY,
+                      Mode: Mode,
+                    })} />
+                </Stack.Item>
+                <Stack.Item>
+                  <Button
+                    icon="paste"
+                    mr="0.5em"
+                    disabled={!HasValidModeClipboard}
+                    onClick={() => act('PasteModeSettings', {
+                      UserCkey: UserCKEY,
+                      Mode: Mode,
+                    })} />
+                </Stack.Item>
+                <Stack.Item grow>
+                  {/* The actual button */}
+                  <Button
+                    fluid
+                    selected={Mode === MsgModeTabSelected}
+                    onClick={() => setMsgModeTabSelected(Mode)}>
+                    {DisplayMessageMode(Mode)}
+                  </Button>
+                </Stack.Item>
+              </Stack>
             </Stack.Item>
           ))} {/* End of message mode butts */}
         </Stack>
@@ -726,7 +794,7 @@ const MessageAppearanceTab = (props, context) => {
             {/* Surprise surprise, it mangles the formatting */}
             {/* Eat a fukcing c0ck, Inferno */}
             <Section
-              title={`Preview: ${DisplayMessageMode(MsgModeTabSelected)}`}
+              // title={`Preview: ${DisplayMessageMode(MsgModeTabSelected)}`}
               fitted
               overflow="auto">
               <Box
@@ -755,7 +823,10 @@ const SettingBlock = (props, context) => {
   const {
     NumbermalMin = 0,
     NumbermalMax = 10,
+    AnglemalMin = 0,
+    AnglemalMax = 360,
     Clipboard = {},
+    UserCKEY,
   } = data;
 
   const {
@@ -800,97 +871,18 @@ const SettingBlock = (props, context) => {
   const HasValidClipboard = Clipboard
     && Object.keys(Clipboard).length > 0
     && Clipboard.MsgSetting
-    && Clipboard.MsgSetting[Type] === Type
-    && (Type !== "SELECT" || Options.includes(Clipboard.MsgSetting[Val]))
-    && Clipboard.MsgSetting[Val] !== Val; // so we don't paste the same value
+    && Clipboard.MsgSetting.Type === Type
+    && (Type !== "SELECT" || Options.includes(Clipboard.MsgSetting.Val));
+    // && Clipboard.MsgSetting.Val !== Val; // so we don't paste the same value
 
-  const [
-    SettingsModeSelected,
-    setSettingsModeSelected,
-  ] = useLocalState(context, 'SettingsModeSelected', "say");
+  const [ // Used for determining which message mode we are editing
+    MsgModeTabSelected,
+    setMsgModeTabSelected,
+  ] = useLocalState(context, 'MsgModeTabSelected', "say");
 
-  // the copypaste and name slug
-  const ForePlay = () => {
-    return (
-      <Fragment>
-        <Stack.Item shrink={1}>
-          <Button
-            icon="copy"
-            onClick={() => act('CopySetting', {
-              Mode: SettingsModeSelected,
-              PKey: PKey,
-            })} />
-          <Button
-            disabled={!HasValidClipboard}
-            icon="paste"
-            onClick={() => act('PasteSetting', {
-              Mode: SettingsModeSelected,
-              PKey: PKey,
-            })} />
-        </Stack.Item>
-        <Stack.Item grow={1}>
-          {Name}
-        </Stack.Item>
-      </Fragment>
-    );
-  }; // ILU Fragment, enabler of sh1tcode
-  const SettingKnot = () => {
-    switch (Type) {
-      case "COLOR":
-        return (
-          <Stack.Item shrink={1}>
-            <Button
-              style={{
-                "border": "1px solid #5F9EA0",
-              }}
-              icon="tint"
-              color={Val}
-              onClick={() => act('EditColor', {
-                Mode: SettingsModeSelected,
-                PKey: PKey,
-                Current: Val,
-              })} />
-          </Stack.Item>
-        );
-      case "NUMBER":
-        return (
-          <Stack.Item shrink={1}>
-            <NumberInput
-              animated
-              value={Val}
-              minValue={0}
-              maxValue={10}
-              step={1}
-              stepPixelSize={15}
-              onChange={(e, value) => act('EditNumber', {
-                Mode: SettingsModeSelected,
-                Val: value,
-                PKey: PKey,
-                Current: Val,
-              })} />
-          </Stack.Item>
-        );
-      case "SELECT":
-        return (
-          <Stack.Item shrink={1}>
-            <Dropdown
-              options={Options}
-              selected={Val}
-              onSelected={value => act('EditSelect', {
-                Mode: SettingsModeSelected,
-                Val: value,
-                Current: Val,
-              })} />
-          </Stack.Item>
-        );
-      default:
-        return (
-          <Stack.Item shrink={1}>
-            {Val}
-          </Stack.Item>
-        );
-    }
-  }; // and the whole foxdick assemled, a foxrod if you will
+  // fun fact, putting a dropdown in a switch in a function causes it to close every time the window updates
+  // or something
+
   return (
     <Box
       inline
@@ -902,15 +894,103 @@ const SettingBlock = (props, context) => {
         "background": "linear-gradient(180deg, #2F4F4F, #1F3A3A)", // here have a gradient, as a treat
       }}>
       <Stack fill>
-        <ForePlay />
-        <SettingKnot />
+        <Stack.Item>
+          {/* Copypaste */}
+          <Button
+            icon="copy"
+            onClick={() => act('CopySetting', {
+              UserCkey: UserCKEY,
+              Mode: MsgModeTabSelected,
+              PKey: PKey,
+              Type: Type,
+            })} />
+          <Button
+            disabled={!HasValidClipboard}
+            icon="paste"
+            onClick={() => act('PasteSetting', {
+              UserCkey: UserCKEY,
+              Mode: MsgModeTabSelected,
+              PKey: PKey,
+              Type: Type,
+            })} />
+        </Stack.Item>
+        <Stack.Item grow={1}>
+          {Name}
+        </Stack.Item>
+        <Stack.Item>
+          {/* The setting knot itself */}
+          {(() => {
+            switch (Type) {
+              case "COLOR":
+                return (
+                  <Button
+                    style={{
+                      "border": "1px solid #5F9EA0",
+                      "font-family": "monospace",
+                    }}
+                    icon="tint"
+                    iconColor="#5F9EA0"
+                    textColor="#5F9EA0"
+                    bold
+                    backgroundColor={Val}
+                    content={Val}
+                    onClick={() => act('EditColor', {
+                      UserCkey: UserCKEY,
+                      Mode: MsgModeTabSelected,
+                      Val: Val,
+                      PKey: PKey,
+                      Current: Val,
+                    })} />
+                );
+              case "NUMBER":
+              case "ANGLE":
+                return (
+                  <>
+                    {Type === "ANGLE"
+                      ? <Icon px={1} name="arrow-up" rotation={Val + 180} color="#FFFFFF" />
+                      : null}
+                    <NumberInput
+                      animated
+                      value={Val}
+                      minValue={Type === "NUMBER" ? NumbermalMin : AnglemalMin}
+                      maxValue={Type === "NUMBER" ? NumbermalMax : AnglemalMax}
+                      step={Type === "NUMBER" ? 1 : 15}
+                      stepPixelSize={15}
+                      onChange={(e, value) => act('EditNumber', {
+                        UserCkey: UserCKEY,
+                        Mode: MsgModeTabSelected,
+                        Val: value,
+                        PKey: PKey,
+                        Current: Val,
+                      })} />
+                  </>
+                );
+              case "SELECT":
+                return (
+                  <Dropdown
+                    options={Options}
+                    selected={Val}
+                    onSelected={value => act('EditSelect', {
+                      UserCkey: UserCKEY,
+                      Mode: MsgModeTabSelected,
+                      Val: value,
+                      Current: Val,
+                      PKey: PKey,
+                    })} />
+                );
+              default:
+                return (
+                  <Stack.Item>
+                    {Val}
+                  </Stack.Item>
+                );
+            } // OH BUT JUST STICKING THE WHOLE DAMN THING HERE IS FINE THOUGH OKAY COOL
+          })()}
+        </Stack.Item>
       </Stack>
     </Box>
   );
 };
-
-
-
 
 
 // GetPreview renders the preview of the message appearance
@@ -1004,8 +1084,6 @@ const PreviewTab = (props, context) => {
     </Stack>
   );
 };
-
-
 
 
 

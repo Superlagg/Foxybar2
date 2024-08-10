@@ -8,6 +8,47 @@ GLOBAL_LIST_INIT(supported_img_hosts, list(
 	"https://i.gyazo.com",
 ))
 
+GLOBAL_LIST_INIT(supported_img_exts, list(
+	"PNG",
+	"JPG",
+	"GIF",
+	"WEBP",
+	"JPEG",
+	"JFIF",
+))
+#define GRAD_1 "#1d1d2f"
+#define GRAD_2 "#1b1b30"
+#define BORDR "#1c1c39"
+GLOBAL_LIST_INIT(default_horny_settings, list(
+	"TopBoxGradient1" = "#303075",
+	"TopBoxGradient2" = "#1b1b30",
+	"TopBoxBorderColor" = "#0c0c23",
+	"TopBoxBorderWidth" = 1,
+	"TopBoxBorderStyle" = "solid",
+	"TopBoxGradientAngle" = 315,
+	"BottomBoxGradient1" = "#303075",
+	"BottomBoxGradient2" = "#1b1b30",
+	"BottomBoxBorderColor" = "#0c0c23",
+	"BottomBoxBorderWidth" = 1,
+	"BottomBoxBorderStyle" = "solid",
+	"BottomBoxGradientAngle" = 225,
+	"ButtonGradient1" = "#0F485F",
+	"ButtonGradient2" = "#12303C",
+	"ButtonBorderColor" = "#0c0c23",
+	"ButtonBorderWidth" = 2,
+	"ButtonBorderStyle" = "groove",
+	"ButtonGradientAngle" = 0,
+	"ImageBorderBorderColor" = BORDR,
+	"ImageBorderBorderWidth" = 1,
+	"ImageBorderBorderStyle" = "solid",
+	"OuterBoxBorderColor" = "#0c0c23",
+	"OuterBoxBorderWidth" = 2,
+	"OuterBoxBorderStyle" = "ridge",
+))
+#undef GRAD_1
+#undef GRAD_2
+#undef BORDR
+
 SUBSYSTEM_DEF(chat)
 	name = "Chat"
 	flags = SS_TICKER
@@ -64,50 +105,50 @@ SUBSYSTEM_DEF(chat)
 	var/debug_character_directory = 0
 
 	var/list/stock_image_packs = list() // see: [code\__DEFINES\mommychat_image_packs.dm]
-	var/list/mandatory_modes = list(MODE_SAY, MODE_WHISPER, MODE_SING, MODE_ASK, MODE_EXCLAIM, MODE_YELL)
+	var/list/mandatory_modes = list(MODE_PROFILE_PIC, MODE_SAY, MODE_WHISPER, MODE_SING, MODE_ASK, MODE_EXCLAIM, MODE_YELL)
 
 	var/list/test_pics = list( // warning: boobs
 		MODE_SAY = list(
-			"Host" = "catbox.moe",
+			"Host" = "https://files.catbox.moe",
 			"URL" = "4m71t6.jpg",
 		),
 		MODE_ASK = list(
-			"Host" = "catbox.moe",
+			"Host" = "https://files.catbox.moe",
 			"URL" = "jm3f2c.jpg",
 		),
 		MODE_SING = list(
-			"Host" = "catbox.moe",
+			"Host" = "https://files.catbox.moe",
 			"URL" = "em5bgb.jpg",
 		),
 		MODE_EXCLAIM = list(
-			"Host" = "catbox.moe",
+			"Host" = "https://files.catbox.moe",
 			"URL" = "3ggp5e.jpg",
 		),
 		MODE_YELL = list(
-			"Host" = "catbox.moe",
+			"Host" = "https://files.catbox.moe",
 			"URL" = "1dmlu5.jpg",
 		),
 		MODE_WHISPER = list(
-			"Host" = "catbox.moe",
+			"Host" = "https://files.catbox.moe",
 			"URL" = "t040sg.jpg",
 		),
 		MODE_CUSTOM_SAY = list(
-			"Host" = "catbox.moe",
+			"Host" = "https://files.catbox.moe",
 			"URL" = "fcm6yw.jpg",
 		),
 		":example:" = list(
-			"Host" = "catbox.moe",
+			"Host" = "https://files.catbox.moe",
 			"URL" = "fcm6yw.jpg",
 		),
 	)
 
 	var/list/default_pfps = list(
 		MALE = list(
-			"Host" = "catbox.moe",
+			"Host" = "https://files.catbox.moe",
 			"URL" = "1i1zom.png",
 		),
 		FEMALE = list(
-			"Host" = "catbox.moe",
+			"Host" = "https://files.catbox.moe",
 			"URL" = "jgxtpe.png",
 		)
 	)
@@ -128,12 +169,14 @@ SUBSYSTEM_DEF(chat)
 		"ImageBorderBorderColor",
 		"OuterBoxBorderColor",
 	)
-	var/list/numberable_keys = list(
+	var/list/angleable_keys = list(
 		"TopBoxGradientAngle",
-		"TopBoxBorderWidth",
 		"BottomBoxGradientAngle",
-		"BottomBoxBorderWidth",
 		"ButtonGradientAngle",
+	)
+	var/list/numberable_keys = list(
+		"TopBoxBorderWidth",
+		"BottomBoxBorderWidth",
 		"ButtonBorderWidth",
 		"ImageBorderBorderWidth",
 		"OuterBoxBorderWidth",
@@ -260,71 +303,90 @@ SUBSYSTEM_DEF(chat)
 	var/datum/preferences/P = extract_prefs(someone)
 	if(!P)
 		return
+	var/list/PP = P.ProfilePics // this is my PP
+	// testing stuff
+	// PP.Cut()
+	var/list/mandated = list()
+	var/list/extras = list()
+	/// first, setup the mandated modes with the defaults
+	for(var/emotimode in mandatory_modes)
+		var/list/tentry = list()
+		tentry["Mode"] = emotimode
+		tentry["Host"] = default_pfps[MALE]["Host"]
+		tentry["URL"] = default_pfps[MALE]["URL"]
+		mandated += list(tentry)
+	/// now go through their profile pics and copy over what they have, if its valid
+	for(var/list/bepis in PP)
+		var/emode = bepis["Mode"]
+		var/ehost = bepis["Host"]
+		var/eurl = bepis["URL"]
+		var/valid = FALSE
+		if(!(ehost in GLOB.supported_img_hosts))
+			valid = FALSE
+		else
+			var/list/dott = splittext(eurl, ".")
+			if(LAZYLEN(dott) != 2)
+				valid = FALSE
+			else
+				var/extension = uppertext(dott[2])
+				if(!(extension in GLOB.supported_img_exts))
+					valid = FALSE
+				else // look for any characters that probably shouldnt be in a normal URL
+					if(findtext(eurl, " "))
+						valid = FALSE
+					else
+						// keep looking for anything that might indicate malicious intent
+						if(findtext(eurl, ".."))
+							valid = FALSE
+						else
+							if(findtext(eurl, "/"))
+								valid = FALSE
+							else
+								valid = TRUE // good enough, i guess
+		if(valid)
+			eurl = html_encode(eurl) // this probably sanitizes it and makes the above checks redundant, but I belive in belt and suspenders (even if neither fit around my big fat blubbery fox breasts) // dan // I mean, it is, isnt it?
+		else
+			ehost = default_pfps[FEMALE]["Host"]
+			eurl = default_pfps[FEMALE]["URL"]
+		if(emode in mandatory_modes)
+			for(var/list/emotimode in mandated)
+				if(emotimode["Mode"] == emode)
+					emotimode["Host"] = ehost
+					emotimode["URL"] = eurl
+					break
+		else
+			var/list/newPP = list(
+				"Mode" = emode,
+				"Host" = ehost,
+				"URL" = eurl,
+				"Modifiable" = TRUE,
+			)
+			extras += list(newPP)
+	var/list/newlist = mandated + extras // sorting!
+	// So, we didnt really catch their gender when they first made their character
+	// so we'll just set any default images to whatever they are now
 	var/list/defaulturls = list(
 		default_pfps[MALE]["URL"],
 		default_pfps[FEMALE]["URL"],
 	)
-	var/list/PP = P.ProfilePics // this is my PP
-	// testing stuff
-	PP.Cut()
-	for(var/emotimode in mandatory_modes)
-		var/list/tentry = list()
-		for(var/list/moud in test_pics)
-			if(moud["Mode"] == emotimode)
-				tentry = moud
-				break
-		if(tentry) // check if its a valid image thing, and if not, BALEET IT
-			var/valid = FALSE
-			// if the user's image is default, and it isnt appropriate to their gender, we'll update it (cus it defaults to male and not everyone is)
-			if(tentry["URL"] in defaulturls)
-				switch(P.gender)
-					if(MALE)
-						if(tentry["URL"] != default_pfps[MALE]["URL"])
-							valid = FALSE
-					if(FEMALE)
-						if(tentry["URL"] != default_pfps[FEMALE]["URL"])
-							valid = FALSE
-			else
-				for(var/validhost in GLOB.supported_img_hosts)
-					if(tentry["Host"] == validhost)
-						valid = TRUE
-						break
-			if(!valid)
-				PP -= tentry
-				tentry = null
-		if(!LAZYLEN(tentry))
-			// none there, so we'll add a default
-			var/list/newPP = list(
-				"Mode" = emotimode,
-			)
+	for(var/list/PPentry in newlist)
+		if(PPentry["URL"] in defaulturls)
 			switch(P.gender)
 				if(MALE)
-					newPP["URL"] = default_pfps[MALE]["URL"]
-					newPP["Host"] = default_pfps[MALE]["Host"]
+					PPentry["Host"] = default_pfps[MALE]["Host"]
+					PPentry["URL"] = default_pfps[MALE]["URL"]
 				if(FEMALE)
-					newPP["URL"] = default_pfps[FEMALE]["URL"]
-					newPP["Host"] = default_pfps[FEMALE]["Host"]
+					PPentry["Host"] = default_pfps[FEMALE]["Host"]
+					PPentry["URL"] = default_pfps[FEMALE]["URL"]
 				else
 					if(prob(50))
-						newPP["URL"] = default_pfps[MALE]["URL"]
-						newPP["Host"] = default_pfps[MALE]["Host"]
+						PPentry["Host"] = default_pfps[MALE]["Host"]
+						PPentry["URL"] = default_pfps[MALE]["URL"]
 					else
-						newPP["URL"] = default_pfps[FEMALE]["URL"]
-						newPP["Host"] = default_pfps[FEMALE]["Host"]
-			PP += list(newPP)
-	// and finally, sort them!
-	var/list/PPsorted = list()
-	for(var/emotimode in mandatory_modes)
-		for(var/list/PPentry in PP) // AKA, your mom
-			if(PPentry["Mode"] == emotimode)
-				PPsorted += list(PPentry)
-	// and add in the customs
-	for(var/list/PPentry in PP)
-		if(PPentry["Mode"] in mandatory_modes)
-			continue
-		PPsorted += list(PPentry)
-	P.ProfilePics = PPsorted.Copy()
-	// P.save_character()
+						PPentry["Host"] = default_pfps[FEMALE]["Host"]
+						PPentry["URL"] = default_pfps[FEMALE]["URL"]
+	P.ProfilePics = newlist.Copy()
+	P.save_character()
 
 /// makes sure that the user has a properly filled out set of preferences lists for their hornychat
 /datum/controller/subsystem/chat/proc/SanitizeUserPreferences(someone)
@@ -334,8 +396,24 @@ SUBSYSTEM_DEF(chat)
 	if(!P)
 		return
 	var/list/HP = P.mommychat_settings // this is my PP
-	if(!islist(HP))
+	if(!islist(HP) || !LAZYLEN(HP) || (LAZYLEN(HP) < LAZYLEN(mandatory_modes)))
+		var/list/backups = list()
+		for(var/list/modu in HP)
+			if(modu in mandatory_modes)
+				continue
+			backups[modu] = HP[modu]
 		HP = list()
+		for(var/modu in mandatory_modes)
+			HP[modu] = GLOB.default_horny_settings.Copy()
+		for(var/modu in backups)
+			HP[modu] = backups[modu]
+		P.mommychat_settings = HP
+		P.save_character()
+	var/list/ProfilePics = P.ProfilePics // this is my PP
+	if(LAZYLEN(ProfilePics) != LAZYLEN(HP)) // the settings isnt the same length as the profile pics, update ours to fit theirs
+		for(var/list/PPc in ProfilePics)
+			if(!HP[PPc["Mode"]])
+				HP[PPc["Mode"]] = GLOB.default_horny_settings.Copy()
 	///  P.mommychat_settings[mmode]["ImageBorderBorderWidth"] = "2px" // the settings look like this
 	for(var/mode in mandatory_modes)
 		if(!islist(HP[mode]))
@@ -344,18 +422,21 @@ SUBSYSTEM_DEF(chat)
 		for(var/key in colorable_keys)
 			var/vale = HP[mode][key]
 			if(!vale || (LAZYACCESS(vale, 1) != "#"))
-				HP[mode][key] = "#222222"
+				HP[mode][key] = GLOB.default_horny_settings[key]
 		for(var/key in numberable_keys)
 			var/vale = HP[mode][key]
 			if(!isnum(vale) || (vale < numbermal_min) || (vale > numbermal_max))
-				HP[mode][key] = numbermal_default
+				HP[mode][key] = GLOB.default_horny_settings[key]
+		for(var/key in angleable_keys)
+			var/vale = HP[mode][key]
+			if(!isnum(vale) || (vale < 0) || (vale > 360))
+				HP[mode][key] %= 360
 		for(var/key in selectable_keys)
 			var/vale = HP[mode][key]
 			if(!vale || !(vale in borderstyles))
-				HP[mode][key] = borderstyles[1]
+				HP[mode][key] = GLOB.default_horny_settings[key]
 	P.mommychat_settings = HP
-	// P.save_character()
-
+	P.save_character()
 
 /datum/controller/subsystem/chat/proc/HornyPreferences(someone)
 	if(!someone)
@@ -375,6 +456,21 @@ SUBSYSTEM_DEF(chat)
 	for(var/mmode in test_pics)
 		PreviewHornyFurryDatingSimMessage(user, mmode)
 	to_chat(user, "Test complete")
+
+/datum/controller/subsystem/chat/proc/GetPicForMode(whosit, mode)
+	if(!mode)
+		return
+	var/datum/preferences/P = extract_prefs(whosit)
+	if(!P)
+		return
+	SanitizeUserImages(P)
+	var/list/PP = P.ProfilePics
+	for(var/PPentry in PP)
+		if(PPentry["Mode"] == mode)
+			var/Host = PPentry["Host"]
+			var/URL = PPentry["URL"]
+			return Host + "/" + URL
+	return "https://files.catbox.moe/jgxtpe.png"
 
 /datum/controller/subsystem/chat/proc/PreviewHornyFurryDatingSimMessage(mob/target, message_mode, message, print)
 	if(!istype(target))
@@ -446,36 +542,42 @@ SUBSYSTEM_DEF(chat)
 
 	/// look for something in m_rawmessage formatted as :exammple: and extract that to look up a custom image
 	/// We'll extract this, store it as a var, and use it as an override for the profile image
-	var/list/m_images = /* P ? P.ProfilePics.Copy() :  */test_pics
+	var/list/m_images = P ? P.ProfilePics.Copy() : test_pics
 	var/m_pfp = get_horny_pfp(m_rawmessage, m_images, m_mode)
 	
+	var/list/set4mode = P.mommychat_settings["[m_mode]"]
 	
 	/// now all the many many colors for everything!
 	// first the background gradients (and their angles)
-	var/tgc_1 =   "#[P.mommychat_settings["[m_mode]"]["TopGradientColor1"]]"
-	var/tgc_2 =   "#[P.mommychat_settings["[m_mode]"]["TopGradientColor2"]]"
-	var/tgangle =  "[P.mommychat_settings["[m_mode]"]["TopGradientAngle"]]"
-	var/tbc =     "#[P.mommychat_settings["[m_mode]"]["TopBorderColor"]]"
-	var/tbs =     "#[P.mommychat_settings["[m_mode]"]["TopBorderSize"]]"
-	var/tbt =     "#[P.mommychat_settings["[m_mode]"]["TopBorderStyle"]]"
+	var/tgc_2 =   set4mode["TopBoxGradient1"]
+	var/tgc_1 =   set4mode["TopBoxGradient2"]
+	var/tgangle = set4mode["TopBoxGradientAngle"]
+	var/tbc =     set4mode["TopBoxBorderColor"]
+	var/tbs =     set4mode["TopBoxBorderWidth"]
+	var/tbt =     set4mode["TopBoxBorderStyle"]
 
-	var/bgc_1 =   "#[P.mommychat_settings["[m_mode]"]["BottomGradientColor1"]]"
-	var/bgc_2 =   "#[P.mommychat_settings["[m_mode]"]["BottomGradientColor2"]]"
-	var/bgangle =  "[P.mommychat_settings["[m_mode]"]["BottomGradientAngle"]]"
-	var/bbc =     "#[P.mommychat_settings["[m_mode]"]["BottomBorderColor"]]"
-	var/bbs =     "#[P.mommychat_settings["[m_mode]"]["BottomBorderSize"]]"
-	var/bbt =     "#[P.mommychat_settings["[m_mode]"]["BottomBorderStyle"]]"
+	var/bgc_2 =   set4mode["ButtonGradient1"]
+	var/bgc_1 =   set4mode["ButtonGradient2"]
+	var/bgangle = set4mode["ButtonGradientAngle"]
+	var/bbc =     set4mode["ButtonBorderColor"]
+	var/bbs =     set4mode["ButtonBorderWidth"]
+	var/bbt =     set4mode["ButtonBorderStyle"]
 
-	var/bbc_1 =   "#[P.mommychat_settings["[m_mode]"]["ButtonBackgroundColor1"]]"
-	var/bbc_2 =   "#[P.mommychat_settings["[m_mode]"]["ButtonBackgroundColor2"]]"
-	var/bbangle =  "[P.mommychat_settings["[m_mode]"]["ButtonBackgroundAngle"]]"
-	// now the borders
-	var/obc =     "#[P.mommychat_settings["[m_mode]"]["OuterBorderColor"]]"
-	var/obs =     "#[P.mommychat_settings["[m_mode]"]["OuterBorderSize"]]"
-	var/obt =     "#[P.mommychat_settings["[m_mode]"]["OuterBorderStyle"]]"
-	var/ibc =     "#[P.mommychat_settings["[m_mode]"]["ImageBorderColor"]]"
-	var/ibs =      "[P.mommychat_settings["[m_mode]"]["ImageBorderSize"]]"
-	var/ibt =      "[P.mommychat_settings["[m_mode]"]["ImageBorderStyle"]]"
+	var/bbc_2 =   set4mode["BottomBoxGradient1"]
+	var/bbc_1 =   set4mode["BottomBoxGradient2"]
+	var/bbangle = set4mode["BottomBoxGradientAngle"]
+	var/bbbc =    set4mode["BottomBoxBorderColor"]
+	var/bbbs =    set4mode["BottomBoxBorderWidth"]
+	var/bbbt =    set4mode["BottomBoxBorderStyle"]
+
+	var/obc =     set4mode["OuterBoxBorderColor"]
+	var/obs =     set4mode["OuterBoxBorderWidth"]
+	var/obt =     set4mode["OuterBoxBorderStyle"]
+
+	var/ibc =     set4mode["ImageBorderBorderColor"]
+	var/ibs =     set4mode["ImageBorderBorderWidth"]
+	var/ibt =     set4mode["ImageBorderBorderStyle"]
+
 	// now the text colors
 	// most are defined by mommy, but some arent, so we'll need to get a color that contrasts with the average of the top and bottom gradient colors
 	var/tgc_to_num = hex2num(replacetext(tgc_1,"#", "")) + hex2num(replacetext(tgc_2,"#", ""))
@@ -489,21 +591,25 @@ SUBSYSTEM_DEF(chat)
 	var/senderckey = mommy.source_ckey
 
 	/// Character Directory link
-	var/m_charlink = "<button style='width: 100% background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]);\
-		border: 2px solid [bbc];'><a href='?src=[REF(src)];CHARDIR=1;reciever_quid=[senderquid];sender_quid=[target.ckey]'>\
-		Profile</a></button>"
+	var/m_charlink = "<a href='?src=[REF(src)];CHARDIR=1;reciever_quid=[senderquid];sender_quid=[target.ckey]'>\
+	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
+	border: [bbs]px [bbt] [bbc];'>\
+	Examine</div></a>"
 	/// DM link
-	var/m_dmlink = "<button style='width: 100%; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]);\
-		border: 2px solid [bbc];'><a href='?src=[REF(src)];DM=1;reciever_quid=[senderckey];sender_quid=[target.ckey]'>\
-		DM</a></button>"
+	var/m_dmlink = "<a href='?src=[REF(src)];DM=1;reciever_quid=[senderckey];sender_quid=[target.ckey]'>\
+	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
+	border: [bbs]px [bbt] [bbc];'>\
+	DM</div></a>"
 	/// Flirt link
-	var/m_flirtlink = "<button style='width: 100%; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]);\
-		border: 2px solid [bbc];'><a href='?src=[REF(src)];FLIRT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]'>\
-		Flirt</a></button>"
+	var/m_flirtlink = "<a href='?src=[REF(src)];FLIRT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]'>\
+	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
+	border: [bbs]px [bbt] [bbc];'>\
+	Flirt</div></a>"
 	/// Interact link
-	var/m_interactlink = "<button style='width: 100%; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]);\
-		border: 2px solid [bbc];'><a href='?src=[REF(src)];INTERACT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]'>\
-		Interact</a></button>"
+	var/m_interactlink = "<a href='?src=[REF(src)];INTERACT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]'>\
+	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
+	border: [bbs]px [bbt] [bbc];'>\
+	Interact</div></a>"
 
 
 /* 
@@ -547,19 +653,14 @@ SUBSYSTEM_DEF(chat)
 	cum += "</table>"
 	cum += "</div>"
 	cum += "</div>"
-	// now the body
-	cum += "<div style='width: 100%; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]); border: [bbs]px [bbt] [bbc]; padding: 2px;'>"
+	// now the body - the BottomBox
+	cum += "<div style='width: 100%; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]); border: [bbbs]px [bbbt] [bbbc]; padding: 2px;'>"
 	cum += "<p style='font-weight: bold; margin: 0;'>[m_name] <span style='font-style: italic; color: [dtc];'>[m_verb]</span></p>"
 	cum += "<p style='margin: 0; color: [dtc];'>[m_message]</p>"
 	cum += "</div>"
 	cum += "</div>"
 	// now we need to send it to the target
 	return cum.Join()
-
-
-
-
-
 
 	// <!-- FurryHead -->
 	// <div style="width: 100%; background: linear-gradient(0deg, #FFC0CB, #FF1493); border: 2px solid #FF69B4; display: flex;">
@@ -586,32 +687,27 @@ SUBSYSTEM_DEF(chat)
 
 
 /datum/controller/subsystem/chat/proc/get_horny_pfp(m_rawmessage, list/m_images, m_mode)
-	var/image2use = ""
-	var/first_colon = findtext(m_rawmessage, ":")
-	if(first_colon)
-		var/list/splittify = splittext(m_rawmessage, ":")
-		for(var/splut in splittify)
-			var/testpart = ":[splut]:"
-			if(findtext(m_rawmessage, testpart))
-				if(m_images[testpart])
-					var/list/imgz = m_images[testpart]
-					if(imgz["URL"] != "" && imgz["Host"] != "")
-						image2use = PfpHostLink(imgz["URL"], imgz["Host"])
-	/// then extract the message mode and see if they have a corresponting image
-	if(!image2use)
-		var/list/testimages = m_images[m_mode]
-		if(testimages["URL"] != "" && testimages["Host"] != "")
-			image2use = PfpHostLink(testimages["URL"], testimages["Host"])
-	// just grab their default one
-	if(!image2use)
-		var/list/testimages = m_images[MODE_SAY]
-		if(testimages["URL"] != "" && testimages["Host"] != "")
-			image2use = PfpHostLink(testimages["URL"], testimages["Host"])
-	// if we still dont have one, just use a placeholder
-	if(!image2use)
-		image2use = "https://www.placehold.it/100x100.png"
-	return image2use
-
+	// two-stace bytch of a process: First extract any custom modes, then dive in for modes, then just dump something
+	var/modeimal = m_mode
+	var/list/splittify = splittext(m_rawmessage, ":")
+	if(LAZYLEN(splittify) > 1)
+		math:
+			for(var/splut in splittify)
+				var/testpart = ":[splut]:"
+				for(var/list/moud in m_images)
+					if(moud["Mode"] == testpart)
+						modeimal = testpart
+						break math // mathematical
+	// now we have the modeimal, we can get the image!
+	// they've already been sanitized, maybe
+	var/fallback_boy = "[default_pfps[MALE]["Host"]]/[default_pfps[MALE]["URL"]]"
+	for(var/list/maud in m_images)
+		if(maud["Mode"] == MODE_SAY)
+			fallback_boy = "[maud["Host"]]/[maud["URL"]]"
+		if(maud["Mode"] == modeimal)
+			return "[maud["Host"]]/[maud["URL"]]" // eat my shorts, Jon
+	// if we get here, we have an unsupported message mode, so just use Say
+	return fallback_boy // the boy is back in town
 
 /datum/controller/subsystem/chat/proc/build_flirt_datums()
 	if(LAZYLEN(flirts))
@@ -834,9 +930,40 @@ SUBSYSTEM_DEF(chat)
 	. = ..()
 	if(href_list["DM"])
 		start_page(href_list["sender_quid"], href_list["reciever_quid"])
+	if(href_list["FLIRT"])
+		var/mob/living/flirter = ckey2mob(href_list["sender_quid"])
+		if(!flirter)
+			return
+		var/mob/living/target = ckey2mob(href_list["reciever_quid"])
+		if(!target)
+			return
+		if(!flirter.client || !target.client)
+			return
+		SSchat.add_flirt_target(flirter, target)
+		SSchat.ui_interact(flirter)
+	if(href_list["INTERACT"])
+		var/mob/living/fricker = ckey2mob(href_list["sender_quid"])
+		if(!fricker)
+			return
+		var/mob/living/frackee = ckey2mob(href_list["reciever_quid"])
+		if(!frackee)
+			return
+		if(!fricker.client || !frackee.client)
+			return
+		SEND_SIGNAL(frackee, COMSIG_CLICK_CTRL_SHIFT, fricker)
+	if(href_list["CHARDIR"])
+		var/mob/living/looker = ckey2mob(href_list["sender_quid"])
+		if(!looker)
+			return
+		var/mob/living/lookee = ckey2mob(href_list["reciever_quid"])
+		if(!lookee)
+			return
+		if(!looker.client || !lookee.client)
+			return
+		looker.true_examinate(lookee) // TRUE examinate EX
 
 /datum/controller/subsystem/chat/proc/is_blocked(mob/sender, mob/reciever)
-	return FALSE // todo: this
+	return FALSE // if youre enough of a pest to need this, you're probably gonna get banned anyway
 
 /datum/controller/subsystem/chat/proc/name_or_shark(mob/they)
 	if(!istype(they))
@@ -854,7 +981,7 @@ SUBSYSTEM_DEF(chat)
 				if(strings("data/super_special_ultra_instinct.json", "[ckey(they.real_name)]", TRUE, TRUE))
 					return test_name
 				if(they.ckey == "aldrictavalin") // tired of this not working
-					return test_name
+					return test_name // good news it still doesnt work, fml
 				return they.client.prefs.my_shark
 			return test_name
 		return safepick(GLOB.cow_names + GLOB.megacarp_first_names + GLOB.megacarp_last_names)
@@ -1329,7 +1456,11 @@ SUBSYSTEM_DEF(chat)
 	/// then, the user's images
 	SSchat.SanitizeUserImages(P)
 	SSchat.SanitizeUserPreferences(P)
+	data["SeeOthers"] = CHECK_PREFS(P, SHOW_ME_HORNY_FURRIES)
 	data["UserImages"] = P.ProfilePics
+	data["UserCKEY"] = user.ckey
+	data["Clipboard"] = clipboard.Copy()
+	data["ValidHosts"] = GLOB.supported_img_hosts
 	/// Also all the previews
 	var/list/previewmsgs = list()
 	/// Anatomy of a msgmode entry in ProfilePics:
@@ -1383,6 +1514,8 @@ SUBSYSTEM_DEF(chat)
 		previewmsgs += list(list("Mode" = msgmode, "Message" = msgmess))
 	data["NumbermalMin"] = SSchat.numbermal_min
 	data["NumbermalMax"] = SSchat.numbermal_max
+	data["AnglemalMin"] = 0
+	data["AnglemalMax"] = 360
 	data["PreviewHTMLs"] = previewmsgs
 	/// Then, the message appearance settings, its a mmouthful (just like your mom)
 	/// arranged by tab of course of course
@@ -1419,7 +1552,7 @@ SUBSYSTEM_DEF(chat)
 			list(
 				"Name" = "Gradient Angle",
 				"Val" = P.mommychat_settings[mmode]["TopBoxGradientAngle"],
-				"Type" = "NUMBER",
+				"Type" = "ANGLE",
 				"Loc" = "L",
 				"PKey" = "TopBoxGradientAngle",
 				"Desc" = "The angle of the gradient for the top box.",
@@ -1482,7 +1615,7 @@ SUBSYSTEM_DEF(chat)
 			list(
 				"Name" = "Gradient Angle",
 				"Val" = P.mommychat_settings[mmode]["BottomBoxGradientAngle"],
-				"Type" = "NUMBER",
+				"Type" = "ANGLE",
 				"Loc" = "L",
 				"PKey" = "BottomBoxGradientAngle",
 				"Desc" = "The angle of the gradient for the bottom box.",
@@ -1545,7 +1678,7 @@ SUBSYSTEM_DEF(chat)
 			list(
 				"Name" = "Gradient Angle",
 				"Val" = P.mommychat_settings[mmode]["ButtonGradientAngle"],
-				"Type" = "NUMBER",
+				"Type" = "ANGLE",
 				"Loc" = "L",
 				"PKey" = "ButtonGradientAngle",
 				"Desc" = "The angle of the gradient for the buttons.",
@@ -1591,7 +1724,7 @@ SUBSYSTEM_DEF(chat)
 				"Name" = "Border Color",
 				"Val" = P.mommychat_settings[mmode]["ImageBorderBorderColor"],
 				"Type" = "COLOR",
-				"Loc" = "L",
+				"Loc" = "R",
 				"PKey" = "ImageBorderBorderColor",
 				"Desc" = "The color of the border for the images.",
 				"Default" = "000000"
@@ -1600,7 +1733,7 @@ SUBSYSTEM_DEF(chat)
 				"Name" = "Border Width",
 				"Val" = P.mommychat_settings[mmode]["ImageBorderBorderWidth"],
 				"Type" = "NUMBER",
-				"Loc" = "L",
+				"Loc" = "R",
 				"PKey" = "ImageBorderBorderWidth",
 				"Desc" = "The width of the border for the images.",
 				"Default" = "1"
@@ -1609,7 +1742,7 @@ SUBSYSTEM_DEF(chat)
 				"Name" = "Border Style",
 				"Val" = P.mommychat_settings[mmode]["ImageBorderBorderStyle"],
 				"Type" = "SELECT",
-				"Loc" = "L",
+				"Loc" = "R",
 				"PKey" = "ImageBorderBorderStyle",
 				"Desc" = "The style of the border for the images.",
 				"Default" = "solid",
@@ -1627,7 +1760,7 @@ SUBSYSTEM_DEF(chat)
 				"Name" = "Border Color",
 				"Val" = P.mommychat_settings[mmode]["OuterBoxBorderColor"],
 				"Type" = "COLOR",
-				"Loc" = "L",
+				"Loc" = "R",
 				"PKey" = "OuterBoxBorderColor",
 				"Desc" = "The color of the border for the outer box.",
 				"Default" = "000000"
@@ -1636,7 +1769,7 @@ SUBSYSTEM_DEF(chat)
 				"Name" = "Border Width",
 				"Val" = P.mommychat_settings[mmode]["OuterBoxBorderWidth"],
 				"Type" = "NUMBER",
-				"Loc" = "L",
+				"Loc" = "R",
 				"PKey" = "OuterBoxBorderWidth",
 				"Desc" = "The width of the border for the outer box.",
 				"Default" = "1"
@@ -1645,7 +1778,7 @@ SUBSYSTEM_DEF(chat)
 				"Name" = "Border Style",
 				"Val" = P.mommychat_settings[mmode]["OuterBoxBorderStyle"],
 				"Type" = "SELECT",
-				"Loc" = "L",
+				"Loc" = "R",
 				"PKey" = "OuterBoxBorderStyle",
 				"Desc" = "The style of the border for the outer box.",
 				"Default" = "solid",
@@ -1665,7 +1798,9 @@ SUBSYSTEM_DEF(chat)
  * screw it, everything is in ModeName format
  * 
  *  */
-
+#define CHANGED_SETTINGS 1
+#define CHANGED_IMAGES 2
+#define CHANGED_NOTHING 3 // COOL
 /datum/horny_tgui_holder/ui_act(action, list/params)
 	. = ..()
 	if(!params["UserCkey"])
@@ -1677,28 +1812,187 @@ SUBSYSTEM_DEF(chat)
 	if(!P)
 		return
 	switch(action)
-		if("ModifyProfileEntry")
-			var/mode = params["Mode"]
-			var/newmode = params["NewMode"]
-			var/host = params["Host"]
-			var/url = params["URL"]
-			var/list/ProfilePics = P.ProfilePics // operates directly on the referenced list, hopefully
-			var/list/fount
-			for(var/list/entry in ProfilePics)
-				if(entry["Mode"] == mode)
-					fount = entry
-			if(fount)
-				if(newmode)
-					fount["Mode"] = newmode
-				else
-					fount["Mode"] = mode
-				fount["Host"] = host
-				fount["URL"] = url
+		if("ToggleWhinyLittleBazingaMode")
+			TOGGLE_BITFIELD(P.chat_toggles, CHAT_SEE_COOLCHAT)
+			if(CHECK_BITFIELD(P.chat_toggles, CHAT_SEE_COOLCHAT))
+				to_chat(M, span_notice("You will now see CoolChat messages!"))
 			else
+				to_chat(M, span_notice("You will now see boring normal chat messages!"))
+		if("OpenPerchance")
+			var/yiffme = alert(
+				M,
+				"This link will take you to an AI furry profile picture generator, hosted at https://perchance.org/furry-ai . \
+				Be aware that the site will happily generate NSFW images, so be careful when using it. \
+				Proceed?",
+				"Okay",
+				"Okay",
+				"Cancel",
+			)
+			if(yiffme == "Okay")
+				M << link("https://perchance.org/furry-ai")
+				to_chat(M, span_notice("Opening Perchance..."))
+				to_chat(M, span_notice("If you're not redirected, please click here: <a href='https://perchance.org/furry-ai'>Perchance</a>"))
+				. = CHANGED_NOTHING
+			else
+				to_chat(M, span_alert("Never mind!!"))
+				. = CHANGED_NOTHING
+		if("OpenCatbox")
+			var/yiffme = alert(
+				M,
+				"This link will take you to Catbox.moe, an image hosting site that is popular with the furry community. \
+				You can upload images here and use them as profile pictures. Do note that you'll need to write down the \
+				URL of the image you upload, as Catbox won't be able to provide it for you after you close the tab. \
+				Proceed?",
+				"Okay",
+				"Okay",
+				"Cancel"
+			)
+			if(yiffme == "Okay")
+				M << link("https://catbox.moe")
+				to_chat(M, span_notice("Opening Catbox..."))
+				to_chat(M, span_notice("If you're not redirected, please click here: <a href='https://catbox.moe'>Catbox</a>"))
+				. = CHANGED_NOTHING
+			else
+				to_chat(M, span_alert("Never mind!!"))
+				. = CHANGED_NOTHING
+		if("OpenGyazo")
+			var/yiffme = alert(
+				M,
+				"This link will take you to Gyazo, an image hosting site that both hosts images and also exists. \
+				You can upload images here and use them as profile pictures. Proceed?",
+				"Okay",
+				"Okay",
+				"Cancel"
+			)
+			if(yiffme == "Okay")
+				M << link("https://gyazo.com")
+				to_chat(M, span_notice("Opening Gyazo..."))
+				to_chat(M, span_notice("If you're not redirected, please click here: <a href='https://gyazo.com'>Gyazo</a>"))
+				. = CHANGED_NOTHING
+			else
+				to_chat(M, span_alert("Never mind!!"))
+				. = CHANGED_NOTHING
+		if("SaveEverything")
+			to_chat(M, span_notice("Saving all changes..."))
+			// all the settings are autosaved, so this is just to make you feel better
+		if("ModifyHost")
+			var/mode = params["Mode"]
+			var/newhost = params["NewHost"]
+			if(!(newhost in GLOB.supported_img_hosts))
+				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], host is not supported! :c"))
+				return FALSE
+			for(var/list/PPc in P.ProfilePics)
+				if(PPc["Mode"] != mode)
+					continue
+				PPc["Host"] = newhost
+				to_chat(M, span_notice("Host for [mode2string(mode)] has been updated to [newhost]!"))
+				. = CHANGED_IMAGES
+				break
+			if(!.)
 				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], entry not found! :c"))
 				return FALSE
-			to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been updated!"))
-			. = TRUE
+			else
+				to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been updated!"))
+		if("ModifyURL")
+			var/mode = params["Mode"]
+			var/newurl = params["NewURL"]
+			/// rudimar, we need to check if the URL is valid
+			/// rudimar: we can do that by checking if the URL is a valid URL
+			if(!newurl || !istext(newurl) || !LAZYLEN(newurl))
+				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], URL cannot be empty! :c"))
+				return FALSE
+			var/valid = TRUE
+			var/list/splittest = splittext(newurl, ".")
+			if(LAZYLEN(splittest) != 2)
+				valid = FALSE
+			if(!(uppertext(splittest[2]) in GLOB.supported_img_exts))
+				valid = FALSE
+			if(!valid)
+				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], URL is not valid! :c"))
+				return FALSE
+			for(var/list/PPc in P.ProfilePics)
+				if(PPc["Mode"] != mode)
+					continue
+				PPc["URL"] = newurl
+				to_chat(M, span_notice("URL for [mode2string(mode)] has been updated to [newurl]!"))
+				. = CHANGED_IMAGES
+				break
+			if(!.)
+				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], entry not found! :c"))
+				return FALSE
+			else
+				to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been updated!"))
+		if("ModifyModename")
+			var/mode = params["Mode"]
+			var/newname = params["NewName"]
+			if(mode in SSchat.mandatory_modes)
+				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], mode is not renamable! :c"))
+				return FALSE
+			newname = ckey(newname)
+			if(newname == "" || !istext(newname) || !LAZYLEN(newname))
+				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], mode name cannot be empty! :c"))
+				return FALSE
+			var/firstie = newname[1] // liek, zomg firstie^^;
+			var/lastie = newname[LAZYLEN(newname)]
+			if(firstie != ":")
+				newname = ":"+newname
+			if(lastie != ":")
+				newname = newname+":"
+			for(var/list/PPc in P.ProfilePics)
+				if(PPc["Mode"] != mode)
+					continue
+				PPc["Mode"] = newname
+				to_chat(M, span_notice("Mode name for [mode2string(mode)] has been updated to [newname]!"))
+				. = CHANGED_IMAGES
+				break
+			if(!.)
+				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], entry not found! :c"))
+				return FALSE
+			else
+				to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been updated!"))
+		if("AddProfileEntry")
+			var/list/new_entry = list(
+				"Mode" = ":[safepick(GLOB.ing_verbs)][safepick(GLOB.adverbs)]:",
+				"Host" = params["Host"],
+				"URL" = params["URL"],
+				"Modifiable" = TRUE,
+			)
+			P.ProfilePics += list(new_entry)
+			to_chat(M, span_notice("Profile entry for [mode2string(new_entry["Mode"])] has been added!"))
+			. = CHANGED_IMAGES
+		if("ClearProfileEntry")
+			var/mode = params["Mode"]
+			for(var/i in 1 to LAZYLEN(P.ProfilePics))
+				var/list/PPc = P.ProfilePics[i]
+				if(PPc["Mode"] != mode)
+					continue
+				if(mode in SSchat.mandatory_modes)
+					// just reset it
+					switch(P.gender)
+						if(MALE)
+							PPc["Host"] = SSchat.default_pfps[MALE]["Host"]
+							PPc["URL"] = SSchat.default_pfps[MALE]["URL"]
+						if(FEMALE)
+							PPc["Host"] = SSchat.default_pfps[FEMALE]["Host"]
+							PPc["URL"] = SSchat.default_pfps[FEMALE]["URL"]
+						else
+							if(prob(50))
+								PPc["Host"] = SSchat.default_pfps[MALE]["Host"]
+								PPc["URL"] = SSchat.default_pfps[MALE]["URL"]
+							else
+								PPc["Host"] = SSchat.default_pfps[FEMALE]["Host"]
+								PPc["URL"] = SSchat.default_pfps[FEMALE]["URL"]
+					to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been reset!"))
+					. = CHANGED_IMAGES
+					break
+				else
+					P.ProfilePics.Cut(i, i+1) // surgical and sexy
+					to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been removed!"))
+					. = CHANGED_IMAGES
+					break
+			if(!.)
+				to_chat(M, span_alert("Unable to clear profile entry for [mode2string(mode)], entry not found! :c"))
+				return FALSE
 		/// hey github copilot, what is your favorite color of fox?
 		/// "I like
 		/// the color of
@@ -1725,26 +2019,23 @@ SUBSYSTEM_DEF(chat)
 				)
 				clipboard["ProfilePic"] = clip
 				to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been copied to the clipboard!"))
-				. = TRUE
+				. = CHANGED_IMAGES
 			else
 				to_chat(M, span_alert("Unable to copy profile entry for [mode2string(mode)], entry not found! :c"))
 				return FALSE
 		if("PasteImage")
-			var/mode = params["Mode"]
-			var/list/ProfilePics = P.ProfilePics
+			var/mode = params["Mode"] // the mode it will be pasted to
 			var/list/clip = clipboard["ProfilePic"]
 			if(clip)
-				var/list/fount
-				for(var/list/entry in ProfilePics)
-					if(entry["Mode"] == mode)
-						fount = entry
-				if(fount)
-					fount["Mode"] = clip["Mode"]
-					fount["Host"] = clip["Host"]
-					fount["URL"] = clip["URL"]
+				for(var/i in 1 to LAZYLEN(P.ProfilePics))
+					var/list/entry = P.ProfilePics[i]
+					if(entry["Mode"] != mode) // find the entry to replace, and overwrite it
+						continue
+					P.ProfilePics[i]["Host"] = clip["Host"]
+					P.ProfilePics[i]["URL"] = clip["URL"]
 					to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been pasted from the clipboard!"))
-					. = TRUE
-				else
+					. = CHANGED_IMAGES
+				if(. != CHANGED_IMAGES)
 					to_chat(M, span_alert("Unable to paste profile entry for [mode2string(mode)], entry not found! :c"))
 					return FALSE
 			else
@@ -1780,7 +2071,7 @@ SUBSYSTEM_DEF(chat)
 				else
 					ProfilePics -= fount
 					to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been removed!"))
-				. = TRUE
+				. = CHANGED_IMAGES
 			else
 				to_chat(M, span_alert("Unable to clear profile entry for [mode2string(mode)], entry not found! :c"))
 				return FALSE
@@ -1791,27 +2082,48 @@ SUBSYSTEM_DEF(chat)
 			if(!(pisskey in SSchat.colorable_keys))
 				to_chat(M, span_alert("Unable to edit color for [mode2string(mode)], mode is not colorable! This is probably a bug :c"))
 				return FALSE
+			var/list/geosites = list(
+				"Tripod like a real AngelFire",
+				"Lycos like a real Tripod",
+				"Your free website from Geocities",
+				"MySpace up your webring",
+				"Your free trial of Dreamweaver 4 has expired",
+				"Navigate this Netscape in style",
+				"Your free trial of FrontPage 98 has expired",
+				"Web 2.0 like a real Web 1.0",
+				"Altavista like a real AskJeeves",
+				"Dear LiveJournal, I'm sorry I left you for Tumblr",
+				"Eudora like a real Outlook Express",
+				"Welcome to the World Wide Web",
+				"You're the 1,000,000th visitor to this site!",
+				"Website under construction",
+				"Guaranteed websafe colors",
+				"Best viewed in Internet Explorer 4",
+				"Best viewed in Netscape Navigator 4",
+				"VCL like a real Elfwood",
+			) // Gradually, the web 1.0 sites are disappearing. But they're still here, in our hearts and yiffy posts
 			var/val = input(
 				M,
 				"Enter a new color for the [pisskey] of the [mode2string(mode)]!",
-				"Tripod like a real AngelFire",
+				"[safepick(geosites)]",
 				current
 			) as color|null
 			if(!istext(val))
 				to_chat(M, span_alert("Nevermind!!"))
+				return FALSE
 			P.mommychat_settings[mode][pisskey] = val
-			to_chat(M, span_notice("Color for [mode2string(mode)] [pisskey] has been updated to #[val]!"))
-			. = TRUE
+			to_chat(M, span_notice("Color for [mode2string(mode)] [pisskey] has been updated to [val]!"))
+			. = CHANGED_SETTINGS
 		if("EditNumber") // TGUI handled this one
 			var/pisskey = params["PKey"]
 			var/mode = params["Mode"]
 			var/newval = params["Val"]
-			if(!(pisskey in SSchat.numberable_keys))
+			if(!(pisskey in SSchat.numberable_keys) && !(pisskey in SSchat.angleable_keys))
 				to_chat(M, span_alert("Unable to edit number for [mode2string(mode)], mode is not numberable! This is probably a bug :c"))
 				return FALSE
 			P.mommychat_settings[mode][pisskey] = newval
 			to_chat(M, span_notice("Number for [mode2string(mode)] [pisskey] has been updated to [newval]!"))
-			. = TRUE
+			. = CHANGED_SETTINGS
 		if("EditSelect") // TGUI handled this one
 			var/pisskey = params["PKey"]
 			var/mode = params["Mode"]
@@ -1821,24 +2133,24 @@ SUBSYSTEM_DEF(chat)
 				return FALSE
 			P.mommychat_settings[mode][pisskey] = newval
 			to_chat(M, span_notice("Select for [mode2string(mode)] [pisskey] has been updated to [newval]!"))
-			. = TRUE
+			. = CHANGED_SETTINGS
 		if("CopySetting")
-			var/pisskey = params["PKey"]
+			var/pisskey = params["PKey"] // the setting key
 			var/mode = params["Mode"]
+			var/typekind = params["Type"]
 			var/list/horny_settings = P.mommychat_settings
-			var/list/fount
-			for(var/list/entry in horny_settings[mode])
-				if(entry["PKey"] == pisskey)
-					fount = entry
-			if(fount)
+			var/list/hornier_settings = LAZYACCESS(horny_settings, mode)
+			var/found_value = LAZYACCESS(hornier_settings, pisskey)
+			if(!isnull(found_value))
 				var/list/clip = list(
-					"Mode" = fount["Mode"],
-					"PKey" = pisskey,
-					"Val" = fount[pisskey],
+					"Mode" = "[mode]",
+					"PKey" = "[pisskey]",
+					"Type" = "[typekind]",
+					"Val" = found_value,
 				)
 				clipboard["MsgSetting"] = clip
 				to_chat(M, span_notice("Setting for [mode2string(mode)] [pisskey] has been copied to the clipboard!"))
-				. = TRUE
+				. = CHANGED_SETTINGS
 			else
 				to_chat(M, span_alert("Unable to copy setting for [mode2string(mode)] [pisskey], setting not found! :c"))
 				return FALSE
@@ -1851,16 +2163,79 @@ SUBSYSTEM_DEF(chat)
 				// first check if this setting can accept the value
 				if((clip["PKey"] in SSchat.colorable_keys) && (pisskey in SSchat.colorable_keys)\
 				|| (clip["PKey"] in SSchat.numberable_keys) && (pisskey in SSchat.numberable_keys)\
-				|| (clip["PKey"] in SSchat.selectable_keys) && (pisskey in SSchat.selectable_keys))
+				|| (clip["PKey"] in SSchat.selectable_keys) && (pisskey in SSchat.selectable_keys)\
+				|| (clip["PKey"] in SSchat.angleable_keys) && (pisskey in SSchat.angleable_keys))
 					horny_settings[mode][pisskey] = clip["Val"]
 					to_chat(M, span_notice("Setting for [mode2string(mode)] [pisskey] has been pasted from the clipboard!"))
-					. = TRUE
+					. = CHANGED_SETTINGS
 				else
 					to_chat(M, span_alert("Unable to paste setting for [mode2string(mode)] [pisskey], setting type mismatch! :c"))
 					return FALSE
 			else
 				to_chat(M, span_alert("Unable to paste setting for [mode2string(mode)] [pisskey], clipboard is empty! :c"))
 				return FALSE
+		if("CopyModeSettings")
+			var/mode = params["Mode"]
+			var/list/horny_settings = P.mommychat_settings
+			var/list/hornier_settings = LAZYACCESS(horny_settings, mode)
+			if(LAZYLEN(hornier_settings)) // dont need to check too hard, just make sure its valid
+				clipboard["MessageAppearance"] = mode
+				to_chat(M, span_notice("Settings for [mode2string(mode)] have been copied to the clipboard!"))
+				. = CHANGED_SETTINGS
+			else
+				to_chat(M, span_alert("Unable to copy settings for [mode2string(mode)], mode not found! :c"))
+				return FALSE
+		if("PasteModeSettings")
+			var/mode = params["Mode"] // mode that will be pasted to
+			var/list/horny_settings = P.mommychat_settings
+			var/clipmode = clipboard["MessageAppearance"]
+			if(clipmode)
+				var/list/clipsettings = LAZYACCESS(horny_settings, clipmode)
+				if(LAZYLEN(clipsettings) == LAZYLEN(horny_settings[mode]))
+					horny_settings[mode] = clipsettings
+					to_chat(M, span_notice("Settings for [mode2string(mode)] have been pasted from the clipboard!"))
+					. = CHANGED_SETTINGS
+				else
+					to_chat(M, span_alert("Unable to paste settings for [mode2string(mode)], setting verification can mismatch! :c"))
+					return FALSE
+			else
+				to_chat(M, span_alert("Unable to paste settings for [mode2string(mode)], clipboard is empty! :c"))
+				return FALSE
+	if(.)
+		update_static_data(M)
+		if(. != CHANGED_NOTHING)
+			// we need to update the settings and pics to match
+			CoordinateSettingsAndPics(P, .)
+		P.save_character()
+
+/// GEE DAN, LETS MAKE PROFILE PICS AND SETTINGS BE TWO ENTIRELY SEPARATE LISTS
+/// WHAT A GREAT IDEA, NO WAY THIS WOULD CAUSE DISCREPANCIES you fukcking dikc
+/// This proc comapres mommychat_settings to ProfilePics and updates the two to match
+/datum/horny_tgui_holder/proc/CoordinateSettingsAndPics(someone, whichchanged)
+	var/datum/preferences/P = extract_prefs(someone)
+	if(!P)
+		return
+	if(whichchanged != CHANGED_IMAGES && whichchanged != CHANGED_SETTINGS)
+		return
+	var/list/horny_settings = P.mommychat_settings
+	var/list/ProfilePics = P.ProfilePics
+	if(whichchanged == CHANGED_IMAGES)
+		// The images were changed, time to go through the settings and make sure it has this mode		for(var/list/PPc in ProfilePics)
+		for(var/list/PPc in ProfilePics)
+			var/foundit = LAZYLEN(LAZYACCESS(P.mommychat_settings, PPc["Mode"]))
+			if(!foundit)
+				P.mommychat_settings[PPc["Mode"]] = GLOB.default_horny_settings.Copy()
+		P.mommychat_settings = horny_settings
+
+
+
+
+
+
+
+
+
+
 
 /datum/horny_tgui_holder/proc/mode2string(mode)
 	switch(mode)
@@ -1877,5 +2252,50 @@ SUBSYSTEM_DEF(chat)
 		if(MODE_YELL)
 			return "Yell"
 	return "[mode]"
+
+#undef CHANGED_SETTINGS
+#undef CHANGED_IMAGES
+#undef CHANGED_NOTHING
+
+/* todo: this
+/// Say it with me, "Anything a frickhuge list can do, a datum can do better"
+/datum/horny_setting
+	var/title // the title of the setting
+	var/tooltip // the description of the setting
+	var/group // the group of the setting
+	var/location // the location of the setting
+	var/setting_key // the key of the setting
+	var/setting_type // the type of the setting
+	var/setting_default // the default value of the setting
+	var/setting_options // the options for the setting
+	var/num_max // the maximum number for the setting
+	var/num_min // the minimum number for the setting
+	var/default // the default value of the setting
+
+/datum/horny_setting/New()
+	. = ..()
+	SSchat.horny_settings[group] = src
+
+/datum/horny_setting/proc/tgui_slug(list/mommy, mode)
+	if(!LAZYLEN(mommy) || !mode)
+		return
+	var/list/data = list()
+	var/list/setformode = LAZYACCESS(mommy, mode)
+	var/current = LAZYACCESS(setformode, setting_key)
+	data["Name"] = title
+	data["Tooltip"] = tooltip
+	data["Group"] = group
+	data["Loc"] = location
+	data["PKey"] = setting_key
+	data["Type"] = setting_type
+	data["Default"] = setting_default
+	data["Options"] = setting_options
+	data["NumMax"] = num_max
+	data["NumMin"] = num_min
+	data["Val"] = current
+	return data
+ */
+
+
 
 

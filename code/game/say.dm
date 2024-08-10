@@ -106,21 +106,27 @@ And the base of the send_speech() proc, which is the core of saycode.
 /atom/movable/proc/compose_job(atom/movable/speaker, message_langs, raw_message, radio_freq)
 	return ""
 
-/atom/movable/proc/say_mod(input, message_mode)
+/atom/movable/proc/say_mod(input, message_mode, datum/rental_mommy/chat/momchat)
 	var/ending = copytext_char(input, -1)
 	var/beginning = copytext_char(input, 1)
 	if(message_mode == MODE_WHISPER || beginning == "#")
 		. = verb_whisper
+		momchat?.message_mode = MODE_WHISPER
 	else if(message_mode == MODE_SING)
 		. = verb_sing
+		momchat?.message_mode = MODE_SING
 	else if(copytext_char(input, -2) == "!!")
 		. = verb_yell
+		momchat?.message_mode = MODE_YELL
 	else if(ending == "?")
 		. = verb_ask
+		momchat?.message_mode = MODE_ASK
 	else if(ending == "!")
 		. = verb_exclaim
+		momchat?.message_mode = MODE_EXCLAIM
 	else if(beginning == "$")
 		. = verb_yell
+		momchat?.message_mode = MODE_YELL
 	else
 		. = verb_say
 	return get_random_if_list(.)
@@ -138,7 +144,7 @@ And the base of the send_speech() proc, which is the core of saycode.
 	if(momchat)
 		momchat.message_langtreated_spanned = spanned
 		momchat.message_langtreated_spanned_quotes = "\"[spanned]\""
-	var/saymod = say_mod(input, message_mode)
+	var/saymod = say_mod(input, message_mode, momchat)
 	if(momchat)
 		momchat.message_saymod = saymod
 		if(spanned)
