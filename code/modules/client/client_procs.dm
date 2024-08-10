@@ -206,7 +206,7 @@ GLOBAL_LIST_INIT(warning_ckeys, list())
 		upLimit *= 5
 	
 	if(filelength > upLimit)
-		to_chat(src, "<font color='red'>Error: AllowUpload(): File Upload too large. Upload Limit: [upLimit/1024]KiB.</font>")
+		to_chat(src, "<font color='red'>Error: AllowUpload(): File Upload too large. Upload Limit: [upLimit/3000]KiB.</font>")
 		return 0
 	return 1
 
@@ -1253,3 +1253,7 @@ GLOBAL_LIST_EMPTY(every_fucking_sound_file)
 	nicebutt.update_genitals(TRUE)
 	return TRUE
  */
+/client/proc/open_filter_editor(atom/in_atom)
+	if(holder)
+		holder.filteriffic = new /datum/filter_editor(in_atom)
+		holder.filteriffic.ui_interact(mob)

@@ -20,7 +20,7 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	attack_hand_unwieldlyness = 0
 
 	///icon state name for inhand overlays
-	var/item_state = null
+	var/inhand_icon_state = null
 	///Icon file for left hand inhand overlays
 	var/lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
 	///Icon file for right inhand overlays
@@ -59,7 +59,7 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	var/usesound = null
 	var/throwhitsound = null
 	var/equipsound = null
-	var/tableplacesound = null
+	var/tableplacesound = 'sound/tableplace.ogg'
 
 	/// Weight class for how much storage capacity it uses and how big it physically is meaning storages can't hold it if their maximum weight class isn't as high as it.
 	var/w_class = WEIGHT_CLASS_NORMAL
@@ -229,11 +229,6 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	if(!special_transform && transform != initial(transform))
 		special_transform = transform
 
-	if(!isnull(equipsound))
-		listify(equipsound)
-	if(!isnull(tableplacesound))
-		listify(tableplacesound)
-
 	/// CB Dual Wielding
 	if(force != 0)
 		if(w_class < DUAL_WIELDING_MAX_WEIGHT_ALLOWED)
@@ -278,6 +273,15 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 
 	if(reskinnable_component)
 		AddComponent(reskinnable_component)
+
+	add_filter("wacky_shadow",10, list(
+		"type"="drop_shadow",
+		"x"=1,
+		"y"=-1,
+		"size"=1,
+		"offset"=0,
+		"color"= "#0000007A"))
+
 
 /obj/item/proc/check_allowed_items(atom/target, not_inside, target_self)
 	if(((src in target) && !target_self) || (!isturf(target.loc) && !isturf(target) && not_inside))
@@ -1308,11 +1312,11 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	return ..()
 
 /obj/item/proc/play_equip_sound(volume=50)
-	if(!LAZYLEN(equipsound))
+	if(!equipsound)
 		return
-	playsound(src, safepick(equipsound), volume, TRUE)
+	playsound(src, safepick(equipsound), 100, TRUE)
 
 /obj/item/proc/after_placed_on_table(obj/structure/table, volume=50)
-	if(!LAZYLEN(tableplacesound))
+	if(!tableplacesound)
 		return
-	playsound(src, safepick(tableplacesound), volume, TRUE)
+	playsound(src, safepick(tableplacesound), 100, TRUE)

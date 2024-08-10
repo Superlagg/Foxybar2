@@ -394,9 +394,25 @@
 	// chardir_hud_button.hud = src
 	// infodisplay += chardir_hud_button
 
-	pvp_focus_toggle = new /atom/movable/screen/pvp_focus_toggle()
-	pvp_focus_toggle.hud = src
-	infodisplay += pvp_focus_toggle
+	// pvp_focus_toggle = new /atom/movable/screen/pvp_focus_toggle()
+	// pvp_focus_toggle.hud = src
+	// infodisplay += pvp_focus_toggle
+
+	flirt_hud_button = new /atom/movable/screen/flirt_hud_button()
+	flirt_hud_button.hud = src
+	infodisplay += flirt_hud_button
+
+	touch_hud_button = new /atom/movable/screen/touch_hud_button()
+	touch_hud_button.hud = src
+	infodisplay += touch_hud_button
+
+	lick_hud_button = new /atom/movable/screen/lick_hud_button()
+	lick_hud_button.hud = src
+	infodisplay += lick_hud_button
+
+	kiss_hud_button = new /atom/movable/screen/kiss_hud_button()
+	kiss_hud_button.hud = src
+	infodisplay += kiss_hud_button
 
 	pull_icon = new /atom/movable/screen/pull()
 	pull_icon.icon = ui_style

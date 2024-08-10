@@ -15,6 +15,7 @@
 	volume = 50
 	resistance_flags = NONE
 	var/isGlass = TRUE //Whether the 'bottle' is made of glass or not so that milk cartons dont shatter when someone gets hit by it
+	tableplacesound = 'sound/machines/glassclink.ogg'
 
 /obj/item/reagent_containers/food/drinks/on_reagent_change(changetype)
 	if (gulp_size < 5)
@@ -295,7 +296,7 @@
 	name = "mug"
 	desc = "A drink served in a classy mug."
 	icon_state = "tea"
-	item_state = "coffee"
+	inhand_icon_state = "coffee"
 	spillable = TRUE
 
 /obj/item/reagent_containers/food/drinks/mug/on_reagent_change(changetype)
@@ -372,7 +373,7 @@
 	name = "Magm-Ale"
 	desc = "A true dorf's drink of choice."
 	icon_state = "alebottle"
-	item_state = "beer"
+	inhand_icon_state = "beer"
 	list_reagents = list(/datum/reagent/consumable/ethanol/ale = 30)
 	foodtype = GRAIN | ALCOHOL
 

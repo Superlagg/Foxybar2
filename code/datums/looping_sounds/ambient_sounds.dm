@@ -448,6 +448,18 @@
 		SOUND_LOOP_ENTRY('sound/f13ambience/ambiflouriscentlight_1.ogg', 5 SECONDS, 1),
 	)
 
+/datum/looping_sound/ambient/lightbulb/quiet
+	chance = 100
+	vary = FALSE
+	vary_direction = TRUE
+	extra_range = SOUND_DISTANCE(2)
+	volume = SOUND_LOOP_VOL_RANGE(12, 14)
+	direct = TRUE
+	loop_delay = 0 SECONDS
+	mid_sounds = list(
+		SOUND_LOOP_ENTRY('sound/f13ambience/ambiflouriscentlight_1.ogg', 4.5 SECONDS, 1),
+	)
+
 /datum/looping_sound/ambient/torch
 	chance = 100
 	vary = FALSE
@@ -538,6 +550,8 @@
 		SOUND_LOOP_ENTRY('sound/f13ambience/creek_07.ogg', 2 SECONDS, 10),
 		SOUND_LOOP_ENTRY('sound/f13ambience/creek_08.ogg', 2 SECONDS, 10),
 		)
+
+	
 
 /datum/looping_sound/ambient/kf/forestmusic
 	chance = 80
@@ -631,4 +645,3 @@
 		SOUND_LOOP_ENTRY('sound/f13ambience/bar/cool_bar_ambience_raw_17.ogg', 10 SECONDS, 1),
 		SOUND_LOOP_ENTRY('sound/f13ambience/bar/cool_bar_ambience_raw_18.ogg', 10 SECONDS, 1),
 	)
-
