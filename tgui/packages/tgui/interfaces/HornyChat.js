@@ -297,7 +297,7 @@ const LowerRowBar = (props, context) => {
         {/* A link to gyazo, another place to upload images */}
         <Button
           fluid
-          icon={SeeOthers ? "eye-slash" : "eye"}
+          icon={SeeOthers ? "eye" : "eye-slash"}
           content={
             SeeOthers
               ? "CoolChat Visible"
@@ -950,10 +950,15 @@ const SettingBlock = (props, context) => {
                       ? <Icon px={1} name="arrow-up" rotation={Val + 180} color="#FFFFFF" />
                       : null}
                     <NumberInput
-                      animated
+                      // animated
                       value={Val}
-                      minValue={Type === "NUMBER" ? NumbermalMin : AnglemalMin}
-                      maxValue={Type === "NUMBER" ? NumbermalMax : AnglemalMax}
+                      format={Type === "NUMBER"
+                        ? value => value
+                        // wrap the number to display an angle 0-360, even if the value is negative
+                        // going below 0 will wrap around to 360
+                        : value => (value + (360 * 10)) % 360}
+                      minValue={Type === "NUMBER" ? NumbermalMin : -Infinity}
+                      maxValue={Type === "NUMBER" ? NumbermalMax : Infinity}
                       step={Type === "NUMBER" ? 1 : 15}
                       stepPixelSize={15}
                       onChange={(e, value) => act('EditNumber', {

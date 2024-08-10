@@ -539,13 +539,28 @@ SUBSYSTEM_DEF(chat)
 	var/m_rawmessage = mommy.original_message
 	var/m_message    = mommy.message
 	var/m_mode       = mommy.message_mode || MODE_SAY
+	if(!LAZYLEN(P.mommychat_settings[m_mode]))
+		SanitizeUserPreferences(mommy.source)
 
 	/// look for something in m_rawmessage formatted as :exammple: and extract that to look up a custom image
 	/// We'll extract this, store it as a var, and use it as an override for the profile image
 	var/list/m_images = P ? P.ProfilePics.Copy() : test_pics
+	if(LAZYLEN(m_rawmessage) && istext(m_rawmessage))
+		var/list/splittify = splittext(m_rawmessage, ":")
+		if(LAZYLEN(splittify) > 1)
+			math:
+				for(var/splut in splittify)
+					var/testpart = ":[splut]:"
+					for(var/list/moud in m_images)
+						if(moud["Mode"] == testpart)
+							m_mode = testpart
+							m_message = replacetext(m_message, testpart, "")
+							m_rawmessage = replacetext(m_rawmessage, testpart, "") // remove the custom mode from the message
+							break math // mathematical
 	var/m_pfp = get_horny_pfp(m_rawmessage, m_images, m_mode)
-	
 	var/list/set4mode = P.mommychat_settings["[m_mode]"]
+	if(!LAZYLEN(set4mode))
+		set4mode = P.mommychat_settings["[MODE_SAY]"]
 	
 	/// now all the many many colors for everything!
 	// first the background gradients (and their angles)
@@ -587,26 +602,26 @@ SUBSYSTEM_DEF(chat)
 	var/contrast_color = num2hex(16777215 - avg_color)
 	var/dtc = "#[contrast_color]"
 
-	var/senderquid = mommy.source_quid
-	var/senderckey = mommy.source_ckey
+	var/mommyquid = mommy.source_quid
+	var/targetquid = SSeconomy.extract_quid(target)
 
 	/// Character Directory link
-	var/m_charlink = "<a href='?src=[REF(src)];CHARDIR=1;reciever_quid=[senderquid];sender_quid=[target.ckey]'>\
+	var/m_charlink = "<a href='?src=[REF(src)];CHARDIR=1;reciever_quid=[targetquid];sender_quid=[mommyquid]'>\
 	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
 	border: [bbs]px [bbt] [bbc];'>\
 	Examine</div></a>"
 	/// DM link
-	var/m_dmlink = "<a href='?src=[REF(src)];DM=1;reciever_quid=[senderckey];sender_quid=[target.ckey]'>\
+	var/m_dmlink = "<a href='?src=[REF(src)];DM=1;reciever_quid=[targetquid];sender_quid=[targetquid]'>\
 	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
 	border: [bbs]px [bbt] [bbc];'>\
 	DM</div></a>"
 	/// Flirt link
-	var/m_flirtlink = "<a href='?src=[REF(src)];FLIRT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]'>\
+	var/m_flirtlink = "<a href='?src=[REF(src)];FLIRT=1;reciever_quid=[targetquid];sender_quid=[targetquid]'>\
 	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
 	border: [bbs]px [bbt] [bbc];'>\
 	Flirt</div></a>"
 	/// Interact link
-	var/m_interactlink = "<a href='?src=[REF(src)];INTERACT=1;reciever_quid=[senderquid];sender_quid=[target.ckey]'>\
+	var/m_interactlink = "<a href='?src=[REF(src)];INTERACT=1;reciever_quid=[targetquid];sender_quid=[targetquid]'>\
 	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
 	border: [bbs]px [bbt] [bbc];'>\
 	Interact</div></a>"
@@ -689,15 +704,6 @@ SUBSYSTEM_DEF(chat)
 /datum/controller/subsystem/chat/proc/get_horny_pfp(m_rawmessage, list/m_images, m_mode)
 	// two-stace bytch of a process: First extract any custom modes, then dive in for modes, then just dump something
 	var/modeimal = m_mode
-	var/list/splittify = splittext(m_rawmessage, ":")
-	if(LAZYLEN(splittify) > 1)
-		math:
-			for(var/splut in splittify)
-				var/testpart = ":[splut]:"
-				for(var/list/moud in m_images)
-					if(moud["Mode"] == testpart)
-						modeimal = testpart
-						break math // mathematical
 	// now we have the modeimal, we can get the image!
 	// they've already been sanitized, maybe
 	var/fallback_boy = "[default_pfps[MALE]["Host"]]/[default_pfps[MALE]["URL"]]"
@@ -931,10 +937,10 @@ SUBSYSTEM_DEF(chat)
 	if(href_list["DM"])
 		start_page(href_list["sender_quid"], href_list["reciever_quid"])
 	if(href_list["FLIRT"])
-		var/mob/living/flirter = ckey2mob(href_list["sender_quid"])
+		var/mob/living/flirter = SSeconomy.quid2mob(href_list["sender_quid"])
 		if(!flirter)
 			return
-		var/mob/living/target = ckey2mob(href_list["reciever_quid"])
+		var/mob/living/target = SSeconomy.quid2mob(href_list["reciever_quid"])
 		if(!target)
 			return
 		if(!flirter.client || !target.client)
@@ -942,20 +948,20 @@ SUBSYSTEM_DEF(chat)
 		SSchat.add_flirt_target(flirter, target)
 		SSchat.ui_interact(flirter)
 	if(href_list["INTERACT"])
-		var/mob/living/fricker = ckey2mob(href_list["sender_quid"])
+		var/mob/living/fricker = SSeconomy.quid2mob(href_list["sender_quid"])
 		if(!fricker)
 			return
-		var/mob/living/frackee = ckey2mob(href_list["reciever_quid"])
+		var/mob/living/frackee = SSeconomy.quid2mob(href_list["reciever_quid"])
 		if(!frackee)
 			return
 		if(!fricker.client || !frackee.client)
 			return
 		SEND_SIGNAL(frackee, COMSIG_CLICK_CTRL_SHIFT, fricker)
 	if(href_list["CHARDIR"])
-		var/mob/living/looker = ckey2mob(href_list["sender_quid"])
+		var/mob/living/looker = SSeconomy.quid2mob(href_list["sender_quid"])
 		if(!looker)
 			return
-		var/mob/living/lookee = ckey2mob(href_list["reciever_quid"])
+		var/mob/living/lookee = SSeconomy.quid2mob(href_list["reciever_quid"])
 		if(!lookee)
 			return
 		if(!looker.client || !lookee.client)
@@ -1038,6 +1044,16 @@ SUBSYSTEM_DEF(chat)
 	// 	to_chat(usr, span_hypnophrase("I take a deep breath and psyche yourself up to flirt with someone other than yourself for a change. You got this, tiger!"))
 	// 	return
 	return TRUE
+
+/mob/verb/setup_coolchat()
+	set name = "Setup CoolChat"
+	set category = "Preferences"
+	SSchat.HornyPreferences(src)
+
+/mob/verb/setup_profilepics()
+	set name = "Setup Profile Pics"
+	set category = "Preferences"
+	SSchat.HornyPreferences(src)
 
 /mob/verb/check_out(mob/A as mob in view())
 	set name = "Flirt with"
@@ -1818,6 +1834,7 @@ SUBSYSTEM_DEF(chat)
 				to_chat(M, span_notice("You will now see CoolChat messages!"))
 			else
 				to_chat(M, span_notice("You will now see boring normal chat messages!"))
+			. = CHANGED_NOTHING
 		if("OpenPerchance")
 			var/yiffme = alert(
 				M,
@@ -2121,6 +2138,14 @@ SUBSYSTEM_DEF(chat)
 			if(!(pisskey in SSchat.numberable_keys) && !(pisskey in SSchat.angleable_keys))
 				to_chat(M, span_alert("Unable to edit number for [mode2string(mode)], mode is not numberable! This is probably a bug :c"))
 				return FALSE
+			if(pisskey in SSchat.angleable_keys)
+				// sanitize the angle to be between 0 and 360, even if its negative
+				var/firstbulk = 360 * 100
+				var/secondbulk = newval + firstbulk
+				if(secondbulk < 0)
+					secondbulk = abs(secondbulk) // we
+				var/thirdbulk = secondbulk % firstbulk
+				newval = thirdbulk
 			P.mommychat_settings[mode][pisskey] = newval
 			to_chat(M, span_notice("Number for [mode2string(mode)] [pisskey] has been updated to [newval]!"))
 			. = CHANGED_SETTINGS

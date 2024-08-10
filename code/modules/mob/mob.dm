@@ -120,9 +120,12 @@
 			if(type & MSG_AUDIBLE) //audio
 				to_chat(src, "<I>... You can almost hear something ...</I>")
 			return
+	var/msg_backup = msg
 	///NOW HOLD ON THERE BUCKO, I think you're forgetting something~
 	if(momchat && momchat.furry_dating_sim && (isdummy(momchat.source) || CHECK_PREFS(src, SHOW_ME_HORNY_FURRIES))) // its right here
 		msg = SSchat.BuildHornyFurryDatingSimMessage(momchat) // in my subsystem~
+	if(!msg || !length(msg))
+		msg = msg_backup // just in case
 	to_chat(src, msg)
 
 /**
