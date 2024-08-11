@@ -984,12 +984,13 @@ const ProfilePicsTab = (props, context) => {
                                 width="2em" >
                                 --
                               </Box>
-                              {` ${UserName}`}
-                              <Button.Input
+                              {` ${UserName} `}
+                              <Input
                                 content={PFPentry.CustomMessageVerb}
-                                currentValue={PFPentry.CustomMessageVerb}
+                                value={PFPentry.CustomMessageVerb}
                                 defaultValue="says,"
-                                onCommit={(e, value) => act('ModifyCustomMessageVerb', {
+                                width="20em"
+                                onChange={(e, value) => act('ModifyCustomMessageVerb', {
                                   UserCkey: UserCKEY,
                                   Mode: PFPentry.Mode,
                                   NewVerb: value,
@@ -1011,7 +1012,7 @@ const ProfilePicsTab = (props, context) => {
                                   }
                                   value={PFPentry.CustomBlankVerb}
                                   defaultValue="makes a cute face!"
-                                  onCommit={(e, value) => act('ModifyCustomBlankVerb', {
+                                  onChange={(e, value) => act('ModifyCustomBlankVerb', {
                                     UserCkey: UserCKEY,
                                     Mode: PFPentry.Mode,
                                     NewMessage: value,

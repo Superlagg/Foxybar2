@@ -729,12 +729,12 @@ SUBSYSTEM_DEF(chat)
 	cum += "<div style='width: 100%; border: [obs]px [obt] [obc]; display: flex; flex-direction: row;'>"
 	// first the head
 	if(giv_head)
-		// cum += "<div style='width: [img_size+20]px; background: linear-gradient([tgangle]deg, [tgc_1], [tgc_2]); border: [tbs]px [tbt] [tbc]; display: flex; flex-direction: row;'>"
+		cum += "<div style='width: auto; background: linear-gradient([tgangle]deg, [tgc_1], [tgc_2]); border: [tbs]px [tbt] [tbc]; display: flex; flex-direction: row;'>"
 		// now the profile picture
-		cum += "<div style='height: [img_size]px; width: [img_size]px;'>"
-		cum += "<img src='[m_pfp]' alt='x.x;' style='height: [img_size]px; width: [img_size]px; border-radius: 10px; margin-left: auto; margin-right: auto; margin-bottom: auto; text-align: center; object-fit: contain;'>"
-		cum += "</div>"
+		// cum += "<div style='width: auto; margin: 5px; padding: 5px;'>"
+		cum += "<img src='[m_pfp]' alt='x.x;' style='height: [img_size]px; width: [img_size]px; border-radius: 10px; margin-left: auto; margin-right: auto; margin-bottom: auto; text-align: center; object-fit: contain; padding: 7px'>"
 		// cum += "</div>"
+		cum += "</div>"
 
 	// now the body - the BottomBox
 	if(giv_body)
