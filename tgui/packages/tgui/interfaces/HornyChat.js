@@ -783,8 +783,6 @@ const HelpTab = (props, context) => {
   );
 };
 
-
-
 /*
   ANATOMY OF THE Clipboard:
   Clipboard is an object with a bunch of keys
@@ -1199,10 +1197,11 @@ const MessageAppearanceTab = (props, context) => {
     setSettingsModeSelected,
   ] = useLocalState(context, 'SettingsModeSelected', "Profile Box");
 
-  // extract a list of message modes from the UserImages
-  const PreMessageModes = UserImages.map(PFPentry => PFPentry.Mode);
-  // remove any entries where Suppress is true;
-  const MessageModes = PreMessageModes.filter(Mode => !Mode.Suppress);
+  // extract a list of message modes from the UserImages, but only the ones
+  // where Suppress is not true
+  const MessageModes = UserImages
+    .filter(Mode => !Mode.Suppress)
+    .map(Mode => Mode.Mode);
 
   // Objectify the settings as key => array of settings
   const ValidSettings = {
@@ -1246,6 +1245,7 @@ const MessageAppearanceTab = (props, context) => {
   // and all will be yiff yiff
   const SettingsToUse = ValidSettings[SettingsModeSelected] // the reason we use [] instead of . is because we need to use a variable key
     .find(Setting => Setting.Mode === MsgModeTabSelected);
+  // filter out any Suppressed settings
   const LeftColumn = SettingsToUse
     .Settings // filter() returns an array, so we can chain map() to it
     .filter(Setting => Setting.Loc === "L");

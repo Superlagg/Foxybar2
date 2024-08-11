@@ -471,6 +471,8 @@ SUBSYSTEM_DEF(chat)
 			var/vale = HP[mode][key]
 			if(!vale || !(vale in borderstyles))
 				HP[mode][key] = GLOB.default_horny_settings[key]
+		if(mode == MODE_PROFILE_PIC)
+			HP[mode]["Suppress"] = TRUE
 	P.mommychat_settings = HP
 	P.save_character()
 
@@ -537,6 +539,9 @@ SUBSYSTEM_DEF(chat)
 				msg = "[msg][message_mode]" // to catch any custom modes
 
 	var/datum/rental_mommy/chat/mommy = D.say(msg, direct_to_mob = target)
+	if(!mommy)
+		SSdummy.return_dummy(D)
+		CRASH("PreviewHornyFurryDatingSimMessage called, but Mommy was not created!")
 	mommy.prefs_override = P
 	mommy.dummy = TRUE
 	var/mommess = BuildHornyFurryDatingSimMessage(mommy, TRUE)
@@ -739,7 +744,7 @@ SUBSYSTEM_DEF(chat)
 	// now the body - the BottomBox
 	if(giv_body)
 		cum += "<div style='width: 100%; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]); border: [bbbs]px [bbbt] [bbbc]; padding: 2px; display: flex; flex-direction: column;'>"
-		cum += "<p style='font-weight: bold; margin: 0;'>[m_name] <span style='[nobold_verb? "font-weight: normal" : ""] font-style: italic; color: [dtc];'>[m_verb]</span></p>"
+		cum += "<p style='font-weight: bold; margin: 0;'>[m_name] <span style='[nobold_verb? "font-weight: normal;" : ""] font-style: italic; color: [dtc];'>[m_verb]</span></p>"
 		if(!nomessage)
 			cum += "<p style='margin: 0; color: [dtc]; id='Message'>[m_message]</p>"
 		cum += "</div>"
