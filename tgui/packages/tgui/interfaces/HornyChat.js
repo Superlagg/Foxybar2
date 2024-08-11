@@ -8,6 +8,7 @@ import {
   AnimatedNumber,
   Box,
   Button,
+  Divider,
   Dropdown,
   Input,
   Tooltip,
@@ -20,6 +21,7 @@ import {
   Stack,
   Fragment,
   Table,
+  TextArea,
   ToggleBox,
 } from '../components';
 import { formatMoney } from '../format';
@@ -155,6 +157,7 @@ export const HornyChat = (props, context) => {
     <Window
       width={900}
       height={600}
+      title="VisualChat Preferences"
       theme="ntos"
       resizable>
       <Window.Content
@@ -220,6 +223,15 @@ const UpperRowTabBar = (props, context) => {
           Preview
         </Button>
       </Stack.Item>
+      <Stack.Item grow={1}>
+        <Button
+          fluid
+          icon="question"
+          selected={UpperRowTab === 4}
+          onClick={() => setUpperRowTab(4)}>
+          Readme!
+        </Button>
+      </Stack.Item>
     </Stack>
   );
 };
@@ -245,6 +257,10 @@ const MainWindow = (props, context) => {
     case 3:
       return (
         <PreviewTab /> // into the dirt
+      );
+    case 4: // help, cus tooltips are laaaaaaaaggggy
+      return (
+        <HelpTab /> // yiff yiff
       );
   }
 };
@@ -300,8 +316,8 @@ const LowerRowBar = (props, context) => {
           icon={SeeOthers ? "eye" : "eye-slash"}
           content={
             SeeOthers
-              ? "CoolChat Visible"
-              : "CoolChat Hidden"
+              ? "VisualChat Visible"
+              : "VisualChat Hidden"
           }
           onClick={() => act('ToggleWhinyLittleBazingaMode', {
             UserCkey: UserCKEY,
@@ -321,6 +337,453 @@ const LowerRowBar = (props, context) => {
     </Stack>
   );
 };
+
+// The help tab, cus tooltips are laaaaaaaaggggy
+const HelpTab = (props, context) => {
+  const { act, data } = useBackend(context);
+
+  return (
+    <Section
+      title="Welcome to VisualChat!">
+      <p>Welcome to the Profile Pics tab!</p>
+      {"Here, you can set how VisualChat will render your chat messages, based on 'message modes'!"}<br />
+      {"Message modes are modifiers to your chat messages, such as when you say something, whisper, or ask a question."}<br />
+      {"For instance, if you say \"Where's the cutie cat?\", VisualChat will use the 'Ask' message mode to render your message."}<br />
+      <ol>
+        <li>
+          <p>
+            {"Assign a profile picture to any form of message mode, such as 'say', 'whisper', or 'ask'."}
+          </p>
+        </li>
+        <li>
+          <p>
+            {"Modify the verb that is associated with the message mode."}
+          </p>
+          <ul>
+            <li>
+              <p>
+                {'For instance, you can change "says," to "meows," or "purrs,".'}
+              </p>
+            </li>
+            <li>
+              <p>
+                {"You can have multiple verbs for the same message mode, separated by: |"}
+              </p>
+            </li>
+            <li>
+              <p>
+                {'For instance, "meows,|purrs," would randomly select between "meows," and "purrs," when that message mode is used.'}
+              </p>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <p>
+            {"Add in a new message mode, or remove an existing (custom) message mode."}
+          </p>
+        </li>
+      </ol>
+      <Divider />
+      <Section
+        title="Adding or Changing Profile Pics">
+        <p>
+          {"To add a Profile Pic to a message mode, it's as easy as 1, 2, 3!"}
+        </p>
+        <ol>
+          <li>
+            <p>
+              {"Upload your image to Catbox.moe or Gyazo."}
+            </p>
+            <ul>
+              <li>
+                <p>
+                  {"Don't have an image? Generate some with Perchance! It's a free AI generator designed for making furry images."}
+                </p>
+              </li>
+              <li>
+                <p>
+                  {"You can go there by clicking the 'Get Profile Pics' button."}
+                </p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p>
+              {"Copy the image link."}
+            </p>
+          </li>
+          <li>
+            <p>
+              {"Paste the image link into the text box to the right of the Host dropdown."}
+            </p>
+          </li>
+        </ol>
+        <p>
+          {"And that's it! You've added a Profile Pic to a message mode!"}
+          <br />
+          {"You can also manually set the Host in the dropdown menu, and paste just the filename in the text box, if you want."}
+        </p>
+      </Section>
+      <Divider />
+      <Section
+        title="Modifying Message Modes">
+        <p>
+          {"There are two kinds of message modes: Default and Custom."}
+          <br />
+          {"Let's start with Default first!"}
+        </p>
+        <ul>
+          <li>
+            {"Default Message Modes"}
+            <ul>
+              <li>
+                <p>
+                  {"These are the message modes that VisualChat comes with by default, and that the game itself natively supports (arguably)."}
+                  <br />
+                  {"While you can't remove these, you can modify the verb associated with them."}
+                </p>
+              </li>
+              <ul>
+                <li>
+                  <p>
+                    {"For instance, you can change 'says,' to 'meows,' or 'purrs,'."}
+                    <br />
+                    {"You can also have multiple verbs for the same message mode, separated by: |"}
+                    <br />
+                    {"For instance, 'meows,|purrs,' would randomly select between 'meows,' and 'purrs,' when that message mode is used."}
+                  </p>
+                </li>
+              </ul>
+              <li>
+                <p>
+                  {"These message modes are used based on the 'context' of your message, which is determined by the game itself."}
+                  <br />
+                  {"For instance, if you say 'Hello, Cutie Cat!' VisualChat will use the 'Exclaim' message mode to render your message."}
+                  <br />
+                  {"Or, if you use the hotkey to whisper, VisualChat will use the 'Whisper' message mode to render your message."}
+                  <br />
+                  {"There'll be a cheat sheet at the end of all this, don't worry!"}
+                </p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            {"Custom Message Modes"}
+            <ul>
+              <li>
+                <p>
+                  {"These are message modes that you've added yourself, and share a lot of the same functionality as Default message modes, with a few differences."}
+                </p>
+                <ul>
+                  <li>
+                    <p>
+                      {"Custom message modes are used when you add its associated tag to the end of your message."}
+                      <br />
+                      {"For instance, if you say 'Hello, Cutie Cat! :tag:', VisualChat will use the 'tag' message mode to render your message."}
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      {"You can also assign a custom 'Blank' verb to your custom message mode, which will be displayed in place of the verb, if your chat message contains 'only' the tag."}
+                      <br />
+                      {"For instance, if you say ':tag:', VisualChat will use the 'tag' message mode to render your message, and display the 'Blank' verb after your name."}
+                      <br />
+                      {"This allows you to, say, have a mode for :yay:, which could have a picture of your character going 'yay!', and a 'Blank' verb of 'is excited!'."}
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      {"To add a custom message mode:"}
+                    </p>
+                    <ol>
+                      <li>
+                        <p>
+                          {"Scroll to the bottom of the list and press the 'Add Custom Mode' button."}
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          {"Click the randomized mode name and change it to whatever you want (so long as it's alphanumeric with no spaces)."}
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          {"Click the associated verb and set it to whatever you want."}
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          {"Click the 'Blank' verb and set it to whatever you want."}
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          {"Give it a pretty picture"}
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          {"And you're ready to go!"}
+                        </p>
+                      </li>
+                    </ol>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </Section>
+      <Divider />
+      <Section
+        title="Copy / Paste">
+        <p>
+          {"Now at this point, you've probably realized that there's a "} <i>lot</i> {" of settings to change!"}
+          <p />
+          {"And you're right! There are a lot of settings to change! But don't worry, I've got you covered!"}
+          <p />
+          {"You can copy the settings from one message mode to another, and save yourself a lot of time if you want to fill in the blanks with the same picture!"}
+          <p />
+          {"Just click the 'Copy' button on the message mode you want to copy, and then click the 'Paste' button on the message mode you want to paste to!"}
+          <p />
+          {"Only the image settings are copied, which, honestly, is around 90% of the settings to set."}
+        </p>
+      </Section>
+      <Divider />
+      <Section
+        title="Clearing Profile Pics">
+        <p>
+          {"If you want to remove a Profile Pic from a message mode, you can do that too!"}
+          <p />
+          {"On the far right of each message mode, there's a 'Clear' button. Looks like an X."}
+          <p />
+          {"For Default message modes, this will revert the message mode to its default settings."}
+          <p />
+          {"For Custom message modes, this will delete the message mode entirely, forever!"}
+          <p />
+          {"There is a confirmation dialog, so don't worry about accidentally deleting your favorite message mode!"}
+        </p>
+      </Section>
+      <Divider />
+      <Section
+        title="Message Appearance Tab">
+        <p>
+          {"The Message Appearance tab is where you can set up the appearance of your chat messages using the power of early 2000s style sheets!"}
+          <p />
+          {"Each message mode has its own separate customizable appearance, so you can have your whispers be a totally different style to your yells!"}
+          <p />
+          {"There are a lot of options, a lot of tabs, and a lot of gradients, but don't worry! I'll guide you through it!"}
+        </p>
+        <ul>
+          <li>
+            <p>
+              {"The left column is where you select the message mode you want to edit."}
+            </p>
+          </li>
+          <li>
+            <p>
+              {"The upper row of the section to the right is where you select which part of the message appearance you want to edit."}
+            </p>
+          </li>
+          <li>
+            <p>
+              {"Under that is a set of options for that part of the message appearance."}
+            </p>
+            <ul>
+              <li>
+                <p>
+                  {"Such as the gradient, the border color, the border style, and the border width."}
+                </p>
+              </li>
+              <li>
+                <p>
+                  {"Some sections will only have the border available to edit."}
+                </p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p>
+              {"Under that is a preview of the message appearance."}
+            </p>
+            <ul>
+              <li>
+                <p>
+                  {"This is how your message will look to yourself and others when you use this message mode."}
+                </p>
+              </li>
+              <li>
+                <p>
+                  {"Yes, you can use whichever colors and borders you want, there are no restrictions!"}
+                </p>
+                <p>
+                  {"Just keep in mind that this will be seen by others, and is definitely part of the impression you give off, for better or worse! =3"}
+                </p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </Section>
+      <Divider />
+      <Section
+        title="Preview Tab">
+        <p>
+          {"The Preview tab is where you can see how your chat messages will look to yourself and others!"}
+          <p />
+          {"Each message mode has its own separate preview, so you can see how your whispers will look, and how your yells will look!"}
+          <p />
+          {"Custom message modes will have two previews: one for when it is used with a message, and one for when it is used on its own."}
+          <p />
+          {"Fun!"}
+        </p>
+      </Section>
+      <Divider />
+      <Section
+        title="Saving">
+        <p>
+          {"Everything autosaves, so you don't have to worry about losing your settings!"}
+          <p />
+          {"But if you want to make sure, you can click the 'Save' button at the bottom of the window!"}
+        </p>
+      </Section>
+      <Divider />
+      <Section
+        title="VisualChat Visibility Toggle">
+        <p>
+          {"If you want to take a break from seeing VisualChat's messages, you can toggle the visibility of VisualChat's messages with the 'VisualChat Visible/Hidden' button!"}
+          <p />
+          {"While VisualChat is hidden, you will see all messages from other players as plain text, without any of the VisualChat flair!"}
+          <p />
+          {"Other players will still see your messages as VisualChat messages if they have VisualChat enabled!"}
+        </p>
+      </Section>
+      <Divider />
+      <Section
+        title="Cheat Sheet">
+        <p>
+          {"Here's a cheat sheet for the default message modes, and how they're used!"}
+          <p />
+          {"Don't worry, you don't have to memorize this, chances are you'll encounter most of these without even thinking about it!"}
+        </p>
+        <Table>
+          <Table.Row
+            style={{
+              "border": "1px solid #2F4F4F",
+            }}>
+            <Table.Cell bold>
+              {"Message Mode"}
+            </Table.Cell>
+            <Table.Cell bold>
+              {"How to Use"}
+            </Table.Cell>
+            <Table.Cell bold>
+              {"Example"}
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row
+            style={{
+              "border": "1px solid #2F4F4F",
+            }}>
+            <Table.Cell>
+              {"Say"}
+            </Table.Cell>
+            <Table.Cell>
+              {"Just say something, ending with a period."}
+            </Table.Cell>
+            <Table.Cell>
+              {"Hello, Cutie Cat."}
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row
+            style={{
+              "border": "1px solid #2F4F4F",
+            }}>
+            <Table.Cell>
+              {"Whisper"}
+            </Table.Cell>
+            <Table.Cell>
+              {"Start your message with #, or use the whisper hotkey [Y]."}
+            </Table.Cell>
+            <Table.Cell>
+              {"#Hello, Cutie Cat."}
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row
+            style={{
+              "border": "1px solid #2F4F4F",
+            }}>
+            <Table.Cell>
+              {"Ask"}
+            </Table.Cell>
+            <Table.Cell>
+              {"End your message with a question mark."}
+            </Table.Cell>
+            <Table.Cell>
+              {"Where's the cutie cat?"}
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row
+            style={{
+              "border": "1px solid #2F4F4F",
+            }}>
+            <Table.Cell>
+              {"Exclaim"}
+            </Table.Cell>
+            <Table.Cell>
+              {"End your message with an exclamation mark."}
+            </Table.Cell>
+            <Table.Cell>
+              {"Hello, Cutie Cat!"}
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row
+            style={{
+              "border": "1px solid #2F4F4F",
+            }}>
+            <Table.Cell>
+              {"Yell"}
+            </Table.Cell>
+            <Table.Cell>
+              {"Start your message with $, or end your message with two exclamation marks."}
+            </Table.Cell>
+            <Table.Cell>
+              {"$HELLO, CUTIE CAT"}
+              <br />
+              {"HELLO, CUTIE CAT!!"}
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row
+            style={{
+              "border": "1px solid #2F4F4F",
+            }}>
+            <Table.Cell>
+              {"Sing"}
+            </Table.Cell>
+            <Table.Cell>
+              {"Start your message with %."}
+            </Table.Cell>
+            <Table.Cell>
+              {"%Hello, Cutie Cat~"}
+            </Table.Cell>
+          </Table.Row>
+        </Table>
+        <p>
+          {"Byond that, it's all up to you!"}
+        </p>
+      </Section>
+      <Box
+        textAlign="right">
+        <p>
+          {"-With love,"}
+          <br />
+          {"Dan"}
+        </p>
+      </Box>
+    </Section>
+  );
+};
+
+
 
 /*
   ANATOMY OF THE Clipboard:
@@ -345,6 +808,8 @@ const ProfilePicsTab = (props, context) => {
   const { act, data } = useBackend(context);
   const {
     UserCKEY,
+    UserName = "Rainbow Dash",
+    imgsize = 100,
     UserImages = [],
     Clipboard = {
       ProfilePic: {},
@@ -353,6 +818,11 @@ const ProfilePicsTab = (props, context) => {
       "oh no",
     ],
   } = data;
+
+  const [
+    UpperRowTab,
+    setUpperRowTab,
+  ] = useLocalState(context, 'UpperRowTab', 1);
 
   // ANATOMY OF UserImages:
   // UserImages is an array of objects
@@ -451,168 +921,231 @@ const ProfilePicsTab = (props, context) => {
   const LongestHost = ValidHosts.reduce((a, b) => a.length > b.length ? a : b);
   const HostWidth = `${(LongestHost.length) * 0.65}rem`;
 
+
   return (
-    <Table width="100%" m={0}>
-      {/* Column names */}
-      <Table.Row>
-        <Table.Cell {...CellStyleCenter} width={ModeWidth}>
-          Message Mode
-        </Table.Cell>
-        <Table.Cell {...CellStyleCenter}>
-          Image Link
-        </Table.Cell>
-        {/* <Table.Cell {...CellStyleCenter}>
-          Filename
-        </Table.Cell> */}
-        <Table.Cell {...CellStyleCenter} width="0">
-          Preview
-        </Table.Cell>
-        <Table.Cell {...CellStyleCenter} />
-      </Table.Row>
-      {/* Profile pics */}
-      {UserImages && UserImages.length
-        ? UserImages.map((PFPentry, index) => (
-          <Table.Row
-            key={index}
-            {...CellStyle(PFPentry.Mode, index)}>
-            {/* Copy */}
-            {/* Message Mode */}
-            {/* Is static text for the hardcoded message modes */}
-            {/* Is a text input for custom message modes */}
-            <Table.Cell {...CellStyleCenter}>
-              {PFPentry.Modifiable ? (
-                <Button.Input
-                  content={PFPentry.Mode}
-                  currentValue={PFPentry.Mode}
-                  defaultValue={":cutecat:"}
-                  onCommit={(e, value) => act('ModifyModename', {
+    <Box>
+      <Table width="100%" m={0}>
+        {/* Column names */}
+        <Table.Row>
+          <Table.Cell {...CellStyleCenter}>
+            Image Link
+          </Table.Cell>
+          {/* <Table.Cell {...CellStyleCenter}>
+            Filename
+          </Table.Cell> */}
+          <Table.Cell {...CellStyleCenter} width="0">
+            Preview
+          </Table.Cell>
+          <Table.Cell {...CellStyleCenter} />
+        </Table.Row>
+        {/* Profile pics */}
+        {UserImages && UserImages.length
+          ? UserImages.map((PFPentry, index) => (
+            <Table.Row
+              key={index}
+              {...CellStyle(PFPentry.Mode, index)}>
+              <Table.Cell {...CellStyleCenter} p={2}>
+                <Stack fill vertical>
+                  <Stack.Item>
+                    <Stack fill vertical>
+                      <Stack.Item>
+                        <Box
+                          style={{
+                            "text-align": "left",
+                            "padding-left": "5px",
+                          }}
+                          bold
+                          fontSize="1.2em">
+                          {PFPentry.Modifiable
+                            ? (
+                              <Button.Input
+                                // tooltip="The tag that will trigger this picture and mode to be used in chat. To use: include the tag at the end of your message, like so: 'Hello, world! :tag:'"
+                                content={PFPentry.Mode}
+                                currentValue={PFPentry.Mode}
+                                defaultValue={":cutecat:"}
+                                onCommit={(e, value) => act('ModifyModename', {
+                                  UserCkey: UserCKEY,
+                                  Mode: PFPentry.Mode,
+                                  NewName: value,
+                                })} />
+                            ) : (
+                              DisplayMessageMode(PFPentry.Mode)
+                            )}
+                          {!PFPentry.Suppress && (
+                            <Box
+                              style={{
+                                "text-align": "left",
+                              }}
+                              inline
+                              bold>
+                              <Box
+                                inline
+                                textAlign={"center"}
+                                width="2em" >
+                                --
+                              </Box>
+                              {` ${UserName}`}
+                              <Button.Input
+                                content={PFPentry.CustomMessageVerb}
+                                currentValue={PFPentry.CustomMessageVerb}
+                                defaultValue="says,"
+                                onCommit={(e, value) => act('ModifyCustomMessageVerb', {
+                                  UserCkey: UserCKEY,
+                                  Mode: PFPentry.Mode,
+                                  NewVerb: value,
+                                })} />
+                            </Box>
+                          ) || null}
+                        </Box>
+                        {PFPentry.Modifiable && (
+                          <Stack.Item>
+                            <Stack fill vertical>
+                              <Stack.Item>
+                                <Input
+                                  fluid
+                                  textAlign="left"
+                                  content={
+                                    PFPentry.CustomBlankVerb && PFPentry.CustomBlankVerb.length > 80
+                                      ? `${PFPentry.CustomBlankVerb.substring(0, 77)}...`
+                                      : PFPentry.CustomBlankVerb
+                                  }
+                                  value={PFPentry.CustomBlankVerb}
+                                  defaultValue="makes a cute face!"
+                                  onCommit={(e, value) => act('ModifyCustomBlankVerb', {
+                                    UserCkey: UserCKEY,
+                                    Mode: PFPentry.Mode,
+                                    NewMessage: value,
+                                  })} />
+                              </Stack.Item>
+                            </Stack>
+                          </Stack.Item>
+                        ) || null}
+                        <Divider />
+                      </Stack.Item>
+                    </Stack>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Stack fill>
+                      <Stack.Item>
+                        <Button
+                          icon="copy"
+                          onClick={() => act('CopyImage', {
+                            UserCkey: UserCKEY,
+                            Mode: PFPentry.Mode,
+                            Host: PFPentry.Host,
+                            URL: PFPentry.URL,
+                          })} />
+                      </Stack.Item>
+                      <Stack.Item>
+                        {/* Paste, if we have a valid clipboard entry */}
+                        <Button
+                          disabled={!HasValidClipboard}
+                          icon="paste"
+                          onClick={() => act('PasteImage', {
+                            UserCkey: UserCKEY,
+                            Mode: PFPentry.Mode,
+                            Host: PFPentry.Host,
+                            URL: PFPentry.URL,
+                          })} />
+                      </Stack.Item>
+                      <Stack.Item>
+                        <Dropdown
+                          fluid
+                          width={HostWidth}
+                          options={ValidHosts}
+                          displayText={PFPentry.Host}
+                          selected={PFPentry.Host}
+                          onSelected={value => act('ModifyHost', {
+                            UserCkey: UserCKEY,
+                            Mode: PFPentry.Mode,
+                            NewHost: value,
+                          })} />
+                      </Stack.Item>
+                      {/* </Table.Cell> */}
+                      {/* Filename, is a text input */}
+                      {/* <Table.Cell {...CellStyleCenter}> */}
+                      <Stack.Item grow>
+                        <Input
+                          width="100%"
+                          value={PFPentry.URL}
+                          onChange={(e, value) => act('ModifyURL', {
+                            UserCkey: UserCKEY,
+                            Mode: PFPentry.Mode,
+                            NewURL: value,
+                          })} />
+                      </Stack.Item>
+                    </Stack>
+                  </Stack.Item>
+                </Stack>
+              </Table.Cell>
+              {/* Preview */}
+              {/* Limit to, oh, lets say 100px x 100px */}
+              <Table.Cell {...CellStyleCenter}>
+                <Box
+                  as="img"
+                  // so, the actual URL is split into the host and the filename
+                  // the host is something like "https://www.host.com"
+                  // and the filename is "image.jpg"
+                  // so we need to combine them to get the full URL
+                  src={`${PFPentry.Host}/${PFPentry.URL}`} // yiff yiff
+                  width={`${imgsize}px`}
+                  height={`${imgsize}px`}
+                  style={{
+                    objectFit: "cover",
+                  }} />
+              </Table.Cell>
+              {/* Clear */}
+              <Table.Cell {...CellStyleCenter}>
+                <Button.Confirm
+                  icon="times"
+                  color="#ff0000"
+                  confirmContent={
+                    PFPentry.Modifiable ? (
+                      "Delete?"
+                    ) : (
+                      "Reset?"
+                    // eslint-disable-next-line react/jsx-indent
+                    ) // eat my a$$ eslint
+                  }
+                  onClick={() => act('ClearProfileEntry', {
                     UserCkey: UserCKEY,
                     Mode: PFPentry.Mode,
-                    NewName: value,
                   })} />
-              ) : (
-                DisplayMessageMode(PFPentry.Mode)
-              )}
-            </Table.Cell>
-            {/* Host, is a dropdown box */}
-            <Table.Cell {...CellStyleCenter}>
-              <Stack fill>
-                <Stack.Item>
-                  <Button
-                    icon="copy"
-                    onClick={() => act('CopyImage', {
-                      UserCkey: UserCKEY,
-                      Mode: PFPentry.Mode,
-                      Host: PFPentry.Host,
-                      URL: PFPentry.URL,
-                    })} />
-                </Stack.Item>
-                <Stack.Item>
-                  {/* Paste, if we have a valid clipboard entry */}
-                  <Button
-                    disabled={!HasValidClipboard}
-                    icon="paste"
-                    onClick={() => act('PasteImage', {
-                      UserCkey: UserCKEY,
-                      Mode: PFPentry.Mode,
-                      Host: PFPentry.Host,
-                      URL: PFPentry.URL,
-                    })} />
-                </Stack.Item>
-                <Stack.Item>
-                  <Dropdown
-                    fluid
-                    width={HostWidth}
-                    options={ValidHosts}
-                    displayText={PFPentry.Host}
-                    selected={PFPentry.Host}
-                    onSelected={value => act('ModifyHost', {
-                      UserCkey: UserCKEY,
-                      Mode: PFPentry.Mode,
-                      NewHost: value,
-                    })} />
-                </Stack.Item>
-                {/* </Table.Cell> */}
-                {/* Filename, is a text input */}
-                {/* <Table.Cell {...CellStyleCenter}> */}
-                <Stack.Item grow>
-                  <Input
-                    width="100%"
-                    value={PFPentry.URL}
-                    onChange={(e, value) => act('ModifyURL', {
-                      UserCkey: UserCKEY,
-                      Mode: PFPentry.Mode,
-                      NewURL: value,
-                    })} />
-                </Stack.Item>
-              </Stack>
-            </Table.Cell>
-            {/* Preview */}
-            {/* Limit to, oh, lets say 100px x 100px */}
-            <Table.Cell {...CellStyleCenter}>
-              <Box
-                as="img"
-                // so, the actual URL is split into the host and the filename
-                // the host is something like "https://www.host.com"
-                // and the filename is "image.jpg"
-                // so we need to combine them to get the full URL
-                src={`${PFPentry.Host}/${PFPentry.URL}`} // yiff yiff
-                width="100px"
-                height="100px"
-                style={{
-                  objectFit: "cover",
-                }} />
-            </Table.Cell>
-            {/* Clear */}
-            <Table.Cell {...CellStyleCenter}>
-              <Button.Confirm
-                icon="times"
-                color="#ff0000"
-                confirmContent={
-                  PFPentry.Modifiable ? (
-                    "Delete?"
-                  ) : (
-                    "Reset?"
-                  // eslint-disable-next-line react/jsx-indent
-                  ) // eat my a$$ eslint
-                }
-                onClick={() => act('ClearProfileEntry', {
-                  UserCkey: UserCKEY,
-                  Mode: PFPentry.Mode,
-                })} />
-            </Table.Cell>
-          </Table.Row>
-        // plus one row for a button to add a new row
-        )).concat(
-          <Table.Row
-            key="stock">
-            <Table.Cell />
-            <Table.Cell>
-              <Button
-                icon="plus"
-                content="Add Message Mode"
-                onClick={() => act('AddProfileEntry', {
-                  UserCkey: UserCKEY,
-                })} />
-            </Table.Cell>
-            <Table.Cell />
-            <Table.Cell />
-            <Table.Cell />
-            <Table.Cell />
-          </Table.Row>
-        ) : (
-          <Table.Row>
-            <Table.Cell />
-            <Table.Cell />
-            <Table.Cell>
-              No profile pics yet! Oh no!
-            </Table.Cell>
-            <Table.Cell />
-            <Table.Cell />
-            <Table.Cell />
-          </Table.Row>
-        )}
-    </Table>
+              </Table.Cell>
+            </Table.Row>
+          // plus one row for a button to add a new row
+          )).concat(
+            <Table.Row
+              key="stock">
+              <Table.Cell >
+                <Button
+                  icon="plus"
+                  fluid
+                  fontSize="1.5em"
+                  content="Add New Entry!"
+                  onClick={() => act('AddProfileEntry', {
+                    UserCkey: UserCKEY,
+                  })} />
+              </Table.Cell>
+              <Table.Cell />
+              <Table.Cell />
+              <Table.Cell />
+              <Table.Cell />
+            </Table.Row>
+          ) : (
+            <Table.Row>
+              <Table.Cell />
+              <Table.Cell />
+              <Table.Cell>
+                No profile pics yet! Oh no!
+              </Table.Cell>
+              <Table.Cell />
+              <Table.Cell />
+              <Table.Cell />
+            </Table.Row>
+          )}
+      </Table>
+    </Box>
   );
 };
 
@@ -649,22 +1182,33 @@ const MessageAppearanceTab = (props, context) => {
     setMsgModeTabSelected,
   ] = useLocalState(context, 'MsgModeTabSelected', "say");
 
+  if (UserImages.length) {
+    // make sure that the selected message mode's Suppressed is false
+    for (const Mode in UserImages) {
+      if (UserImages[Mode].Mode === MsgModeTabSelected) {
+        if (UserImages[Mode].Suppress) {
+          setMsgModeTabSelected("say");
+        }
+      }
+    }
+  }
+
   const [
     SettingsModeSelected,
     setSettingsModeSelected,
-  ] = useLocalState(context, 'SettingsModeSelected', "Top Box");
+  ] = useLocalState(context, 'SettingsModeSelected', "Profile Box");
 
   // extract a list of message modes from the UserImages
   const PreMessageModes = UserImages.map(PFPentry => PFPentry.Mode);
-  // remove the "Profile / Examine" message mode, cus its not a real message mode
-  const MessageModes = PreMessageModes.filter(Mode => Mode !== "Profile / Examine");
+  // remove any entries where Suppress is true;
+  const MessageModes = PreMessageModes.filter(Mode => !Mode.Suppress);
 
   // Objectify the settings as key => array of settings
   const ValidSettings = {
-    "Top Box": TopBox || [],
+    "Profile Box": TopBox || [],
     // "Image Box": ImageBox || [], // turns out the image box is beansed
-    "Buttons": Buttons || [],
-    "Bottom Box": BottomBox || [],
+    // "Buttons": Buttons || [], // and the buttons are unneeded
+    "Message Box": BottomBox || [],
     "Outer Box": OuterBox || [],
   };
 
@@ -712,12 +1256,22 @@ const MessageAppearanceTab = (props, context) => {
   const HasValidModeClipboard = Clipboard.MessageAppearance
     && Clipboard.MessageAppearance.length > 0; // backend will know what do
 
+  // element of the message mode column, the ID is Bingus
+  // gets the element by id
+  const MModeColumn = document.getElementById("Bingus");
+  // the width of the message mode column
+  const MModeColumnWidth = MModeColumn ? MModeColumn.offsetWidth : 0;
+  // the width of the right column, which is the total width of the parent minus the width of the left column
+  const RightColumnWidth = MModeColumn ? MModeColumn.parentElement.offsetWidth - MModeColumnWidth : 0;
+
+
   return (
     // Horizontal stack, with two columns
     <Stack fill>
       {/* Left column */}
       <Stack.Item>
-        <Stack fill vertical> {/* Vertical stack of message mode butts */}
+        {/* Set the stack below's ID to Bingus */}
+        <Stack fill vertical id="Bingus">
           {MessageModes.map((Mode, index) => (
             <Stack.Item key={index}>
               {/* Copy Paste, cus I love croppy piss */}
@@ -755,7 +1309,7 @@ const MessageAppearanceTab = (props, context) => {
         </Stack>
       </Stack.Item>
       {/* Right column, the main meaty potatoe */}
-      <Stack.Item grow>
+      <Stack.Item grow basis={RightColumnWidth}>
         <Stack fill vertical>
           <Stack.Item>
             <Stack fill>
@@ -901,107 +1455,119 @@ const SettingBlock = (props, context) => {
         "border-radius": "5%",
         "background": "linear-gradient(180deg, #2F4F4F, #1F3A3A)", // here have a gradient, as a treat
       }}>
-      <Stack fill>
-        <Stack.Item>
-          {/* Copypaste */}
-          <Button
-            icon="copy"
-            onClick={() => act('CopySetting', {
-              UserCkey: UserCKEY,
-              Mode: MsgModeTabSelected,
-              PKey: PKey,
-              Type: Type,
-            })} />
-          <Button
-            disabled={!HasValidClipboard}
-            icon="paste"
-            onClick={() => act('PasteSetting', {
-              UserCkey: UserCKEY,
-              Mode: MsgModeTabSelected,
-              PKey: PKey,
-              Type: Type,
-            })} />
-        </Stack.Item>
-        <Stack.Item grow={1}>
-          {Name}
-        </Stack.Item>
-        <Stack.Item>
-          {/* The setting knot itself */}
-          {(() => {
-            switch (Type) {
-              case "COLOR":
-                return (
-                  <Button
-                    style={{
-                      "border": "1px solid #5F9EA0",
-                      "font-family": "monospace",
-                    }}
-                    icon="tint"
-                    iconColor="#5F9EA0"
-                    textColor="#5F9EA0"
-                    bold
-                    backgroundColor={Val}
-                    content={Val}
-                    onClick={() => act('EditColor', {
-                      UserCkey: UserCKEY,
-                      Mode: MsgModeTabSelected,
-                      Val: Val,
-                      PKey: PKey,
-                      Current: Val,
-                    })} />
-                );
-              case "NUMBER":
-              case "ANGLE":
-                return (
-                  <>
-                    {Type === "ANGLE"
-                      ? <Icon px={1} name="arrow-up" rotation={Val + 180} color="#FFFFFF" />
-                      : null}
-                    <NumberInput
-                      // animated
-                      value={Val}
-                      format={Type === "NUMBER"
-                        ? value => value
-                        // wrap the number to display an angle 0-360, even if the value is negative
-                        // going below 0 will wrap around to 360
-                        : value => (value + (360 * 10)) % 360}
-                      minValue={Type === "NUMBER" ? NumbermalMin : -Infinity}
-                      maxValue={Type === "NUMBER" ? NumbermalMax : Infinity}
-                      step={Type === "NUMBER" ? 1 : 15}
-                      stepPixelSize={15}
-                      onChange={(e, value) => act('EditNumber', {
+      <Tooltip
+        content={Desc}>
+        <Stack fill>
+          <Stack.Item>
+            {/* Copypaste */}
+            <Button
+              m={0}
+              icon="copy"
+              onClick={() => act('CopySetting', {
+                UserCkey: UserCKEY,
+                Mode: MsgModeTabSelected,
+                PKey: PKey,
+                Type: Type,
+              })} />
+            <Button
+              m={0}
+              disabled={!HasValidClipboard}
+              icon="paste"
+              onClick={() => act('PasteSetting', {
+                UserCkey: UserCKEY,
+                Mode: MsgModeTabSelected,
+                PKey: PKey,
+                Type: Type,
+              })} />
+          </Stack.Item>
+          <Stack.Item grow={1}>
+            <Box
+              m="auto"
+              fontSize="0.9em">
+              {Name}
+            </Box>
+          </Stack.Item>
+          <Stack.Item m="auto">
+            {/* The setting knot itself */}
+            {(() => {
+              switch (Type) {
+                case "COLOR":
+                  return (
+                    <Button
+                      style={{
+                        "border": "1px solid #5F9EA0",
+                        "font-family": "monospace",
+                      }}
+                      icon="tint"
+                      iconColor="#5F9EA0"
+                      textColor="#5F9EA0"
+                      fontSize="0.8em"
+                      bold
+                      backgroundColor={Val}
+                      content={Val}
+                      onClick={() => act('EditColor', {
                         UserCkey: UserCKEY,
                         Mode: MsgModeTabSelected,
-                        Val: value,
+                        Val: Val,
                         PKey: PKey,
                         Current: Val,
                       })} />
-                  </>
-                );
-              case "SELECT":
-                return (
-                  <Dropdown
-                    options={Options}
-                    displayText={Val}
-                    selected={Val}
-                    onSelected={value => act('EditSelect', {
-                      UserCkey: UserCKEY,
-                      Mode: MsgModeTabSelected,
-                      Val: value,
-                      Current: Val,
-                      PKey: PKey,
-                    })} />
-                );
-              default:
-                return (
-                  <Stack.Item>
-                    {Val}
-                  </Stack.Item>
-                );
-            } // OH BUT JUST STICKING THE WHOLE DAMN THING HERE IS FINE THOUGH OKAY COOL
-          })()}
-        </Stack.Item>
-      </Stack>
+                  );
+                case "NUMBER":
+                case "ANGLE":
+                  return (
+                    <>
+                      {Type === "ANGLE"
+                        ? <Icon px={1} name="arrow-up" rotation={Val + 180} color="#FFFFFF" />
+                        : null}
+                      <NumberInput
+                        // animated
+                        value={Val}
+                        format={Type === "NUMBER"
+                          ? value => value
+                          // wrap the number to display an angle 0-360, even if the value is negative
+                          // going below 0 will wrap around to 360
+                          : value => (value + (360 * 10)) % 360}
+                        minValue={Type === "NUMBER" ? NumbermalMin : -Infinity}
+                        maxValue={Type === "NUMBER" ? NumbermalMax : Infinity}
+                        step={Type === "NUMBER" ? 1 : 15}
+                        stepPixelSize={15}
+                        onChange={(e, value) => act('EditNumber', {
+                          UserCkey: UserCKEY,
+                          Mode: MsgModeTabSelected,
+                          Val: value,
+                          PKey: PKey,
+                          Current: Val,
+                        })} />
+                    </>
+                  );
+                case "SELECT":
+                  return (
+                    <Dropdown
+                      options={Options}
+                      displayText={Val}
+                      selected={Val}
+                      // fontSize="0.8em"
+                      width="auto"
+                      onSelected={value => act('EditSelect', {
+                        UserCkey: UserCKEY,
+                        Mode: MsgModeTabSelected,
+                        Val: value,
+                        Current: Val,
+                        PKey: PKey,
+                      })} />
+                  );
+                default:
+                  return (
+                    <Stack.Item>
+                      {Val}
+                    </Stack.Item>
+                  );
+              } // OH BUT JUST STICKING THE WHOLE DAMN THING HERE IS FINE THOUGH OKAY COOL
+            })()}
+          </Stack.Item>
+        </Stack>
+      </Tooltip>
     </Box>
   );
 };
@@ -1031,30 +1597,49 @@ const GetPreview = (props, context) => {
   const { act, data } = useBackend(context);
   const {
     MMode = "say",
+    Suppress = false,
     ShowMessageMode = false,
   } = props;
   const {
     PreviewHTMLs = [],
+    UserImages = [],
+    imgsize = 100,
   } = data;
 
   const Preview = PreviewHTMLs.find(PFPentry => PFPentry.Mode === MMode);
+  const OnlyImage = Suppress || (Preview && Preview.Suppress);
+  let Html2Show = Preview ? Preview.Message : "Uh oh!";
+  if (OnlyImage) {
+    const ImagePreview = UserImages.find(PFPentry => PFPentry.Mode === MMode);
+    const ImageHost = ImagePreview.Host;
+    const ImageURL = ImagePreview.URL;
+    Html2Show = `<img src="${ImageHost}/${ImageURL}" width="${imgsize}px" height="${imgsize}px" style="object-fit: cover;" />`;
+  }
+
+  // this works fine for the preview panel, but it stretches offscreen for the settings panel
+  // we'll need to get the width of the parent element, and force the width of the child to that
+  const ParentElement = document.querySelector("div");
+  const ParentRect = ParentElement.getBoundingClientRect();
+  const ParWid = ParentRect.width;
+  const ParentWidth = `${ParWid}px`;
 
   return (
     <Box
       style={{
-        "border": "1px solid #5F9EA0",
-        "border-radius": "5%",
+        // "border": "1px solid #5F9EA0",
+        // "border-radius": "5%",
         "max-width": "100%",
         "overflow-wrap": "break-word",
+        "padding": "auto",
       }}
       mx="auto"
       p={3}
-      width="400px"
-      minHeight="300px">
+      height="100%"
+      width={ParentWidth}>
       <Stack
         fill
         vertical>
-        {ShowMessageMode && (
+        {ShowMessageMode && !OnlyImage && (
           <Stack.Item textAlign="center" >
             <Box
               as="h2">
@@ -1064,7 +1649,8 @@ const GetPreview = (props, context) => {
         )}
         <Stack.Item>
           <Box
-            dangerouslySetInnerHTML={{ __html: Preview.Message }} />
+            id="Message"
+            dangerouslySetInnerHTML={{ __html: Html2Show }} />
         </Stack.Item>
       </Stack>
     </Box>
@@ -1085,11 +1671,25 @@ const PreviewTab = (props, context) => {
   const {
     UserImages = [],
   } = data;
+  // the first entry is the profile pic, so we put it in its own variable, and remove it from the list
+  const ProfilePic = UserImages[0];
+  const ProfilePicMode = ProfilePic ? ProfilePic.Mode : "say";
+  const UserImagesFiltered = UserImages.slice(1);
 
   return (
     <Stack fill vertical>
-      {UserImages.map((PFPentry, index) => (
+      <Stack.Item textAlign="center">
+        <Box
+          as="h1">
+          Profile Picture
+        </Box>
+        <GetPreview
+          MMode={ProfilePicMode}
+          Suppress />
+      </Stack.Item>
+      {UserImagesFiltered.map((PFPentry, index) => (
         <Stack.Item key={index}>
+          <Divider />
           <GetPreview
             MMode={PFPentry.Mode}
             ShowMessageMode />

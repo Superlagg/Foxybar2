@@ -583,7 +583,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			if(jobban_isbanned(user, "appearance"))
 				dat += "<b>You are banned from using custom names and appearances. You can continue to adjust your characters, but you will be randomised once you join the game.</b><br>"
 
-			dat += "<a href='?_src_=prefs;preference=setup_hornychat;task=input'>Configure CoolChat / Profile Pictures!</a><BR>"
+			dat += "<a href='?_src_=prefs;preference=setup_hornychat;task=input'>Configure VisualChat / Profile Pictures!</a><BR>"
 			dat += "<b>Name:</b> "
 			dat += "<a href='?_src_=prefs;preference=name;task=input'>[real_name]</a><BR>"
 
@@ -610,7 +610,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 */
 			//Right column
 			dat +="<td width='30%' valign='top'>"
-			dat += "<a href='?_src_=prefs;preference=setup_hornychat;task=input'>Configure CoolChat / Profile Pictures!</a><BR>"
+			dat += "<a href='?_src_=prefs;preference=setup_hornychat;task=input'>Configure VisualChat / Profile Pictures!</a><BR>"
 			// dat += "<h2>Profile Picture ([pfphost]):</h2><BR>"
 			var/pfplink = SSchat.GetPicForMode(user, MODE_PROFILE_PIC)
 			dat += "<b>Picture:</b> <a href='?_src_=prefs;preference=setup_hornychat;task=input'>[pfplink ? "<img src=[pfplink] width='125' height='auto' max-height='300'>" : "Upload a picture!"]</a><BR>"
@@ -1057,7 +1057,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += APPEARANCE_CATEGORY_COLUMN
 			dat += "<h3>Flavor Text</h3>"
 			dat += "<a href='?_src_=prefs;preference=flavor_text;task=input'><b>Set Examine Text</b></a><br>"
-			dat += "<a href='?_src_=prefs;preference=setup_hornychat;task=input'>Configure CoolChat / Profile Pictures!</a><BR>"
+			dat += "<a href='?_src_=prefs;preference=setup_hornychat;task=input'>Configure VisualChat / Profile Pictures!</a><BR>"
 			if(length(features["flavor_text"]) <= 40)
 				if(!length(features["flavor_text"]))
 					dat += "\[...\]"

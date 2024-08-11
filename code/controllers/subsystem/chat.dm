@@ -156,7 +156,7 @@ SUBSYSTEM_DEF(chat)
 		)
 	)
 
-	var/img_size = 75
+	var/img_size = 125
 	var/headspace = 4
 	var/debug_chud = FALSE
 	var/list/colorable_keys = list(
@@ -317,6 +317,31 @@ SUBSYSTEM_DEF(chat)
 		tentry["Mode"] = emotimode
 		tentry["Host"] = default_pfps[MALE]["Host"]
 		tentry["URL"] = default_pfps[MALE]["URL"]
+		tentry["Suppress"] = emotimode == MODE_PROFILE_PIC
+		var/defverb = "says,"
+		var/defblank = "gestures!"
+		switch(emotimode)
+			if(MODE_SAY)
+				defverb = P.features["custom_say"] || "says,"
+				defblank = "speaks."
+			if(MODE_WHISPER)
+				defverb = P.features["custom_whisper"] || "whispers,"
+				defblank = "whispers."
+			if(MODE_SING)
+				defverb = P.features["custom_sing"] || "sings,"
+				defblank = "sings!"
+			if(MODE_ASK)
+				defverb = P.features["custom_ask"] || "asks,"
+				defblank = "asks."
+			if(MODE_EXCLAIM)
+				defverb = P.features["custom_exclaim"] || "exclaims,"
+				defblank = "exclaims!"
+			if(MODE_YELL)
+				defverb = P.features["custom_yell"] || "yells,"
+				defblank = "yells!"
+		tentry["CustomMessageVerb"] = defverb
+		tentry["CustomBlankVerb"] = defblank
+		tentry["Modifiable"] = FALSE
 		mandated += list(tentry)
 	/// now go through their profile pics and copy over what they have, if its valid
 	for(var/list/bepis in PP)
@@ -359,6 +384,9 @@ SUBSYSTEM_DEF(chat)
 				if(emotimode["Mode"] == emode)
 					emotimode["Host"] = ehost
 					emotimode["URL"] = eurl
+					emotimode["Modifiable"] = FALSE
+					emotimode["CustomMessageVerb"] = bepis["CustomMessageVerb"] || "says,"
+					emotimode["CustomBlankVerb"] = bepis["CustomBlankVerb"] || "gestures!" // unused, but here for good luck
 					break
 		else
 			var/list/newPP = list(
@@ -366,6 +394,8 @@ SUBSYSTEM_DEF(chat)
 				"Host" = ehost,
 				"URL" = eurl,
 				"Modifiable" = TRUE,
+				"CustomMessageVerb" = bepis["CustomMessageVerb"] || "says,",
+				"CustomBlankVerb" = bepis["CustomBlankVerb"] || "gestures!",
 			)
 			extras += list(newPP)
 	var/list/newlist = mandated + extras // sorting!
@@ -561,6 +591,11 @@ SUBSYSTEM_DEF(chat)
 					for(var/list/moud in m_images)
 						if(moud["Mode"] == testpart)
 							m_mode = testpart
+							var/list/quicksplit = splittext(m_rawmessage, testpart)
+							if(LAZYLEN(quicksplit) == 2 && ckey(quicksplit[2]) == "") // the token was at the end... probably
+								m_rawmessage = trim(quicksplit[1])
+								m_message = trim(quicksplit[1])
+								break math // mathematical
 							// now the fun part, surgically remove the custom mode from the message, *and* remove any spaces around it
 							m_rawmessage = replacetext(m_rawmessage, " [testpart] ", "")
 							m_rawmessage = replacetext(m_rawmessage, "[testpart] ", "")
@@ -572,7 +607,8 @@ SUBSYSTEM_DEF(chat)
 							m_message = replacetext(m_message, " [testpart]", "")
 							m_message = replacetext(m_message, "[testpart]", "")
 							break math // mathematical
-	var/m_pfp = get_horny_pfp(m_rawmessage, m_images, m_mode)
+	var/list/hidden_toe = list() // critical
+	var/m_pfp = get_horny_pfp(m_rawmessage, m_images, m_mode, hidden_toe)
 	var/list/set4mode = P.mommychat_settings["[m_mode]"]
 	if(!LAZYLEN(set4mode))
 		set4mode = P.mommychat_settings["[MODE_SAY]"]
@@ -588,10 +624,10 @@ SUBSYSTEM_DEF(chat)
 
 	var/bgc_2 =   set4mode["ButtonGradient1"]
 	var/bgc_1 =   set4mode["ButtonGradient2"]
-	var/bgangle = set4mode["ButtonGradientAngle"]
-	var/bbc =     set4mode["ButtonBorderColor"]
-	var/bbs =     set4mode["ButtonBorderWidth"]
-	var/bbt =     set4mode["ButtonBorderStyle"]
+	// var/bgangle = set4mode["ButtonGradientAngle"]
+	// var/bbc =     set4mode["ButtonBorderColor"]
+	// var/bbs =     set4mode["ButtonBorderWidth"]
+	// var/bbt =     set4mode["ButtonBorderStyle"]
 
 	var/bbc_2 =   set4mode["BottomBoxGradient1"]
 	var/bbc_1 =   set4mode["BottomBoxGradient2"]
@@ -604,9 +640,9 @@ SUBSYSTEM_DEF(chat)
 	var/obs =     set4mode["OuterBoxBorderWidth"]
 	var/obt =     set4mode["OuterBoxBorderStyle"]
 
-	var/ibc =     set4mode["ImageBorderBorderColor"]
-	var/ibs =     set4mode["ImageBorderBorderWidth"]
-	var/ibt =     set4mode["ImageBorderBorderStyle"]
+	// var/ibc =     set4mode["ImageBorderBorderColor"]
+	// var/ibs =     set4mode["ImageBorderBorderWidth"]
+	// var/ibt =     set4mode["ImageBorderBorderStyle"]
 
 	// now the text colors
 	// most are defined by mommy, but some arent, so we'll need to get a color that contrasts with the average of the top and bottom gradient colors
@@ -618,7 +654,7 @@ SUBSYSTEM_DEF(chat)
 	var/dtc = "#[contrast_color]"
 
 	var/mommyquid = mommy.source_quid
-	var/targetquid = SSeconomy.extract_quid(target)
+	// var/targetquid = SSeconomy.extract_quid(target)
 
 	/// OFF WITH THEIR HEADS if we've already heard them speak with the same mode in the last, uh, minute?
 	/// Listener (target) has a list of the quids they've heard from, along with the last time they heard them, and their last message mode
@@ -633,33 +669,51 @@ SUBSYSTEM_DEF(chat)
 			if(timecheck > world.time)
 				giv_head = FALSE // (get them) OFF WITH YOUR HEADS!
 	target.heard_data[mommyquid] = list("last_heard" = world.time, "message_mode" = m_mode)
-	if(m_rawmessage == "" || m_rawmessage == " " || m_rawmessage == ".")
-		m_rawmessage = " "
-		giv_body = FALSE
-	// if both are false......... give em the head back
-	if(!giv_head && !giv_body)
-		giv_head = TRUE
+	var/nomessage = FALSE
+	var/nobold_verb = FALSE
+	if(LAZYLEN(hidden_toe))
+		if(!LAZYLEN(ckey(m_rawmessage)))
+			// so see if they have a CustomBlankVerb and CustomMessageVerb
+			// if they do, use that instead of the default message and verb
+			var/vess = hidden_toe["CustomBlankVerb"]
+			if(vess)
+				m_verb = vess
+			else
+				m_verb = "does something!"
+			nobold_verb = TRUE
+			nomessage = TRUE
+		else if(hidden_toe["CustomMessageVerb"])
+			if(findtext(hidden_toe["CustomMessageVerb"], "|"))
+				var/list/verblist = splittext(hidden_toe["CustomMessageVerb"], "|")
+				if(LAZYLEN(verblist) > 1)
+					m_verb = pick(verblist)
+				else
+					m_verb = hidden_toe["CustomMessageVerb"]
+				// nobold_verb = TRUE
+			else
+				m_verb = hidden_toe["CustomMessageVerb"]
+				// nobold_verb = TRUE
 
 	/// Character Directory link
-	var/m_charlink = "<a href='?src=[REF(src)];CHARDIR=1;reciever_quid=[mommyquid];sender_quid=[targetquid]'>\
-	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
-	border: [bbs]px [bbt] [bbc];'>\
-	Examine</div></a>"
-	/// DM link
-	var/m_dmlink = "<a href='?src=[REF(src)];DM=1;reciever_quid=[mommyquid];sender_quid=[targetquid]'>\
-	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
-	border: [bbs]px [bbt] [bbc];'>\
-	DM</div></a>"
-	/// Flirt link
-	var/m_flirtlink = "<a href='?src=[REF(src)];FLIRT=1;reciever_quid=[mommyquid];sender_quid=[targetquid]'>\
-	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
-	border: [bbs]px [bbt] [bbc];'>\
-	Flirt</div></a>"
-	/// Interact link
-	var/m_interactlink = "<a href='?src=[REF(src)];INTERACT=1;reciever_quid=[mommyquid];sender_quid=[targetquid]'>\
-	<div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);\
-	border: [bbs]px [bbt] [bbc];'>\
-	Interact</div></a>"
+	// var/m_charlink = "<a href='?src=[REF(src)];CHARDIR=1;reciever_quid=[mommyquid];sender_quid=[targetquid]'>
+	// <div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);
+	// border: [bbs]px [bbt] [bbc];'>
+	// Examine</div></a>"
+	// /// DM link
+	// var/m_dmlink = "<a href='?src=[REF(src)];DM=1;reciever_quid=[mommyquid];sender_quid=[targetquid]'>
+	// <div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);
+	// border: [bbs]px [bbt] [bbc];'>
+	// DM</div></a>"
+	// /// Flirt link
+	// var/m_flirtlink = "<a href='?src=[REF(src)];FLIRT=1;reciever_quid=[mommyquid];sender_quid=[targetquid]'>
+	// <div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);
+	// border: [bbs]px [bbt] [bbc];'>
+	// Flirt</div></a>"
+	// /// Interact link
+	// var/m_interactlink = "<a href='?src=[REF(src)];INTERACT=1;reciever_quid=[mommyquid];sender_quid=[targetquid]'>
+	// <div text-align: center; style='width: 100%; padding: 3px; background: linear-gradient([bgangle]deg, [bgc_1], [bgc_2]);
+	// border: [bbs]px [bbt] [bbc];'>
+	// Interact</div></a>"
 
 
 /* 
@@ -672,73 +726,29 @@ SUBSYSTEM_DEF(chat)
 	/// now we need to build the message
 	var/list/cum = list()
 	// First, the full body container
-	cum += "<div style='width: 100%; border: [obs]px [obt] [obc];'>"
+	cum += "<div style='width: 100%; border: [obs]px [obt] [obc]; display: flex; flex-direction: row;'>"
 	// first the head
 	if(giv_head)
-		cum += "<div style='width: 100%; background: linear-gradient([tgangle]deg, [tgc_1], [tgc_2]); border: [tbs]px [tbt] [tbc]; display: flex;'>"
+		// cum += "<div style='width: [img_size+20]px; background: linear-gradient([tgangle]deg, [tgc_1], [tgc_2]); border: [tbs]px [tbt] [tbc]; display: flex; flex-direction: row;'>"
 		// now the profile picture
-		cum += "<div style='height: [img_size]px; width: [img_size]px; background: [tgc_1]; border: [ibs]px [ibt] [ibc]; border-radius: 10px; margin: 2px;'>"
-		cum += "<img src='[m_pfp]' style='height: [img_size]px; width: [img_size]px; border-radius: 10px;'>"
+		cum += "<div style='height: [img_size]px; width: [img_size]px;'>"
+		cum += "<img src='[m_pfp]' alt='x.x;' style='height: [img_size]px; width: [img_size]px; border-radius: 10px; margin-left: auto; margin-right: auto; margin-bottom: auto; text-align: center; object-fit: contain;'>"
 		cum += "</div>"
-		// now the rest of the head
-		cum += "<div style='text-align: center; width: calc(100% - [img_size + headspace]px); max-width: calc(100% - [img_size + headspace]px);'>"
-		cum += "<span style='font-weight: bold;'>[m_name]</span>" // already formatted!
-		// now the button panel
-		cum += "<table style='margin: 0 auto;'>"
-		cum += "<tr>"
-		cum += "<td style='width: 50%;'>"
-		cum += m_charlink
-		cum += "</td>"
-		cum += "<td style='width: 50%;'>"
-		cum += m_dmlink
-		cum += "</td>"
-		cum += "</tr>"
-		cum += "<tr>"
-		cum += "<td style='width: 50%;'>"
-		cum += m_flirtlink
-		cum += "</td>"
-		cum += "<td style='width: 50%;'>"
-		cum += m_interactlink
-		cum += "</td>"
-		cum += "</tr>"
-		cum += "</table>"
-		cum += "</div>"
-		cum += "</div>"
+		// cum += "</div>"
+
 	// now the body - the BottomBox
 	if(giv_body)
-		cum += "<div style='width: 100%; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]); border: [bbbs]px [bbbt] [bbbc]; padding: 2px;'>"
-		cum += "<p style='font-weight: bold; margin: 0;'>[m_name] <span style='font-style: italic; color: [dtc];'>[m_verb]</span></p>"
-		cum += "<p style='margin: 0; color: [dtc];'>[m_message]</p>"
+		cum += "<div style='width: 100%; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]); border: [bbbs]px [bbbt] [bbbc]; padding: 2px; display: flex; flex-direction: column;'>"
+		cum += "<p style='font-weight: bold; margin: 0;'>[m_name] <span style='[nobold_verb? "font-weight: normal" : ""] font-style: italic; color: [dtc];'>[m_verb]</span></p>"
+		if(!nomessage)
+			cum += "<p style='margin: 0; color: [dtc]; id='Message'>[m_message]</p>"
 		cum += "</div>"
 	cum += "</div>"
 	// now we need to send it to the target
 	return cum.Join()
 
-	// <!-- FurryHead -->
-	// <div style="width: 100%; background: linear-gradient(0deg, #FFC0CB, #FF1493); border: 2px solid #FF69B4; display: flex;">
-	// 	<!-- Profile Picture -->
-	// 	<div style="height: 75px; width: 75px; background: #FFC0CB; border: 2px solid #FF1493; border-radius: 10px; margin: 2px;">
-	// 		<img src="https://via.placeholder.com/75" style="height: 75px; width: 75px; border-radius: 10px;">
-	// 	</div>
-	// 	<!-- Rest of the Furryhead -->
-	// 	<div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-	// 	<!-- Button Panel -->
-	// 		<span style="font-weight: bold; color:darkmagenta;">Foxxxy Vixen</span>
-	// 		<div style="display: grid; grid-template-areas: 'profile dm' 'flirt yiff'; grid-gap: 2px;">
-	// 			<button style="grid-area: profile; background: #FFC0CB; border: 2px solid #FF1493;">Profile</button>
-	// 			<button style="grid-area: dm; background: #FFC0CB; border: 2px solid #FF1493;">DM</button>
-	// 			<button style="grid-area: flirt; background: #FFC0CB; border: 2px solid #FF1493;">Flirt</button>
-	// 			<button style="grid-area: yiff; background: #FFC0CB; border: 2px solid #FF1493;">Yiff</button>
-	// 		</div>
-	// 	</div>
-	// </div>
-	// <!-- FurryBody -->
-	// <div style="width: 100%; background: linear-gradient(0deg, #FFC0CB, #FF1493); border: 2px solid #FF69B4; padding: 2px;">
-	// 	<p style="font-weight: bold; margin: 0; color:darkmagenta;">Foxxxy Vixen <span style="font-style: italic;">asks,</span></p>
-	// 	<p style="margin: 0; color: darkmagenta;">Hey there! How's it going? I was thinking we could go on a date sometime. What do you say?</p>
 
-
-/datum/controller/subsystem/chat/proc/get_horny_pfp(m_rawmessage, list/m_images, m_mode)
+/datum/controller/subsystem/chat/proc/get_horny_pfp(m_rawmessage, list/m_images, m_mode, list/imglist)
 	// two-stace bytch of a process: First extract any custom modes, then dive in for modes, then just dump something
 	var/modeimal = m_mode
 	// now we have the modeimal, we can get the image!
@@ -748,6 +758,7 @@ SUBSYSTEM_DEF(chat)
 		if(maud["Mode"] == MODE_SAY)
 			fallback_boy = "[maud["Host"]]/[maud["URL"]]"
 		if(maud["Mode"] == modeimal)
+			imglist |= maud
 			return "[maud["Host"]]/[maud["URL"]]" // eat my shorts, Jon
 	// if we get here, we have an unsupported message mode, so just use Say
 	return fallback_boy // the boy is back in town
@@ -1083,7 +1094,7 @@ SUBSYSTEM_DEF(chat)
 	return TRUE
 
 /mob/verb/setup_coolchat()
-	set name = "Setup CoolChat"
+	set name = "Setup VisualChat"
 	set category = "Preferences"
 	SSchat.HornyPreferences(src)
 
@@ -1513,6 +1524,8 @@ SUBSYSTEM_DEF(chat)
 	data["UserImages"] = P.ProfilePics
 	data["UserCKEY"] = user.ckey
 	data["Clipboard"] = clipboard.Copy()
+	data["imgsize"] = SSchat.img_size
+	data["UserName"] = P.real_name
 	var/list/vhosts = assoc_list_strip_value(GLOB.supported_img_hosts)
 	data["ValidHosts"] = vhosts
 	/// Also all the previews
@@ -1534,6 +1547,7 @@ SUBSYSTEM_DEF(chat)
 	for(var/list/modus in P.ProfilePics)
 		var/msgmode = modus["Mode"]
 		var/message2say = "Hi."
+		var/message2say2
 		switch(msgmode)
 			if(MODE_SAY)
 				message2say = "Hello! You are hearing me talk. I am saying words. I am saying words to you. \
@@ -1560,11 +1574,16 @@ SUBSYSTEM_DEF(chat)
 				AAAAAAAAA A AAA AAAAAAAAAAA AAAAAAAAAA AAAAAAAAAA AAA AAAAAAA AAAAAA AAAA A A AA AAAAAAAA AAA AAAA AAAA \
 				AA A A AA A AAA A A AAAAAAAAAAAAAA AAA A A AAA  AAAAAAAAAAAA A AAAA A A A AA AAAAAAAAAAAAAAAAA AAAAAA \
 				AND NOW IM DONE!! HI!!"
+			if(MODE_PROFILE_PIC)
+				continue // hi
 			else
 				message2say = "Hi, this is a test of a custom message mode that has been set by you to be used to display \
 				a custom message mode. The mode is set to [replacetext(msgmode, ":","")]. If the previous sentence was \
 				cut off, please make a note of it. Cool huh? And now I'm done. Hi. [msgmode]"
+				message2say2 = "[msgmode]"
 		var/msgmess = SSchat.PreviewHornyFurryDatingSimMessage(user, null, message2say, FALSE)
+		if(message2say2)
+			msgmess += "<p>[SSchat.PreviewHornyFurryDatingSimMessage(user, null, message2say2, FALSE)]</p>"
 		previewmsgs += list(list("Mode" = msgmode, "Message" = msgmess))
 	data["NumbermalMin"] = SSchat.numbermal_min
 	data["NumbermalMax"] = SSchat.numbermal_max
@@ -1579,6 +1598,8 @@ SUBSYSTEM_DEF(chat)
 	data["OuterBox"] = list()
 	data["ImageBox"] = list()
 	for(var/mmode in P.mommychat_settings)
+		if(mmode == MODE_PROFILE_PIC)
+			continue // tchia uncle chuck
 		// First, the top box settings
 		var/list/topfox = list()
 		topfox["Mode"] = mmode
@@ -1586,57 +1607,57 @@ SUBSYSTEM_DEF(chat)
 		topfox["Settings"] = list()
 		topfox["Settings"] += list(
 			list(
-				"Name" = "Gradient 1",
+				"Name" = "Image Box Top Gradient Color",
 				"Val" = P.mommychat_settings[mmode]["TopBoxGradient1"],
 				"Type" = "COLOR",
 				"Loc" = "L",
 				"PKey" = "TopBoxGradient1",
-				"Desc" = "The first color of the gradient for the top box.",
+				"Desc" = "The first color of the gradient for the section that contains the image for this message mode.",
 				"Default" = "000000"
 			),
 			list(
-				"Name" = "Gradient 2",
+				"Name" = "Image Box Bottom Gradient Color",
 				"Val" = P.mommychat_settings[mmode]["TopBoxGradient2"],
 				"Type" = "COLOR",
 				"Loc" = "L",
 				"PKey" = "TopBoxGradient2",
-				"Desc" = "The second color of the gradient for the top box.",
+				"Desc" = "The second color of the gradient for the section that contains the image for this message mode.",
 				"Default" = "000000"
 			),
 			list(
-				"Name" = "Gradient Angle",
+				"Name" = "Image Box Gradient Direction",
 				"Val" = P.mommychat_settings[mmode]["TopBoxGradientAngle"],
 				"Type" = "ANGLE",
 				"Loc" = "L",
 				"PKey" = "TopBoxGradientAngle",
-				"Desc" = "The angle of the gradient for the top box.",
+				"Desc" = "The angle of the gradient for the section that contains the image for this message mode.",
 				"Default" = "0"
 			),
 			list(
-				"Name" = "Border Color",
+				"Name" = "Image Box Outer Border Color",
 				"Val" = P.mommychat_settings[mmode]["TopBoxBorderColor"],
 				"Type" = "COLOR",
 				"Loc" = "R",
 				"PKey" = "TopBoxBorderColor",
-				"Desc" = "The color of the border for the top box.",
+				"Desc" = "The color of the border for the section that contains the image for this message mode.",
 				"Default" = "000000"
 			),
 			list(
-				"Name" = "Border Width",
+				"Name" = "Image Box Outer Border Width",
 				"Val" = P.mommychat_settings[mmode]["TopBoxBorderWidth"],
 				"Type" = "NUMBER",
 				"Loc" = "R",
 				"PKey" = "TopBoxBorderWidth",
-				"Desc" = "The width of the border for the top box.",
+				"Desc" = "The width of the border for the section that contains the image for this message mode. Set to 0 to disable.",
 				"Default" = "1"
 			),
 			list(
-				"Name" = "Border Style",
+				"Name" = "Image Box Outer Border Style",
 				"Val" = P.mommychat_settings[mmode]["TopBoxBorderStyle"],
 				"Type" = "SELECT",
 				"Loc" = "R",
 				"PKey" = "TopBoxBorderStyle",
-				"Desc" = "The style of the border for the top box.",
+				"Desc" = "The style of the border for the section that contains the image for this message mode.",
 				"Default" = "solid",
 				"Options" = SSchat.borderstyles
 			),
@@ -1649,57 +1670,57 @@ SUBSYSTEM_DEF(chat)
 		bottomfox["Settings"] = list()
 		bottomfox["Settings"] += list(
 			list(
-				"Name" = "Gradient 1",
+				"Name" = "Message Box Top Gradient Color",
 				"Val" = P.mommychat_settings[mmode]["BottomBoxGradient1"],
 				"Type" = "COLOR",
 				"Loc" = "L",
 				"PKey" = "BottomBoxGradient1",
-				"Desc" = "The first color of the gradient for the bottom box.",
+				"Desc" = "The first color of the gradient for the box that will contain your message.",
 				"Default" = "000000"
 			),
 			list(
-				"Name" = "Gradient 2",
+				"Name" = "Message Box Bottom Gradient Color",
 				"Val" = P.mommychat_settings[mmode]["BottomBoxGradient2"],
 				"Type" = "COLOR",
 				"Loc" = "L",
 				"PKey" = "BottomBoxGradient2",
-				"Desc" = "The second color of the gradient for the bottom box.",
+				"Desc" = "The second color of the gradient for the box that will contain your message.",
 				"Default" = "000000"
 			),
 			list(
-				"Name" = "Gradient Angle",
+				"Name" = "Message Box Gradient Direction",
 				"Val" = P.mommychat_settings[mmode]["BottomBoxGradientAngle"],
 				"Type" = "ANGLE",
 				"Loc" = "L",
 				"PKey" = "BottomBoxGradientAngle",
-				"Desc" = "The angle of the gradient for the bottom box.",
+				"Desc" = "The angle of the gradient for the box that will contain your message.",
 				"Default" = "0"
 			),
 			list(
-				"Name" = "Border Color",
+				"Name" = "Message Box Outer Border Color",
 				"Val" = P.mommychat_settings[mmode]["BottomBoxBorderColor"],
 				"Type" = "COLOR",
 				"Loc" = "R",
 				"PKey" = "BottomBoxBorderColor",
-				"Desc" = "The color of the border for the bottom box.",
+				"Desc" = "The color of the border for the box that will contain your message.",
 				"Default" = "000000"
 			),
 			list(
-				"Name" = "Border Width",
+				"Name" = "Message Box Outer Border Width",
 				"Val" = P.mommychat_settings[mmode]["BottomBoxBorderWidth"],
 				"Type" = "NUMBER",
 				"Loc" = "R",
 				"PKey" = "BottomBoxBorderWidth",
-				"Desc" = "The width of the border for the bottom box.",
+				"Desc" = "The width of the border for the box that will contain your message. Set to 0 to disable.",
 				"Default" = "1"
 			),
 			list(
-				"Name" = "Border Style",
+				"Name" = "Message Box Outer Border Style",
 				"Val" = P.mommychat_settings[mmode]["BottomBoxBorderStyle"],
 				"Type" = "SELECT",
 				"Loc" = "R",
 				"PKey" = "BottomBoxBorderStyle",
-				"Desc" = "The style of the border for the bottom box.",
+				"Desc" = "The style of the border for the box that will contain your message.",
 				"Default" = "solid",
 				"Options" = SSchat.borderstyles
 			),
@@ -1767,7 +1788,7 @@ SUBSYSTEM_DEF(chat)
 				"Options" = SSchat.borderstyles
 			),
 		)
-		data["Buttons"] += list(buttonfox)
+		data["Buttons"] += list(buttonfox) // unused
 		/// Then, the Image Border settings
 		var/list/imagefox = list()
 		imagefox["Mode"] = mmode
@@ -1803,7 +1824,7 @@ SUBSYSTEM_DEF(chat)
 				"Options" = SSchat.borderstyles
 			),
 		)
-		data["ImageBox"] += list(imagefox)
+		data["ImageBox"] += list(imagefox) // unused
 		/// And finally the Outer Box settings
 		var/list/outerfox = list()
 		outerfox["Mode"] = mmode
@@ -1811,30 +1832,30 @@ SUBSYSTEM_DEF(chat)
 		outerfox["Settings"] = list()
 		outerfox["Settings"] += list(
 			list(
-				"Name" = "Border Color",
+				"Name" = "Outer Box Border Color",
 				"Val" = P.mommychat_settings[mmode]["OuterBoxBorderColor"],
 				"Type" = "COLOR",
 				"Loc" = "R",
 				"PKey" = "OuterBoxBorderColor",
-				"Desc" = "The color of the border for the outer box.",
+				"Desc" = "The color of the border that will go around the entire message box.",
 				"Default" = "000000"
 			),
 			list(
-				"Name" = "Border Width",
+				"Name" = "Outer Box Border Width",
 				"Val" = P.mommychat_settings[mmode]["OuterBoxBorderWidth"],
 				"Type" = "NUMBER",
 				"Loc" = "R",
 				"PKey" = "OuterBoxBorderWidth",
-				"Desc" = "The width of the border for the outer box.",
+				"Desc" = "The width of the border that will go around the entire message box. Set to 0 to disable.",
 				"Default" = "1"
 			),
 			list(
-				"Name" = "Border Style",
+				"Name" = "Outer Box Border Style",
 				"Val" = P.mommychat_settings[mmode]["OuterBoxBorderStyle"],
 				"Type" = "SELECT",
 				"Loc" = "R",
 				"PKey" = "OuterBoxBorderStyle",
-				"Desc" = "The style of the border for the outer box.",
+				"Desc" = "The style of the border that will go around the entire message box.",
 				"Default" = "solid",
 				"Options" = SSchat.borderstyles
 			),
@@ -1869,7 +1890,7 @@ SUBSYSTEM_DEF(chat)
 		if("ToggleWhinyLittleBazingaMode")
 			TOGGLE_BITFIELD(P.chat_toggles, CHAT_SEE_COOLCHAT)
 			if(CHECK_BITFIELD(P.chat_toggles, CHAT_SEE_COOLCHAT))
-				to_chat(M, span_notice("You will now see CoolChat messages!"))
+				to_chat(M, span_notice("You will now see VisualChat messages!"))
 			else
 				to_chat(M, span_notice("You will now see boring normal chat messages!"))
 			. = CHANGED_NOTHING
@@ -1982,6 +2003,8 @@ SUBSYSTEM_DEF(chat)
 				PPc["URL"] = newurl
 				if(!isnull(newhost))
 					PPc["Host"] = newhost // UX SUPREME
+				if(mode == MODE_PROFILE_PIC)
+					PPc["Suppress"] = TRUE
 				to_chat(M, span_notice("URL for [mode2string(mode)] has been updated to [newurl]!"))
 				. = CHANGED_IMAGES
 				break
@@ -2011,6 +2034,49 @@ SUBSYSTEM_DEF(chat)
 					continue
 				PPc["Mode"] = newname
 				to_chat(M, span_notice("Mode name for [mode2string(mode)] has been updated to [newname]!"))
+				. = CHANGED_IMAGES
+				break
+			if(!.)
+				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], entry not found! :c"))
+				return FALSE
+			else
+				to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been updated!"))
+		if("ModifyCustomBlankVerb") // if someone just types :bazinga:, show this message instead
+			var/mode = params["Mode"]
+			var/newmsg = params["NewMessage"]
+			// if(mode in SSchat.mandatory_modes)
+			// 	to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], mode is not modifiable! :c"))
+			// 	return FALSE
+			newmsg = replacetext(newmsg, @"\n", "")
+			if(!newmsg || !istext(newmsg) || !LAZYLEN(newmsg))
+				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], message cannot be empty! :c"))
+				return FALSE
+			for(var/list/PPc in P.ProfilePics)
+				if(PPc["Mode"] != mode)
+					continue
+				PPc["CustomBlankVerb"] = newmsg
+				to_chat(M, span_notice("Custom default message for [mode2string(mode)] has been updated!"))
+				. = CHANGED_IMAGES
+				break
+			if(!.)
+				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], entry not found! :c"))
+				return FALSE
+			else
+				to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been updated!"))
+		if("ModifyCustomMessageVerb") // if someone just types :bazinga:, show this verb as the message mode instead
+			var/mode = params["Mode"]
+			var/newverb = params["NewVerb"]
+			// if(mode in SSchat.mandatory_modes) // not that they can use it anyway
+			// 	to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], mode is not modifiable! :c"))
+			// 	return FALSE
+			if(!newverb || !istext(newverb) || !LAZYLEN(newverb))
+				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], verb cannot be empty! :c"))
+				return FALSE
+			for(var/list/PPc in P.ProfilePics)
+				if(PPc["Mode"] != mode)
+					continue
+				PPc["CustomMessageVerb"] = newverb
+				to_chat(M, span_notice("Custom default verb for [mode2string(mode)] has been updated!"))
 				. = CHANGED_IMAGES
 				break
 			if(!.)
