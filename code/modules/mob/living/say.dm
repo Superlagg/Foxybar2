@@ -593,8 +593,6 @@
 	var/mob/living/carbon/human/H = mommy.source
 	if(!H.client)
 		return FALSE
-	if(H.client.prefs.see_furry_dating_sim)
-		return FALSE
 	if(z != H.z)
 		return FALSE
 	if(get_dist(H, src) > SSchat.max_horny_distance) //If they're not right next to you, don't hornify them
