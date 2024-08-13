@@ -218,6 +218,7 @@ SUBSYSTEM_DEF(chat)
 	spawn(5 SECONDS)
 		to_chat(world, span_boldnotice("Initialized [LAZYLEN(emoticon_cache)] emoticons! ;D"))
 		to_chat(world, span_boldnotice("Initialized [LAZYLEN(flirts)] flirty messages! <3"))
+		to_chat(world, span_boldnotice("VisualChat engaged! Have a very visual day! <3"))
 		// to_chat(world, span_boldnotice("Initialized [LAZYLEN(stock_image_packs)] stock image packs! 'w'"))
 
 // /datum/controller/subsystem/chat/proc/build_stock_image_packs()

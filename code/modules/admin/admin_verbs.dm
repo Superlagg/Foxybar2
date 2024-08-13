@@ -1480,9 +1480,9 @@ GLOBAL_DATUM_INIT(vap, /datum/visualchat_admin_panel, new)
 					a custom message mode. The mode is set to [replacetext(msgmode, ":","")]. If the previous sentence was \
 					cut off, please make a note of it. Cool huh? And now I'm done. Hi. [msgmode]"
 					message2say2 = "[msgmode]"
-			var/msgmess = SSchat.PreviewHornyFurryDatingSimMessage(user, null, message2say, FALSE)
+			var/msgmess = SSchat.PreviewHornyFurryDatingSimMessage(C.mob, null, message2say, FALSE)
 			if(message2say2)
-				msgmess += "<p>[SSchat.PreviewHornyFurryDatingSimMessage(user, null, message2say2, FALSE)]</p>"
+				msgmess += "<p>[SSchat.PreviewHornyFurryDatingSimMessage(C.mob, null, message2say2, FALSE)]</p>"
 			perp_previewmsgs += list(list("Mode" = msgmode, "Message" = msgmess))
 		var/list/monkey = list(
 			"PerpCKEY" = their_ckey,

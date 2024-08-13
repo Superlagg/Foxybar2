@@ -341,7 +341,7 @@ GLOBAL_VAR_INIT(crotch_call_cooldown, 0)
 
 	// Gremling is just gonna do gremlin things and add this here > w> Cant be assed trying to fit this in somewhere else for now.
 	if(href_list["enlargeImage"])
-		var/dat = {"<img src='[SSchat.GetPicForMode(usr, MODE_PROFILE_PIC)]'>"}
+		var/dat = {"<img src='[SSchat.GetPicForMode(src, MODE_PROFILE_PIC)]'>"}
 		var/datum/browser/popup = new(usr, "enlargeImage", "Full Sized Picture!",1024,1024)
 		popup.set_content(dat)
 		popup.open()

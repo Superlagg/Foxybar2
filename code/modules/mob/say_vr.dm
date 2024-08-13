@@ -33,12 +33,12 @@
 	//mob_type_blacklist_typecache = list(/mob/living/brain)
 	var/subtler = FALSE
 	message_range = 1
+	mommychat_partial = FALSE // full blown
 
 /datum/emote/living/subtle/subtler
 	key = "subtler"
 	key_third_person = "subtler"
 	subtler = TRUE
-	mommychat_partial = FALSE // full blown
 
 /datum/emote/living/subtle/proc/check_invalid(mob/user, input)
 	if(stop_bad_mime.Find(input, 1, 1))
@@ -101,7 +101,7 @@
 	//broadcast to ghosts, if they have a client, are dead, arent in the lobby, allow ghostsight, and, if subtler, are admemes
 	user.emote_for_ghost_sight(message, subtler, message_range)
 
-	playsound(get_turf(user), 'sound/f13effects/sunsetsounds/blush.ogg', 80, FALSE, -14,)
+	playsound(get_turf(user), 'sound/f13effects/sunsetsounds/blush.ogg', 80, FALSE, SOUND_DISTANCE(2))
 
 ///////////////// VERB CODE
 /mob/living/proc/subtle_keybind()
