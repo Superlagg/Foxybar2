@@ -33,6 +33,8 @@ And the base of the send_speech() proc, which is the core of saycode.
 	var/rendered = compose_message(src, message_language, message, , spans, message_mode, source)
 	for(var/_AM in get_hearers_in_view(range, source))
 		var/atom/movable/AM = _AM
+		if(isdead(AM))
+			continue // in the bar, no one can hear you moan (unless you're alive)
 		AM.Hear(rendered, src, message_language, message, , spans, message_mode, source, just_chat)
 
 /atom/movable/proc/compose_message(

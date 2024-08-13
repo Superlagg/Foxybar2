@@ -2,6 +2,9 @@
  * Copyright (c) 2020 Aleksej Komarov
  * SPDX-License-Identifier: MIT
  */
+#define CHANGED_SETTINGS 1
+#define CHANGED_IMAGES 2
+#define CHANGED_NOTHING 3 // COOL
 
 /// hosts, and their respective tags
 GLOBAL_LIST_INIT(supported_img_hosts, list(
@@ -104,7 +107,7 @@ SUBSYSTEM_DEF(chat)
 	/// how long between flirts can we flirt
 	var/flirt_cooldown_time = 5 SECONDS
 	var/debug_character_directory = 0
-	var/same_mode_timeout = 1 MINUTES
+	var/same_mode_timeout = 0 //1 MINUTES
 	var/max_horny_distance = 2
 
 	var/list/stock_image_packs = list() // see: [code\__DEFINES\mommychat_image_packs.dm]
@@ -385,8 +388,29 @@ SUBSYSTEM_DEF(chat)
 					emotimode["Host"] = ehost
 					emotimode["URL"] = eurl
 					emotimode["Modifiable"] = FALSE
-					emotimode["CustomMessageVerb"] = bepis["CustomMessageVerb"] || "says,"
-					emotimode["CustomBlankVerb"] = bepis["CustomBlankVerb"] || "gestures!" // unused, but here for good luck
+					var/defverb = "says,"
+					var/defblank = "gestures!"
+					switch(emotimode)
+						if(MODE_SAY)
+							defverb = P.features["custom_say"] || "says,"
+							defblank = "speaks."
+						if(MODE_WHISPER)
+							defverb = P.features["custom_whisper"] || "whispers,"
+							defblank = "whispers."
+						if(MODE_SING)
+							defverb = P.features["custom_sing"] || "sings,"
+							defblank = "sings!"
+						if(MODE_ASK)
+							defverb = P.features["custom_ask"] || "asks,"
+							defblank = "asks."
+						if(MODE_EXCLAIM)
+							defverb = P.features["custom_exclaim"] || "exclaims,"
+							defblank = "exclaims!"
+						if(MODE_YELL)
+							defverb = P.features["custom_yell"] || "yells,"
+							defblank = "yells!"
+					emotimode["CustomMessageVerb"] = bepis["CustomMessageVerb"] || defverb || "says,"
+					emotimode["CustomBlankVerb"] = bepis["CustomBlankVerb"] || defblank || "gestures!" // unused, but here for good luck
 					break
 		else
 			var/list/newPP = list(
@@ -488,6 +512,25 @@ SUBSYSTEM_DEF(chat)
 		horny_tguis[C.ckey] = HTH
 	HTH.OpenPrefsMenu()
 
+/// GEE DAN, LETS MAKE PROFILE PICS AND SETTINGS BE TWO ENTIRELY SEPARATE LISTS
+/// WHAT A GREAT IDEA, NO WAY THIS WOULD CAUSE DISCREPANCIES you fukcking dikc
+/// This proc comapres mommychat_settings to ProfilePics and updates the two to match
+/datum/controller/subsystem/chat/proc/CoordinateSettingsAndPics(someone, whichchanged)
+	var/datum/preferences/P = extract_prefs(someone)
+	if(!P)
+		return
+	if(whichchanged != CHANGED_IMAGES && whichchanged != CHANGED_SETTINGS)
+		return
+	var/list/horny_settings = P.mommychat_settings
+	var/list/ProfilePics = P.ProfilePics
+	if(whichchanged == CHANGED_IMAGES)
+		// The images were changed, time to go through the settings and make sure it has this mode		for(var/list/PPc in ProfilePics)
+		for(var/list/PPc in ProfilePics)
+			var/foundit = LAZYLEN(LAZYACCESS(P.mommychat_settings, PPc["Mode"]))
+			if(!foundit)
+				P.mommychat_settings[PPc["Mode"]] = GLOB.default_horny_settings.Copy()
+		P.mommychat_settings = horny_settings
+
 /datum/controller/subsystem/chat/proc/TestHorny()
 	var/mob/user = usr
 	to_chat(user, "Testing the horny")
@@ -519,6 +562,7 @@ SUBSYSTEM_DEF(chat)
 		CRASH("PreviewHornyFurryDatingSimMessage called with invalid arguments! [P]!")
 	P.copy_to(D)
 	D.dummyckey = target.ckey
+	D.invisibility = INVISIBILITY_ABSTRACT
 	D.forceMove(get_turf(target))
 	var/msg = message ? message : "Hey there! How's it going? I was thinking we could go on a date sometime. I'm a vampire and"
 	if(message_mode)
@@ -539,6 +583,8 @@ SUBSYSTEM_DEF(chat)
 				msg = "[msg][message_mode]" // to catch any custom modes
 
 	var/datum/rental_mommy/chat/mommy = D.say(msg, direct_to_mob = target)
+	D.moveToNullspace()
+	D.invisibility = initial(D.invisibility)
 	if(!mommy)
 		SSdummy.return_dummy(D)
 		CRASH("PreviewHornyFurryDatingSimMessage called, but Mommy was not created!")
@@ -551,6 +597,22 @@ SUBSYSTEM_DEF(chat)
 		to_chat(target, mommess)
 	else
 		return mommess
+
+/datum/controller/subsystem/chat/proc/mode2string(mode)
+	switch(mode)
+		if(MODE_SAY)
+			return "Say"
+		if(MODE_WHISPER)
+			return "Whisper"
+		if(MODE_SING)
+			return "Sing"
+		if(MODE_ASK)
+			return "Ask"
+		if(MODE_EXCLAIM)
+			return "Exclaim"
+		if(MODE_YELL)
+			return "Yell"
+	return "[mode]"
 
 /datum/controller/subsystem/chat/proc/BuildHornyFurryDatingSimMessage(datum/rental_mommy/chat/mommy)
 	if(!istype(mommy))
@@ -1493,7 +1555,7 @@ SUBSYSTEM_DEF(chat)
 	var/ownerkey
 	/// HornyChat supports copypasting! Rejoice!
 	var/list/clipboard = list()
-	// var/datum/horny_stock_image_tgui_holder/hsith // dewit
+	// var/datum/horny_stock_image_tgui_holder/hsith // dewit // on second thought, no
 
 
 /datum/horny_tgui_holder/New(okey)
@@ -1513,7 +1575,7 @@ SUBSYSTEM_DEF(chat)
 /datum/horny_tgui_holder/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "HornyChat") // yes Im calling it that
+		ui = new(user, src, "HornyChat") // yes Im calling it that // sike, its VisualChat now
 		ui.open()
 
 
@@ -1878,9 +1940,6 @@ SUBSYSTEM_DEF(chat)
  * screw it, everything is in ModeName format
  * 
  *  */
-#define CHANGED_SETTINGS 1
-#define CHANGED_IMAGES 2
-#define CHANGED_NOTHING 3 // COOL
 /datum/horny_tgui_holder/ui_act(action, list/params)
 	. = ..()
 	if(!params["UserCkey"])
@@ -1960,34 +2019,34 @@ SUBSYSTEM_DEF(chat)
 			var/mode = params["Mode"]
 			var/newhost = params["NewHost"]
 			if(!(newhost in GLOB.supported_img_hosts))
-				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], host is not supported! :c"))
+				to_chat(M, span_alert("Unable to modify profile entry for [SSchat.mode2string(mode)], host is not supported! :c"))
 				return FALSE
 			for(var/list/PPc in P.ProfilePics)
 				if(PPc["Mode"] != mode)
 					continue
 				PPc["Host"] = newhost
-				to_chat(M, span_notice("Host for [mode2string(mode)] has been updated to [newhost]!"))
+				to_chat(M, span_notice("Host for [SSchat.mode2string(mode)] has been updated to [newhost]!"))
 				. = CHANGED_IMAGES
 				break
 			if(!.)
-				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], entry not found! :c"))
+				to_chat(M, span_alert("Unable to modify profile entry for [SSchat.mode2string(mode)], entry not found! :c"))
 				return FALSE
 			else
-				to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been updated!"))
+				to_chat(M, span_notice("Profile entry for [SSchat.mode2string(mode)] has been updated!"))
 		if("ModifyURL")
 			var/mode = params["Mode"]
 			var/newurl = params["NewURL"]
 			/// rudimar, we need to check if the URL is valid
 			/// rudimar: we can do that by checking if the URL is a valid URL
 			if(!newurl || !istext(newurl) || !LAZYLEN(newurl))
-				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], URL cannot be empty! :c"))
+				to_chat(M, span_alert("Unable to modify profile entry for [SSchat.mode2string(mode)], URL cannot be empty! :c"))
 				return FALSE
 			var/valid = TRUE
 			var/list/splittest = splittext(newurl, ".")
 			if(!(uppertext(LAZYACCESS(splittest,LAZYLEN(splittest))) in GLOB.supported_img_exts))
 				valid = FALSE
 			if(!valid)
-				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], URL is not valid! :c"))
+				to_chat(M, span_alert("Unable to modify profile entry for [SSchat.mode2string(mode)], URL is not valid! :c"))
 				return FALSE
 			/// rudimar, we need to check if the URL is a valid URL
 			/// actually we dont, but im just gonna filter out any domains that got pasted in
@@ -2010,23 +2069,23 @@ SUBSYSTEM_DEF(chat)
 					PPc["Host"] = newhost // UX SUPREME
 				if(mode == MODE_PROFILE_PIC)
 					PPc["Suppress"] = TRUE
-				to_chat(M, span_notice("URL for [mode2string(mode)] has been updated to [newurl]!"))
+				to_chat(M, span_notice("URL for [SSchat.mode2string(mode)] has been updated to [newurl]!"))
 				. = CHANGED_IMAGES
 				break
 			if(!.)
-				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], entry not found! :c"))
+				to_chat(M, span_alert("Unable to modify profile entry for [SSchat.mode2string(mode)], entry not found! :c"))
 				return FALSE
 			else
-				to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been updated!"))
+				to_chat(M, span_notice("Profile entry for [SSchat.mode2string(mode)] has been updated!"))
 		if("ModifyModename")
 			var/mode = params["Mode"]
 			var/newname = params["NewName"]
 			if(mode in SSchat.mandatory_modes)
-				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], mode is not renamable! :c"))
+				to_chat(M, span_alert("Unable to modify profile entry for [SSchat.mode2string(mode)], mode is not renamable! :c"))
 				return FALSE
 			newname = ckey(newname)
 			if(newname == "" || !istext(newname) || !LAZYLEN(newname))
-				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], mode name cannot be empty! :c"))
+				to_chat(M, span_alert("Unable to modify profile entry for [SSchat.mode2string(mode)], mode name cannot be empty! :c"))
 				return FALSE
 			var/firstie = newname[1] // liek, zomg firstie^^;
 			var/lastie = newname[LAZYLEN(newname)]
@@ -2038,57 +2097,57 @@ SUBSYSTEM_DEF(chat)
 				if(PPc["Mode"] != mode)
 					continue
 				PPc["Mode"] = newname
-				to_chat(M, span_notice("Mode name for [mode2string(mode)] has been updated to [newname]!"))
+				to_chat(M, span_notice("Mode name for [SSchat.mode2string(mode)] has been updated to [newname]!"))
 				. = CHANGED_IMAGES
 				break
 			if(!.)
-				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], entry not found! :c"))
+				to_chat(M, span_alert("Unable to modify profile entry for [SSchat.mode2string(mode)], entry not found! :c"))
 				return FALSE
 			else
-				to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been updated!"))
+				to_chat(M, span_notice("Profile entry for [SSchat.mode2string(mode)] has been updated!"))
 		if("ModifyCustomBlankVerb") // if someone just types :bazinga:, show this message instead
 			var/mode = params["Mode"]
 			var/newmsg = params["NewMessage"]
 			// if(mode in SSchat.mandatory_modes)
-			// 	to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], mode is not modifiable! :c"))
+			// 	to_chat(M, span_alert("Unable to modify profile entry for [SSchat.mode2string(mode)], mode is not modifiable! :c"))
 			// 	return FALSE
 			newmsg = replacetext(newmsg, @"\n", "")
 			if(!newmsg || !istext(newmsg) || !LAZYLEN(newmsg))
-				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], message cannot be empty! :c"))
+				to_chat(M, span_alert("Unable to modify profile entry for [SSchat.mode2string(mode)], message cannot be empty! :c"))
 				return FALSE
 			for(var/list/PPc in P.ProfilePics)
 				if(PPc["Mode"] != mode)
 					continue
 				PPc["CustomBlankVerb"] = newmsg
-				to_chat(M, span_notice("Custom default message for [mode2string(mode)] has been updated!"))
+				to_chat(M, span_notice("Custom default message for [SSchat.mode2string(mode)] has been updated!"))
 				. = CHANGED_IMAGES
 				break
 			if(!.)
-				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], entry not found! :c"))
+				to_chat(M, span_alert("Unable to modify profile entry for [SSchat.mode2string(mode)], entry not found! :c"))
 				return FALSE
 			else
-				to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been updated!"))
+				to_chat(M, span_notice("Profile entry for [SSchat.mode2string(mode)] has been updated!"))
 		if("ModifyCustomMessageVerb") // if someone just types :bazinga:, show this verb as the message mode instead
 			var/mode = params["Mode"]
 			var/newverb = params["NewVerb"]
 			// if(mode in SSchat.mandatory_modes) // not that they can use it anyway
-			// 	to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], mode is not modifiable! :c"))
+			// 	to_chat(M, span_alert("Unable to modify profile entry for [SSchat.mode2string(mode)], mode is not modifiable! :c"))
 			// 	return FALSE
 			if(!newverb || !istext(newverb) || !LAZYLEN(newverb))
-				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], verb cannot be empty! :c"))
+				to_chat(M, span_alert("Unable to modify profile entry for [SSchat.mode2string(mode)], verb cannot be empty! :c"))
 				return FALSE
 			for(var/list/PPc in P.ProfilePics)
 				if(PPc["Mode"] != mode)
 					continue
 				PPc["CustomMessageVerb"] = newverb
-				to_chat(M, span_notice("Custom default verb for [mode2string(mode)] has been updated!"))
+				to_chat(M, span_notice("Custom default verb for [SSchat.mode2string(mode)] has been updated!"))
 				. = CHANGED_IMAGES
 				break
 			if(!.)
-				to_chat(M, span_alert("Unable to modify profile entry for [mode2string(mode)], entry not found! :c"))
+				to_chat(M, span_alert("Unable to modify profile entry for [SSchat.mode2string(mode)], entry not found! :c"))
 				return FALSE
 			else
-				to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been updated!"))
+				to_chat(M, span_notice("Profile entry for [SSchat.mode2string(mode)] has been updated!"))
 		if("AddProfileEntry")
 			var/list/new_entry = list(
 				"Mode" = ":[safepick(GLOB.ing_verbs)][safepick(GLOB.adverbs)]:",
@@ -2097,7 +2156,7 @@ SUBSYSTEM_DEF(chat)
 				"Modifiable" = TRUE,
 			)
 			P.ProfilePics += list(new_entry)
-			to_chat(M, span_notice("Profile entry for [mode2string(new_entry["Mode"])] has been added!"))
+			to_chat(M, span_notice("Profile entry for [SSchat.mode2string(new_entry["Mode"])] has been added!"))
 			. = CHANGED_IMAGES
 		if("ClearProfileEntry")
 			var/mode = params["Mode"]
@@ -2121,16 +2180,16 @@ SUBSYSTEM_DEF(chat)
 							else
 								PPc["Host"] = SSchat.default_pfps[FEMALE]["Host"]
 								PPc["URL"] = SSchat.default_pfps[FEMALE]["URL"]
-					to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been reset!"))
+					to_chat(M, span_notice("Profile entry for [SSchat.mode2string(mode)] has been reset!"))
 					. = CHANGED_IMAGES
 					break
 				else
 					P.ProfilePics.Cut(i, i+1) // surgical and sexy
-					to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been removed!"))
+					to_chat(M, span_notice("Profile entry for [SSchat.mode2string(mode)] has been removed!"))
 					. = CHANGED_IMAGES
 					break
 			if(!.)
-				to_chat(M, span_alert("Unable to clear profile entry for [mode2string(mode)], entry not found! :c"))
+				to_chat(M, span_alert("Unable to clear profile entry for [SSchat.mode2string(mode)], entry not found! :c"))
 				return FALSE
 		/// hey github copilot, what is your favorite color of fox?
 		/// "I like
@@ -2157,10 +2216,10 @@ SUBSYSTEM_DEF(chat)
 					"URL" = fount["URL"],
 				)
 				clipboard["ProfilePic"] = clip
-				to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been copied to the clipboard!"))
+				to_chat(M, span_notice("Profile entry for [SSchat.mode2string(mode)] has been copied to the clipboard!"))
 				. = CHANGED_IMAGES
 			else
-				to_chat(M, span_alert("Unable to copy profile entry for [mode2string(mode)], entry not found! :c"))
+				to_chat(M, span_alert("Unable to copy profile entry for [SSchat.mode2string(mode)], entry not found! :c"))
 				return FALSE
 		if("PasteImage")
 			var/mode = params["Mode"] // the mode it will be pasted to
@@ -2172,13 +2231,13 @@ SUBSYSTEM_DEF(chat)
 						continue
 					P.ProfilePics[i]["Host"] = clip["Host"]
 					P.ProfilePics[i]["URL"] = clip["URL"]
-					to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been pasted from the clipboard!"))
+					to_chat(M, span_notice("Profile entry for [SSchat.mode2string(mode)] has been pasted from the clipboard!"))
 					. = CHANGED_IMAGES
 				if(. != CHANGED_IMAGES)
-					to_chat(M, span_alert("Unable to paste profile entry for [mode2string(mode)], entry not found! :c"))
+					to_chat(M, span_alert("Unable to paste profile entry for [SSchat.mode2string(mode)], entry not found! :c"))
 					return FALSE
 			else
-				to_chat(M, span_alert("Unable to paste profile entry for [mode2string(mode)], clipboard is empty! :c"))
+				to_chat(M, span_alert("Unable to paste profile entry for [SSchat.mode2string(mode)], clipboard is empty! :c"))
 				return FALSE
 		if("ClearProfileEntry")
 			var/mode = params["Mode"]
@@ -2206,20 +2265,20 @@ SUBSYSTEM_DEF(chat)
 							fount["URL"] = "yell.png" // you yiff
 						else
 							fount["URL"] = "say.png" // you lose
-					to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been reset!"))
+					to_chat(M, span_notice("Profile entry for [SSchat.mode2string(mode)] has been reset!"))
 				else
 					ProfilePics -= fount
-					to_chat(M, span_notice("Profile entry for [mode2string(mode)] has been removed!"))
+					to_chat(M, span_notice("Profile entry for [SSchat.mode2string(mode)] has been removed!"))
 				. = CHANGED_IMAGES
 			else
-				to_chat(M, span_alert("Unable to clear profile entry for [mode2string(mode)], entry not found! :c"))
+				to_chat(M, span_alert("Unable to clear profile entry for [SSchat.mode2string(mode)], entry not found! :c"))
 				return FALSE
 		if("EditColor") // we'll handle this one
 			var/pisskey = params["PKey"]
 			var/mode = params["Mode"]
 			var/current = params["Current"]
 			if(!(pisskey in SSchat.colorable_keys))
-				to_chat(M, span_alert("Unable to edit color for [mode2string(mode)], mode is not colorable! This is probably a bug :c"))
+				to_chat(M, span_alert("Unable to edit color for [SSchat.mode2string(mode)], mode is not colorable! This is probably a bug :c"))
 				return FALSE
 			var/list/geosites = list(
 				"Tripod like a real AngelFire",
@@ -2243,7 +2302,7 @@ SUBSYSTEM_DEF(chat)
 			) // Gradually, the web 1.0 sites are disappearing. But they're still here, in our hearts and yiffy posts
 			var/val = input(
 				M,
-				"Enter a new color for the [pisskey] of the [mode2string(mode)]!",
+				"Enter a new color for the [pisskey] of the [SSchat.mode2string(mode)]!",
 				"[safepick(geosites)]",
 				current
 			) as color|null
@@ -2251,14 +2310,14 @@ SUBSYSTEM_DEF(chat)
 				to_chat(M, span_alert("Nevermind!!"))
 				return FALSE
 			P.mommychat_settings[mode][pisskey] = val
-			to_chat(M, span_notice("Color for [mode2string(mode)] [pisskey] has been updated to [val]!"))
+			to_chat(M, span_notice("Color for [SSchat.mode2string(mode)] [pisskey] has been updated to [val]!"))
 			. = CHANGED_SETTINGS
 		if("EditNumber") // TGUI handled this one
 			var/pisskey = params["PKey"]
 			var/mode = params["Mode"]
 			var/newval = params["Val"]
 			if(!(pisskey in SSchat.numberable_keys) && !(pisskey in SSchat.angleable_keys))
-				to_chat(M, span_alert("Unable to edit number for [mode2string(mode)], mode is not numberable! This is probably a bug :c"))
+				to_chat(M, span_alert("Unable to edit number for [SSchat.mode2string(mode)], mode is not numberable! This is probably a bug :c"))
 				return FALSE
 			if(pisskey in SSchat.angleable_keys)
 				// sanitize the angle to be between 0 and 360, even if its negative
@@ -2269,17 +2328,17 @@ SUBSYSTEM_DEF(chat)
 				var/thirdbulk = secondbulk % firstbulk
 				newval = thirdbulk
 			P.mommychat_settings[mode][pisskey] = newval
-			to_chat(M, span_notice("Number for [mode2string(mode)] [pisskey] has been updated to [newval]!"))
+			to_chat(M, span_notice("Number for [SSchat.mode2string(mode)] [pisskey] has been updated to [newval]!"))
 			. = CHANGED_SETTINGS
 		if("EditSelect") // TGUI handled this one
 			var/pisskey = params["PKey"]
 			var/mode = params["Mode"]
 			var/newval = params["Val"]
 			if(!(pisskey in SSchat.selectable_keys))
-				to_chat(M, span_alert("Unable to edit select for [mode2string(mode)], mode is not selectable! This is probably a bug :c"))
+				to_chat(M, span_alert("Unable to edit select for [SSchat.mode2string(mode)], mode is not selectable! This is probably a bug :c"))
 				return FALSE
 			P.mommychat_settings[mode][pisskey] = newval
-			to_chat(M, span_notice("Select for [mode2string(mode)] [pisskey] has been updated to [newval]!"))
+			to_chat(M, span_notice("Select for [SSchat.mode2string(mode)] [pisskey] has been updated to [newval]!"))
 			. = CHANGED_SETTINGS
 		if("CopySetting")
 			var/pisskey = params["PKey"] // the setting key
@@ -2296,10 +2355,10 @@ SUBSYSTEM_DEF(chat)
 					"Val" = found_value,
 				)
 				clipboard["MsgSetting"] = clip
-				to_chat(M, span_notice("Setting for [mode2string(mode)] [pisskey] has been copied to the clipboard!"))
+				to_chat(M, span_notice("Setting for [SSchat.mode2string(mode)] [pisskey] has been copied to the clipboard!"))
 				. = CHANGED_SETTINGS
 			else
-				to_chat(M, span_alert("Unable to copy setting for [mode2string(mode)] [pisskey], setting not found! :c"))
+				to_chat(M, span_alert("Unable to copy setting for [SSchat.mode2string(mode)] [pisskey], setting not found! :c"))
 				return FALSE
 		if("PasteSetting")
 			var/pisskey = params["PKey"]
@@ -2313,13 +2372,13 @@ SUBSYSTEM_DEF(chat)
 				|| (clip["PKey"] in SSchat.selectable_keys) && (pisskey in SSchat.selectable_keys)\
 				|| (clip["PKey"] in SSchat.angleable_keys) && (pisskey in SSchat.angleable_keys))
 					horny_settings[mode][pisskey] = clip["Val"]
-					to_chat(M, span_notice("Setting for [mode2string(mode)] [pisskey] has been pasted from the clipboard!"))
+					to_chat(M, span_notice("Setting for [SSchat.mode2string(mode)] [pisskey] has been pasted from the clipboard!"))
 					. = CHANGED_SETTINGS
 				else
-					to_chat(M, span_alert("Unable to paste setting for [mode2string(mode)] [pisskey], setting type mismatch! :c"))
+					to_chat(M, span_alert("Unable to paste setting for [SSchat.mode2string(mode)] [pisskey], setting type mismatch! :c"))
 					return FALSE
 			else
-				to_chat(M, span_alert("Unable to paste setting for [mode2string(mode)] [pisskey], clipboard is empty! :c"))
+				to_chat(M, span_alert("Unable to paste setting for [SSchat.mode2string(mode)] [pisskey], clipboard is empty! :c"))
 				return FALSE
 		if("CopyModeSettings")
 			var/mode = params["Mode"]
@@ -2327,10 +2386,10 @@ SUBSYSTEM_DEF(chat)
 			var/list/hornier_settings = LAZYACCESS(horny_settings, mode)
 			if(LAZYLEN(hornier_settings)) // dont need to check too hard, just make sure its valid
 				clipboard["MessageAppearance"] = mode
-				to_chat(M, span_notice("Settings for [mode2string(mode)] have been copied to the clipboard!"))
+				to_chat(M, span_notice("Settings for [SSchat.mode2string(mode)] have been copied to the clipboard!"))
 				. = CHANGED_SETTINGS
 			else
-				to_chat(M, span_alert("Unable to copy settings for [mode2string(mode)], mode not found! :c"))
+				to_chat(M, span_alert("Unable to copy settings for [SSchat.mode2string(mode)], mode not found! :c"))
 				return FALSE
 		if("PasteModeSettings")
 			var/mode = params["Mode"] // mode that will be pasted to
@@ -2340,55 +2399,21 @@ SUBSYSTEM_DEF(chat)
 				var/list/clipsettings = LAZYACCESS(horny_settings, clipmode)
 				if(LAZYLEN(clipsettings) == LAZYLEN(horny_settings[mode]))
 					horny_settings[mode] = clipsettings
-					to_chat(M, span_notice("Settings for [mode2string(mode)] have been pasted from the clipboard!"))
+					to_chat(M, span_notice("Settings for [SSchat.mode2string(mode)] have been pasted from the clipboard!"))
 					. = CHANGED_SETTINGS
 				else
-					to_chat(M, span_alert("Unable to paste settings for [mode2string(mode)], setting verification can mismatch! :c"))
+					to_chat(M, span_alert("Unable to paste settings for [SSchat.mode2string(mode)], setting verification can mismatch! :c"))
 					return FALSE
 			else
-				to_chat(M, span_alert("Unable to paste settings for [mode2string(mode)], clipboard is empty! :c"))
+				to_chat(M, span_alert("Unable to paste settings for [SSchat.mode2string(mode)], clipboard is empty! :c"))
 				return FALSE
 	if(.)
 		update_static_data(M)
 		if(. != CHANGED_NOTHING)
 			// we need to update the settings and pics to match
-			CoordinateSettingsAndPics(P, .)
+			SSchat.CoordinateSettingsAndPics(P, .)
 		P.save_character()
 
-/// GEE DAN, LETS MAKE PROFILE PICS AND SETTINGS BE TWO ENTIRELY SEPARATE LISTS
-/// WHAT A GREAT IDEA, NO WAY THIS WOULD CAUSE DISCREPANCIES you fukcking dikc
-/// This proc comapres mommychat_settings to ProfilePics and updates the two to match
-/datum/horny_tgui_holder/proc/CoordinateSettingsAndPics(someone, whichchanged)
-	var/datum/preferences/P = extract_prefs(someone)
-	if(!P)
-		return
-	if(whichchanged != CHANGED_IMAGES && whichchanged != CHANGED_SETTINGS)
-		return
-	var/list/horny_settings = P.mommychat_settings
-	var/list/ProfilePics = P.ProfilePics
-	if(whichchanged == CHANGED_IMAGES)
-		// The images were changed, time to go through the settings and make sure it has this mode		for(var/list/PPc in ProfilePics)
-		for(var/list/PPc in ProfilePics)
-			var/foundit = LAZYLEN(LAZYACCESS(P.mommychat_settings, PPc["Mode"]))
-			if(!foundit)
-				P.mommychat_settings[PPc["Mode"]] = GLOB.default_horny_settings.Copy()
-		P.mommychat_settings = horny_settings
-
-/datum/horny_tgui_holder/proc/mode2string(mode)
-	switch(mode)
-		if(MODE_SAY)
-			return "Say"
-		if(MODE_WHISPER)
-			return "Whisper"
-		if(MODE_SING)
-			return "Sing"
-		if(MODE_ASK)
-			return "Ask"
-		if(MODE_EXCLAIM)
-			return "Exclaim"
-		if(MODE_YELL)
-			return "Yell"
-	return "[mode]"
 
 #undef CHANGED_SETTINGS
 #undef CHANGED_IMAGES
