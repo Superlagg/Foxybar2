@@ -38,6 +38,7 @@
 	key = "subtler"
 	key_third_person = "subtler"
 	subtler = TRUE
+	mommychat_partial = FALSE // full blown
 
 /datum/emote/living/subtle/proc/check_invalid(mob/user, input)
 	if(stop_bad_mime.Find(input, 1, 1))
@@ -65,6 +66,8 @@
 	. = TRUE
 	if(!can_run_emote(user))
 		return FALSE
+	
+	var/original_message = message
 
 	user.log_message(message, subtler ? LOG_SUBTLER : LOG_SUBTLE)
 	var/msg_check = user.say_narrate_replace(message, user)
@@ -83,13 +86,17 @@
 			if(!check_rights_for(ghostie.client, R_ADMIN))
 				non_admin_ghosts += ghostie
 
+	var/datum/rental_mommy/chat/mommy = BuildMommy(user, message)
+	mommy.original_message = original_message
+
 	// Everyone in range can see it
 	user.visible_message(
 		message = message,
 		blind_message = message,
 		self_message = message,
 		vision_distance = message_range,
-		ignored_mobs = non_admin_ghosts)
+		ignored_mobs = non_admin_ghosts,
+		data = list("mom" = mommy))
 
 	//broadcast to ghosts, if they have a client, are dead, arent in the lobby, allow ghostsight, and, if subtler, are admemes
 	user.emote_for_ghost_sight(message, subtler, message_range)

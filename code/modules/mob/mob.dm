@@ -156,7 +156,8 @@
 		mob/target,
 		target_message,
 		visible_message_flags = NONE,
-		pref_check
+		pref_check,
+		list/data = list()
 		)
 	var/turf/T = get_turf(src)
 	if(!T)
@@ -165,6 +166,7 @@
 	if(!length(hearers)) // yes, hearers is correct
 		return
 	hearers -= ignored_mobs
+	var/datum/rental_mommy/chat/momchat = LAZYLEN(data) ? data["mom"] : null
 
 	var/saycolor = src.get_chat_color()
 	var/targetsaycolor = null
@@ -198,6 +200,9 @@
 	//if(visible_message_flags & EMOTE_MESSAGE)
 	//	message = "<span class='emote'><b>[src]</b> [message]</span>"
 
+	if(momchat)
+		momchat.message = message
+
 	for(var/mob/M in hearers)
 		if(!M.client)
 			continue
@@ -222,10 +227,20 @@
 				if(!!target)
 					var/sanitizedtargetsaycolor = M.client.sanitize_chat_color(targetsaycolor)
 					msg = color_keyword(msg, sanitizedtargetsaycolor, target.name)
-			M.show_message(msg, MSG_VISUAL, msg, MSG_AUDIBLE)
+			var/datum/rental_mommy/chat/yourmom
+			if(momchat && M.should_hornify(momchat))
+				yourmom = SSrentaldatums.CheckoutMommy("chat_datums")
+				yourmom.copy_mommy(momchat)
+				yourmom.recipiant = M
+				yourmom.message = msg
+				yourmom.hide_name_n_verb = TRUE
+			M.show_message(msg, MSG_VISUAL, msg, MSG_AUDIBLE, momchat = yourmom)
+			if(yourmom)
+				yourmom.checkin()
+	momchat?.checkin()
 
 ///Adds the functionality to self_message.
-/mob/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, mob/target, target_message, visible_message_flags = NONE, pref_check)
+/mob/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, mob/target, target_message, visible_message_flags = NONE, pref_check, list/data = list())
 	. = ..()
 	// if(self_message && target != src)
 	// 	show_message(self_message, null, blind_message, null, pref_check)
@@ -248,7 +263,8 @@
 		self_message,
 		ignored_mobs,
 		audible_message_flags = NONE,
-		pref_check
+		pref_check,
+		list/data = list()
 		)
 	var/turf/T = get_turf(src)
 	if(!T)
@@ -267,6 +283,8 @@
 	//if(audible_message_flags & EMOTE_MESSAGE)
 	//	message = "<span class='emote'><b>[src]</b> [message]</span>"
 
+	var/datum/rental_mommy/chat/momchat = LAZYLEN(data) ? data["mom"] : null
+
 	var/saycolor = src.get_chat_color()
 
 	for(var/mob/M in hearers)
@@ -275,6 +293,13 @@
 		var/msg = message
 		//if(M == src)
 			//msg = self_message
+		var/datum/rental_mommy/chat/yamum = null
+		if(momchat && M.should_hornify(momchat))
+			yamum = SSrentaldatums.CheckoutMommy("chat_datums")
+			yamum.copy_mommy(momchat)
+			yamum.recipiant = M
+			yamum.message = message
+			yamum.hide_name_n_verb = TRUE
 		if(!M.can_hear())
 			msg = deaf_message
 		if(M.client?.prefs.color_chat_log)
@@ -283,7 +308,10 @@
 		if(audible_message_flags & EMOTE_MESSAGE && runechat_prefs_check(M, audible_message_flags))
 			M.create_chat_message(src, raw_message = msg, runechat_flags = audible_message_flags)
 		if(!CHECK_BITFIELD(audible_message_flags, ONLY_OVERHEAD))
-			M.show_message(msg, MSG_AUDIBLE, msg, MSG_VISUAL)
+			M.show_message(msg, MSG_AUDIBLE, msg, MSG_VISUAL, momchat = yamum)
+		if(yamum)
+			yamum.checkin()
+	momchat?.checkin()
 
 /**
  * Show a message to all mobs in earshot of this one
@@ -297,7 +325,7 @@
  * * hearing_distance (optional) is the range, how many tiles away the message can be heard.
  * * ignored_mobs (optional) doesn't show any message to any given mob in the list.
  */
-/mob/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, list/ignored_mobs, audible_message_flags = NONE, pref_check)
+/mob/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, list/ignored_mobs, audible_message_flags = NONE, pref_check, list/data = list())
 	. = ..()
 	// if(self_message)
 	// 	show_message(self_message, null, deaf_message, null, pref_check)

@@ -638,8 +638,8 @@ SUBSYSTEM_DEF(chat)
 	/// - A color for the text background
 	/// - A color for the header background
 	/// and from this, we will make a furry dating sim style message that will be sent to the target *and* the speaker
-	var/m_name       = mommy.speakername
-	var/m_verb       = mommy.message_saymod_comma
+	var/m_name       = mommy.speakername || mommy.source.name
+	var/m_verb       = mommy.message_saymod_comma || "says, "
 	var/m_rawmessage = mommy.original_message
 	var/m_message    = mommy.message
 	var/m_mode       = mommy.message_mode || MODE_SAY
@@ -738,28 +738,34 @@ SUBSYSTEM_DEF(chat)
 	target.heard_data[mommyquid] = list("last_heard" = world.time, "message_mode" = m_mode)
 	var/nomessage = FALSE
 	var/nobold_verb = FALSE
-	if(LAZYLEN(hidden_toe))
-		if(!LAZYLEN(ckey(m_rawmessage)))
-			// so see if they have a CustomBlankVerb and CustomMessageVerb
-			// if they do, use that instead of the default message and verb
-			var/vess = hidden_toe["CustomBlankVerb"]
-			if(vess)
-				m_verb = vess
-			else
-				m_verb = "does something!"
-			nobold_verb = TRUE
-			nomessage = TRUE
-		else if(hidden_toe["CustomMessageVerb"])
-			if(findtext(hidden_toe["CustomMessageVerb"], "|"))
-				var/list/verblist = splittext(hidden_toe["CustomMessageVerb"], "|")
-				if(LAZYLEN(verblist) > 1)
-					m_verb = pick(verblist)
+	var/no_boober_period = FALSE // the name and verb
+	if(mommy.is_emote || mommy.hide_name_n_verb)
+		no_boober_period = TRUE // message is self-contained, just show it raw without the head or the verb
+		if(mommy.partial) // for *scream stuff
+			giv_head = FALSE
+	else
+		if(LAZYLEN(hidden_toe))
+			if(!LAZYLEN(ckey(m_rawmessage)))
+				// so see if they have a CustomBlankVerb and CustomMessageVerb
+				// if they do, use that instead of the default message and verb
+				var/vess = hidden_toe["CustomBlankVerb"]
+				if(vess)
+					m_verb = vess
+				else
+					m_verb = "does something!"
+				nobold_verb = TRUE
+				nomessage = TRUE
+			else if(hidden_toe["CustomMessageVerb"])
+				if(findtext(hidden_toe["CustomMessageVerb"], "|"))
+					var/list/verblist = splittext(hidden_toe["CustomMessageVerb"], "|")
+					if(LAZYLEN(verblist) > 1)
+						m_verb = pick(verblist)
+					else
+						m_verb = hidden_toe["CustomMessageVerb"]
+					// nobold_verb = TRUE
 				else
 					m_verb = hidden_toe["CustomMessageVerb"]
-				// nobold_verb = TRUE
-			else
-				m_verb = hidden_toe["CustomMessageVerb"]
-				// nobold_verb = TRUE
+					// nobold_verb = TRUE
 
 	/// Character Directory link
 	// var/m_charlink = "<a href='?src=[REF(src)];CHARDIR=1;reciever_quid=[mommyquid];sender_quid=[targetquid]'>
@@ -806,9 +812,10 @@ SUBSYSTEM_DEF(chat)
 	// now the body - the BottomBox
 	if(giv_body)
 		cum += "<div style='width: 100%; background: linear-gradient([bbangle]deg, [bbc_1], [bbc_2]); border: [bbbs]px [bbbt] [bbbc]; padding: 2px; display: flex; flex-direction: column;'>"
-		cum += "<p style='font-weight: bold; margin: 0;'>[m_name] <span style='[nobold_verb? "font-weight: normal;" : ""] font-style: italic; color: [dtc];'>[m_verb]</span></p>"
+		if(!no_boober_period)
+			cum += "<p style='font-weight: bold; margin: 0;'>[m_name] <span style='[nobold_verb? "font-weight: normal;" : ""] font-style: italic; color: [dtc];'>[m_verb]</span></p>"
 		if(!nomessage)
-			cum += "<p style='margin: 0; color: [dtc]; id='Message'>[m_message]</p>"
+			cum += "<p style='margin: 0; colorr: [dtc]; id='Message'>[m_message]</p>"
 		cum += "</div>"
 	cum += "</div>"
 	// now we need to send it to the target

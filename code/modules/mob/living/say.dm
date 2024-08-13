@@ -582,7 +582,7 @@
 		return mind.get_language_holder()
 	. = ..()
 
-/mob/proc/should_hornify(datum/rental_mommy/chat/mommy)
+/atom/proc/should_hornify(datum/rental_mommy/chat/mommy)
 	return FALSE // quit seducing ghosts in the lobby, wacky
 
 /mob/living/should_hornify(datum/rental_mommy/chat/mommy)
