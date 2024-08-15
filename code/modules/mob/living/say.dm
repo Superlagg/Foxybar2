@@ -312,6 +312,8 @@
 				continue
 			if(M.stat != DEAD) //not dead, not important
 				continue
+			if(isnewplayer(M)) //quit hearing stuff from the lobby!
+				continue
 			if(!M.client || !client) //client is so that ghosts don't have to listen to mice
 				continue
 			if(get_dist(M, source) > 7 || M.z != z) //they're out of range of normal hearing
