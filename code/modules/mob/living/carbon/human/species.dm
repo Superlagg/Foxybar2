@@ -83,7 +83,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 	// species-only traits. Can be found in DNA.dm
 	var/list/species_traits = list(HAS_FLESH,HAS_BONE) //by default they can scar and have bones/flesh unless set to something else
 	// generic traits tied to having the species
-	var/list/inherent_traits = list()
+	var/list/inherent_traits = list(TRAIT_NOHUNGER)
 	var/inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID
 
 	var/attack_verb = "punch"	// punch-specific attack verb
