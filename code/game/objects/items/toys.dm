@@ -840,31 +840,54 @@
 
 /obj/item/toy/cards/deck/attackby(obj/item/I, mob/living/user, params)
 	if(istype(I, /obj/item/toy/cards/singlecard))
-		var/obj/item/toy/cards/singlecard/SC = I
-		if(SC.parentdeck == src)
-			if(!user.temporarilyRemoveItemFromInventory(SC))
-				to_chat(user, span_warning("The card is stuck to your hand, you can't add it to the deck!"))
-				return
-			cards += SC.cardname
-			user.visible_message("[user] adds a card to the bottom of the deck.",span_notice("I add the card to the bottom of the deck."))
-			qdel(SC)
-		else
-			to_chat(user, span_warning("I can't mix cards from other decks!"))
-		update_icon()
+		InsertSingleCard(I, user, params)
 	else if(istype(I, /obj/item/toy/cards/cardhand))
-		var/obj/item/toy/cards/cardhand/CH = I
-		if(CH.parentdeck == src)
-			if(!user.temporarilyRemoveItemFromInventory(CH))
-				to_chat(user, span_warning("The hand of cards is stuck to your hand, you can't add it to the deck!"))
-				return
-			cards += CH.currenthand
-			user.visible_message("[user] puts [user.p_their()] hand of cards in the deck.", span_notice("I put the hand of cards in the deck."))
-			qdel(CH)
-		else
-			to_chat(user, span_warning("I can't mix cards from other decks!"))
-		update_icon()
+		InsertCardHand(I, user, params)
 	else
 		return ..()
+
+/obj/item/toy/cards/deck/proc/prevent_card_insertion(mob/living/user, obj/item/toy/cards/singlecard/I, params)
+	if(loc == user && I.loc == user)
+		return TRUE // holding both things
+	var/usur = alert(
+		user,
+		"Are you sure you want to add this to the deck?",
+		"Confirm Card Insertion",
+		"ADD to deck",
+		"Cancel"
+	)
+	if(usur == "ADD to deck")
+		return TRUE
+
+/obj/item/toy/cards/deck/proc/InsertSingleCard(obj/item/toy/cards/singlecard/I, mob/living/user, params)
+	if(!prevent_card_insertion(user, I, params))
+		return
+	var/obj/item/toy/cards/singlecard/SC = I
+	if(SC.parentdeck == src)
+		if(!user.temporarilyRemoveItemFromInventory(SC))
+			to_chat(user, span_warning("The card is stuck to your hand, you can't add it to the deck!"))
+			return
+		cards += SC.cardname
+		user.visible_message("[user] adds a card to the bottom of the deck.",span_notice("I add the card to the bottom of the deck."))
+		qdel(SC)
+	else
+		to_chat(user, span_warning("I can't mix cards from other decks!"))
+	update_icon()
+
+/obj/item/toy/cards/deck/proc/InsertCardHand(obj/item/toy/cards/cardhand/I, mob/living/user, params)
+	if(!prevent_card_insertion(user, I, params))
+		return
+	var/obj/item/toy/cards/cardhand/CH = I
+	if(CH.parentdeck == src)
+		if(!user.temporarilyRemoveItemFromInventory(CH))
+			to_chat(user, span_warning("The hand of cards is stuck to your hand, you can't add it to the deck!"))
+			return
+		cards += CH.currenthand
+		user.visible_message("[user] puts [user.p_their()] hand of cards in the deck.", span_notice("I put the hand of cards in the deck."))
+		qdel(CH)
+	else
+		to_chat(user, span_warning("I can't mix cards from other decks!"))
+	update_icon()
 
 /obj/item/toy/cards/deck/MouseDrop(atom/over_object)
 	. = ..()
@@ -935,6 +958,8 @@
 
 /obj/item/toy/cards/cardhand/attackby(obj/item/toy/cards/singlecard/C, mob/living/user, params)
 	if(istype(C))
+		if(!prevent_add_card_to_hand(user, C, params))
+			return
 		if(C.parentdeck == src.parentdeck)
 			src.currenthand += C.cardname
 			user.visible_message(span_notice("[user] adds a card to [user.p_their()] hand."), span_notice("I add the [C.cardname] to your hand."))
@@ -945,6 +970,19 @@
 			to_chat(user, span_warning("I can't mix cards from other decks!"))
 	else
 		return ..()
+
+/obj/item/toy/cards/cardhand/proc/prevent_add_card_to_hand(mob/living/user, obj/item/toy/cards/singlecard/C, params)
+	if(loc == user && C.loc == user)
+		return TRUE // holding both things
+	var/usur = alert(
+		user,
+		"Are you sure you want to add this to your hand?",
+		"Confirm Card Insertion",
+		"ADD to hand",
+		"Cancel"
+	)
+	if(usur == "ADD to hand")
+		return TRUE
 
 /obj/item/toy/cards/cardhand/apply_card_vars(obj/item/toy/cards/newobj,obj/item/toy/cards/sourceobj)
 	..()
@@ -1026,38 +1064,62 @@
 
 /obj/item/toy/cards/singlecard/attackby(obj/item/I, mob/living/user, params)
 	if(istype(I, /obj/item/toy/cards/singlecard/))
-		var/obj/item/toy/cards/singlecard/C = I
-		if(C.parentdeck == src.parentdeck)
-			var/obj/item/toy/cards/cardhand/H = new/obj/item/toy/cards/cardhand(user.loc)
-			H.currenthand += C.cardname
-			H.currenthand += src.cardname
-			H.parentdeck = C.parentdeck
-			H.apply_card_vars(H,C)
-			to_chat(user, span_notice("I combine the [C.cardname] and the [src.cardname] into a hand."))
-			qdel(C)
-			qdel(src)
-			H.pickup(user)
-			user.put_in_active_hand(H)
-		else
-			to_chat(user, span_warning("I can't mix cards from other decks!"))
+		InsertSingleCardToCard(I, user, params)
 
 	if(istype(I, /obj/item/toy/cards/cardhand/))
-		var/obj/item/toy/cards/cardhand/H = I
-		if(H.parentdeck == parentdeck)
-			H.currenthand += cardname
-			user.visible_message("[user] adds a card to [user.p_their()] hand.", span_notice("I add the [cardname] to your hand."))
-			qdel(src)
-			H.interact(user)
-			if(H.currenthand.len > 4)
-				H.icon_state = "[deckstyle]_hand5"
-			else if(H.currenthand.len > 3)
-				H.icon_state = "[deckstyle]_hand4"
-			else if(H.currenthand.len > 2)
-				H.icon_state = "[deckstyle]_hand3"
-		else
-			to_chat(user, span_warning("I can't mix cards from other decks!"))
+		InsertCardToHand(I, user, params)
+
 	else
 		return ..()
+
+/obj/item/toy/cards/singlecard/proc/InsertSingleCardToCard(obj/item/toy/cards/singlecard/I, mob/living/user, params)
+	if(!prevent_card_insertion(user, I, params))
+		return
+	var/obj/item/toy/cards/singlecard/C = I
+	if(C.parentdeck == src.parentdeck)
+		var/obj/item/toy/cards/cardhand/H = new/obj/item/toy/cards/cardhand(user.loc)
+		H.currenthand += C.cardname
+		H.currenthand += src.cardname
+		H.parentdeck = C.parentdeck
+		H.apply_card_vars(H,C)
+		to_chat(user, span_notice("I combine the [C.cardname] and the [src.cardname] into a hand."))
+		qdel(C)
+		qdel(src)
+		H.pickup(user)
+		user.put_in_active_hand(H)
+	else
+		to_chat(user, span_warning("I can't mix cards from other decks!"))
+
+/obj/item/toy/cards/singlecard/proc/InsertCardToHand(obj/item/toy/cards/cardhand/I, mob/living/user, params)
+	if(!prevent_card_insertion(user, I, params))
+		return
+	var/obj/item/toy/cards/cardhand/H = I
+	if(H.parentdeck == parentdeck)
+		H.currenthand += cardname
+		user.visible_message("[user] adds a card to [user.p_their()] hand.", span_notice("I add the [cardname] to your hand."))
+		qdel(src)
+		H.interact(user)
+		if(H.currenthand.len > 4)
+			H.icon_state = "[deckstyle]_hand5"
+		else if(H.currenthand.len > 3)
+			H.icon_state = "[deckstyle]_hand4"
+		else if(H.currenthand.len > 2)
+			H.icon_state = "[deckstyle]_hand3"
+	else
+		to_chat(user, span_warning("I can't mix cards from other decks!"))
+
+/obj/item/toy/cards/singlecard/proc/prevent_card_insertion(mob/living/user, obj/item/toy/cards/singlecard/C, params)
+	if(loc == user && C.loc == user)
+		return TRUE // holding both things
+	var/usur = alert(
+		user,
+		"Are you sure you want to add this to the card?",
+		"Confirm Card Insertion",
+		"ADD to card",
+		"Cancel"
+	)
+	if(usur == "ADD to card")
+		return TRUE
 
 /obj/item/toy/cards/singlecard/attack_self(mob/living/user)
 	. = ..()
