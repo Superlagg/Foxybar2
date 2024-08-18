@@ -6,8 +6,11 @@
 /datum/holiday/weekly
 	/// Which day(s) of the week this holiday is celebrated on
 	var/list/weekdays = list()
+	var/enabled = TRUE
 
 /datum/holiday/weekly/shouldCelebrate(dd, mm, yy, ww, ddd)
+	if(!enabled)
+		return FALSE
 	var/adjustedDDD = time2text(world.realtime, "DDD", -6) //Fenny doesn't wanna use UTC, but instead Central Standard Time
 	return (adjustedDDD in weekdays) // ez
 
@@ -23,6 +26,7 @@
 	var/sparkling
 	var/pizza_time = 5 MINUTES
 	var/pillar_johned
+	enabled = FALSE
 
 /datum/holiday/weekly/potluck/celebrate()
 	. = ..()
