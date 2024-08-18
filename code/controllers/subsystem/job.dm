@@ -19,6 +19,8 @@ SUBSYSTEM_DEF(job)
 
 	var/list/level_order = list(JP_HIGH,JP_MEDIUM,JP_LOW)
 
+	var/force_customer = TRUE
+
 /datum/controller/subsystem/job/Initialize(timeofday)
 	SSmapping.HACK_LoadMapConfig()
 	if(!occupations.len)
