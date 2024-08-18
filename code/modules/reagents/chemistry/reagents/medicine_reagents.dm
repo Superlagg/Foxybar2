@@ -1662,7 +1662,7 @@
 	M.confused = max(0, M.confused-6*REM)
 	M.disgust = max(0, M.disgust-6*REM)
 	var/datum/component/mood/mood = M.GetComponent(/datum/component/mood)
-	if(mood.sanity <= SANITY_NEUTRAL) // only take effect if in negative sanity and then...
+	if(mood && mood.sanity <= SANITY_NEUTRAL) // only take effect if in negative sanity and then...
 		mood.setSanity(min((mood.sanity+5)*REM, SANITY_NEUTRAL)) // set minimum to prevent unwanted spiking over neutral
 	..()
 	. = 1
