@@ -310,6 +310,10 @@
 	},
 /turf/open/indestructible/ground/outside/dirt/desertsand,
 /area/hilbertshotel)
+"T" = (
+/obj/machinery/telecomms/relay/preset/auto,
+/turf/open/indestructible/ground/outside/desert,
+/area/hilbertshotel)
 "U" = (
 /obj/structure/chair/stool/bronze,
 /turf/open/floor/carpet,
@@ -352,7 +356,7 @@
 /area/hilbertshotel)
 
 (1,1,1) = {"
-j
+T
 j
 j
 j
