@@ -24,6 +24,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	"Dungeon-One",
 	"Oasis-One",
 	"Snowcabin-One",
+	"Hospital",
 	)
 	var/datum/map_template/hilbertshotel/apartment/one/hilberts_hotel_rooms_apartment_one
 	var/datum/map_template/hilbertshotel/apartment/two/hilberts_hotel_rooms_apartment_two
@@ -38,6 +39,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	var/datum/map_template/hilbertshotel/apartment/dungeon_one/dungeon_one
 	var/datum/map_template/hilbertshotel/apartment/oasis_one/oasis_one
 	var/datum/map_template/hilbertshotel/apartment/snowcabin_one/snowcabin_one
+	var/datum/map_template/hilbertshotel/apartment/hospital_one/hospital_one
 	//FB Maps End
 	var/datum/map_template/hilbertshotel/hotelRoomTemp
 	var/datum/map_template/hilbertshotel/empty/hotelRoomTempEmpty
@@ -73,6 +75,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	dungeon_one = new()
 	oasis_one = new()
 	snowcabin_one = new()
+	hospital_one = new()
 
 /obj/hilbertshotel/Destroy()
 	ejectRooms()
@@ -256,6 +259,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 		if("Dungeon-One") return dungeon_one
 		if("Oasis-One") return oasis_one
 		if("Snowcabin-One") return snowcabin_one
+		if("Hospital") return hospital_one
 		if("Mystery Room") return hotelRoomTempLore
 	return hotelRoomTemp // Default to Hotel Room if no match is found
 
@@ -283,6 +287,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 			if("Dungeon-One") mapTemplate = dungeon_one
 			if("Oasis-One") mapTemplate = oasis_one
 			if("Snowcabin-One") mapTemplate = snowcabin_one
+			if("Hospital") mapTemplate = hospital_one
 	if(!mapTemplate)
 		mapTemplate = hotelRoomTemp //Default Hotel Room
 
@@ -760,6 +765,10 @@ Not all that's countable has an end..._
 /datum/map_template/hilbertshotel/apartment/snowcabin_one
 	name = "snowcabin-One"
 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/snowcabin_1.dmm'
+
+/datum/map_template/hilbertshotel/apartment/hospital_one
+	name = "Hospital"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/hospital.dmm'
 
 
 // Fluff - Misc
