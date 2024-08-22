@@ -142,12 +142,12 @@
 	chance = 100 //% to play per time passing on the sound loop entry, in this case every 1 seconds.  If it doesn't get a true then it still uses the last played sounds time.
 	vary = TRUE //wink wonk versus wInK wOnK
 	extra_range = SOUND_DISTANCE(9) //flat out, this is 15 tiles from the sound rock itself
-	volume = SOUND_LOOP_VOL_RANGE(10, 20)
+	volume = SOUND_LOOP_VOL_RANGE(20, 20)
 	direct = FALSE 
 	managed = FALSE //true = sound dies when you leave the area, must be direct to use. 
 	loop_delay = 0
 	mid_sounds = list(
-		SOUND_LOOP_ENTRY('sound/hottub.ogg', 4 SECONDS, 1), //sound, how long it plays, weighted play 
+		SOUND_LOOP_ENTRY('sound/hottub.ogg', 3 SECONDS, 1), //sound, how long it plays, weighted play 
 		)
 
 /obj/effect/sound_emitter/foxybar/computer
