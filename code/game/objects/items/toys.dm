@@ -533,13 +533,14 @@
 	if(!..())
 		pop_burst()
 
-/obj/item/toy/snappop/proc/on_entered(H as mob|obj)
+/obj/item/toy/snappop/proc/on_entered(datum/source, atom/movable/arrived, atom/old_loc, list/atom/old_locs)
 	SIGNAL_HANDLER
-	if(ishuman(H) || issilicon(H)) //i guess carp and shit shouldn't set them off
-		var/mob/living/carbon/M = H
-		if(issilicon(H) || M.m_intent == MOVE_INTENT_RUN)
-			to_chat(M, span_danger("I step on the snap pop!"))
-			pop_burst(2, 0)
+	if(!isliving(arrived)) //i guess carp and shit shouldn't set them off
+		return
+	var/mob/living/L = arrived
+	if(L.m_intent == MOVE_INTENT_RUN)
+		to_chat(L, span_danger("I stepped on the snap pop! Wow!"))
+		pop_burst(2, 0)
 
 /obj/item/toy/snappop/phoenix
 	name = "phoenix snap pop"

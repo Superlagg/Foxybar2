@@ -59,6 +59,8 @@
 	var/draining = FALSE
 	/// Reagent blacklisting
 	var/respect_reagent_blacklist = TRUE
+	/// FORMAT: list("ckey" = time_in_deciseconds)
+	var/list/temptext_cd = list()
 
 /obj/machinery/pool/controller/examine(mob/user)
 	. = ..()
@@ -231,29 +233,42 @@
 	if(drained)
 		return
 	for(var/mob/living/M in mobs_in_pool)
+		if(!M.client)
+			continue
+		if(isnum(temptext_cd["[M.ckey]"]) && temptext_cd["[M.ckey]"] > world.time)
+			continue
+		temptext_cd["[M.ckey]"] = world.time + (1 MINUTES)
+		if(prob(50))
+			continue
 		switch(temperature) //Apply different effects based on what the temperature is set to.
 			if(POOL_SCALDING) //Scalding
-				M.adjust_bodytemperature(50,0,500)
+				to_chat(M, span_danger("The water feels scalding hot!"))
+				// M.adjust_bodytemperature(50,0,500)
 			if(POOL_WARM) //Warm
-				M.adjust_bodytemperature(20,0,360) //Heats up mobs till the termometer shows up
+				to_chat(M, span_notice("The water feels nice and warm."))
+				// M.adjust_bodytemperature(20,0,360) //Heats up mobs till the termometer shows up
 			//Normal temp does nothing, because it's just room temperature water.
+			if(POOL_NORMAL)
+				to_chat(M, span_notice("The water feels fine."))
 			if(POOL_COOL)
-				M.adjust_bodytemperature(-20,250) //Cools mobs till the termometer shows up
+				to_chat(M, span_notice("The water feels pleasantly cool."))
+				// M.adjust_bodytemperature(-20,250) //Cools mobs till the termometer shows up
 			if(POOL_FRIGID) //Freezing
-				M.adjust_bodytemperature(-60) //cool mob at -35k per cycle, less would not affect the mob enough.
-				if(M.bodytemperature <= 50 && !M.stat)
-					M.apply_status_effect(/datum/status_effect/freon)
-		if(ishuman(M))
-			var/mob/living/carbon/human/drownee = M
-			if(!drownee || drownee.stat == DEAD)
-				return
-			if(drownee.resting && !drownee.internal)
-				if(drownee.stat != CONSCIOUS)
-					drownee.adjustOxyLoss(9)
-				else
-					drownee.adjustOxyLoss(4)
-					if(prob(35))
-						to_chat(drownee, span_danger("You're drowning!"))
+				to_chat(M, span_danger("The water feels freezing cold!"))
+				// M.adjust_bodytemperature(-60) //cool mob at -35k per cycle, less would not affect the mob enough.
+				// if(M.bodytemperature <= 50 && !M.stat)
+				// 	M.apply_status_effect(/datum/status_effect/freon)
+		// if(ishuman(M))
+		// 	var/mob/living/carbon/human/drownee = M
+		// 	if(!drownee || drownee.stat == DEAD)
+		// 		return
+		// 	if(drownee.resting && !drownee.internal)
+		// 		if(drownee.stat != CONSCIOUS)
+		// 			drownee.adjustOxyLoss(9)
+		// 		else
+		// 			drownee.adjustOxyLoss(4)
+		// 			if(prob(35))
+		// 				to_chat(drownee, span_danger("You're drowning!"))
 
 /obj/machinery/pool/controller/proc/set_bloody(state)
 	if(bloody == state)
