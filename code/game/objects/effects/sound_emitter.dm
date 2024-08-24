@@ -141,8 +141,8 @@
 /datum/looping_sound/soundrock/foxybar/hottub
 	chance = 100 //% to play per time passing on the sound loop entry, in this case every 1 seconds.  If it doesn't get a true then it still uses the last played sounds time.
 	vary = TRUE //wink wonk versus wInK wOnK
-	extra_range = SOUND_DISTANCE(9) //flat out, this is 15 tiles from the sound rock itself
-	volume = SOUND_LOOP_VOL_RANGE(20, 20)
+	extra_range = SOUND_DISTANCE(11) //flat out, this is 15 tiles from the sound rock itself
+	volume = SOUND_LOOP_VOL_RANGE(25, 25)
 	direct = FALSE 
 	managed = FALSE //true = sound dies when you leave the area, must be direct to use. 
 	loop_delay = 0

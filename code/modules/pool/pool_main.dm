@@ -73,7 +73,7 @@
 		return ..()
 
 // Exit check
-/turf/open/pool/Exit(atom/movable/AM, atom/newloc)
+/turf/open/pool/Exit(atom/movable/AM, direction)
 	if(!AM.has_gravity(src))
 		return ..()
 	if(isliving(AM) || isstructure(AM))
@@ -85,6 +85,7 @@
 			return ..()			//human weak, monkey (and anyone else) ook ook eek eek strong
 		if(isliving(AM) && (locate(/obj/structure/pool/ladder) in src))
 			return ..()			//climbing out
+		var/atom/newloc = get_step(src, direction)
 		return istype(newloc, /turf/open/pool)
 	return ..()
 
