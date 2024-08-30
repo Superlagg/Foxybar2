@@ -14,8 +14,11 @@
 		return
 	pendingsongurl = songinput
 	var/adminmessage = "<span class=\"admin\">[user.name] wants to play <a href=\"[pendingsongurl]\">[pendingsongurl]</a><br/>You can <a href='byond://?src=\ref[src];action=allow;url=[pendingsongurl]'>Allow</a> or <a href='byond://?src=\ref[src];action=deny;url=[pendingsongurl]'>Deny</a>.</span>"
-	for(var/admin in GLOB.admins.Copy())
+	for(var/client/admin in GLOB.admins.Copy())
 		to_chat(admin, adminmessage, confidential = TRUE)
+		if(admin.prefs.toggles & SOUND_ADMINHELP)
+			SEND_SOUND(admin, sound('sound/effects/direct_message_recieved.ogg'))
+		window_flash(admin, ignorepref = TRUE)
 
 /obj/machinery/jukebox_online/Topic(href, href_list[])
 	if(pendingsongurl == href_list["url"])

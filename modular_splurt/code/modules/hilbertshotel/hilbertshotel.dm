@@ -41,7 +41,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	var/datum/map_template/hilbertshotel/apartment/oasis_one/oasis_one
 	var/datum/map_template/hilbertshotel/apartment/snowcabin_one/snowcabin_one
 	var/datum/map_template/hilbertshotel/apartment/hospital_one/hospital_one
-	var/datum/map_template/hilbertshotel/apartment/chess/thechess
+	var/datum/map_template/hilbertshotel/apartment/chessboard/thechess
 	//FB Maps End
 	var/datum/map_template/hilbertshotel/hotelRoomTemp
 	var/datum/map_template/hilbertshotel/empty/hotelRoomTempEmpty
@@ -716,6 +716,9 @@ There's always more room around every bend
 Not all that's countable has an end..._
 "}
 
+/datum/map_template/hilbertshotel/apartment/chessboard
+	name = "Chess"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/chess.dmm'
 
 // Better SPLURT version of hilbert's
 /datum/map_template/hilbertshotel
@@ -774,10 +777,6 @@ Not all that's countable has an end..._
 /datum/map_template/hilbertshotel/apartment/hospital_one
 	name = "Hospital"
 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/hospital.dmm'
-
-/datum/map_template/hilbertshotel/apartment/chess
-	name = "Chess"
-	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/chess.dmm'
 
 // Fluff - Misc
 /obj/item/paper/fluff/hilbertshotel/welcomeletter
