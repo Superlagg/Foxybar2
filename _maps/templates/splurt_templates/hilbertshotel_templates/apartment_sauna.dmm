@@ -80,7 +80,7 @@
 /turf/open/floor/carpet/royalblue,
 /area/hilbertshotel)
 "fW" = (
-/obj/structure/bed,
+/obj/item/reagent_containers/rag/towel,
 /turf/open/floor/plasteel/white,
 /area/hilbertshotel)
 "gP" = (
@@ -121,6 +121,14 @@
 	dir = 10
 	},
 /obj/structure/rack,
+/obj/item/reagent_containers/rag/towel,
+/obj/item/reagent_containers/rag/towel,
+/obj/item/reagent_containers/rag/towel,
+/obj/item/reagent_containers/rag/towel,
+/obj/item/reagent_containers/rag/towel,
+/obj/item/reagent_containers/rag/towel,
+/obj/item/reagent_containers/rag/towel,
+/obj/item/reagent_containers/rag/towel,
 /turf/open/floor/carpet/royalblue,
 /area/hilbertshotel)
 "jr" = (

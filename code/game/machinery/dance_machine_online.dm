@@ -8,7 +8,7 @@
 	var/pendingsongurl = ""
 
 /obj/machinery/jukebox_online/on_attack_hand(mob/living/user, act_intent, unarmed_attack_flags)
-	var/songinput = input(user, "Enter URL (supported sites only, leave blank to stop playing)", "Online Jukebox") as text|null
+	var/songinput = input(user, "Enter URL (supported sites only, leave blank to stop playing.)  We suggest soundcloud and bandcamp, Youtube blocked our data center.", "Online Jukebox") as text|null
 	if(isnull(songinput) || !length(songinput))
 		stop_online_song()
 		return
