@@ -25,6 +25,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	"Oasis-One",
 	"Snowcabin-One",
 	"Hospital",
+	"Chess",
 	)
 	var/datum/map_template/hilbertshotel/apartment/one/hilberts_hotel_rooms_apartment_one
 	var/datum/map_template/hilbertshotel/apartment/two/hilberts_hotel_rooms_apartment_two
@@ -40,6 +41,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	var/datum/map_template/hilbertshotel/apartment/oasis_one/oasis_one
 	var/datum/map_template/hilbertshotel/apartment/snowcabin_one/snowcabin_one
 	var/datum/map_template/hilbertshotel/apartment/hospital_one/hospital_one
+	var/datum/map_template/hilbertshotel/apartment/chessboard/thechess
 	//FB Maps End
 	var/datum/map_template/hilbertshotel/hotelRoomTemp
 	var/datum/map_template/hilbertshotel/empty/hotelRoomTempEmpty
@@ -76,6 +78,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	oasis_one = new()
 	snowcabin_one = new()
 	hospital_one = new()
+	thechess = new()
 
 /obj/hilbertshotel/Destroy()
 	ejectRooms()
@@ -260,6 +263,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 		if("Oasis-One") return oasis_one
 		if("Snowcabin-One") return snowcabin_one
 		if("Hospital") return hospital_one
+		if("Chess") return thechess
 		if("Mystery Room") return hotelRoomTempLore
 	return hotelRoomTemp // Default to Hotel Room if no match is found
 
@@ -288,6 +292,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 			if("Oasis-One") mapTemplate = oasis_one
 			if("Snowcabin-One") mapTemplate = snowcabin_one
 			if("Hospital") mapTemplate = hospital_one
+			if("Chess") mapTemplate = thechess
 	if(!mapTemplate)
 		mapTemplate = hotelRoomTemp //Default Hotel Room
 
@@ -711,6 +716,9 @@ There's always more room around every bend
 Not all that's countable has an end..._
 "}
 
+/datum/map_template/hilbertshotel/apartment/chessboard
+	name = "Chess"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/chess.dmm'
 
 // Better SPLURT version of hilbert's
 /datum/map_template/hilbertshotel
@@ -769,7 +777,6 @@ Not all that's countable has an end..._
 /datum/map_template/hilbertshotel/apartment/hospital_one
 	name = "Hospital"
 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/hospital.dmm'
-
 
 // Fluff - Misc
 /obj/item/paper/fluff/hilbertshotel/welcomeletter

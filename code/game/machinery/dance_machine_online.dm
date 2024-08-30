@@ -8,14 +8,17 @@
 	var/pendingsongurl = ""
 
 /obj/machinery/jukebox_online/on_attack_hand(mob/living/user, act_intent, unarmed_attack_flags)
-	var/songinput = input(user, "Enter URL (supported sites only, leave blank to stop playing)", "Online Jukebox") as text|null
+	var/songinput = input(user, "Enter URL (supported sites only, leave blank to stop playing.)  We suggest soundcloud and bandcamp, Youtube blocked our data center.", "Online Jukebox") as text|null
 	if(isnull(songinput) || !length(songinput))
 		stop_online_song()
 		return
 	pendingsongurl = songinput
 	var/adminmessage = "<span class=\"admin\">[user.name] wants to play <a href=\"[pendingsongurl]\">[pendingsongurl]</a><br/>You can <a href='byond://?src=\ref[src];action=allow;url=[pendingsongurl]'>Allow</a> or <a href='byond://?src=\ref[src];action=deny;url=[pendingsongurl]'>Deny</a>.</span>"
-	for(var/admin in GLOB.admins.Copy())
+	for(var/client/admin in GLOB.admins.Copy())
 		to_chat(admin, adminmessage, confidential = TRUE)
+		if(admin.prefs.toggles & SOUND_ADMINHELP)
+			SEND_SOUND(admin, sound('sound/effects/direct_message_recieved.ogg'))
+		window_flash(admin, ignorepref = TRUE)
 
 /obj/machinery/jukebox_online/Topic(href, href_list[])
 	if(pendingsongurl == href_list["url"])
