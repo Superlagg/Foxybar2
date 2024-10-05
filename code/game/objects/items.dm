@@ -229,6 +229,11 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	if(!special_transform && transform != initial(transform))
 		special_transform = transform
 
+	if(!isnull(equipsound))
+		listify(equipsound)
+	if(!isnull(tableplacesound))
+		listify(tableplacesound)
+
 	/// CB Dual Wielding
 	if(force != 0)
 		if(w_class < DUAL_WIELDING_MAX_WEIGHT_ALLOWED)
@@ -545,7 +550,7 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 
 // afterattack() and attack() prototypes moved to _onclick/item_attack.dm for consistency
 
-/obj/item/proc/talk_into(mob/M, input, channel, spans, datum/language/language)
+/obj/item/proc/talk_into(atom/movable/M, message, channel, list/spans, datum/language/language, datum/rental_mommy/chat/momchat)
 	return ITALICS | REDUCE_RANGE
 
 /obj/item/proc/dropped(mob/user)
@@ -1312,11 +1317,11 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	return ..()
 
 /obj/item/proc/play_equip_sound(volume=50)
-	if(!equipsound)
+	if(!LAZYLEN(equipsound))
 		return
-	playsound(src, safepick(equipsound), 100, TRUE)
+	playsound(src, safepick(equipsound), volume, TRUE)
 
 /obj/item/proc/after_placed_on_table(obj/structure/table, volume=50)
-	if(!tableplacesound)
+	if(!LAZYLEN(tableplacesound))
 		return
-	playsound(src, safepick(tableplacesound), 100, TRUE)
+	playsound(src, safepick(tableplacesound), volume, TRUE)

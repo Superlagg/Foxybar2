@@ -10,6 +10,7 @@
 	icon = 'icons/obj/chemical.dmi'
 	icon_state = null
 	w_class = WEIGHT_CLASS_TINY
+	tableplacesound = 'sound/machines/glassclink.ogg'
 	var/amount_per_transfer_from_this = 5
 	var/list/possible_transfer_amounts = list(
 		DRINKAMT_TASTE,
