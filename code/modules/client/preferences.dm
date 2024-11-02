@@ -299,6 +299,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/creature_body_size = 1
 	var/creature_fuzzy = FALSE
 
+	var/see_pfp_max_hight = 300
+	var/see_pfp_max_widht = 300
+
 	var/list/ProfilePics = list(
 		list(
 			"Mode" = MODE_PROFILE_PIC,
@@ -581,7 +584,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<center><h2>S.P.E.C.I.A.L.</h2>"
 			dat += "<a href='?_src_=prefs;preference=special;task=menu'>Allocate Points</a><br></center>"
 			//Left Column
-			dat += "<table><tr><td width='30%'valign='top'>"
+			dat += "<table><tr><td width='70%'valign='top'>"
 			dat += "<h2>Identity</h2>"
 			if(jobban_isbanned(user, "appearance"))
 				dat += "<b>You are banned from using custom names and appearances. You can continue to adjust your characters, but you will be randomised once you join the game.</b><br>"
@@ -1493,6 +1496,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat += "<b>Show Health Smileys:</b> <a href='?_src_=prefs;preference=show_health_smilies;task=input'>[show_health_smilies ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<br>"
+			dat += "<b>Max PFP Examine Image Height:</b> <a href='?_src_=prefs;preference=max_pfp_hight;task=input'>[see_pfp_max_hight]</a><br>"
+			dat += "<b>Max PFP Examine Image Width:</b> <a href='?_src_=prefs;preference=max_pfp_with;task=input'>[see_pfp_max_widht]</a><br>"
 			dat += "</td>"
 			dat += "</tr></table>"
 			if(unlock_content)
@@ -2673,6 +2678,20 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			if(href_list["preference"] in GLOB.preferences_custom_names)
 				ask_for_custom_name(user,href_list["preference"])
 			switch(href_list["preference"])
+				if("max_pfp_hight")
+					var/newhight = input(user, "How many pixels tall should profile examine images be when you see em?", "tall") as num|null
+					if(newhight)
+						see_pfp_max_hight = newhight
+					else
+						to_chat("Okay!")
+					return 1
+				if("max_pfp_with")
+					var/newhight = input(user, "How many pixels wide should profile examine images be when you see em?", "wide") as num|null
+					if(newhight)
+						see_pfp_max_widht = newhight
+					else
+						to_chat("Okay!")
+					return 1
 				if("show_health_smilies")
 					TOGGLE_VAR(show_health_smilies)
 					return 1
