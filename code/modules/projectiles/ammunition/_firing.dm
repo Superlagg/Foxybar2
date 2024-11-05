@@ -72,6 +72,9 @@
 	BB.firer = user
 	var/shooter_living = istype(user)
 	if(shooter_living && isplayer(user) && !user.enabled_combat_indicator)
+	// var/am_player = isplayer(user)
+	if(shooter_living && !BB.not_harmful)
+		// if((am_player && !user.enabled_combat_indicator) || !am_player)
 		BB.factionize(user.faction)
 		BB.safety_switch = TRUE // disabled the factionize after it range from shooterd
 		BB.is_player_projectile = TRUE
