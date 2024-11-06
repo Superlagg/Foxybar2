@@ -593,7 +593,7 @@ GLOBAL_LIST_INIT(personalitytrait2description, list(
 	if(HAS_TRAIT(src, TRAIT_RPLONGTERM))
 		. += span_green("[t_He] wants long term RP/ERP relationships!</span>")
 	//short term
-	if(HAS_TRAIT(src, TRAIT_RPLONGTERM))
+	if(HAS_TRAIT(src, TRAIT_RPSHORTTERM))
 		. += span_green("[t_He] wants short term RP/ERP relationships!</span>")
 
 //quick physical info
