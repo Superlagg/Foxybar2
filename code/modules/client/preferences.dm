@@ -1085,15 +1085,15 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			else
 				dat += "[TextPreview(features["ooc_notes"])]...<br>"
 
-			dat += "<a href='?_src_=prefs;preference=background_info_notes;task=input'><b>Set Background Info Notes</b></a><br>"
-			var/background_info_notes_len = length(features["background_info_notes"])
-			if(background_info_notes_len <= 40)
-				if(!background_info_notes_len)
-					dat += "\[...\]<br>"
-				else
-					dat += "[features["background_info_notes"]]<br>"
-			else
-				dat += "[TextPreview(features["background_info_notes"])]...<br>"
+			// dat += "<a href='?_src_=prefs;preference=background_info_notes;task=input'><b>Set Background Info Notes</b></a><br>"
+			// var/background_info_notes_len = length(features["background_info_notes"])
+			// if(background_info_notes_len <= 40)
+			// 	if(!background_info_notes_len)
+			// 		dat += "\[...\]<br>"
+			// 	else
+			// 		dat += "[features["background_info_notes"]]<br>"
+			// else
+			// 	dat += "[TextPreview(features["background_info_notes"])]...<br>"
 
 			//outside link stuff
 			dat += "<h3>Outer hyper-links settings</h3>"
@@ -1116,8 +1116,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += APPEARANCE_CATEGORY_COLUMN
 
 			dat += "<h2>Voice</h2>"
-			dat += "<b>Custom Tongue:</b><br>"
-			dat += "</b><a style='display:block;width:100px' href='?_src_=prefs;preference=tongue;task=input'>[custom_tongue]</a><br>"
 
 			// Coyote ADD: Blurbleblurhs
 			dat += "<b>Voice Sound:</b></b><a style='display:block;width:100px' href='?_src_=prefs;preference=typing_indicator_sound;task=input'>[features_speech["typing_indicator_sound"]]</a><br>"

@@ -1527,6 +1527,21 @@
 	},
 /turf/open/floor/wood_common,
 /area/f13/fb/bar)
+"ou" = (
+/obj/machinery/light/small{
+	color = "#444499";
+	dir = 8;
+	light_color = "#444499";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 0
+	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 8;
+	color = "#3B2B1A"
+	},
+/turf/open/floor/carpet/black,
+/area/f13/fb/bar)
 "oA" = (
 /obj/structure/chair/stool/retro/backed{
 	dir = 8
@@ -2503,6 +2518,20 @@
 	},
 /turf/closed/wall/mineral/brick,
 /area/f13/fb/bar)
+"xu" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 1;
+	color = "#3B2B1A"
+	},
+/obj/machinery/light/small{
+	light_power = 2;
+	light_range = 2;
+	light_color = "#E1D5D5";
+	color = "#33FF33";
+	dir = 1
+	},
+/turf/open/floor/carpet/black,
+/area/f13/fb/bar)
 "xv" = (
 /obj/structure/simple_door/room{
 	name = "changing rooms"
@@ -2677,6 +2706,9 @@
 	plane = -2;
 	pixel_y = 32
 	},
+/obj/structure/sign/poster/contraband/eat{
+	pixel_y = 33
+	},
 /turf/open/floor/wood_common{
 	color = "#99BBBB"
 	},
@@ -2702,6 +2734,14 @@
 	density = 0
 	},
 /obj/effect/sound_emitter/foxybar/machinery,
+/obj/machinery/light/small{
+	light_power = 2;
+	light_range = 2;
+	light_color = "#E1D5D5";
+	color = "#33FF33";
+	dir = 1;
+	plane = -6
+	},
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "yE" = (
@@ -2760,6 +2800,10 @@
 	light_power = 2;
 	light_range = 2;
 	pixel_y = 13
+	},
+/obj/structure/curtain{
+	color = "#c40e0e";
+	open = 0
 	},
 /turf/open/floor/wood_common{
 	color = "#779999"
@@ -3518,6 +3562,20 @@
 	color = "#666666"
 	},
 /area/f13/fb/bar)
+"Hu" = (
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
+	},
+/obj/structure/chair/bench,
+/obj/machinery/light/small{
+	color = "#FF3333";
+	light_color = "#FF3333";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 0
+	},
+/turf/open/floor/carpet/black,
+/area/f13/fb/bar)
 "HH" = (
 /obj/machinery/photocopier,
 /obj/machinery/light{
@@ -3795,6 +3853,10 @@
 	light_power = 2;
 	light_range = 2;
 	pixel_y = 13
+	},
+/obj/structure/curtain{
+	color = "#c40e0e";
+	open = 0
 	},
 /turf/open/floor/wood_common{
 	color = "#779999"
@@ -4924,19 +4986,21 @@
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
 "VT" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
 	},
-/obj/structure/sign/poster/contraband/eat{
-	pixel_y = 33
+/obj/machinery/computer/arcade{
+	density = 0;
+	dir = 1
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
+/obj/machinery/light/small{
+	color = "#FF3333";
+	light_color = "#FF3333";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 0
 	},
-/turf/open/floor/wood_common{
-	color = "#779999"
-	},
+/turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "Wa" = (
 /obj/effect/turf_decal/siding/wood{
@@ -6872,7 +6936,7 @@ kk
 Iu
 il
 Gv
-Ll
+ou
 Pc
 Fv
 il
@@ -6991,7 +7055,7 @@ il
 yx
 zr
 Xy
-NB
+VT
 il
 DS
 kf
@@ -7232,9 +7296,9 @@ YQ
 YQ
 kf
 vU
-ln
+vv
 il
-VT
+be
 XR
 UD
 wB
@@ -7349,7 +7413,7 @@ pj
 Oq
 Oq
 MX
-cs
+ln
 il
 xS
 UK
@@ -7456,17 +7520,17 @@ il
 VN
 uu
 il
-nX
+xu
 zr
 zr
-UB
+Hu
 il
 wM
 vU
 vv
 vv
-vv
 Ex
+cs
 il
 lB
 XR

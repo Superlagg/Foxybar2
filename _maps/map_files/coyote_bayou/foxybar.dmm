@@ -491,6 +491,23 @@
 	name = "dirty floor"
 	},
 /area/f13/fb/bar)
+"cDo" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 8;
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 4;
+	color = "#3B2B1A"
+	},
+/obj/effect/overlay/fog/fog2{
+	plane = -2;
+	alpha = 175
+	},
+/turf/open/floor/wood_fancy{
+	color = "#779999"
+	},
+/area/f13/fb/bar)
 "cFj" = (
 /obj/effect/decal/cleanable/glitter/white{
 	color = "#884444"
@@ -645,14 +662,6 @@
 	},
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/f13/wasteland/city/newboston/outdoors)
-"dzm" = (
-/obj/machinery/icecream_vat,
-/turf/open/floor/f13{
-	color = "#ffe9de";
-	icon_state = "darkrusty";
-	name = "dirty floor"
-	},
-/area/f13/fb/bar)
 "dAC" = (
 /obj/structure/chair/stool,
 /obj/effect/overlay/fog/fog2{
@@ -1655,16 +1664,8 @@
 /area/f13/wasteland/city/newboston/outdoors)
 "hBy" = (
 /obj/effect/turf_decal/siding/wood{
-	dir = 1;
-	color = "#3B2B1A"
-	},
-/obj/effect/turf_decal/siding/wood{
 	dir = 4;
 	color = "#3B2B1A"
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
 	},
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 4;
@@ -1673,6 +1674,18 @@
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 8;
 	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 1;
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 2;
+	color = "#3B2B1A"
+	},
+/obj/effect/overlay/fog/fog2{
+	plane = -2;
+	alpha = 175
 	},
 /turf/open/floor/wood_fancy{
 	color = "#779999"
@@ -1834,9 +1847,9 @@
 	plane = -2
 	},
 /turf/open/indestructible/ground/outside/sidewalk{
-	icon_state = "horizontaloutermain0"
+	icon_state = "horizontalbottomborderbottom0"
 	},
-/area/f13/fb/bar)
+/area/f13/wasteland/city/newboston/outdoors)
 "iDj" = (
 /obj/machinery/telecomms/server/presets/legion,
 /turf/open/floor/circuit/telecomms/mainframe,
@@ -1904,6 +1917,36 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/f13/fb/bar)
+"jmf" = (
+/obj/effect/overlay/fog/fog2{
+	plane = -2;
+	alpha = 175
+	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 4;
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 1;
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 8;
+	color = "#3B2B1A"
+	},
+/obj/hilbertshotel,
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 1;
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 4;
+	color = "#3B2B1A"
+	},
+/turf/open/floor/wood_fancy{
+	color = "#779999"
+	},
+/area/f13/fb/bar)
 "jnG" = (
 /obj/item/mop,
 /obj/item/broom,
@@ -1966,7 +2009,8 @@
 "jUQ" = (
 /obj/hilbertshotel,
 /obj/effect/overlay/fog/fog2{
-	plane = -2
+	plane = -2;
+	alpha = 175
 	},
 /turf/open/indestructible/ground/outside/road{
 	color = "#999999"
@@ -2278,14 +2322,6 @@
 	},
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
-"lvh" = (
-/obj/machinery/processor,
-/turf/open/floor/f13{
-	color = "#ffe9de";
-	icon_state = "darkrusty";
-	name = "dirty floor"
-	},
-/area/f13/fb/bar)
 "lyo" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 8;
@@ -2492,7 +2528,7 @@
 /turf/open/indestructible/ground/outside/sidewalk{
 	icon_state = "horizontaltopbordertop0"
 	},
-/area/f13/fb/bar)
+/area/f13/wasteland/city/newboston/outdoors)
 "mRP" = (
 /obj/effect/overlay/fog/fog2{
 	plane = -2;
@@ -2573,9 +2609,9 @@
 	plane = -2
 	},
 /turf/open/indestructible/ground/outside/sidewalk{
-	icon_state = "horizontaloutermain0"
+	icon_state = "horizontalbottomborderbottom0"
 	},
-/area/f13/fb/bar)
+/area/f13/wasteland/city/newboston/outdoors)
 "nsz" = (
 /obj/machinery/telecomms/server/presets/service,
 /turf/open/floor/circuit/telecomms/mainframe,
@@ -2615,17 +2651,6 @@
 	},
 /turf/open/floor/carpet/purple,
 /area/f13/fb/bar)
-"nPu" = (
-/obj/structure/chair/bench{
-	pixel_y = 12
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/turf/open/indestructible/ground/outside/sidewalk{
-	icon_state = "horizontalbottomborderbottom2"
-	},
-/area/f13/wasteland/city/newboston/outdoors)
 "nVa" = (
 /obj/machinery/telecomms/server/presets/town,
 /turf/open/floor/circuit/telecomms/mainframe,
@@ -2912,16 +2937,10 @@
 	},
 /area/f13/wasteland/city/newboston/outdoors)
 "pMf" = (
-/obj/machinery/microwave/stove,
-/obj/machinery/light/small{
-	light_color = "#884444";
-	dir = 4
+/obj/effect/overlay/fog/fog2{
+	plane = -2
 	},
-/turf/open/floor/f13{
-	color = "#ffe9de";
-	icon_state = "darkrusty";
-	name = "dirty floor"
-	},
+/turf/closed/indestructible/f13/matrix,
 /area/f13/fb/bar)
 "pNr" = (
 /obj/item/storage/box/dice,
@@ -3188,9 +3207,9 @@
 	plane = -2
 	},
 /turf/open/indestructible/ground/outside/sidewalk{
-	icon_state = "horizontaloutermain0"
+	icon_state = "horizontalbottomborderbottom0"
 	},
-/area/f13/fb/bar)
+/area/f13/wasteland/city/newboston/outdoors)
 "roB" = (
 /obj/machinery/telecomms/hub/preset,
 /turf/open/floor/circuit/telecomms/mainframe,
@@ -3311,14 +3330,6 @@
 	alpha = 175
 	},
 /turf/open/floor/carpet/purple,
-/area/f13/fb/bar)
-"seA" = (
-/obj/machinery/food_cart,
-/turf/open/floor/f13{
-	color = "#ffe9de";
-	icon_state = "darkrusty";
-	name = "dirty floor"
-	},
 /area/f13/fb/bar)
 "srN" = (
 /obj/structure/sign/poster/contraband/pinup_funk{
@@ -3519,7 +3530,7 @@
 /turf/open/indestructible/ground/outside/sidewalk{
 	icon_state = "outerbordercorner - W"
 	},
-/area/f13/fb/bar)
+/area/f13/wasteland/city/newboston/outdoors)
 "tPi" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 4;
@@ -3597,23 +3608,6 @@
 	alpha = 175
 	},
 /turf/open/floor/plasteel/freezer,
-/area/f13/fb/bar)
-"uwy" = (
-/obj/effect/decal/cleanable/glitter/blue{
-	color = "#993311";
-	layer = 3
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/turf/open/floor/wood_fancy{
-	color = "#779999"
-	},
 /area/f13/fb/bar)
 "uOS" = (
 /obj/effect/turf_decal/siding/wood{
@@ -6336,11 +6330,11 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
 bPG
+pMf
+jmf
 hBy
-bAd
+cDo
 bAd
 cYv
 cYv
@@ -6453,8 +6447,8 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
+bPG
+bPG
 bPG
 bPG
 bPG
@@ -6462,7 +6456,7 @@ bPG
 bPG
 bPG
 thm
-uwy
+iku
 nuu
 goB
 goB
@@ -7414,7 +7408,7 @@ okV
 bNh
 lel
 maZ
-nPu
+usf
 hAy
 tkO
 eYY
@@ -7531,8 +7525,8 @@ cIc
 cIc
 san
 kke
-kke
-kke
+mdh
+mLV
 gzw
 xYP
 xYP
@@ -7865,8 +7859,8 @@ bhg
 llj
 hov
 bPG
-dzm
-vJz
+bPG
+bPG
 vJz
 vJz
 vJz
@@ -7982,8 +7976,8 @@ fxb
 pNr
 lel
 bPG
-seA
-vJz
+bPG
+bPG
 qlV
 vJz
 vJz
@@ -8099,8 +8093,8 @@ gGC
 ghq
 tPi
 bPG
-lvh
-pMf
+bPG
+bPG
 fzg
 ryu
 cxG
@@ -8233,8 +8227,8 @@ bPG
 bPG
 bPG
 bPG
-bPG
-bPG
+sbi
+sbi
 sbi
 sbi
 sbi
