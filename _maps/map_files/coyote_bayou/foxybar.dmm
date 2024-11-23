@@ -11,6 +11,12 @@
 	plane = -2;
 	alpha = 175
 	},
+/obj/structure/simple_door/room{
+	name = "dare dice room"
+	},
+/obj/item/lock_bolt{
+	dir = 4
+	},
 /turf/open/floor/wood_fancy{
 	color = "#779999"
 	},
@@ -128,6 +134,12 @@
 	alpha = 175
 	},
 /obj/effect/sound_emitter/foxybar/windycurtains,
+/obj/structure/simple_door/room{
+	name = "booth one"
+	},
+/obj/item/lock_bolt{
+	dir = 8
+	},
 /turf/open/floor/wood_fancy{
 	color = "#779999"
 	},
@@ -469,28 +481,6 @@
 	icon_state = "outerborder - S"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
-"cxG" = (
-/obj/structure/rack,
-/obj/item/stock_parts/chem_cartridge/simple,
-/obj/item/stock_parts/chem_cartridge/simple{
-	pixel_x = 5;
-	pixel_y = 2
-	},
-/obj/item/stock_parts/chem_cartridge/simple{
-	pixel_x = -3;
-	pixel_y = 2
-	},
-/obj/item/stock_parts/chem_cartridge/simple{
-	pixel_x = 9;
-	pixel_y = 3
-	},
-/obj/item/storage/lockbox/dueling/hugbox/stamina,
-/turf/open/floor/f13{
-	color = "#ffe9de";
-	icon_state = "darkrusty";
-	name = "dirty floor"
-	},
-/area/f13/fb/bar)
 "cDo" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 8;
@@ -972,10 +962,8 @@
 /obj/effect/overlay/fog/fog2{
 	plane = -2
 	},
-/turf/open/indestructible/ground/outside/sidewalk{
-	icon_state = "horizontalbottomborderbottom2"
-	},
-/area/f13/wasteland/city/newboston/outdoors)
+/turf/closed/indestructible/f13/matrix,
+/area/f13/fb/bar)
 "ePQ" = (
 /obj/structure/simple_door/room,
 /obj/effect/overlay/fog/fog2{
@@ -1117,26 +1105,22 @@
 	},
 /area/f13/fb/bar)
 "fzg" = (
-/obj/machinery/autolathe,
-/obj/item/stack/sheet/metal/fifty,
-/obj/item/stack/sheet/metal/fifty,
-/obj/item/stack/sheet/metal/fifty,
-/obj/item/stack/sheet/metal/fifty,
-/obj/item/stack/sheet/glass/fifty,
-/obj/item/stack/sheet/glass/fifty,
-/obj/item/stack/sheet/glass/fifty,
-/obj/item/stack/sheet/glass/fifty,
-/obj/item/stack/sheet/mineral/wood/fifty,
-/obj/item/stack/sheet/mineral/wood/fifty,
-/obj/item/stack/sheet/mineral/wood/fifty,
-/obj/item/stack/sheet/mineral/wood/fifty,
-/obj/item/stack/sheet/plasteel/fifty,
-/obj/item/stack/sheet/plasteel/fifty,
-/obj/item/stack/sheet/plasteel/fifty,
-/turf/open/floor/f13{
-	color = "#ffe9de";
-	icon_state = "darkrusty";
-	name = "dirty floor"
+/obj/structure/curtain{
+	color = "#c40e0e"
+	},
+/obj/effect/overlay/fog/fog2{
+	plane = -2;
+	alpha = 175
+	},
+/obj/effect/sound_emitter/foxybar/windycurtains,
+/obj/structure/simple_door/room{
+	name = "booth three"
+	},
+/obj/item/lock_bolt{
+	dir = 4
+	},
+/turf/open/floor/wood_fancy{
+	color = "#779999"
 	},
 /area/f13/fb/bar)
 "fzC" = (
@@ -1567,13 +1551,13 @@
 	color = "#884444"
 	},
 /obj/structure/table/abductor,
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
 /obj/effect/turf_decal/siding/wood{
 	dir = 4;
 	color = "#3B2B1A"
+	},
+/obj/effect/overlay/fog/fog2{
+	plane = -2;
+	alpha = 175
 	},
 /turf/open/floor/carpet/purple,
 /area/f13/fb/bar)
@@ -1723,15 +1707,15 @@
 	},
 /area/f13/wasteland/city/newboston/outdoors)
 "hHE" = (
-/obj/structure/simple_door/room{
-	name = "storage"
-	},
-/obj/item/lock_bolt{
-	dir = 4
-	},
 /obj/effect/overlay/fog/fog2{
 	plane = -2;
 	alpha = 175
+	},
+/obj/structure/simple_door/room{
+	name = "changing rooms"
+	},
+/obj/item/lock_bolt{
+	dir = 4
 	},
 /turf/open/floor/f13{
 	color = "#ffe9de";
@@ -1757,15 +1741,14 @@
 /turf/open/floor/carpet/purple,
 /area/f13/fb/bar)
 "hTW" = (
-/obj/structure/railing{
-	color = "#A47449";
-	layer = 4;
-	pixel_y = -2
-	},
-/obj/machinery/vending/kink,
 /obj/effect/turf_decal/siding/wood{
 	dir = 4;
 	color = "#3B2B1A"
+	},
+/obj/structure/table/abductor,
+/obj/structure/pole{
+	anchored = 0;
+	name = "movable stripper pole"
 	},
 /obj/effect/overlay/fog/fog2{
 	plane = -2;
@@ -1840,15 +1823,6 @@
 	dir = 5
 	},
 /turf/open/floor/circuit/telecomms/mainframe,
-/area/f13/wasteland/city/newboston/outdoors)
-"iCC" = (
-/obj/machinery/vending/snack,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/turf/open/indestructible/ground/outside/sidewalk{
-	icon_state = "horizontalbottomborderbottom0"
-	},
 /area/f13/wasteland/city/newboston/outdoors)
 "iDj" = (
 /obj/machinery/telecomms/server/presets/legion,
@@ -2009,8 +1983,7 @@
 "jUQ" = (
 /obj/hilbertshotel,
 /obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
+	plane = -2
 	},
 /turf/open/indestructible/ground/outside/road{
 	color = "#999999"
@@ -2102,6 +2075,12 @@
 /obj/effect/turf_decal/siding/wood{
 	dir = 4;
 	color = "#3B2B1A"
+	},
+/obj/machinery/vending/kink,
+/obj/structure/railing{
+	color = "#A47449";
+	layer = 4;
+	pixel_y = -2
 	},
 /turf/open/floor/carpet/purple,
 /area/f13/fb/bar)
@@ -2321,6 +2300,16 @@
 	alpha = 175
 	},
 /turf/open/floor/plasteel/freezer,
+/area/f13/fb/bar)
+"lvh" = (
+/obj/structure/chair/folding{
+	dir = 8
+	},
+/turf/open/floor/f13{
+	color = "#ffe9de";
+	icon_state = "darkrusty";
+	name = "dirty floor"
+	},
 /area/f13/fb/bar)
 "lyo" = (
 /obj/effect/turf_decal/siding/wood{
@@ -2604,14 +2593,17 @@
 	},
 /area/f13/fb/bar)
 "nqj" = (
-/obj/machinery/vending/coffee,
 /obj/effect/overlay/fog/fog2{
-	plane = -2
+	plane = -2;
+	alpha = 175
 	},
-/turf/open/indestructible/ground/outside/sidewalk{
-	icon_state = "horizontalbottomborderbottom0"
+/obj/structure/simple_door/room{
+	name = "booth four"
 	},
-/area/f13/wasteland/city/newboston/outdoors)
+/turf/open/floor/wood_fancy{
+	color = "#779999"
+	},
+/area/f13/fb/bar)
 "nsz" = (
 /obj/machinery/telecomms/server/presets/service,
 /turf/open/floor/circuit/telecomms/mainframe,
@@ -2650,6 +2642,14 @@
 	color = "#3B2B1A"
 	},
 /turf/open/floor/carpet/purple,
+/area/f13/fb/bar)
+"nPu" = (
+/obj/structure/table/wood/settler,
+/turf/open/floor/f13{
+	color = "#ffe9de";
+	icon_state = "darkrusty";
+	name = "dirty floor"
+	},
 /area/f13/fb/bar)
 "nVa" = (
 /obj/machinery/telecomms/server/presets/town,
@@ -2936,12 +2936,6 @@
 	icon_state = "horizontalbottomborderbottom0"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
-"pMf" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/turf/closed/indestructible/f13/matrix,
-/area/f13/fb/bar)
 "pNr" = (
 /obj/item/storage/box/dice,
 /obj/structure/table/wood/settler,
@@ -3062,7 +3056,7 @@
 /area/f13/wasteland/city/newboston/outdoors)
 "qlV" = (
 /obj/structure/chair/folding{
-	dir = 4
+	dir = 1
 	},
 /turf/open/floor/f13{
 	color = "#ffe9de";
@@ -3200,38 +3194,45 @@
 	},
 /area/f13/wasteland/city/newboston/outdoors)
 "rlR" = (
-/obj/structure/chair/bench{
-	pixel_y = 10
+/obj/structure/curtain{
+	color = "#c40e0e"
 	},
 /obj/effect/overlay/fog/fog2{
-	plane = -2
+	plane = -2;
+	alpha = 175
 	},
-/turf/open/indestructible/ground/outside/sidewalk{
-	icon_state = "horizontalbottomborderbottom0"
+/obj/effect/sound_emitter/foxybar/windycurtains,
+/obj/structure/simple_door/room{
+	name = "booth two"
 	},
-/area/f13/wasteland/city/newboston/outdoors)
+/obj/item/lock_bolt{
+	dir = 8
+	},
+/turf/open/floor/wood_fancy{
+	color = "#779999"
+	},
+/area/f13/fb/bar)
 "roB" = (
 /obj/machinery/telecomms/hub/preset,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/f13/wasteland/city/newboston/outdoors)
 "ryu" = (
-/obj/structure/rack,
-/obj/item/toy/crayon/spraycan{
-	pixel_x = 7
+/obj/structure/curtain{
+	color = "#c40e0e"
 	},
-/obj/item/toy/crayon/purple{
-	pixel_x = -7
+/obj/effect/overlay/fog/fog2{
+	plane = -2;
+	alpha = 175
 	},
-/obj/item/storage/fancy/cigarettes/cigars,
-/obj/effect/spawner/lootdrop/f13/alcoholspawner,
-/obj/item/storage/toolbox,
-/obj/item/storage/toolbox,
-/obj/item/choice_beacon/box/carpet,
-/obj/item/choice_beacon/box/carpet,
-/turf/open/floor/f13{
-	color = "#ffe9de";
-	icon_state = "darkrusty";
-	name = "dirty floor"
+/obj/effect/sound_emitter/foxybar/windycurtains,
+/obj/structure/simple_door/room{
+	name = "booth four"
+	},
+/obj/item/lock_bolt{
+	dir = 4
+	},
+/turf/open/floor/wood_fancy{
+	color = "#779999"
 	},
 /area/f13/fb/bar)
 "rDF" = (
@@ -3777,6 +3778,12 @@
 	dir = 8;
 	color = "#3B2B1A"
 	},
+/obj/structure/simple_door/room{
+	name = "art room"
+	},
+/obj/item/lock_bolt{
+	dir = 1
+	},
 /turf/open/floor/wood_fancy{
 	color = "#779999"
 	},
@@ -4206,6 +4213,18 @@
 	},
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/f13/wasteland/city/newboston/outdoors)
+"ycH" = (
+/obj/effect/overlay/fog/fog2{
+	plane = -2;
+	alpha = 175
+	},
+/obj/structure/railing{
+	color = "#A47449";
+	dir = 4;
+	pixel_x = 2
+	},
+/turf/open/floor/carpet/purple,
+/area/f13/fb/bar)
 "yeQ" = (
 /obj/structure/sign/painting/library{
 	pixel_x = 32
@@ -5873,7 +5892,7 @@ bPG
 vsw
 iqW
 iqW
-iqW
+ycH
 lXt
 lXt
 krA
@@ -6004,7 +6023,7 @@ pgU
 mtY
 aTn
 hrM
-qge
+mdh
 bXW
 bXW
 ecT
@@ -6121,7 +6140,7 @@ xga
 wxN
 dCS
 hrM
-esa
+qge
 tdg
 nbY
 wum
@@ -6231,14 +6250,14 @@ bPG
 fDd
 bPG
 fVu
-aBY
+rlR
 kPk
 bPG
 fVu
 aBY
 tok
 bPG
-pHi
+esa
 oQi
 tkO
 uWY
@@ -6331,7 +6350,7 @@ xNF
 xNF
 xNF
 bPG
-pMf
+eJV
 jmf
 hBy
 cDo
@@ -6355,7 +6374,7 @@ okV
 okV
 hov
 bPG
-eJV
+pHi
 fdf
 gzw
 iub
@@ -7635,14 +7654,14 @@ bNC
 weZ
 bPG
 bUG
-aBY
+ryu
 niY
 bPG
 bUG
-aBY
+fzg
 niY
 bPG
-nqj
+mdh
 mLV
 tkO
 eYY
@@ -7752,14 +7771,14 @@ bPG
 hHE
 bPG
 fqj
-wxN
+nqj
 kUb
 nXE
 fqj
 wxN
 kUb
 nXE
-rlR
+mdh
 mLV
 gzw
 xYP
@@ -7859,13 +7878,13 @@ bhg
 llj
 hov
 bPG
+xNF
+xNF
+xNF
+xNF
 bPG
-bPG
-vJz
-vJz
-vJz
-vJz
-vJz
+nPu
+qlV
 vJz
 bPG
 hqa
@@ -7876,7 +7895,7 @@ lyo
 kcI
 hEt
 nXE
-rlR
+mdh
 mLV
 xfT
 eYY
@@ -7976,12 +7995,12 @@ fxb
 pNr
 lel
 bPG
+xNF
+xNF
+xNF
+xNF
 bPG
-bPG
-qlV
-vJz
-vJz
-vJz
+lvh
 vJz
 vJz
 bPG
@@ -7993,7 +8012,7 @@ dRv
 lzG
 dNW
 hrM
-rlR
+mdh
 mLV
 xfT
 uWY
@@ -8093,11 +8112,11 @@ gGC
 ghq
 tPi
 bPG
+xNF
+xNF
+xNF
+xNF
 bPG
-bPG
-fzg
-ryu
-cxG
 rWC
 uie
 jnG
@@ -8110,7 +8129,7 @@ pgU
 pxC
 aTn
 hrM
-iCC
+mdh
 tEH
 ouY
 neR
@@ -8210,10 +8229,10 @@ bPG
 bPG
 bPG
 bPG
-bPG
-bPG
-bPG
-bPG
+xNF
+xNF
+xNF
+xNF
 bPG
 bPG
 bPG

@@ -92,7 +92,7 @@ export class Changelog extends Component {
           self.setData(yaml.load(result, { schema: yaml.CORE_SCHEMA }));
         }
       });
-  }
+  };
 
   componentDidMount() {
     const { data: { dates = [] } } = useBackend(this.context);
@@ -176,7 +176,7 @@ export class Changelog extends Component {
 
     const header = (
       <Section>
-        <h1>the Bar at the End of the Universe</h1>
+        <h1>Foxybar</h1>
         <p>
           <b>Thanks to: </b>
           Baystation 12, /vg/station, NTstation, CDK Station devs,
