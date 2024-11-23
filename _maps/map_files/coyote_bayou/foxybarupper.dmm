@@ -98,13 +98,14 @@
 /turf/open/indestructible/cobble/dark,
 /area/f13/fb/bar)
 "aH" = (
-/obj/structure/curtain{
-	color = "#c40e0e";
-	open = 0
+/obj/effect/turf_decal/siding/wood{
+	dir = 4;
+	color = "#3B2B1A"
 	},
-/obj/effect/fake_stairs/west{
-	color = "#845f58";
-	dir = 4
+/obj/item/toy/cards/deck{
+	mouse_opacity = 0;
+	anchored = 1;
+	pixel_x = 26
 	},
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
@@ -277,6 +278,13 @@
 	dir = 4
 	},
 /obj/effect/sound_emitter/foxybar/windycurtains,
+/obj/structure/simple_door/room{
+	manual_opened = 1;
+	name = "blackjack room"
+	},
+/obj/item/lock_bolt{
+	dir = 4
+	},
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "cQ" = (
@@ -810,6 +818,20 @@
 	},
 /turf/open/floor/wood_common/wood_common_dark,
 /area/f13/fb/bar)
+"gU" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 1;
+	color = "#3B2B1A"
+	},
+/obj/machinery/light/small{
+	light_power = 2;
+	light_range = 2;
+	light_color = "#E1D5D5";
+	color = "#33FF33";
+	dir = 1
+	},
+/turf/open/floor/carpet/black,
+/area/f13/fb/bar)
 "ha" = (
 /obj/machinery/door/unpowered/securedoor,
 /obj/effect/turf_decal/siding/wood{
@@ -846,6 +868,7 @@
 	dir = 2;
 	color = "#3B2B1A"
 	},
+/obj/hilbertshotel,
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "ia" = (
@@ -885,6 +908,7 @@
 	color = "#E1D5D5";
 	dir = 1
 	},
+/obj/hilbertshotel,
 /turf/open/floor/wood_common/wood_common_dark,
 /area/f13/fb/bar)
 "iC" = (
@@ -905,6 +929,7 @@
 	light_range = 2;
 	pixel_y = 0
 	},
+/obj/hilbertshotel,
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "iD" = (
@@ -958,6 +983,20 @@
 /turf/open/floor/carpet/black{
 	color = "#CCCCCC"
 	},
+/area/f13/fb/bar)
+"ji" = (
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
+	},
+/obj/structure/chair/bench,
+/obj/machinery/light/small{
+	color = "#FF3333";
+	light_color = "#FF3333";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 0
+	},
+/turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "jA" = (
 /obj/effect/turf_decal/weather/splineplain{
@@ -1527,21 +1566,6 @@
 	},
 /turf/open/floor/wood_common,
 /area/f13/fb/bar)
-"ou" = (
-/obj/machinery/light/small{
-	color = "#444499";
-	dir = 8;
-	light_color = "#444499";
-	light_power = 2;
-	light_range = 2;
-	pixel_y = 0
-	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 8;
-	color = "#3B2B1A"
-	},
-/turf/open/floor/carpet/black,
-/area/f13/fb/bar)
 "oA" = (
 /obj/structure/chair/stool/retro/backed{
 	dir = 8
@@ -1863,6 +1887,10 @@
 	open = 0
 	},
 /obj/effect/sound_emitter/foxybar/windycurtains,
+/obj/structure/simple_door/room,
+/obj/item/lock_bolt{
+	dir = 1
+	},
 /turf/open/floor/carpet/black{
 	color = "#C6321F"
 	},
@@ -2517,20 +2545,6 @@
 	color = "#3B2B1A"
 	},
 /turf/closed/wall/mineral/brick,
-/area/f13/fb/bar)
-"xu" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 1;
-	color = "#3B2B1A"
-	},
-/obj/machinery/light/small{
-	light_power = 2;
-	light_range = 2;
-	light_color = "#E1D5D5";
-	color = "#33FF33";
-	dir = 1
-	},
-/turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "xv" = (
 /obj/structure/simple_door/room{
@@ -3500,6 +3514,19 @@
 	},
 /turf/open/floor/wood_common,
 /area/f13/caves)
+"Gf" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 4;
+	color = "#3B2B1A"
+	},
+/obj/item/dice/d6{
+	pixel_y = 1;
+	pixel_x = 25;
+	anchored = 1;
+	mouse_opacity = 0
+	},
+/turf/open/floor/carpet/black,
+/area/f13/fb/bar)
 "Gv" = (
 /obj/machinery/computer/slot_machine{
 	pixel_y = 16;
@@ -3537,6 +3564,10 @@
 	},
 /turf/open/floor/carpet/red,
 /area/f13/fb/bar)
+"Hb" = (
+/obj/hilbertshotel,
+/turf/open/indestructible/cobble/dark,
+/area/f13/fb/bar)
 "Hn" = (
 /obj/structure/spacevine{
 	icon = 'icons/effects/effects.dmi';
@@ -3561,20 +3592,6 @@
 /turf/open/floor/plasteel/f13/whitemarble{
 	color = "#666666"
 	},
-/area/f13/fb/bar)
-"Hu" = (
-/obj/effect/turf_decal/siding/wood{
-	color = "#3B2B1A"
-	},
-/obj/structure/chair/bench,
-/obj/machinery/light/small{
-	color = "#FF3333";
-	light_color = "#FF3333";
-	light_power = 2;
-	light_range = 2;
-	pixel_y = 0
-	},
-/turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "HH" = (
 /obj/machinery/photocopier,
@@ -4460,6 +4477,24 @@
 	},
 /turf/open/indestructible/cobble/dark,
 /area/f13/fb/bar)
+"Rb" = (
+/obj/structure/curtain{
+	color = "#c40e0e";
+	open = 0
+	},
+/obj/effect/fake_stairs/west{
+	color = "#845f58";
+	dir = 4
+	},
+/obj/effect/sound_emitter/foxybar/windycurtains,
+/obj/structure/simple_door/room{
+	name = "dice room"
+	},
+/obj/item/lock_bolt{
+	dir = 4
+	},
+/turf/open/floor/carpet/black,
+/area/f13/fb/bar)
 "Re" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 8;
@@ -4869,6 +4904,10 @@
 	color = "#c40e0e";
 	open = 0
 	},
+/obj/structure/simple_door/room,
+/obj/item/lock_bolt{
+	dir = 1
+	},
 /turf/open/floor/carpet/black{
 	color = "#C6321F"
 	},
@@ -4986,22 +5025,15 @@
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
 "VT" = (
-/obj/effect/turf_decal/siding/wood{
-	color = "#3B2B1A"
+/obj/effect/turf_decal/siding/wideplating/dark{
+	dir = 8
 	},
-/obj/machinery/computer/arcade{
-	density = 0;
-	dir = 1
+/obj/effect/overlay/fog/fog2{
+	plane = -2
 	},
-/obj/machinery/light/small{
-	color = "#FF3333";
-	light_color = "#FF3333";
-	light_power = 2;
-	light_range = 2;
-	pixel_y = 0
-	},
-/turf/open/floor/carpet/black,
-/area/f13/fb/bar)
+/obj/hilbertshotel,
+/turf/open/indestructible/ground/inside/mountain,
+/area/f13/caves)
 "Wa" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 4;
@@ -5384,6 +5416,38 @@
 	plane = -14
 	},
 /turf/open/floor/carpet/blue,
+/area/f13/fb/bar)
+"Zq" = (
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
+	},
+/obj/machinery/computer/arcade{
+	density = 0;
+	dir = 1
+	},
+/obj/machinery/light/small{
+	color = "#FF3333";
+	light_color = "#FF3333";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 0
+	},
+/turf/open/floor/carpet/black,
+/area/f13/fb/bar)
+"Zr" = (
+/obj/machinery/light/small{
+	color = "#444499";
+	dir = 8;
+	light_color = "#444499";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 0
+	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 8;
+	color = "#3B2B1A"
+	},
+/turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "Zw" = (
 /obj/structure/chair/sofa/left{
@@ -6936,7 +7000,7 @@ kk
 Iu
 il
 Gv
-ou
+Zr
 Pc
 Fv
 il
@@ -7055,7 +7119,7 @@ il
 yx
 zr
 Xy
-VT
+Zq
 il
 DS
 kf
@@ -7520,10 +7584,10 @@ il
 VN
 uu
 il
-xu
+gU
 zr
 zr
-Hu
+ji
 il
 wM
 vU
@@ -7618,7 +7682,7 @@ nZ
 nZ
 nZ
 dS
-Oo
+VT
 Oo
 Oo
 kb
@@ -8687,11 +8751,11 @@ il
 JR
 Kp
 zu
-Jp
+aH
 Jp
 Jp
 zu
-Jp
+Gf
 Jp
 vk
 il
@@ -8804,13 +8868,13 @@ il
 JX
 hj
 il
-aH
-cO
-aH
 il
-aH
 cO
-aH
+il
+il
+il
+Rb
+il
 il
 Ek
 vU
@@ -10806,7 +10870,7 @@ ag
 ag
 PW
 ag
-ag
+Hb
 PW
 ag
 ag
