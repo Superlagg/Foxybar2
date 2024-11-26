@@ -21,7 +21,7 @@ SUBSYSTEM_DEF(autotransfer)
 	var/min_end_vote_time = INFINITY // lol
 
 	var/easy_end = TRUE
-	var/EE_stage = 0
+	var/EE_stage = EE_START
 	var/EE_warning_1 = (15 MINUTES)
 	var/EE_warning_2 = (10 MINUTES)
 	var/EE_warning_3 = (5 MINUTES)
