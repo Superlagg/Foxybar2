@@ -57,6 +57,7 @@
 	var/current_category = MERP_CAT_ALL
 	var/search_term = ""
 	var/list/cached_interactions = list() // optimizing my code is for nerds
+	var/plapcombo = 0
 
 /datum/component/interaction_menu_granter/Initialize(...)
 	if(!ismob(parent))
@@ -72,6 +73,7 @@
 	RegisterSignal(parent, COMSIG_CLICK_CTRL_SHIFT,PROC_REF(open_menu))
 	RegisterSignal(parent, COMSIG_SPLURT_REMOVE_AUTOPLAPPER,PROC_REF(kill_autoplapper))
 	RegisterSignal(parent, COMSIG_SPLURT_ADD_AUTOPLAPPER,PROC_REF(confirm_autoplap))
+	RegisterSignal(parent, COMSIG_SPLURT_AUTOPLAP,PROC_REF(plapcombo))
 	RegisterSignal(parent, COMSIG_SPLURT_SOMEONE_CUMMED,PROC_REF(stop_all_autoplappers))
 	RegisterSignal(parent, COMSIG_SPLURT_I_CAME,PROC_REF(stop_all_autoplappers))
 
@@ -449,10 +451,87 @@
 			ret += list(AP.format_for_tgui())
 	return ret
 
+/datum/component/interaction_menu_granter/proc/plapcombo()
+	plapcombo++
+
 /datum/component/interaction_menu_granter/proc/kill_autoplapper(datum/source, datum/autoplapper/AP)
 	if(!AP)
 		return
 	autoplappers -= AP.apid
+	if(!LAZYLEN(autoplappers))
+		combo_break()
+
+/datum/component/interaction_menu_granter/proc/combo_break()
+	var/plombo = plapcombo
+	var/plombo2 = plapcombo
+	plapcombo = 0
+	var/hundreds = round(plombo / 100)
+	plombo -= (hundreds * 100)
+	if(plombo2 > 300)
+		plombo = max(11, plombo)
+	var/thatwas = "lame..."
+	switch(plombo)
+		if(3 to 5)
+			thatwas = "cheesy."
+		if(6 to 10)
+			thatwas = "not bad but not great either."
+		if(11 to 15)
+			thatwas = "getting somewhere!"
+		if(16 to 20)
+			thatwas = "Nice, :) Good job!"
+		if(21 to 25)
+			thatwas = "cheflike!"
+		if(26 to 30)
+			thatwas = "brutal!"
+		if(31 to 35)
+			thatwas = "evil!"
+		if(36 to 40)
+			thatwas = "unclean!"
+		if(41 to 45)
+			thatwas = "disturbing!"
+		if(46 to 50)
+			thatwas = "twisted!"
+		if(51 to 55)
+			thatwas = "psychotic!"
+		if(56 to 60)
+			thatwas = "ill-willed!"
+		if(61 to 65)
+			thatwas = "crushing!"
+		if(66 to 70)
+			thatwas = "funny!"
+		if(71 to 75)
+			thatwas = "unfunny!"
+		if(76 to 80)
+			thatwas = "spooky!"
+		if(81 to 85)
+			thatwas = "furry!"
+		if(86 to 90)
+			thatwas = "sick!"
+		if(91 to 95)
+			thatwas = "groovy!"
+		if(96 to 100)
+			thatwas = "beastmode!"
+	var/rank = "D"
+	switch(plombo2)
+		if(0 to 100)
+			rank = "[span_alert("D...")]"
+		if(101 to 200)
+			rank = "[span_warning("C.")]"
+		if(201 to 300)
+			rank = "[span_notice("B")]"
+		if(301 to 400)
+			rank = "[span_green("A!")]"
+		if(401 to 500)
+			rank = "[span_love("S!!")]"
+		if(501 to INFINITY)
+			rank = "[span_userlove("!~P~!")]"
+	var/veryvery = " "
+	for(var/i in 1 to hundreds)
+		var/varie = pick("very", "extra", "super", "mega", "ultra", "turbo", "hyper", "giga", "groingrabbingly")
+		veryvery += varie
+		if(i < hundreds)
+			veryvery += " "
+	to_chat(parent, span_green("[plombo2] plaps! That was[veryvery] [thatwas] Rank: [rank]"))
 
 /datum/component/interaction_menu_granter/proc/queue_save()
 	if(savetimer)

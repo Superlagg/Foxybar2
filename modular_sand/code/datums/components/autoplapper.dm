@@ -205,6 +205,7 @@
 		stop_plapping()
 		return // something went wrong, we cant plap
 	COOLDOWN_START(src, last_plap, plap_interval)
+	SEND_SIGNAL(plappermob, COMSIG_SPLURT_AUTOPLAP, src)
 	plap_count++
 	return TRUE
 
