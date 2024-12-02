@@ -87,7 +87,7 @@
 		return TRUE
 
 /datum/keybinding/carbon/questscanner 
-	hotkey_keys = list("J")
+	hotkey_keys = list("")
 	name = "quest_scanner_pls"
 	full_name = "Get quest scanner"
 	description = ""

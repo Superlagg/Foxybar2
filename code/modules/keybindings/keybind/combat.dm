@@ -1,5 +1,5 @@
 /datum/keybinding/living/toggle_combat_mode
-	hotkey_keys = list("C")
+	hotkey_keys = list("")
 	name = "toggle_combat_mode"
 	full_name = "Toggle combat mode"
 	category = CATEGORY_COMBAT
