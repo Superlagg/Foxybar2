@@ -389,7 +389,6 @@
 	},
 /area/f13/fb/bar)
 "bNC" = (
-/obj/structure/table/abductor,
 /obj/structure/sign/painting/library{
 	pixel_x = 32
 	},
@@ -403,13 +402,14 @@
 	dir = 4;
 	color = "#3B2B1A"
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 2;
 	color = "#3B2B1A"
+	},
+/obj/machinery/vending/boozeomat,
+/obj/effect/overlay/fog/fog2{
+	plane = -2;
+	alpha = 175
 	},
 /turf/open/floor/carpet/royalblack,
 /area/f13/fb/bar)
@@ -2587,18 +2587,6 @@
 /obj/effect/overlay/fog/fog2{
 	plane = -2;
 	alpha = 175
-	},
-/turf/open/floor/wood_fancy{
-	color = "#779999"
-	},
-/area/f13/fb/bar)
-"nqj" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/obj/structure/simple_door/room{
-	name = "booth four"
 	},
 /turf/open/floor/wood_fancy{
 	color = "#779999"
@@ -7771,7 +7759,7 @@ bPG
 hHE
 bPG
 fqj
-nqj
+wxN
 kUb
 nXE
 fqj
