@@ -336,7 +336,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set desc = "Relinquish your life and enter the land of the dead."
 	set hidden = TRUE
 
-	abandon_mob()
+	//abandon_mob()
 	// if(stat == DEAD)
 	// 	return
 	// var/penalty = 3 MINUTES
