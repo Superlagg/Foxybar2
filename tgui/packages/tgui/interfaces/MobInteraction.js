@@ -819,8 +819,8 @@ const InteractionButton = (props, context) => {
             width="100%"
             disabled={CantClick}
             textAlign="left"
-            tooltip={IAdditional}
-            tooltipPosition="top"
+            // tooltip={IAdditional}
+            // tooltipPosition="top"
             backgroundColor={BGColor}
             onClick={() =>
               act('interact', {
@@ -859,8 +859,8 @@ const FavoriteButton = (props, context) => {
     <Button
       icon={ButtIcon}
       iconColor={ButtColor}
-      tooltipPosition="top"
-      tooltip={ButtText}
+      // tooltipPosition="top"
+      // tooltip={ButtText}
       width="fit-content"
       onClick={() =>
         act('Favorite', {
@@ -890,7 +890,7 @@ const AutoPlapRecordButton = (props, context) => {
         textAlign="center"
         icon="times"
         color="red"
-        tooltip="Cancel Recording"
+        tooltip="Stop Recording"
         tooltipPosition="top"
         onClick={() =>
           act('StopRecording', {
@@ -903,8 +903,7 @@ const AutoPlapRecordButton = (props, context) => {
       <Button
         icon="ban"
         color="red"
-        disabled
-        tooltip="Something else is recording!!!" />
+        disabled />
     );
   }
   return (

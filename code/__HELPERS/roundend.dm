@@ -171,7 +171,7 @@
 /datum/controller/subsystem/ticker/proc/declare_completion()
 	set waitfor = FALSE
 
-	to_chat(world, "<BR><BR><BR><span class='big bold'>The round has ended.</span>")
+	to_chat(world, "<BR><BR><BR><span class='big bold'>Foxy Bar is closing for maintenance!</span>")
 	if(LAZYLEN(GLOB.round_end_notifiees))
 		world.TgsTargetedChatBroadcast("[GLOB.round_end_notifiees.Join(", ")] the round has ended.", FALSE)
 
@@ -217,7 +217,7 @@
 
 	CHECK_TICK
 
-	set_observer_default_invisibility(0, span_warning("The round is over! You are now visible to the living."))
+	set_observer_default_invisibility(0, span_warning("Bar's closed! You are now visible to the living."))
 
 	CHECK_TICK
 	
@@ -249,9 +249,9 @@
 	//stop collecting feedback during grifftime
 	SSblackbox.Seal()
 
-	end_of_round_deathmatch()
+	// end_of_round_deathmatch()
 	var/time_to_end = CONFIG_GET(number/eorg_period)
-	to_chat(world, "<span class='info'>EORD in progress, game end delayed by [time_to_end * 0.1] seconds!</a></span>")
+	to_chat(world, "<span class='info'>Foxy Bar is closing briefly for maintenance in [time_to_end * 0.1] seconds!</a></span>")
 	addtimer(CALLBACK(src,PROC_REF(standard_reboot)), time_to_end)
 
 
@@ -261,7 +261,7 @@
 		if(mode.station_was_nuked)
 			Reboot("Station destroyed by Nuclear Device.", "nuke")
 		else
-			Reboot("Round ended.", "proper completion")
+			Reboot("Bar's closed!", "proper completion")
 	else
 		CRASH("Attempted standard reboot without ticker roundend completion")
 
