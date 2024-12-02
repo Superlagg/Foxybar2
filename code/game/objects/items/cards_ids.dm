@@ -906,9 +906,9 @@
 			input_name = reject_bad_name(input_name)
 			if(!input_name)
 				input_name = living_user.real_name
-			target_occupation = stripped_input(user, "What occupation would you like to put on this card?", "Reprogrammable ID", assignment ? assignment : "Wastelander", 60)
+			target_occupation = stripped_input(user, "What occupation would you like to put on this card?", "Reprogrammable ID", assignment ? assignment : "Bar-Goer", 60)
 			if(!target_occupation)
-				target_occupation = "Wastelander"
+				target_occupation = "Bar-Goer"
 				return
 			registered_name = input_name
 			assignment = target_occupation
@@ -937,7 +937,7 @@
 			input_name = reject_bad_name(input_name)
 			if(!input_name)
 				input_name = living_user.real_name
-			target_occupation = stripped_input(user, "What occupation would you like to put on this card?", "Reprogrammable ID", assignment ? assignment : "Wastelander", 60)
+			target_occupation = stripped_input(user, "What occupation would you like to put on this card?", "Reprogrammable ID", assignment ? assignment : "Bar-Goer", 60)
 			if(!target_occupation)
 				target_occupation = "Somebody"
 				return
