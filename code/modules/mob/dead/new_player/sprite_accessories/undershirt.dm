@@ -880,3 +880,89 @@
 	gender = FEMALE
 	use_sex_mask = FALSE
 
+// Perky Shirts//
+
+/datum/sprite_accessory/underwear/top/pshapelypetite
+	name = "Perky Shirt - Petite"
+	icon_state = "pshapely_petite"
+	has_color = TRUE
+	gender = FEMALE
+	covers_belly = FALSE
+
+/datum/sprite_accessory/underwear/top/pshapelygirlish
+	name = "Perky Shirt - Girlish"
+	icon_state = "pshapely_girlish"
+	has_color = TRUE
+	gender = FEMALE
+	covers_belly = FALSE
+
+/datum/sprite_accessory/underwear/top/pshapelycurvy
+	name = "Perky Shirt - Curvy"
+	icon_state = "pshapely_curvy"
+	has_color = TRUE
+	gender = FEMALE
+	use_sex_mask = FALSE
+
+/datum/sprite_accessory/underwear/top/pshapelybusty
+	name = "Perky Shirt - Busty"
+	icon_state = "pshapely_busty"
+	has_color = TRUE
+	gender = FEMALE
+	use_sex_mask = FALSE
+
+/datum/sprite_accessory/underwear/top/pshapelybackbreaker
+	name = "Perky Shirt - Backbreakers"
+	icon_state = "pshapely_backbreaker"
+	has_color = TRUE
+	gender = FEMALE
+	use_sex_mask = FALSE
+
+// belt bra
+
+/datum/sprite_accessory/underwear/top/shapelyblt_petite
+	name = "Belt - Petite"
+	icon_state = "shapelyblt_petite"
+	has_color = TRUE
+	gender = FEMALE
+	covers_belly = FALSE
+
+/datum/sprite_accessory/underwear/top/shapelyblt_girlish
+	name = "Belt - Girlish"
+	icon_state = "shapelyblt_girlish"
+	has_color = TRUE
+	gender = FEMALE
+	covers_belly = FALSE
+
+/datum/sprite_accessory/underwear/top/shapelyblt_curvy
+	name = "Belt - Curvy"
+	icon_state = "shapelyblt_curvy"
+	has_color = TRUE
+	gender = FEMALE
+	use_sex_mask = FALSE
+
+/datum/sprite_accessory/underwear/top/shapelyblt_busty
+	name = "Belt - Busty"
+	icon_state = "shapelyblt_busty"
+	has_color = TRUE
+	gender = FEMALE
+	use_sex_mask = FALSE
+
+/datum/sprite_accessory/underwear/top/shapelyblt_backbreaker
+	name = "Belt - Backbreakers"
+	icon_state = "shapelyblt_backbreaker"
+	has_color = TRUE
+	gender = FEMALE
+	use_sex_mask = FALSE
+
+/datum/sprite_accessory/underwear/top/shapelyblt_humongous
+	name = "Belt - Humongous"
+	icon_state = "shapelyblt_humongous"
+	has_color = TRUE
+	gender = FEMALE
+	use_sex_mask = FALSE
+
+/datum/sprite_accessory/underwear/top/shapelyblt_hyper
+	name = "Belt - Hyper"
+	icon_state = "shapelyblt_hyper"
+	has_color = TRUE
+	gender = FEMALE
