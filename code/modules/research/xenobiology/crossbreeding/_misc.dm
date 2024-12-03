@@ -106,8 +106,8 @@
 				to_chat(M, span_notice("The world warps around you, and you're suddenly in an endless void, with a window to the outside floating in front of you."))
 				store(M, user)
 			else
-				to_chat(user, span_warning("I were too far away from [M]."))
-				to_chat(M, span_warning("I were too far away from [user]."))
+				to_chat(user, span_warning("I was too far away from [M]."))
+				to_chat(M, span_warning("I was too far away from [user]."))
 		else
 			to_chat(user, span_warning("[M] refused to enter the device."))
 			return

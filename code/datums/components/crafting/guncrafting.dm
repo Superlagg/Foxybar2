@@ -157,7 +157,7 @@
 				if(tool.tool_behaviour != TOOL_SCREWDRIVER)
 					return
 				if(!tool.use_tool(src, user, 3 SECONDS, 0, 100))
-					user.show_message(span_alert("I were interrupted!"))
+					user.show_message(span_alert("I was interrupted!"))
 					return
 				disassembling = TRUE
 				visible_message(span_notice("[user] <b>unscrewed</b> the outer bolts on [src]!"),
@@ -171,7 +171,7 @@
 					user.show_message(span_alert("I need at least 1 unit of fuel in that thing!"))
 					return
 				if(!tool.use_tool(src, user, 3 SECONDS, 0, 100))
-					user.show_message(span_alert("I were interrupted!"))
+					user.show_message(span_alert("I was interrupted!"))
 					return
 				disassembling = TRUE
 				visible_message(span_notice("[user] <b>unwelded</b> the outer hull on [src]!"),
@@ -182,7 +182,7 @@
 				if(tool.tool_behaviour != TOOL_WIRECUTTER)
 					return
 				if(!tool.use_tool(src, user, 3 SECONDS, 0, 100))
-					user.show_message(span_alert("I were interrupted!"))
+					user.show_message(span_alert("I was interrupted!"))
 					return
 				disassembling = TRUE
 				visible_message(span_notice("[user] <b>cut</b> the outer wires on [src]!"),
@@ -193,7 +193,7 @@
 				if(tool.tool_behaviour != TOOL_CROWBAR)
 					return
 				if(!tool.use_tool(src, user, 3 SECONDS, 0, 100))
-					user.show_message(span_alert("I were interrupted!"))
+					user.show_message(span_alert("I was interrupted!"))
 					return
 				disassembling = TRUE
 				visible_message(span_notice("[user] <b>pried</b> the outer covering off [src]!"),
@@ -204,7 +204,7 @@
 				if(tool.tool_behaviour != TOOL_MULTITOOL)
 					return
 				if(!tool.use_tool(src, user, 3 SECONDS, 0, 100))
-					user.show_message(span_alert("I were interrupted!"))
+					user.show_message(span_alert("I was interrupted!"))
 					return
 				disassembling = TRUE
 				visible_message(span_notice("[user] <b>bypassed</b> the outer security on [src]!"),

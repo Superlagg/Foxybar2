@@ -1,5 +1,5 @@
 // Full credit goes to VG station for these assets. https://github.com/vgstation-coders/vgstation13
-// All items in this .dm and the associated .dmi were made by VG station and all credit should go to them.
+// All items in this .dm and the associated .dmI was made by VG station and all credit should go to them.
 
 // -<| IMPORTANT MAPPER NOTE |>-
 // Change the 'color' variable on any white sprite to simply recolour it!

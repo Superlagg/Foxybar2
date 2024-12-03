@@ -833,7 +833,7 @@
 
 /obj/item/nullrod/scythe/talking/Destroy()
 	for(var/mob/living/simple_animal/shade/S in contents)
-		to_chat(S, "I were destroyed!")
+		to_chat(S, "I was destroyed!")
 		qdel(S)
 	return ..()
 

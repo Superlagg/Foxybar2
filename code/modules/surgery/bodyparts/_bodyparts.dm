@@ -409,6 +409,8 @@
  * * bare_wound_bonus- The bare_wound_bonus of an attack
  */
 /obj/item/bodypart/proc/check_wounding(woundtype, damage, wound_bonus, bare_wound_bonus)
+	if(!SSmobs.allow_wounds)
+		return
 	// actually roll wounds if applicable
 	if(woundtype == WOUND_SLASH || woundtype == WOUND_PIERCE)
 		if(!is_organic_limb())
