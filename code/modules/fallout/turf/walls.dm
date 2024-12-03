@@ -394,8 +394,8 @@
 		// if(user.client.is_in_game == 2)
 		// 	to_chat(world, span_nicegreen("I hear through the grapevine that [user.name] has left the county."))
 		user.client.is_in_game = 0
-	user.despawn()
 	whoosh(user)
+	user.despawn()
 
 /turf/closed/indestructible/f13/matrix/proc/depart_other(mob/living/user, mob/living/departing_mob)
 	if(in_use)
@@ -444,8 +444,8 @@
 		// if(departing_mob.client.is_in_game == 2)
 		// 	to_chat(world, span_nicegreen("I hear through the grapevine that [departing_mob.name] has left the county."))
 		departing_mob.client.is_in_game = 0
-	departing_mob.despawn()
 	whoosh(departing_mob)
+	departing_mob.despawn()
 
 /turf/closed/indestructible/f13/matrix/proc/whoosh(mob/departing_mob)
 	do_sparks(2, TRUE, departing_mob)
