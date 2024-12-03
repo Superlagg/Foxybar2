@@ -58,15 +58,8 @@
 /turf/closed/indestructible/f13/matrix,
 /area/hilbertshotel)
 "k" = (
-/obj/effect/overlay/water/top,
-/obj/effect/overlay/water{
-	plane = -2
-	},
-/obj/effect/turf_decal/weather/dirtcorner{
-	color = "#FFFF33";
-	dir = 1
-	},
-/turf/open/floor/plating/beach/water,
+/obj/effect/sound_emitter/foxybar/windycurtains,
+/turf/closed/indestructible/f13/matrix,
 /area/hilbertshotel)
 "m" = (
 /obj/effect/overlay/palmtree_l,
@@ -74,20 +67,6 @@
 /area/hilbertshotel)
 "n" = (
 /turf/open/floor/carpet,
-/area/hilbertshotel)
-"o" = (
-/obj/effect/overlay/water{
-	plane = -2
-	},
-/obj/effect/overlay/water/top,
-/obj/effect/turf_decal/weather/dirt{
-	color = "#FFFF33"
-	},
-/obj/effect/turf_decal/weather/dirt{
-	color = "#FFFF33";
-	dir = 4
-	},
-/turf/open/floor/plating/beach/water,
 /area/hilbertshotel)
 "p" = (
 /obj/structure/barricade/tentclothedge{
@@ -222,17 +201,6 @@
 /obj/structure/flora/tree/chomp/spalmtree,
 /turf/open/indestructible/ground/outside/dirt/desertsand,
 /area/hilbertshotel)
-"I" = (
-/obj/effect/overlay/water/top,
-/obj/effect/overlay/water{
-	plane = -2
-	},
-/obj/effect/turf_decal/weather/dirtcorner{
-	color = "#FFFF33";
-	dir = 8
-	},
-/turf/open/floor/plating/beach/water,
-/area/hilbertshotel)
 "J" = (
 /obj/structure/barricade/tentclothedge{
 	color = "#AA4444";
@@ -242,10 +210,10 @@
 /turf/open/indestructible/ground/outside/dirt/desertsand,
 /area/hilbertshotel)
 "K" = (
-/obj/structure/destructible/tribal_torch/lit{
-	pixel_y = 31
+/obj/effect/sound_emitter/birds,
+/turf/open/indestructible/ground/outside/dirt/desertsand{
+	color = "#BBBBBB"
 	},
-/turf/open/indestructible/ground/outside/dirt/desertsand,
 /area/hilbertshotel)
 "L" = (
 /obj/structure/simple_door/tentflap_cloth{
@@ -280,21 +248,6 @@
 "P" = (
 /obj/structure/chair/comfy/throne,
 /turf/open/floor/carpet,
-/area/hilbertshotel)
-"Q" = (
-/obj/effect/overlay/water/top,
-/obj/effect/overlay/water{
-	plane = -2
-	},
-/obj/effect/turf_decal/weather/dirt{
-	color = "#FFFF33";
-	dir = 8
-	},
-/obj/effect/turf_decal/weather/dirt{
-	color = "#FFFF33";
-	dir = 1
-	},
-/turf/open/floor/plating/beach/water,
 /area/hilbertshotel)
 "R" = (
 /obj/structure/barricade/tentclothedge{
@@ -343,9 +296,8 @@
 /turf/open/indestructible/ground/outside/dirt/desertsand,
 /area/hilbertshotel)
 "Y" = (
-/obj/structure/flora/tree/chomp/spalmtree,
-/obj/effect/overlay/coconut,
-/turf/open/indestructible/ground/outside/dirt/desertsand,
+/obj/effect/sound_emitter/birds,
+/turf/closed/indestructible/f13/matrix,
 /area/hilbertshotel)
 "Z" = (
 /obj/structure/barricade/tentclothcorner{
@@ -363,11 +315,7 @@ j
 j
 j
 j
-j
-j
-j
-j
-j
+W
 j
 j
 j
@@ -383,11 +331,7 @@ e
 J
 J
 J
-J
 v
-a
-g
-F
 S
 a
 a
@@ -405,11 +349,7 @@ R
 i
 U
 U
-U
 p
-a
-a
-a
 a
 a
 a
@@ -418,7 +358,7 @@ a
 a
 N
 a
-a
+g
 j
 "}
 (4,1,1) = {"
@@ -427,11 +367,7 @@ R
 n
 C
 q
-n
 p
-K
-a
-a
 a
 a
 a
@@ -439,7 +375,7 @@ m
 a
 a
 a
-a
+t
 a
 j
 "}
@@ -449,16 +385,12 @@ R
 P
 O
 n
-n
 L
 s
 s
 s
 s
-s
-s
-s
-f
+K
 a
 a
 a
@@ -471,19 +403,15 @@ R
 n
 n
 n
-n
 p
-K
-a
 f
 a
 a
 a
 s
 a
-Q
-G
-h
+a
+a
 a
 j
 "}
@@ -493,19 +421,15 @@ R
 n
 U
 U
-U
 p
-S
-a
 a
 b
 G
 G
 G
 G
-k
-M
-V
+G
+h
 a
 j
 "}
@@ -515,13 +439,9 @@ Z
 X
 X
 X
-X
 D
-t
 a
-b
-k
-M
+y
 M
 M
 M
@@ -533,13 +453,11 @@ j
 "}
 (9,1,1) = {"
 j
+w
 a
 a
 a
-a
-a
-a
-a
+t
 a
 y
 M
@@ -547,24 +465,19 @@ M
 M
 M
 M
-M
-I
-o
+B
 a
 j
 "}
 (10,1,1) = {"
 j
-a
-a
-F
-a
 S
 a
 a
 d
+a
+a
 y
-M
 M
 M
 E
@@ -572,21 +485,17 @@ M
 M
 B
 S
-a
 j
 "}
 (11,1,1) = {"
 j
 a
 a
-a
-a
-a
-a
 H
 a
+a
+a
 y
-M
 M
 M
 M
@@ -594,13 +503,10 @@ M
 M
 B
 F
-a
-W
+j
 "}
 (12,1,1) = {"
 j
-a
-N
 a
 a
 a
@@ -613,9 +519,7 @@ M
 M
 M
 M
-M
 B
-a
 a
 j
 "}
@@ -623,32 +527,8 @@ j
 j
 a
 a
-a
-a
-a
-a
 S
 a
-y
-M
-M
-M
-M
-M
-M
-B
-a
-S
-j
-"}
-(14,1,1) = {"
-j
-a
-a
-a
-a
-a
-m
 a
 a
 r
@@ -657,18 +537,30 @@ A
 A
 A
 A
-A
 u
+a
+j
+"}
+(14,1,1) = {"
+j
+a
+m
+a
+a
+a
+a
+t
+a
+a
+a
+a
+a
 a
 a
 j
 "}
 (15,1,1) = {"
-j
-a
-a
-S
-f
+Y
 a
 a
 a
@@ -682,98 +574,11 @@ a
 S
 a
 a
-a
+t
 j
 "}
 (16,1,1) = {"
 j
-a
-a
-a
-a
-a
-a
-a
-N
-a
-a
-a
-F
-a
-a
-a
-a
-g
-a
-j
-"}
-(17,1,1) = {"
-j
-a
-a
-a
-N
-a
-F
-a
-a
-a
-a
-a
-Y
-a
-m
-a
-a
-t
-a
-j
-"}
-(18,1,1) = {"
-j
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-S
-a
-a
-j
-"}
-(19,1,1) = {"
-j
-w
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-j
-"}
-(20,1,1) = {"
 j
 j
 j
@@ -781,12 +586,7 @@ j
 j
 j
 j
-j
-j
-j
-j
-j
-j
+k
 j
 j
 j

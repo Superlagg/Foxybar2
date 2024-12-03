@@ -22,10 +22,10 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	"Apartment-Sauna",
 	// "Movie-Theater",
 	// "Dungeon-One",
-	// "Oasis-One",
-	// "Snowcabin-One",
+	"Oasis-One",
+	"Snowcabin-One",
 	// "Hospital",
-	// "Chess",
+	"Chess",
 	)
 	var/datum/map_template/hilbertshotel/apartment/one/hilberts_hotel_rooms_apartment_one
 	var/datum/map_template/hilbertshotel/apartment/two/hilberts_hotel_rooms_apartment_two
@@ -37,11 +37,11 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	//SPLURT EDIT END
 	//FB Maps
 	// var/datum/map_template/hilbertshotel/apartment/movietheater/hilberts_hotel_rooms_movie_theater
-	// var/datum/map_template/hilbertshotel/apartment/dungeon_one/dungeon_one
-	// var/datum/map_template/hilbertshotel/apartment/oasis_one/oasis_one
-	// var/datum/map_template/hilbertshotel/apartment/snowcabin_one/snowcabin_one
+	// /datum/map_template/hilbertshotel/apartment/dungeon_one/dungeon_one
+	var/datum/map_template/hilbertshotel/apartment/oasis_one/oasis_one
+	var/datum/map_template/hilbertshotel/apartment/snowcabin_one/snowcabin_one
 	// var/datum/map_template/hilbertshotel/apartment/hospital_one/hospital_one
-	// var/datum/map_template/hilbertshotel/apartment/chessboard/thechess
+	var/datum/map_template/hilbertshotel/apartment/chessboard/thechess
 	//FB Maps End
 	var/datum/map_template/hilbertshotel/hotelRoomTemp
 	var/datum/map_template/hilbertshotel/empty/hotelRoomTempEmpty
@@ -74,11 +74,11 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	hilberts_hotel_rooms_apartment_sauna = new()
 	//FB EDIT START
 	// hilberts_hotel_rooms_movie_theater = new()
-	// dungeon_one = new()
-	// oasis_one = new()
-	// snowcabin_one = new()
+	//dungeon_one = new()
+	oasis_one = new()
+	snowcabin_one = new()
 	// hospital_one = new()
-	// thechess = new()
+	thechess = new()
 
 /obj/hilbertshotel/Destroy()
 	ejectRooms()
@@ -259,11 +259,11 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 		if("Apartment-Garden") return hilberts_hotel_rooms_apartment_garden
 		if("Apartment-Sauna") return hilberts_hotel_rooms_apartment_sauna
 		// if("Movie-Theater") return hilberts_hotel_rooms_movie_theater
-		// if("Dungeon-One") return dungeon_one
-		// if("Oasis-One") return oasis_one
-		// if("Snowcabin-One") return snowcabin_one
+		//if("Dungeon-One") return dungeon_one
+		if("Oasis-One") return oasis_one
+		if("Snowcabin-One") return snowcabin_one
 		// if("Hospital") return hospital_one
-		// if("Chess") return thechess
+		if("Chess") return thechess
 		if("Mystery Room") return hotelRoomTempLore
 	return hotelRoomTemp // Default to Hotel Room if no match is found
 
@@ -289,10 +289,10 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 			if("Apartment-Sauna") mapTemplate = hilberts_hotel_rooms_apartment_sauna
 			// if("Movie-Theater") mapTemplate = hilberts_hotel_rooms_movie_theater
 			// if("Dungeon-One") mapTemplate = dungeon_one
-			// if("Oasis-One") mapTemplate = oasis_one
-			// if("Snowcabin-One") mapTemplate = snowcabin_one
+			if("Oasis-One") mapTemplate = oasis_one
+			if("Snowcabin-One") mapTemplate = snowcabin_one
 			// if("Hospital") mapTemplate = hospital_one
-			// if("Chess") mapTemplate = thechess
+			if("Chess") mapTemplate = thechess
 	if(!mapTemplate)
 		mapTemplate = hotelRoomTemp //Default Hotel Room
 
@@ -716,9 +716,7 @@ There's always more room around every bend
 Not all that's countable has an end..._
 "}
 
-/datum/map_template/hilbertshotel/apartment/chessboard
-	name = "Chess"
-	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/chess.dmm'
+
 
 // Better SPLURT version of hilbert's
 /datum/map_template/hilbertshotel
@@ -766,17 +764,21 @@ Not all that's countable has an end..._
 // 	name = "Dungeon-One"
 // 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/dungeon_1.dmm'
 
-// /datum/map_template/hilbertshotel/apartment/oasis_one
-// 	name = "oasis-One"
-// 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/oasis_1.dmm'
+/datum/map_template/hilbertshotel/apartment/oasis_one
+	name = "oasis-One"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/oasis_1.dmm'
 
-// /datum/map_template/hilbertshotel/apartment/snowcabin_one
-// 	name = "snowcabin-One"
-// 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/snowcabin_1.dmm'
+/datum/map_template/hilbertshotel/apartment/snowcabin_one
+	name = "snowcabin-One"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/snowcabin_1.dmm'
 
 // /datum/map_template/hilbertshotel/apartment/hospital_one
 // 	name = "Hospital"
 // 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/hospital.dmm'
+
+/datum/map_template/hilbertshotel/apartment/chessboard
+	name = "Chess"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/chess.dmm'
 
 // // Fluff - Misc
 // /obj/item/paper/fluff/hilbertshotel/welcomeletter

@@ -10,14 +10,6 @@
 	color = "#666666"
 	},
 /area/hilbertshotel)
-"cs" = (
-/obj/structure/chair/pew/left,
-/obj/structure/destructible/tribal_torch/wall/lit{
-	dir = 1;
-	pixel_y = 12
-	},
-/turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
 "cJ" = (
 /turf/closed/indestructible/f13/matrix,
 /area/hilbertshotel)
@@ -36,14 +28,11 @@
 /turf/open/indestructible/cobble/dark,
 /area/hilbertshotel)
 "dN" = (
-/obj/structure/table/wood,
-/obj/item/binoculars,
-/obj/item/binoculars,
-/obj/item/binoculars,
-/obj/item/binoculars,
-/obj/item/binoculars,
-/obj/item/binoculars,
-/obj/item/binoculars,
+/obj/effect/turf_decal/siding/wood{
+	dir = 4;
+	color = "#3B2B1A"
+	},
+/obj/structure/chess/blackqueen,
 /turf/open/indestructible/cobble/dark,
 /area/hilbertshotel)
 "dZ" = (
@@ -73,23 +62,6 @@
 	},
 /obj/structure/destructible/tribal_torch/lit,
 /obj/effect/decal/cleanable/dirt/dust,
-/turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
-"fN" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/turf/closed/wall/mineral/brick,
-/area/hilbertshotel)
-"fX" = (
-/obj/item/melee/onehanded/slavewhip,
-/turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
-"gd" = (
-/obj/structure/destructible/tribal_torch/wall/lit{
-	dir = 4;
-	light_color = "#f4e3b0"
-	},
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/structure/chess/blackqueen,
 /turf/open/indestructible/cobble/dark,
 /area/hilbertshotel)
 "hO" = (
@@ -124,11 +96,6 @@
 /obj/structure/chair/pew/right{
 	dir = 4
 	},
-/turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
-"jB" = (
-/obj/structure/table/wood,
-/obj/item/toy/clockwork_watch,
 /turf/open/indestructible/cobble/dark,
 /area/hilbertshotel)
 "jD" = (
@@ -215,29 +182,6 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/indestructible/cobble/dark,
 /area/hilbertshotel)
-"qV" = (
-/obj/structure/destructible/tribal_torch/lit,
-/turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
-"rJ" = (
-/obj/structure/table/wood,
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/item/binoculars,
-/obj/item/binoculars,
-/obj/item/binoculars,
-/obj/item/binoculars,
-/obj/structure/destructible/tribal_torch/wall/lit{
-	dir = 1;
-	pixel_y = 12
-	},
-/turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
-"rM" = (
-/obj/structure/chair/pew,
-/obj/effect/decal/cleanable/dirt/dust,
-/turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
 "sx" = (
 /obj/structure/chess/blackpawn,
 /obj/structure/destructible/tribal_torch/wall/lit{
@@ -266,13 +210,6 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/indestructible/cobble/dark,
 /area/hilbertshotel)
-"th" = (
-/obj/structure/destructible/tribal_torch/wall/lit{
-	dir = 8;
-	light_color = "#f4e3b0"
-	},
-/turf/open/floor/plasteel/f13/whitemarble,
-/area/hilbertshotel)
 "tn" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 8;
@@ -285,15 +222,6 @@
 "to" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/decal/cleanable/dirt/dust,
-/turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
-"tU" = (
-/obj/structure/chair/pew/right,
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/structure/destructible/tribal_torch/wall/lit{
-	dir = 1;
-	pixel_y = 12
-	},
 /turf/open/indestructible/cobble/dark,
 /area/hilbertshotel)
 "uk" = (
@@ -316,12 +244,6 @@
 	},
 /turf/open/indestructible/cobble/dark,
 /area/hilbertshotel)
-"uZ" = (
-/obj/structure/chair/pew{
-	dir = 8
-	},
-/turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
 "vS" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plasteel/f13/whitemarble,
@@ -333,10 +255,6 @@
 	},
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plasteel/f13/whitemarble,
-/area/hilbertshotel)
-"wl" = (
-/obj/structure/chess/blackqueen,
-/turf/open/indestructible/cobble/dark,
 /area/hilbertshotel)
 "yb" = (
 /turf/open/indestructible/cobble/dark,
@@ -357,15 +275,6 @@
 /turf/open/floor/plasteel/f13/whitemarble{
 	color = "#666666"
 	},
-/area/hilbertshotel)
-"zL" = (
-/obj/structure/falsewall/wood,
-/turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
-"An" = (
-/obj/structure/chair/pew/left,
-/obj/effect/decal/cleanable/dirt/dust,
-/turf/open/indestructible/cobble/dark,
 /area/hilbertshotel)
 "AD" = (
 /obj/structure/chess/blackbishop,
@@ -392,15 +301,6 @@
 	color = "#666666"
 	},
 /area/hilbertshotel)
-"DS" = (
-/obj/structure/chair/pew/left,
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/structure/destructible/tribal_torch/wall/lit{
-	dir = 1;
-	pixel_y = 12
-	},
-/turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
 "EP" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/decal/cleanable/dirt/dust,
@@ -412,15 +312,6 @@
 	dir = 4
 	},
 /turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
-"Gv" = (
-/obj/structure/destructible/tribal_torch/wall/lit{
-	dir = 4;
-	light_color = "#f4e3b0"
-	},
-/turf/open/floor/plasteel/f13/whitemarble{
-	color = "#666666"
-	},
 /area/hilbertshotel)
 "Gx" = (
 /obj/structure/chess/whitebishop,
@@ -469,12 +360,14 @@
 	},
 /area/hilbertshotel)
 "JS" = (
+/obj/effect/decal/cleanable/dirt/dust,
 /obj/structure/destructible/tribal_torch/wall/lit{
-	dir = 2;
+	dir = 4;
 	light_color = "#f4e3b0"
 	},
-/obj/item/candle/infinite,
-/turf/open/indestructible/cobble/dark,
+/turf/open/floor/plasteel/f13/whitemarble{
+	color = "#666666"
+	},
 /area/hilbertshotel)
 "KF" = (
 /obj/effect/decal/cleanable/dirt/dust,
@@ -505,11 +398,6 @@
 /obj/structure/chess/whitebishop,
 /turf/open/floor/plasteel/f13/whitemarble,
 /area/hilbertshotel)
-"Rx" = (
-/obj/item/candle/infinite,
-/obj/effect/decal/cleanable/dirt/dust,
-/turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
 "RD" = (
 /obj/structure/chess/blackknight,
 /obj/effect/decal/cleanable/dirt/dust,
@@ -531,11 +419,6 @@
 /obj/structure/destructible/tribal_torch/lit,
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
-"Sd" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/structure/falsewall/wood,
-/turf/open/indestructible/ground/outside/desert,
 /area/hilbertshotel)
 "So" = (
 /obj/structure/chess/whitepawn,
@@ -589,13 +472,6 @@
 	color = "#666666"
 	},
 /area/hilbertshotel)
-"WS" = (
-/obj/structure/chair/pew/left{
-	dir = 8
-	},
-/obj/effect/decal/cleanable/dirt/dust,
-/turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
 "Xf" = (
 /turf/open/floor/plasteel/f13/whitemarble,
 /area/hilbertshotel)
@@ -610,24 +486,24 @@
 /obj/structure/chess/blackrook,
 /turf/open/floor/plasteel/f13/whitemarble,
 /area/hilbertshotel)
-"Ya" = (
-/obj/structure/chair/pew/right,
-/obj/effect/decal/cleanable/dirt/dust,
-/turf/open/indestructible/cobble/dark,
-/area/hilbertshotel)
 "YJ" = (
-/obj/structure/chair/pew/right,
-/obj/structure/destructible/tribal_torch/wall/lit{
-	dir = 1;
-	pixel_y = 12
+/obj/effect/turf_decal/siding/wood{
+	dir = 8;
+	color = "#3B2B1A"
 	},
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/item/candle/infinite,
 /turf/open/indestructible/cobble/dark,
 /area/hilbertshotel)
 "YY" = (
-/obj/structure/chair/pew/right{
-	dir = 8
+/obj/structure/destructible/tribal_torch/wall/lit{
+	dir = 2;
+	light_color = "#f4e3b0"
 	},
-/obj/effect/decal/cleanable/dirt/dust,
+/obj/structure/destructible/tribal_torch/wall/lit{
+	dir = 4;
+	light_color = "#f4e3b0"
+	},
 /turf/open/indestructible/cobble/dark,
 /area/hilbertshotel)
 "Zc" = (
@@ -661,12 +537,8 @@ is
 is
 is
 is
-is
-is
-is
-is
-is
-is
+hO
+hO
 is
 is
 is
@@ -678,19 +550,15 @@ is
 (2,1,1) = {"
 is
 Wu
-zL
-oF
-MJ
-yb
 oF
 MJ
 yb
 yb
-yb
 MJ
 yb
 yb
-th
+yb
+MJ
 Xf
 Xf
 Xf
@@ -699,20 +567,16 @@ is
 "}
 (3,1,1) = {"
 is
-fN
-is
-rJ
-oF
 Wz
 RV
 oF
-jk
-FZ
-FZ
-FZ
-my
+yb
+yb
+yb
+yb
+yb
 oF
-Xf
+yb
 Xf
 Xf
 Xf
@@ -721,20 +585,16 @@ is
 "}
 (4,1,1) = {"
 is
-cs
-oF
-oG
 yb
-oG
 yb
-oF
-oF
-oF
-oF
 yb
-oF
+yb
+yb
+jk
+FZ
+my
 jD
-Xf
+yb
 EP
 Xf
 vS
@@ -743,16 +603,12 @@ is
 "}
 (5,1,1) = {"
 is
-Zc
-oF
-Zc
-oF
-Zc
+yb
 yb
 yb
 fo
-om
-om
+dN
+dN
 iM
 iM
 om
@@ -765,11 +621,7 @@ is
 "}
 (6,1,1) = {"
 is
-rM
-oF
-Zc
-oF
-Zc
+yb
 yb
 yb
 ql
@@ -787,12 +639,8 @@ is
 "}
 (7,1,1) = {"
 is
-YJ
-oF
-dl
 yb
-dl
-yb
+oG
 oF
 eP
 RD
@@ -809,12 +657,8 @@ is
 "}
 (8,1,1) = {"
 is
-dN
-yb
 RV
-yb
-RV
-yb
+Zc
 to
 eP
 AD
@@ -825,18 +669,14 @@ Xf
 Wx
 uM
 Gx
-CC
-JS
+uk
+ni
 is
 "}
 (9,1,1) = {"
-hO
-yb
-yb
+is
 oF
-yb
-oF
-yb
+Zc
 KF
 Ur
 OI
@@ -852,13 +692,9 @@ yb
 cJ
 "}
 (10,1,1) = {"
-hO
-yb
+is
 oF
-oF
-yb
-oF
-yb
+dl
 oF
 ou
 JK
@@ -875,10 +711,6 @@ cJ
 "}
 (11,1,1) = {"
 is
-jB
-yb
-RV
-yb
 RV
 yb
 yb
@@ -897,13 +729,9 @@ is
 "}
 (12,1,1) = {"
 is
-DS
-oF
-oG
-oF
-An
-yb
-yb
+WN
+Wx
+Wx
 eP
 lX
 zw
@@ -919,13 +747,9 @@ is
 "}
 (13,1,1) = {"
 is
-rM
-oF
-Zc
-oF
-rM
-yb
-Rx
+WN
+Wx
+WN
 eP
 iv
 hR
@@ -941,15 +765,11 @@ is
 "}
 (14,1,1) = {"
 is
-rM
-oF
-rM
-oF
-Zc
-yb
-oF
+Wx
+Wx
+WN
 sM
-eh
+YJ
 Xw
 eh
 tn
@@ -963,75 +783,23 @@ is
 "}
 (15,1,1) = {"
 is
-tU
-oF
-Ya
-oF
-dl
-yb
-oF
-WN
-WN
-WN
 Wx
-WN
+Wx
+JS
 oF
-yb
+oF
+oF
+GE
+oF
+oF
+GE
 yb
 jD
 oF
-ni
-is
-"}
-(16,1,1) = {"
-is
-is
-is
-rJ
-oF
-Wz
-qV
-oF
-Wx
-Wx
-Wx
-Wx
-Wx
-oF
-WS
-uZ
-uZ
-uZ
 YY
 is
 "}
-(17,1,1) = {"
-is
-fX
-Sd
-oF
-GE
-yb
-wl
-gd
-WN
-Wx
-Wx
-Gv
-Wx
-yb
-GE
-yb
-yb
-yb
-GE
-is
-"}
-(18,1,1) = {"
-is
-is
-is
-is
+(16,1,1) = {"
 is
 is
 is
