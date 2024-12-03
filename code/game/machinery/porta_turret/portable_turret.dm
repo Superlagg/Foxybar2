@@ -2092,7 +2092,7 @@
 	to_chat(user, span_notice("I start dumping \the [saq] into \the [src]."))
 	playsound(get_turf(src), "sound/effects/rustle[rand(1,4)].ogg", 50, TRUE, 0, ignore_walls = TRUE)
 	if(!do_after(user, 1 SECONDS, target = src))
-		to_chat(user, span_alert("I were interrupted!."))
+		to_chat(user, span_alert("I was interrupted!."))
 		return
 	var/count = 0
 	for(var/obj/item/ammo_casing/casing in saq.contents)
@@ -2113,7 +2113,7 @@
 	visible_message(span_notice("[user] starts packing up [src]!"),
 		span_notice("I starts packing up [src]!"))
 	if(!m_tool.use_tool(src, user, 3 SECONDS, 0, 100))
-		user.show_message(span_alert("I were interrupted"))
+		user.show_message(span_alert("I was interrupted"))
 	visible_message(span_notice("[user] packed up [src]!"),
 		span_green("I packed up [src]!"))
 	var/obj/item/turret_box/the_box = new(get_turf(src))
@@ -2234,7 +2234,7 @@
 		return
 	user.visible_message(span_notice("[user] starts unpacking [src]."))
 	if(!do_after(user, 3 SECONDS, FALSE, user))
-		user.show_message(span_alert("I were interrupted!"))
+		user.show_message(span_alert("I was interrupted!"))
 		return
 	var/obj/machinery/porta_turret/f13/nash/turret_new = new turret_type(get_turf(src))
 	if(istype(stored_mag))

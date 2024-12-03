@@ -519,7 +519,7 @@
 			eventdat += "<P ALIGN=Right><a href='byond://?src=[REF(src)];close=1'>Close</a></P>"
 
 		if(ORION_TRAIL_BLACKHOLE)
-			eventdat += "I were swept away into the black hole."
+			eventdat += "I was swept away into the black hole."
 			eventdat += "<P ALIGN=Right><a href='byond://?src=[REF(src)];holedeath=1'>Oh...</a></P>"
 			eventdat += "<P ALIGN=Right><a href='byond://?src=[REF(src)];close=1'>Close</a></P>"
 			settlers = list()

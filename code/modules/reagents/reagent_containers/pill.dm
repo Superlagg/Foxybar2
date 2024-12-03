@@ -211,7 +211,7 @@
 /* Fortuna edit: Disabled mutation toxins
 /obj/item/reagent_containers/pill/shadowtoxin
 	name = "black pill"
-	desc = "I wouldn't eat this if I were you."
+	desc = "I wouldn't eat this if I was you."
 	icon_state = "pill9"
 	color = "#454545"
 	list_reagents = list(/datum/reagent/mutationtoxin/shadow = 1)

@@ -149,11 +149,11 @@
 		playsound(get_turf(user), start_sound, 50, 1, SOUND_DISTANCE(4))
 	if(istype(src, /obj/item/stack/medical/bruise_pack/lick/))
 		if(!do_after(user, get_delay_time(user, C, 1), TRUE, C, required_mobility_flags = NONE, allow_movement = TRUE,))
-			to_chat(user, span_warning("I were interrupted!"))
+			to_chat(user, span_warning("I was interrupted!"))
 			is_healing = FALSE
 			return FALSE
 	else if(!do_mob(user, C, get_delay_time(user, C, 1), progress = TRUE, allow_lying = TRUE))
-		to_chat(user, span_warning("I were interrupted!"))
+		to_chat(user, span_warning("I was interrupted!"))
 		is_healing = FALSE
 		return FALSE
 	is_healing = FALSE
@@ -366,7 +366,7 @@
 	if(start_sound)
 		playsound(get_turf(user), start_sound, 50, 1, SOUND_DISTANCE(4))
 	if(!do_mob(user, M, get_delay_time(user, M, 1), progress = TRUE, allow_lying = TRUE))
-		to_chat(user, span_warning("I were interrupted!"))
+		to_chat(user, span_warning("I was interrupted!"))
 		is_healing = FALSE
 		return FALSE
 	is_healing = FALSE

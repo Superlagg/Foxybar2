@@ -71,7 +71,7 @@
 			praying = FALSE
 
 	else
-		to_chat(user, span_notice("I were interrupted."))
+		to_chat(user, span_notice("I was interrupted."))
 		praying = FALSE
 
 /obj/item/crowbar/red

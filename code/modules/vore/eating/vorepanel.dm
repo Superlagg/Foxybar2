@@ -417,7 +417,7 @@
 		if("Examine") //Examine a mob inside another mob
 			var/list/results = target.examine(host)
 			if(!LAZYLEN(results))
-				results = list("I were unable to examine that. Tell a developer!")
+				results = list("I was unable to examine that. Tell a developer!")
 			to_chat(user, jointext(results, "<br>"))
 			return TRUE
 
@@ -523,7 +523,7 @@
 		if("Examine")
 			var/list/results = target.examine(host)
 			if(!LAZYLEN(results))
-				results = list("I were unable to examine that. Tell a developer!")
+				results = list("I was unable to examine that. Tell a developer!")
 			to_chat(user, jointext(results, "<br>"))
 			return TRUE
 
