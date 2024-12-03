@@ -605,6 +605,8 @@
 	name = "health"
 	icon_state = "health0"
 	screen_loc = ui_health
+	mouse_opacity = 0
+	alpha = 0
 	var/base_state = "%100"
 	var/flicker_state = "%100"
 	var/blink_state = "%100"
