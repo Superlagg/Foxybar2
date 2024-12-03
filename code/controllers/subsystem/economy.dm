@@ -383,19 +383,19 @@ SUBSYSTEM_DEF(economy)
 	switch(tier)
 		if(1)
 			if(singular)
-				return "/the [currency_tier1_name]"
+				return "\the [currency_tier1_name]"
 			else
-				return "/the [currency_tier1_name_plural]"
+				return "\the [currency_tier1_name_plural]"
 		if(2)
 			if(singular)
-				return "/the [currency_tier2_name]"
+				return "\the [currency_tier2_name]"
 			else
-				return "/the [currency_tier2_name_plural]"
+				return "\the [currency_tier2_name_plural]"
 		if(3)
 			if(singular)
-				return "/the [currency_tier3_name]"
+				return "\the [currency_tier3_name]"
 			else
-				return "/the [currency_tier3_name_plural]"
+				return "\the [currency_tier3_name_plural]"
 
 /datum/controller/subsystem/economy/proc/GetCoinDesc(tier = 1, amount = 1)
 	var/list/descout = list()
