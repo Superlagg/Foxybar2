@@ -469,6 +469,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	/// lets the user see runechat that's hidden behind a wall
 	var/see_hidden_runechat = TRUE
 
+	var/stash_equipment_on_logout = TRUE
+	var/lock_equipment_on_logout = TRUE
+
 /datum/preferences/New(client/C)
 	parent = C
 
@@ -589,8 +592,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat += "<b>Gender:</b> <a href='?_src_=prefs;preference=gender;task=input'>[gender == MALE ? "Male" : (gender == FEMALE ? "Female" : (gender == PLURAL ? "Non-binary" : "Object"))]</a><BR>"
 			dat += "<b>Age:</b> <a style='display:block;width:30px' href='?_src_=prefs;preference=age;task=input'>[age]</a><BR>"
-			dat += "<b>Top/Bottom/Switch:</b> <a href='?_src_=prefs;preference=tbs;task=input'>[tbs]</a><BR>"
-			dat += "<b>Orientation:</b> <a href='?_src_=prefs;preference=kisser;task=input'>[kisser]</a><BR>"
+			dat += "<b>Top/Bottom/Switch:</b> <a href='?_src_=prefs;preference=tbs;task=input'>[tbs || "Set me!"]</a><BR>"
+			dat += "<b>Orientation:</b> <a href='?_src_=prefs;preference=kisser;task=input'>[kisser || "Set me!"]</a><BR>"
+			dat += "<b>When you despawn, all your equipment...</b> <a href='?_src_=prefs;preference=stash_equipment_on_logout;task=input'>[stash_equipment_on_logout?"will be left where you despawn":"will be deleted"]</a><BR>"
+			dat += "<b>Your equipment, if left behind...</b> <a href='?_src_=prefs;preference=lock_equipment_on_logout;task=input'>[lock_equipment_on_logout?"will be locked (only you can open it)":"will be open for everyone"]</a><BR>"
 			dat += "</td>"
 /*			//Middle Column
 			dat +="<td width='30%' valign='top'>"
@@ -2798,6 +2803,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/newkiss = input(user, "What sort of person do you like to kisser?", "Character Preference") as null|anything in KISS_LIST
 					if(newkiss)
 						kisser = newkiss
+				if("stash_equipment_on_logout")
+					TOGGLE_VAR(stash_equipment_on_logout)
+				if("lock_equipment_on_logout")
+					TOGGLE_VAR(lock_equipment_on_logout)
 				if("age")
 					var/new_age = input(user, "Choose your character's age:\n([AGE_MIN]-[AGE_MAX])", "Character Preference") as num|null
 					if(new_age)
