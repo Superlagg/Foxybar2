@@ -90,6 +90,7 @@
 /area/hilbertshotel)
 "gj" = (
 /obj/structure/mineral_door/wood,
+/turf/open/floor/carpet/red,
 /area/hilbertshotel)
 "id" = (
 /obj/structure/table,
@@ -261,7 +262,6 @@
 	dir = 8
 	},
 /obj/item/storage/fancy/heart_box,
-/obj/item/paper/fluff/hilbertshotel/welcomeletter,
 /turf/open/floor/carpet/royalblue,
 /area/hilbertshotel)
 "yJ" = (
@@ -803,7 +803,7 @@ sr
 Si
 Fi
 Fi
-gj
+Mo
 sp
 tm
 TU
