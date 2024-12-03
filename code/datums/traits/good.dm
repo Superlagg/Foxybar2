@@ -672,7 +672,7 @@ GLOBAL_LIST_INIT(security_expert, list(
 	medical_record_text = "Patient appears to be a well renowned gunsmith."
 */
 
-/*
+
 /datum/quirk/voracious
 	name = "Bottomless Stomach"
 	desc = "Nothing gets between I and my food. I eat twice as fast as everyone else!"
@@ -684,7 +684,7 @@ GLOBAL_LIST_INIT(security_expert, list(
 	gain_text = span_notice("I feel HONGRY.")
 	lose_text = span_danger("I no longer feel HONGRY.")
 	medical_record_text = "Patient demonstrates a disturbing capacity for eating. Please, make sure they don't eat my lunch again."
-*/
+//butts
 
 /*
 /datum/quirk/bloodpressure
