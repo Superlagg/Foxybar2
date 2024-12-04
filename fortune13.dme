@@ -907,6 +907,7 @@
 #include "code\game\machinery\droneDispenser.dm"
 #include "code\game\machinery\firealarm.dm"
 #include "code\game\machinery\flasher.dm"
+#include "code\game\machinery\food_printer_2000.dm"
 #include "code\game\machinery\gulag_item_reclaimer.dm"
 #include "code\game\machinery\gulag_teleporter.dm"
 #include "code\game\machinery\harvester.dm"
