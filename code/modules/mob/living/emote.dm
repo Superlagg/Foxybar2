@@ -185,6 +185,7 @@
 	restraint_check = TRUE
 	var/wing_time = 20
 
+/*
 /datum/emote/living/flap/run_emote(mob/user, params)
 	. = ..()
 	if(. && ishuman(user))
@@ -197,6 +198,7 @@
 			else
 				H.OpenWings()
 			addtimer(CALLBACK(H, TYPE_PROC_REF(open ? /mob/living/carbon/human/atom/.proc/OpenWings : /mob/living/carbon/human/atom/,CloseWings)), wing_time)
+*/
 
 /datum/emote/living/flap/aflap
 	key = "aflap"
