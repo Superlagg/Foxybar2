@@ -846,8 +846,8 @@ Not all that's countable has an end..._
 	name = "Chess"
 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/chess.dmm'
 
-/datum/map_template/hilbertshotel/apartment/wildsauna_one/
-	name = "wildsauna-One"
+/datum/map_template/hilbertshotel/apartment/wildsauna_one
+	name = "Wildsauna-One"
 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/wildsauna_1.dmm'
 
 // // Fluff - Misc
