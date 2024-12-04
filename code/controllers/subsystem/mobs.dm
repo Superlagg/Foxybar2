@@ -14,6 +14,8 @@ SUBSYSTEM_DEF(mobs)
 	var/list/mob_tally = list()
 
 	var/allow_wounds = FALSE
+	var/attacks_cause_blood = FALSE
+	var/allow_backstabs = FALSE
 
 	var/there_is_no_escape = FALSE // there is escape
 	var/debug_no_icon_2_html = FALSE

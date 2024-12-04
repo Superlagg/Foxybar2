@@ -316,7 +316,67 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 
 /obj/hilbertshotel/proc/linkTurfs(var/datum/turf_reservation/currentReservation, var/currentRoomnumber, var/chosen_room)
 	var/area/hilbertshotel/currentArea = get_area(locate(currentReservation.bottom_left_coords[1], currentReservation.bottom_left_coords[2], currentReservation.bottom_left_coords[3]))
-	currentArea.name = "Hilbert's Hotel Room [currentRoomnumber]"
+	var/rumnam = "Hilbert's Hotel Room [currentRoomnumber]"
+	if(SSwho.obfuscate_hilbert_where)
+		var/list/starts = list(
+			"Somewhere",
+			"Someplace",
+			"Roughly",
+			"Vaguely",
+		)
+		var/list/relatives = list(
+			"adjacent to",
+			"near",
+			"within",
+			"beside",
+			"around",
+			"surrounding the greater area of",
+			"in the general vicinity of",
+			"on top of",
+			"beneath",
+			"bottoming for",
+			"topping for",
+			"inside of",
+			"outside of",
+			"draped over",
+			"clinging to",
+			"clinging to the underbelly of",
+			"clinging to the backside of",
+			"enjoying the company of",
+		)
+		var/list/prefixes = list(
+			"the great",
+			"a sexy",
+			"some kind of",
+			"an historic",
+			"your",
+			"the esteemed mister",
+			"the illustrious missus",
+			"the mysterious",
+			"the enigmatic",
+			"the legendary",
+			"the infamous",
+			"the notorious",
+			"the fabled",
+			"some random",
+			"an EXTREMELY busty",
+			"a worryingly well endowed",
+			"the one and only",
+			"your mom's",
+			"the",
+			"the reason the 14 is STILL under construction, AKA.",
+			"the hit new romcom:",
+			"the sink after a night with",
+		)
+		var/sharkfirst = safepick(GLOB.megacarp_first_names)
+		var/sharklast = safepick(GLOB.megacarp_last_names)
+		rumnam = ""
+		rumnam += "[safepick(starts)] "
+		rumnam += "[safepick(relatives)] "
+		rumnam += "[safepick(prefixes)] "
+		rumnam += "[sharkfirst] [sharklast]"
+
+	currentArea.name = rumnam // somewhere topping for the illustrious missus exploding terror shark
 	currentArea.parentSphere = src
 	currentArea.storageTurf = storageTurf
 	currentArea.roomnumber = currentRoomnumber

@@ -2058,7 +2058,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 	var/bloody = 0
 	if(((I.damtype == BRUTE) && totitemdamage && prob(25 + (totitemdamage * 2))))
-		if(affecting.status == BODYPART_ORGANIC)
+		if(affecting.status == BODYPART_ORGANIC && SSmobs.attacks_cause_blood)
 			I.add_mob_blood(H)	//Make the weapon bloody, not the person.
 			if(prob(totitemdamage * 2))	//blood spatter!
 				bloody = 1
