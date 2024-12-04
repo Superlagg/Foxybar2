@@ -26,6 +26,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	"Snowcabin-One",
 	// "Hospital",
 	"Chess",
+	"Wildsauna-One",
 	)
 	var/datum/map_template/hilbertshotel/apartment/one/hilberts_hotel_rooms_apartment_one
 	var/datum/map_template/hilbertshotel/apartment/two/hilberts_hotel_rooms_apartment_two
@@ -42,6 +43,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	var/datum/map_template/hilbertshotel/apartment/snowcabin_one/snowcabin_one
 	// var/datum/map_template/hilbertshotel/apartment/hospital_one/hospital_one
 	var/datum/map_template/hilbertshotel/apartment/chessboard/thechess
+	var/datum/map_template/hilbertshotel/apartment/wildsauna_one/wildsauna_one
 	//FB Maps End
 	var/datum/map_template/hilbertshotel/hotelRoomTemp
 	var/datum/map_template/hilbertshotel/empty/hotelRoomTempEmpty
@@ -79,6 +81,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	snowcabin_one = new()
 	// hospital_one = new()
 	thechess = new()
+	wildsauna_one = new()
 
 /obj/hilbertshotel/Destroy()
 	ejectRooms()
@@ -264,7 +267,9 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 		if("Snowcabin-One") return snowcabin_one
 		// if("Hospital") return hospital_one
 		if("Chess") return thechess
+		if("Wildsauna-One") return wildsauna_one
 		if("Mystery Room") return hotelRoomTempLore
+		
 	return hotelRoomTemp // Default to Hotel Room if no match is found
 
 //SPLURT EDIT START: HOTEL UPDATE. Was sendToNewRoom(chosenRoomNumber, target) | Added new selectable apartments
@@ -293,6 +298,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 			if("Snowcabin-One") mapTemplate = snowcabin_one
 			// if("Hospital") mapTemplate = hospital_one
 			if("Chess") mapTemplate = thechess
+			if("Wildsauna-One") mapTemplate = wildsauna_one
 	if(!mapTemplate)
 		mapTemplate = hotelRoomTemp //Default Hotel Room
 
@@ -779,6 +785,10 @@ Not all that's countable has an end..._
 /datum/map_template/hilbertshotel/apartment/chessboard
 	name = "Chess"
 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/chess.dmm'
+
+/datum/map_template/hilbertshotel/apartment/wildsauna_one/
+	name = "wildsauna-One"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/wildsauna_1.dmm'
 
 // // Fluff - Misc
 // /obj/item/paper/fluff/hilbertshotel/welcomeletter
