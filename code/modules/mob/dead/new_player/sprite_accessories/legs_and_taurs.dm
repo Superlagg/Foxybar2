@@ -283,6 +283,12 @@
 	color_src = MATRIXED
 	matrixed_sections = MATRIX_ALL
 
+/datum/sprite_accessory/taur/fatnaga
+	name = "Fat Naga"
+	icon_state = "nagafat"
+	taur_mode = STYLE_SNEK_TAURIC
+	color_src = MATRIXED
+	matrixed_sections = MATRIX_RED_GREEN
 
 
 
