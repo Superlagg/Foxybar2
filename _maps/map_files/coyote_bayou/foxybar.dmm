@@ -1935,6 +1935,15 @@
 	name = "dirty floor"
 	},
 /area/f13/fb/bar)
+"hQs" = (
+/obj/structure/table/abductor,
+/obj/effect/overlay/fog/fog2{
+	plane = -2;
+	alpha = 175
+	},
+/obj/item/storage/bag/tray/bluespace,
+/turf/open/floor/plasteel/f13/darkmarble,
+/area/f13/fb/bar)
 "hSj" = (
 /obj/machinery/light/small{
 	color = "#993311";
@@ -2857,6 +2866,19 @@
 	color = "#3B2B1A"
 	},
 /turf/open/floor/carpet/purple,
+/area/f13/fb/bar)
+"nPj" = (
+/obj/effect/overlay/fog/fog2{
+	plane = -2;
+	alpha = 175
+	},
+/obj/structure/table/abductor,
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
+	},
+/obj/item/paper_bin,
+/obj/item/pen,
+/turf/open/floor/carpet/royalblack,
 /area/f13/fb/bar)
 "nPu" = (
 /obj/machinery/processor,
@@ -7764,7 +7786,7 @@ iYl
 iYl
 iYl
 iYl
-fNI
+nPj
 gHF
 okV
 okV
@@ -8112,7 +8134,7 @@ dLD
 bPG
 lvh
 pXC
-lvh
+hQs
 bPG
 bPG
 hHE
