@@ -1623,7 +1623,7 @@
 		/obj/item/seeds/nettle = 1,
 		/obj/item/seeds/plump = 1,
 		/obj/item/seeds/reishi = 1,
-		/obj/item/seeds/cannabis = 1,
+//		/obj/item/seeds/cannabis = 1,
 		/obj/item/seeds/starthistle = 1,
 		/obj/item/seeds/random = 1,
 	)

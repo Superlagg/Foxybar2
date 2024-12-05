@@ -1,4 +1,5 @@
 // Cannabis
+/*
 /obj/item/seeds/cannabis
 	name = "pack of cannabis seeds"
 	desc = "Taxable."
@@ -22,11 +23,11 @@
 		/datum/reagent/drug/space_drugs = 0.15,
 		/datum/reagent/toxin/lipolicide = 0.35
 	)// gives u the munchies
-
+*/
 // ---------------------------------------------------------------
-
+/*
 /obj/item/reagent_containers/food/snacks/grown/cannabis
-	seed = /obj/item/seeds/cannabis
+//	seed = /obj/item/seeds/cannabis
 	name = "cannabis leaf"
 	desc = "Also known as marijuana."
 	icon_state = "cannabis"
@@ -140,3 +141,4 @@
 	icon_state = "ocannabis"
 	volume = 420
 	wine_power = 90
+*/

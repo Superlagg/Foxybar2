@@ -307,7 +307,7 @@ Possible solution: Only add the minimum weight class of a stack (which is basica
 				break
 
 
-
+/*
 /obj/item/pneumatic_cannon/rockitlauncher/throw_item(turf/target, obj/item/I, mob/user)
 	if(!istype(I))
 		return FALSE
@@ -341,4 +341,4 @@ Possible solution: Only add the minimum weight class of a stack (which is basica
 
 /obj/item/pneumatic_cannon/rockitlauncher/attackby(obj/item/W, mob/user, params)
 	return
-
+*/
