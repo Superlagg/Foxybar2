@@ -252,6 +252,15 @@
 	color = "#779999"
 	},
 /area/f13/fb/bar)
+"aZn" = (
+/obj/structure/sink{
+	pixel_y = 20
+	},
+/obj/structure/mirror{
+	pixel_y = 31
+	},
+/turf/open/floor/plasteel/freezer,
+/area/f13/fb/bar)
 "bbJ" = (
 /obj/effect/turf_decal/stripes/asteroid/line{
 	dir = 8
@@ -336,6 +345,21 @@
 	alpha = 175
 	},
 /turf/open/floor/carpet/black,
+/area/f13/fb/bar)
+"bub" = (
+/obj/machinery/door/window{
+	icon_state = "leftsecure";
+	pixel_x = 4;
+	name = "gloryhole door";
+	desc = "A sliding door into a small space between the bathrooms.  Please check peoples prefs before making an absolute fool of yourself."
+	},
+/obj/structure/mirror{
+	pixel_y = 31
+	},
+/obj/structure/sink{
+	pixel_y = 20
+	},
+/turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
 "bzc" = (
 /obj/effect/turf_decal/stripes/asteroid/line{
@@ -861,10 +885,6 @@
 	dir = 8;
 	color = "black"
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
 "ecT" = (
@@ -1037,10 +1057,6 @@
 "fcV" = (
 /obj/structure/simple_door/room,
 /obj/item/lock_bolt,
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
 "fdf" = (
@@ -1058,10 +1074,6 @@
 	},
 /obj/structure/urinal{
 	pixel_y = 25
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
 	},
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
@@ -1563,18 +1575,14 @@
 	pixel_x = 16;
 	pixel_y = 16
 	},
-/obj/structure/toilet{
-	dir = 1;
-	plane = -1;
-	pixel_y = 0
-	},
 /obj/structure/toilet_paper{
 	pixel_x = -16;
 	pixel_y = 5
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
+/obj/structure/toilet{
+	dir = 1;
+	plane = -1;
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
@@ -1617,10 +1625,6 @@
 	light_power = 2;
 	light_range = 2;
 	color = "#993311"
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
 	},
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
@@ -1789,10 +1793,6 @@
 /turf/open/floor/carpet/purple,
 /area/f13/fb/bar)
 "ihm" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
 /obj/effect/sound_emitter/foxybar/airconditioner,
 /turf/closed/wall/mineral/brick,
 /area/f13/fb/bar)
@@ -2357,10 +2357,6 @@
 /area/f13/wasteland/city/newboston/outdoors)
 "lpN" = (
 /obj/structure/decoration/vent,
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
 "lvh" = (
@@ -2556,10 +2552,6 @@
 /obj/structure/sink{
 	pixel_y = 20
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
 "mGF" = (
@@ -2605,18 +2597,16 @@
 /area/f13/wasteland/city/newboston/outdoors)
 "mVX" = (
 /obj/structure/window/reinforced/tinted{
-	dir = 8;
-	pixel_x = 15
+	dir = 4;
+	pixel_x = -1;
+	mouse_opacity = 0;
+	alpha = 0
 	},
-/obj/structure/window/reinforced/tinted{
-	pixel_x = -16;
-	dir = 4
+/turf/closed/wall/mineral/brick{
+	plane = 11;
+	color = "#FF6666";
+	density = 0
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
 "mWI" = (
 /obj/effect/turf_decal/stripes/asteroid/line{
@@ -2732,10 +2722,6 @@
 "oey" = (
 /obj/structure/urinal{
 	pixel_y = 25
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
 	},
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
@@ -2986,10 +2972,6 @@
 /turf/open/floor/carpet/royalblack,
 /area/f13/fb/bar)
 "pBI" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
 "pGx" = (
@@ -3464,10 +3446,6 @@
 	pixel_x = 17;
 	pixel_y = 5
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
 "sXl" = (
@@ -3641,6 +3619,9 @@
 	icon_state = "outerbordercorner - W"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
+"tFy" = (
+/turf/closed/wall/mineral/brick,
+/area/f13/fb/bar)
 "tPi" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 4;
@@ -3712,10 +3693,6 @@
 /obj/structure/decoration/vent{
 	pixel_x = 16;
 	pixel_y = 16
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
 	},
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
@@ -3810,10 +3787,6 @@
 	light_range = 2;
 	pixel_y = 0;
 	pixel_x = -13
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
 	},
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
@@ -4301,10 +4274,6 @@
 	light_power = 2;
 	light_range = 2;
 	color = "#993311"
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
 	},
 /obj/structure/closet/crate/bin/trashbin,
 /turf/open/floor/plasteel/freezer,
@@ -5890,8 +5859,8 @@ bPG
 oey
 lpN
 pBI
-bPG
-pBI
+tFy
+bub
 vmu
 bPG
 miw
@@ -6009,7 +5978,7 @@ pBI
 pBI
 ihm
 mVX
-mVX
+tFy
 bPG
 vsw
 iqW
@@ -6124,8 +6093,8 @@ bPG
 eaK
 pBI
 pBI
-bPG
-pBI
+tFy
+aZn
 uvM
 bPG
 dga
