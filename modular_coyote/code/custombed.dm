@@ -79,16 +79,6 @@
 	icon = 'modular_coyote/icons/objects/bedsheets.dmi'
 	icon_state = "deer_double"
 
-/obj/item/bedsheet/big/doublesheetred
-	name = "red bedsheet"
-	icon = 'modular_coyote/icons/objects/bedsheets.dmi'
-	icon_state = "doublesheetred"
-
-/obj/item/bedsheet/huge/doublesheetred
-	name = "red bedsheet"
-	icon = 'modular_coyote/icons/objects/bedsheets.dmi'
-	icon_state = "doublesheetred"
-
 /obj/item/bedsheet/big/doubletranspride
 	name = "transpride bedsheet"
 	icon = 'modular_coyote/icons/objects/bedsheets.dmi'
