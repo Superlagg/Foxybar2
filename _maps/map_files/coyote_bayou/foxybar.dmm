@@ -2902,11 +2902,6 @@
 	},
 /area/f13/fb/bar)
 "oaA" = (
-/obj/machinery/hydroponics/constructable,
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
 /obj/machinery/light/small{
 	color = "#993311";
 	dir = 4;
@@ -2914,6 +2909,13 @@
 	light_power = 2;
 	light_range = 2;
 	pixel_y = 13
+	},
+/obj/item/kirbyplants/random{
+	pixel_y = 5
+	},
+/obj/effect/overlay/fog/fog2{
+	plane = -2;
+	alpha = 175
 	},
 /turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
