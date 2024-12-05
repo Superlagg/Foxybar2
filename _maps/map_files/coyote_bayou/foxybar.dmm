@@ -2723,6 +2723,9 @@
 /obj/item/reagent_containers/food/condiment/rice,
 /obj/item/reagent_containers/food/condiment/rice,
 /obj/item/reagent_containers/food/condiment/rice,
+/obj/item/reagent_containers/food/condiment/sugar,
+/obj/item/reagent_containers/food/condiment/sugar,
+/obj/item/reagent_containers/food/condiment/sugar,
 /turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
 "mKq" = (
@@ -3699,6 +3702,18 @@
 	color = "#779999"
 	},
 /area/f13/fb/bar)
+"tid" = (
+/obj/structure/sink{
+	pixel_y = 8;
+	dir = 8;
+	pixel_x = -15
+	},
+/obj/effect/overlay/fog/fog2{
+	plane = -2;
+	alpha = 175
+	},
+/turf/open/floor/plasteel/f13/darkmarble,
+/area/f13/fb/bar)
 "tkO" = (
 /obj/effect/overlay/fog/fog2{
 	plane = -2
@@ -4515,6 +4530,9 @@
 "xFk" = (
 /obj/structure/reagent_dispensers/keg/milk{
 	tank_volume = 100000
+	},
+/obj/machinery/smartfridge/food{
+	pixel_y = -31
 	},
 /obj/effect/overlay/fog/fog2{
 	plane = -2;
@@ -8248,7 +8266,7 @@ llj
 hov
 bPG
 sTj
-rWC
+tid
 rWC
 rWC
 rWC
