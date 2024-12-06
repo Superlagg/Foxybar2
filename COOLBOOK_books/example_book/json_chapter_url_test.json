@@ -2,24 +2,24 @@
 	"title": "Images can be URLs too! JSON route",
 	"top_images": {
 		"1": {
-			"image": "https://cdn.discordapp.com/attachments/999170698029305946/1113881116487721100/IMG_8216.jpg",
+			"image": "https://images.gamebanana.com/img/embeddables/Mod_205676_sd_image.jpg",
 			"resize": "fit",
 			"URL": true
 		},
 		"2": {
-			"image": "https://cdn.discordapp.com/attachments/999170698029305946/1113881116487721100/IMG_8216.jpg",
+			"image": "https://images.gamebanana.com/img/embeddables/Mod_205676_sd_image.jpg",
 			"resize": "fit",
 			"URL": true
 		}
 	},
 	"bottom_images": {
 		"1": {
-			"image": "https://cdn.discordapp.com/attachments/999170698029305946/1113881116487721100/IMG_8216.jpg",
+			"image": "https://images.gamebanana.com/img/embeddables/Mod_205676_sd_image.jpg",
 			"resize": "stretch",
 			"URL": true
 		},
 		"2": {
-			"image": "https://media.tenor.com/yPTb4CQcumsAAAAC/xd-meme.gif",
+			"image": "https://images.gamebanana.com/img/embeddables/Mod_205676_sd_image.jpg",
 			"resize": "stretch",
 			"URL": true
 		}
