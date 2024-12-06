@@ -55,8 +55,8 @@
 #define ui_combat_toggle "WEST+7:16,SOUTH:2"
 #define ui_zonesel "WEST+7:16,SOUTH:3"
 #define ui_crafting	"WEST+6:-15,SOUTH+1:1"
-#define ui_building "WEST+5:-14,SOUTH+1:1"
-#define ui_language_menu "WEST+5:1,SOUTH+1:1"
+// #define ui_building "WEST+5:-14,SOUTH+1:1"
+// #define ui_language_menu "WEST+5:1,SOUTH+1:1"
 
 
 //Right side near hands
@@ -147,8 +147,8 @@
 #define ui_bayou				"EAST-1:28, SOUTH+0:2" //Character directory
 #define ui_pvpbuttons			"EAST-1:28, SOUTH+1:18" //slut directory
 #define ui_flirt			"EAST-1:28, SOUTH+2:0" //slut directory
-#define ui_merp			"EAST-2:28, SOUTH+2:0" //slut directory
-#define ui_vore			"EAST-2:28, SOUTH+2:0" //slut directory
+#define ui_merp			"EAST-1:4, SOUTH+2:0" //slut directory
+#define ui_vore			"EAST-1:4, SOUTH+2:-4" //slut directory
 #define ui_touch			"EAST-1:28, SOUTH+2:-4" //slut directory
 #define ui_lick			"EAST-1:28, SOUTH+3:-10" //slut directory
 #define ui_kiss			"EAST-1:28, SOUTH+3:-14" //slut directory
