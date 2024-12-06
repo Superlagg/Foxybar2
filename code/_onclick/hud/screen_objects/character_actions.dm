@@ -136,6 +136,32 @@
 		return
 	H.emote("flirt")
 
+/atom/movable/screen/merp_button
+	name = "Open mechanical ERP window!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "merp"
+	screen_loc = ui_merp
+
+/atom/movable/screen/merp_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(usr))
+		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	H.emote("merp")
+
+/atom/movable/screen/vore_button
+	name = "Open vore system window!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "vore"
+	screen_loc = ui_vore
+
+/atom/movable/screen/merp_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(usr))
+		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	H.emote("vore")
+
 /atom/movable/screen/touch_hud_button
 	name = "Touch on people!"
 	icon = 'icons/mob/screen_gen.dmi'
