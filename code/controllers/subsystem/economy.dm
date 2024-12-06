@@ -1886,10 +1886,10 @@ SUBSYSTEM_DEF(economy)
 		to_chat(user, span_notice("Nevermind!!"))
 		return
 	if(!isnum(howmuch))
-		to_chat(user, span_alert("That's not a number!"))
+		to_chat(user, span_alert("That's not a positive number!"))
 		return
 	if(howmuch < 0)
-		to_chat(user, span_alert("I need to enter a positive number to get anything out of this!"))
+		to_chat(user, span_alert("That's not a <i>positive</i> number!"))
 		return
 	howmuch = round(COINS_TO_CREDITS(clamp(floor(howmuch), 0, unclaimed_points)), 10)
 	return dispense_reward(howmuch)
@@ -1947,7 +1947,7 @@ SUBSYSTEM_DEF(economy)
 	coins.value = 0
 	qdel(coins)
 	adjust_funds(round(COINS_TO_CREDITS(totalvalue)), null, FALSE, FALSE)
-	to_chat(user, span_green("I deposited [totalvalue] [SSeconomy.currency_tier1_name_plural] into your Guild Account!"))
+	to_chat(user, span_green("I deposited [totalvalue] [SSeconomy.currency_tier1_name_plural] into my [SSeconomy.bank_account_name]!"))
 	playsound(user, 'sound/machines/coin_insert.ogg', 80, TRUE)
 	update_static_data(user)
 	// return
@@ -1970,10 +1970,20 @@ SUBSYSTEM_DEF(economy)
 		to_chat(user, span_alert("I don't have that much cash to cash out! Try completing some quests =3"))
 		return FALSE
 	adjust_funds(-payment, null, FALSE, FALSE)
-	var/obj/item/card/quest_reward/QR = new(get_turf(user))
-	QR.assign_value(payment, 1, "#[random_color()]")
-	if(user)
-		user.put_in_hands(QR)
+	if(SSeconomy.eject_cash)
+		var/obj/item/storage/coin_baggie/CB = new(get_turf(user))
+		CB.Coininate(CREDITS_TO_COINS(payment))
+		if(user)
+			user.put_in_hands(CB)
+			if(prob(1))
+				playsound(get_turf(user), 'sound/effects/coins.ogg', 45)
+			else
+				playsound(get_turf(user), 'sound/machines/coin_insert.ogg', 45)
+	else
+		var/obj/item/card/quest_reward/QR = new(get_turf(user))
+		QR.assign_value(payment, 1, "#[random_color()]")
+		if(user)
+			user.put_in_hands(QR)
 	playsound(user, 'sound/machines/printer_press.ogg', 40, TRUE)
 	update_lifetime_total()
 	update_static_data(user)
@@ -2004,7 +2014,7 @@ SUBSYSTEM_DEF(economy)
 		to_chat(user, span_alert("That ticket is worthless!"))
 		return FALSE
 	playsound(user, 'sound/machines/printer_press_unbirth.ogg', 40, TRUE)
-	to_chat(user, span_green("I deposited a ticket for [CREDITS_TO_COINS(payment)] [SSeconomy.currency_tier1_name_plural] into your Guild Account!"))
+	to_chat(user, span_green("I deposited a ticket for [CREDITS_TO_COINS(payment)] [SSeconomy.currency_tier1_name_plural] into my [SSeconomy.bank_account_name]!"))
 	qdel(QR)
 	adjust_funds(payment, null, FALSE, FALSE)
 	return TRUE
@@ -2256,6 +2266,11 @@ SUBSYSTEM_DEF(economy)
 	// 	\n\nThis thing is worth [round(CREDITS_TO_COINS(saleprice))] [SSeconomy.currency_tier1_unit]! It has been punched, so you've probably already gotten the reward. 
 	// 	It is also worth [SEND_SIGNAL(src, COMSIG_ITEM_GET_RESEARCH_POINTS)] research points, perfect gift for your local scientist!"
 	// return TRUE
+
+/obj/item/storage/coin_baggie
+	name = "coin baggie"
+	desc = "A bio-degradable baggie for the coins you pulled out of the economic void where you keep your cash. Just toss it wherever, someone'll pick it up."
+	
 
 //////////////////////////////////////////////////////
 /// CLAIMER ITEM ////////////////////////////////////
