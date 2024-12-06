@@ -78,38 +78,32 @@
 	if(iscyborg(user))
 		return
 
-	if(HAS_TRAIT(user, TRAIT_DNAWHIZ) || HAS_TRAIT(user, TRAIT_TECHNOPHREAK))
-		if(istype(I, /obj/item/seeds))
-			if(seed)
-				to_chat(user, span_warning("A sample is already loaded into the machine!"))
-			else
-				if(!user.temporarilyRemoveItemFromInventory(I))
-					return
-				insert_seed(I)
-				to_chat(user, span_notice("I add [I] to the machine."))
-				interact(user)
-			return
-		else if(istype(I, /obj/item/disk/plantgene))
-			if (operation)
-				to_chat(user, span_notice("Please complete current operation."))
+	if(istype(I, /obj/item/seeds))
+		if(seed)
+			to_chat(user, span_warning("A sample is already loaded into the machine!"))
+		else
+			if(!user.temporarilyRemoveItemFromInventory(I))
 				return
-			eject_disk()
-			if(!user.transferItemToLoc(I, src))
-				return
-			disk = I
+			insert_seed(I)
 			to_chat(user, span_notice("I add [I] to the machine."))
 			interact(user)
-		else
-			..()
+		return
+	else if(istype(I, /obj/item/disk/plantgene))
+		if (operation)
+			to_chat(user, span_notice("Please complete current operation."))
+			return
+		eject_disk()
+		if(!user.transferItemToLoc(I, src))
+			return
+		disk = I
+		to_chat(user, span_notice("I add [I] to the machine."))
+		interact(user)
 	else
-		to_chat(user, span_alert("Mama always said not to mess with wierd plant-manipulation machines."))
+		..()
 
 /obj/machinery/plantgenes/ui_interact(mob/user)
 	. = ..()
 	if(!user)
-		return
-	if((tooadvanced == TRUE && HAS_TRAIT(user, TRAIT_TECHNOPHOBE)) || !HAS_TRAIT(user, TRAIT_DNAWHIZ) && !HAS_TRAIT(user, TRAIT_TECHNOPHREAK))
-		to_chat(user, span_alert("Mama always said not to mess with wierd plant-manipulation machines."))
 		return
 
 	var/datum/browser/popup = new(user, "plantdna", "Plant DNA Manipulator", 450, 600)
