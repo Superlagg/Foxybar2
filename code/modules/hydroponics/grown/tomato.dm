@@ -135,7 +135,7 @@
 			K.visible_message(span_notice("The Killer Tomato growls as it suddenly awakens."))
 			qdel(src)
 
- removed because lrp, cope
+removed because lrp, cope
 // Bluespace Tomato
 /obj/item/seeds/tomato/blue/bluespace
 	name = "pack of bluespace tomato seeds"

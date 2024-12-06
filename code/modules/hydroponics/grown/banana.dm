@@ -12,7 +12,6 @@
 	growing_icon = 'icons/obj/hydroponics/growing_fruits.dmi'
 	icon_dead = "banana-dead"
 	genes = list(/datum/plant_gene/trait/slip, /datum/plant_gene/trait/repeated_harvest)
-	mutatelist = (/obj/item/seeds/banana/exotic_banana)
 	reagents_add = list(
 		/datum/reagent/consumable/banana = 0.1,
 		/datum/reagent/potassium = 0.1,
