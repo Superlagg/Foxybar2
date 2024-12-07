@@ -130,7 +130,7 @@
 		apply_macro_set(macroset, macrosets[macroset])
 	// Finally, set hotkeys.
 	set_hotkeys_preference(prefs_override)
-	change_input_toggle_key(prefs.input_mode_hotkey)
+	change_input_toggle_key(prefs_override.input_mode_hotkey)
 
 /proc/keybind_modifier_permutation(key, alt = FALSE, ctrl = FALSE, shift = FALSE, self = TRUE)
 	var/list/permutations = list()

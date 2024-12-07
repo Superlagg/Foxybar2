@@ -598,7 +598,7 @@
 	SIGNAL_HANDLER
 	send_voremessage(trashthing, spit_trash_messages, null, VOREPREF_TRASH_MESSAGES)
 	if(!owner.put_in_hands(trashthing))
-		trashthing.forceMove(drop_location())
+		trashthing?.forceMove(drop_location())
 
 // Actually perform the mechanics of devouring the tasty prey.
 // The purpose of this method is to avoid duplicate code, and ensure that all necessary
