@@ -680,6 +680,21 @@ touch + help + facing their rear = pat back
 	damtype = BURN
 	attack_verb = list("seared", "zapped", "fried", "shocked")
 
+
+/obj/item/hand_item/merp_doer
+	name = "MERP doer"
+	desc = "Click someone with this thing to open the MERP interactions menu! From there, you can do all sorts of lewd or not-so-lewd things with them (or yourself!!)!"
+	icon = 'icons/obj/in_hands.dmi'
+	icon_state = "blushfox"
+
+/obj/item/hand_item/merp_doer/attack(mob/living/M, mob/living/user)
+	SEND_SIGNAL(user, COMSIG_CLICK_CTRL_SHIFT, M)
+	qdel(src)
+
+
+
+
+
 /* *
  *
  */

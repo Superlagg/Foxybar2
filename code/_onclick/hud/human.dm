@@ -406,7 +406,7 @@
 	merp_button.hud = src
 	infodisplay += merp_button
 
-	vore_button = new /atom/movable/screen/vore_button()
+	vore_button = new /atom/movable/screen/foldout/vore_button()
 	vore_button.hud = src
 	infodisplay += vore_button
 
