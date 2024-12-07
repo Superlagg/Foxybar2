@@ -71,7 +71,6 @@
 	BB.original = target
 	BB.firer = user
 	var/shooter_living = istype(user)
-	if(shooter_living && isplayer(user) && !user.enabled_combat_indicator)
 	// var/am_player = isplayer(user)
 	if(shooter_living && !BB.not_harmful)
 		// if((am_player && !user.enabled_combat_indicator) || !am_player)
@@ -89,6 +88,10 @@
 		BB.def_zone = BODY_ZONE_CHEST
 	BB.suppressed = quiet
 	BB.damage_threshold_penetration = damage_threshold_penetration
+	if(!BB.not_harmful && SSmobs.bullets_only_do_stamina_damage)
+		BB.stamina += BB.damage
+		BB.damage = 0
+		BB.damage_mod = 0.01 // i forget if theres any divisitions
 	if(shooter_living && HAS_TRAIT(user,TRAIT_PANICKED_ATTACKER))
 		BB.damage_mod *= 0.2 // lol
 

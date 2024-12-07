@@ -13,6 +13,10 @@ SUBSYSTEM_DEF(mobs)
 	/// List of all mobs that are currently in some way alive and not dead (despawned counts too)
 	var/list/mob_tally = list()
 
+	var/hitting_people_with_things_only_does_stamina_damage = TRUE
+	var/bullets_only_do_stamina_damage = TRUE
+	var/punching_only_does_stamina_damage = TRUE
+	var/autoheal_to_stamina = TRUE
 	var/allow_wounds = FALSE
 	var/attacks_cause_blood = FALSE
 	var/allow_backstabs = FALSE
