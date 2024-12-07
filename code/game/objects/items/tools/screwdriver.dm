@@ -70,7 +70,7 @@
 			to_chat(user, span_notice("I can't find anything to fix on [target] right now. Check again later and maybe have a drink of water."))
 			praying = FALSE
 	else
-		to_chat(user, span_notice("I were interrupted."))
+		to_chat(user, span_notice("I was interrupted."))
 		praying = FALSE
 
 

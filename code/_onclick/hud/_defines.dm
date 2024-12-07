@@ -44,33 +44,33 @@
 #define ui_devilsouldisplay "WEST:6,CENTER-1:15"
 
 //Lower center, persistent menu
-#define ui_sstore1 "WEST+1:6,SOUTH:3"
-#define ui_id "WEST+2:6,SOUTH:3"
-#define ui_belt "WEST+3:5,SOUTH:3"
-#define ui_back "WEST+6,SOUTH:3"
-#define ui_storage2 "WEST+4:4,SOUTH:3"
-#define ui_storage1 "WEST+5:2,SOUTH:3"
-#define ui_resistdelay "WEST+7:16,SOUTH+1:17"
-#define ui_overridden_resist "WEST+7:16,SOUTH+1:1"
+#define ui_sstore1 "WEST+1:6,SOUTH:3" 
+#define ui_id "WEST+2:3,SOUTH:3"
+#define ui_belt "WEST+3:-1,SOUTH:3"
+#define ui_back "WEST+6:-13,SOUTH:3" //backpack
+#define ui_storage2 "WEST+4:-5,SOUTH:3" //left pocket
+#define ui_storage1 "WEST+5:-9,SOUTH:3" //right pocket
+#define ui_resistdelay "East-2:-4,SOUTH+0:36" //This is actually resist bar
+#define ui_overridden_resist "East-2:-4,SOUTH+0:20" //this is the actual resist button
 #define ui_combat_toggle "WEST+7:16,SOUTH:2"
-#define ui_zonesel "WEST+7:16,SOUTH:2"
-#define ui_crafting	"WEST+7:-16,SOUTH:35"
-#define ui_building "WEST+7:-16,SOUTH:2"
-#define ui_language_menu "WEST+7:-16,SOUTH:19"
+#define ui_zonesel "WEST+7:16,SOUTH:3"
+#define ui_crafting	"WEST+6:-15,SOUTH+1:1"
+#define ui_building "WEST+5:-14,SOUTH+1:1"
+#define ui_language_menu "WEST+5:1,SOUTH+1:1"
 
 
 //Right side near hands
 #define ui_wield "CENTER+1:17,SOUTH:4"
 #define ui_acti "CENTER+1:33,SOUTH:3"
-#define ui_pull_resist "CENTER+1:18,SOUTH+1:4" //THIS IS ACTUALLY THE REST BUTTON?  WHAT THE FUCK? ~TK
-#define ui_drop_throw "CENTER+2:33,SOUTH+0:4"
-#define ui_sprintbufferloc "CENTER+3:34,SOUTH:16"
-#define ui_movi "Center+3:33,SOUTH:4"
+#define ui_pull_resist "East-2:-4,SOUTH+0:4" //THIS IS ACTUALLY THE REST BUTTON?  WHAT THE FUCK? ~TK
+#define ui_drop_throw "East-1:-4,SOUTH+0:4"
+#define ui_sprintbufferloc "East-0:-4,SOUTH:18" //buffer orbs
+#define ui_movi "East-0:-4,SOUTH:4"
 //#define ui_zonesel "Center+5:2,SOUTH:3:1"
 #define ui_mood 	"Center-1:5,South+1:11"
-#define ui_healthdoll 	"Center+0:0,South+2:-19"
+#define ui_healthdoll 	"EAST-3:-3,SOUTH:4"
 #define ui_health 	"Center+0:0,South+1:-2"
-#define ui_stamina "Center+0:27,South+1:18" // replacing internals button
+#define ui_stamina "Right-2:27,South+1:+3" // replacing internals button
 #define ui_questbook "CENTER+2:19,SOUTH+1:-12"
 #define ui_questscanner "CENTER+3:21,SOUTH+1:-12"
 #define ui_pull_stop "CENTER+4:6,SOUTH+1:-11"

@@ -13,6 +13,10 @@ SUBSYSTEM_DEF(mobs)
 	/// List of all mobs that are currently in some way alive and not dead (despawned counts too)
 	var/list/mob_tally = list()
 
+	var/allow_wounds = FALSE
+	var/attacks_cause_blood = FALSE
+	var/allow_backstabs = FALSE
+
 	var/there_is_no_escape = FALSE // there is escape
 	var/debug_no_icon_2_html = FALSE
 	var/debug_everyone_has_robuster_searching = FALSE

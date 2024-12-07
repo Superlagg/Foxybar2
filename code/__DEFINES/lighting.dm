@@ -26,7 +26,7 @@
 // Set to zero to disable soft lighting. Luminosity changes then work if it's lit at all.
 #define LIGHTING_SOFT_THRESHOLD 0
 
-// If I were you I'd leave this alone.
+// If I was you I'd leave this alone.
 #define LIGHTING_BASE_MATRIX \
 	list                     \
 	(                        \

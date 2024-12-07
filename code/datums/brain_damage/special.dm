@@ -128,7 +128,7 @@
 	desc = "Patient seems to be a criminal."
 	scan_desc = "criminal mind"
 	gain_text = span_warning("Justice is coming for you.")
-	lose_text = span_notice("I were absolved for your crimes.")
+	lose_text = span_notice("I was absolved for your crimes.")
 	clonable = FALSE
 	random_gain = FALSE
 	var/obj/effect/hallucination/simple/securitron/beepsky

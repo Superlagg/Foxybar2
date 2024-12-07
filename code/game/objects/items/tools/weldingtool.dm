@@ -211,7 +211,7 @@
 	if(!use_tool(healtarget, user, (5 SECONDS * toolspeed * (healtarget == user ? 1 : 0.5)), 1, 50, 1))
 		user.visible_message(
 			span_alert("[user] was interrupted!"),
-			span_alert("I were interrupted!"))
+			span_alert("I was interrupted!"))
 		return FALSE
 	item_heal_robotic(healtarget, user, 15, 0)
 	return TRUE

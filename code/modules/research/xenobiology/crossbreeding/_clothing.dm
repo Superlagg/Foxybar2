@@ -146,7 +146,7 @@ Slimecrossing Armor
 				to_chat(user, span_notice("My radiation slowly fades away.."))
 		slurpinlumens = FALSE
 	else
-		to_chat(user, span_notice("I were interrupted."))
+		to_chat(user, span_notice("I was interrupted."))
 		slurpinlumens = FALSE
 
 	return ..()

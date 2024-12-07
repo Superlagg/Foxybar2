@@ -1233,7 +1233,7 @@
 			to_chat(user, span_alert("I need 3 wood to set up a handloader!"))
 			return
 		if(!do_after(user, 3 SECONDS, TRUE, src, TRUE, allow_movement = TRUE))
-			to_chat(user, span_alert("I were interrupted!"))
+			to_chat(user, span_alert("I was interrupted!"))
 			return
 		var/turf/put_here
 		denseloop:
@@ -1262,7 +1262,7 @@
 	if(!user || !T)
 		return
 	if(!do_after(user, 3 SECONDS, TRUE, T, TRUE, allow_movement = TRUE, stay_close = TRUE))
-		to_chat(user, span_alert("I were interrupted!"))
+		to_chat(user, span_alert("I was interrupted!"))
 		return
 	var/obj/machinery/autolathe/ammo/improvised/thebench = new(get_turf(T))
 	thebench.tableize()

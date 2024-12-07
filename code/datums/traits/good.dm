@@ -672,7 +672,7 @@ GLOBAL_LIST_INIT(security_expert, list(
 	medical_record_text = "Patient appears to be a well renowned gunsmith."
 */
 
-/*
+
 /datum/quirk/voracious
 	name = "Bottomless Stomach"
 	desc = "Nothing gets between I and my food. I eat twice as fast as everyone else!"
@@ -684,7 +684,7 @@ GLOBAL_LIST_INIT(security_expert, list(
 	gain_text = span_notice("I feel HONGRY.")
 	lose_text = span_danger("I no longer feel HONGRY.")
 	medical_record_text = "Patient demonstrates a disturbing capacity for eating. Please, make sure they don't eat my lunch again."
-*/
+//butts
 
 /*
 /datum/quirk/bloodpressure
@@ -1728,7 +1728,7 @@ GLOBAL_LIST_INIT(security_expert, list(
 
 /datum/quirk/wandproficient
 	name = "Magically Attuned"
-	desc = "I were either born with a natural inclination for magic or were taught its secrets."
+	desc = "I was either born with a natural inclination for magic or were taught its secrets."
 	value = 0
 	category = "Ranged Quirks"
 	mechanics = "I can use magical wands, staves, and other advanced magical items. However, magic has a cost -- my potential elsewhere is limited, and learning a martial art will sever my connection to magic."
@@ -2402,7 +2402,7 @@ GLOBAL_LIST_INIT(security_expert, list(
 
 /datum/quirk/package/lifeoftheparty
 	name = "Life of the Party"
-	desc = "I were just meant to be the center of attention, and I revel when all eyes are on I!"
+	desc = "I was just meant to be the center of attention, and I revel when all eyes are on I!"
 	value = 35
 	category = "Quirk Packages"
 	mechanics = "Grants access to positive Quirks Musician and Friendly!"
@@ -2808,7 +2808,7 @@ GLOBAL_LIST_INIT(security_expert, list(
 
 /datum/quirk/package/generalmedicalpractitioner
 	name = "General Medical Practitioner"
-	desc = "I were a General Practiotioner at some point in my life, I probably had an office and a license to practice medicine, or... maybe this is what I kept saying to my patients..."
+	desc = "I was a General Practiotioner at some point in my life, I probably had an office and a license to practice medicine, or... maybe this is what I kept saying to my patients..."
 	value = 50
 	category = "Quirk Packages"
 	mechanics = "Grants access to positive trait Chem Whiz & Minor Surgery."

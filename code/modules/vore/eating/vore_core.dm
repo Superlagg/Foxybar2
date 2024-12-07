@@ -517,7 +517,7 @@
 			required_mobility_flags = NONE,
 			allow_movement = TRUE,
 			))
-		to_chat(master, span_alert("I were intererupted!"))
+		to_chat(master, span_alert("I was intererupted!"))
 		to_chat(movable_prey, span_alert("They were intererupted!"))
 		return FALSE
 	if(!movable_prey.Adjacent(master)) //double check'd just in case they moved during the timer and the do_mob didn't fail for whatever reason

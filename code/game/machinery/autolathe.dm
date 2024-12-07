@@ -591,7 +591,7 @@ GLOBAL_VAR_INIT(lathe_reports_done, 0)
 		if(!silent)
 			to_chat(user, span_notice("I start loading \the [item] into \the [src]."))
 		if(!do_after(user, time, TRUE, src, allow_movement = FALSE, stay_close = TRUE, public_progbar = TRUE))
-			to_chat(user, span_alert("I were interrupted!"))
+			to_chat(user, span_alert("I was interrupted!"))
 			return FALSE
 	if(SEND_SIGNAL(src, COMSIG_PARENT_FORCEFEED, item, user, TRUE, silent) == TRUE)
 		update_record(item)

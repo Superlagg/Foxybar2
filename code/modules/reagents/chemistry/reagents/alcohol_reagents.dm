@@ -1746,7 +1746,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 	taste_description = "chocolate and mint dancing around your mouth"
 	glass_icon_state = "grasshopper"
 	glass_name = "Grasshopper"
-	glass_desc = "I weren't aware edible beverages could be that green."
+	glass_desc = "I wasn't aware edible beverages could be that green."
 
 /datum/reagent/consumable/ethanol/stinger
 	name = "Stinger"

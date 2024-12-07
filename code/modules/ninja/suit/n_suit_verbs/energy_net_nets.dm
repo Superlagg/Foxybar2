@@ -35,7 +35,7 @@ It is possible to destroy the net by the occupant or someone else.
 /obj/structure/energy_net/Destroy()
 	if(!success)
 		if(!QDELETED(affecting))
-			affecting.visible_message("[affecting.name] was recovered from the energy net!", "I were recovered from the energy net!", span_italic("I hear a grunt."))
+			affecting.visible_message("[affecting.name] was recovered from the energy net!", "I was recovered from the energy net!", span_italic("I hear a grunt."))
 		if(!QDELETED(master))//As long as they still exist.
 			to_chat(master, "<span class='userdanger'>ERROR</span>: unable to initiate transport protocol. Procedure terminated.")
 	return ..()

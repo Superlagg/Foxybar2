@@ -283,7 +283,7 @@
 
 /datum/mafia_role/md/proc/prevent_kill(datum/source)
 	to_chat(body,span_warning("The person you protected tonight was attacked!"))
-	to_chat(current_protected.body,span_userdanger("I were attacked last night, but someone nursed you back to life!"))
+	to_chat(current_protected.body,span_userdanger("I was attacked last night, but someone nursed you back to life!"))
 	return MAFIA_PREVENT_KILL
 
 /datum/mafia_role/md/proc/end_protection(datum/mafia_controller/game)
@@ -420,7 +420,7 @@
 	var/datum/mafia_role/target = current_investigation
 	current_investigation = null
 	if(SEND_SIGNAL(src,COMSIG_MAFIA_CAN_PERFORM_ACTION,game,"thoughtfeed",target) & MAFIA_PREVENT_ACTION)
-		to_chat(body,span_warning("I were unable to investigate [target.body.real_name]."))
+		to_chat(body,span_warning("I was unable to investigate [target.body.real_name]."))
 		add_note("N[game.turn] - [target.body.real_name] - Unable to investigate")
 		return
 	if(target)
@@ -464,7 +464,7 @@
 
 /datum/mafia_role/traitor/proc/nightkill_immunity(datum/source,datum/mafia_controller/game,lynch)
 	if(game.phase == MAFIA_PHASE_NIGHT && !lynch)
-		to_chat(body,span_userdanger("I were attacked, but they'll have to try harder than that to put you down."))
+		to_chat(body,span_userdanger("I was attacked, but they'll have to try harder than that to put you down."))
 		return MAFIA_PREVENT_KILL
 
 /datum/mafia_role/traitor/validate_action_target(datum/mafia_controller/game, action, datum/mafia_role/target)
@@ -615,7 +615,7 @@
 		protection_status = FUGITIVE_NOT_PRESERVING
 
 /datum/mafia_role/fugitive/proc/prevent_death(datum/mafia_controller/game)
-	to_chat(body,span_userdanger("I were attacked! Luckily, you were ready for this!"))
+	to_chat(body,span_userdanger("I was attacked! Luckily, you were ready for this!"))
 	return MAFIA_PREVENT_KILL
 
 /datum/mafia_role/fugitive/proc/survived(datum/mafia_controller/game)

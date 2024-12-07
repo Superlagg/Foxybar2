@@ -661,12 +661,16 @@
 /datum/sprite_accessory/tails/mam_tails/cat
 	name = "Cat"
 	icon_state = "cat"
-	color_src = HAIR
+	color_src = MUTCOLORS
+	extra = TRUE
+	extra_color_src = MUTCOLORS2
 
 /datum/sprite_accessory/tails_animated/mam_tails_animated/cat
 	name = "Cat"
 	icon_state = "cat"
-	color_src = HAIR
+	color_src = MUTCOLORS
+	extra = TRUE
+	extra_color_src = MUTCOLORS2
 
 /datum/sprite_accessory/tails/mam_tails/catbig
 	name = "Cat, Big"

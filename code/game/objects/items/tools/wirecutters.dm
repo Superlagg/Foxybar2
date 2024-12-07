@@ -51,7 +51,7 @@
 		praying = FALSE
 		playsound(get_turf(target), 'sound/items/Deconstruct.ogg', 100, 1)
 	else
-		to_chat(user, span_notice("I were interrupted."))
+		to_chat(user, span_notice("I was interrupted."))
 		praying = FALSE
 
 /obj/item/wirecutters/proc/colorize(set_color)

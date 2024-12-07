@@ -39,7 +39,7 @@
 	reqs = list(
 		/datum/reagent/blood = 10,
 		/obj/item/reagent_containers/glass/bowl = 1,
-		/obj/item/reagent_containers/food/snacks/grown/tomato/blood = 2
+		/obj/item/reagent_containers/food/snacks/grown/tomato = 2
 	)
 	result = /obj/item/reagent_containers/food/snacks/soup/blood
 	subcategory = CAT_SOUP

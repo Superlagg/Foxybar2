@@ -357,7 +357,7 @@
 	owner.visible_message(span_alert("[owner] starts to dig a hole..."))
 	if(!do_after(owner, 10 SECONDS, FALSE, owner))
 		doing_the_thing = FALSE
-		owner.show_message(span_alert("I were interrupted!"))
+		owner.show_message(span_alert("I was interrupted!"))
 		return
 	doing_the_thing = FALSE
 

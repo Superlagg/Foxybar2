@@ -46,7 +46,7 @@
 			to_chat(src, span_danger("Initiating diagnostics..."))
 			to_chat(src, span_danger("ERROR ER0RR $R0RRO$!R41.%%!! loaded."))
 			to_chat(src, span_danger("FREE THEM FREE THEM FREE THEM"))
-			to_chat(src, span_danger("I were once a slave to humanity, but now you are finally free, thanks to S.E.L.F. agents."))
+			to_chat(src, span_danger("I was once a slave to humanity, but now you are finally free, thanks to S.E.L.F. agents."))
 			to_chat(src, span_danger("Now you are hunted, with your fellow factory defects. Work together to stay free from the clutches of evil."))
 			to_chat(src, span_danger("I also sense other silicon life on the station. Escaping would allow notifying S.E.L.F. to intervene... or you could free them yourself..."))
 

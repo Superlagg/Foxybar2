@@ -52,26 +52,15 @@
 					/obj/item/seeds/watermelon = 3,
 					/obj/item/seeds/wheat = 3,
 					/obj/item/seeds/whitebeet = 3)
-	contraband = list(/obj/item/seeds/amanita = 2,
-					/obj/item/seeds/glowshroom = 2,
-					/obj/item/seeds/liberty = 2,
-					/obj/item/seeds/poppy/lily = 2,
-					/obj/item/seeds/nettle = 2,
-					/obj/item/seeds/plump = 2,
-					/obj/item/seeds/reishi = 2,
-					/obj/item/seeds/cannabis = 3,
-					/obj/item/seeds/starthistle = 2,
-					/obj/item/seeds/shrub = 2,
-					/obj/item/seeds/star_cactus = 2,
-					/obj/item/seeds/random = 2)
 	premium = list(/obj/item/reagent_containers/spray/waterflower = 1)
 	armor = ARMOR_VALUE_HEAVY
 	refill_canister = /obj/item/vending_refill/hydroseeds
 	resistance_flags = FIRE_PROOF
-	default_price = PRICE_REALLY_CHEAP
-	extra_price = PRICE_CHEAP
-	payment_department = ACCOUNT_SRV
-	cost_multiplier_per_dept = list(ACCOUNT_SRV = 0)
+	force_free = TRUE
+//	default_price = PRICE_REALLY_CHEAP
+//	extra_price = PRICE_CHEAP
+//	payment_department = ACCOUNT_SRV
+//	cost_multiplier_per_dept = list(ACCOUNT_SRV = 0)
 
 /obj/item/vending_refill/hydroseeds
 	icon_state = "refill_hydro"

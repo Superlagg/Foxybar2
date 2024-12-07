@@ -25,7 +25,15 @@ SUBSYSTEM_DEF(prefbreak) // ALL ABOARD THE S.S. PREFBREAK OFF TO **** YOUR *****
 		return zloy.prefs
 	if(ismob(pingvin))
 		var/mob/zloy = pingvin
-		return zloy.client?.prefs
+		if(zloy.client)
+			return zloy.client.prefs
+		pingvin = zloy.ckey // in case theyre not here
+	if(istext(pingvin))
+		if(isclient(GLOB.directory[ckey(pingvin)]))
+			var/client/zloy = GLOB.directory[ckey(pingvin)]
+			return zloy.prefs
+		else if(istype(GLOB.preferences_datums[ckey(pingvin)], /datum/preferences))
+			return GLOB.preferences_datums[ckey(pingvin)] // not even being offline can save you from the ULTIMATE BREAKER
 
 /// takes in anything, sees if it has a client/prefs/whatever, and checks those prefs
 /// Allows things by default, denies it if specifically disallowed
@@ -268,6 +276,22 @@ SUBSYSTEM_DEF(prefbreak) // ALL ABOARD THE S.S. PREFBREAK OFF TO **** YOUR *****
 	PREFBROKEN
 	return CHECK_BITFIELD(consumer.chat_toggles, CHAT_SEE_COOLCHAT) // kinda vital here
 	// return consumer.see_fancy_offscreen_runechat // kinda vital here
+
+///////////////////////////////////////////////////////////////////////////////////
+/datum/prefcheck/stash_equipment_on_logout
+	index = DUMP_STUFF_ON_LOGOUT
+
+/datum/prefcheck/stash_equipment_on_logout/allowed(datum/preferences/consumer)
+	PREFBROKEN
+	return consumer.stash_equipment_on_logout // kinda vital here
+
+///////////////////////////////////////////////////////////////////////////////////
+/datum/prefcheck/lock_equipment_on_logout
+	index = LOCK_STUFF_ON_LOGOUT
+
+/datum/prefcheck/lock_equipment_on_logout/allowed(datum/preferences/consumer)
+	PREFBROKEN
+	return consumer.lock_equipment_on_logout // kinda vital here
 
 
 

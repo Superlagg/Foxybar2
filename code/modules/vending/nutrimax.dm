@@ -18,9 +18,10 @@
 					/obj/item/reagent_containers/glass/bottle/diethylamine = 5)
 	armor = ARMOR_VALUE_HEAVY
 	resistance_flags = FIRE_PROOF
-	default_price = PRICE_REALLY_CHEAP
-	extra_price = PRICE_CHEAP
-	payment_department = ACCOUNT_SRV
+	force_free = TRUE
+//	default_price = PRICE_REALLY_CHEAP
+//	extra_price = PRICE_CHEAP
+//	payment_department = ACCOUNT_SRV
 	cost_multiplier_per_dept = list(ACCOUNT_SRV = 0)
 
 /obj/item/vending_refill/hydronutrients

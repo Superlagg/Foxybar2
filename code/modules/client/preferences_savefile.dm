@@ -268,8 +268,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["arousable"]			>> arousable
 	S["screenshake"]		>> screenshake
 	S["damagescreenshake"]	>> damagescreenshake
-	// S["widescreenpref"]		>> widescreenpref
-	widescreenpref = TRUE
+	S["widescreenpref"]		>> widescreenpref
+	// widescreenpref = TRUE
 	S["end_of_round_deathmatch"] >> end_of_round_deathmatch
 	READ_FILE(S["matchmaking_prefs"], matchmaking_prefs)
 	S["autostand"]			>> autostand
@@ -457,7 +457,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["screenshake"], screenshake)
 	WRITE_FILE(S["damagescreenshake"], damagescreenshake)
 	WRITE_FILE(S["arousable"], arousable)
-	WRITE_FILE(S["widescreenpref"], TRUE)
+	WRITE_FILE(S["widescreenpref"], widescreenpref)
 	WRITE_FILE(S["end_of_round_deathmatch"], end_of_round_deathmatch)
 	WRITE_FILE(S["autostand"], autostand)
 	WRITE_FILE(S["cit_toggles"], cit_toggles)
@@ -1013,6 +1013,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	saved_active_quests = safe_json_decode(helicopter_postcum)
 	S["number_of_finished_quests"] >> number_of_finished_quests
 	S["historical_banked_points"] >> historical_banked_points
+	S["stash_equipment_on_logout"] >> stash_equipment_on_logout
+	S["lock_equipment_on_logout"] >> lock_equipment_on_logout
 
 	//sanitize data
 	show_in_directory          = sanitize_integer(show_in_directory, 0, 1, initial(show_in_directory))
@@ -1028,6 +1030,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	number_of_finished_quests  = sanitize_integer(number_of_finished_quests, 0, INFINITY, initial(number_of_finished_quests))
 	historical_banked_points   = sanitize_integer(historical_banked_points,  0, INFINITY, initial(historical_banked_points))
 	last_quest_login           = sanitize_integer(last_quest_login,          5, INFINITY, world.realtime)
+	stash_equipment_on_logout  = sanitize_integer(stash_equipment_on_logout, 0, 1, initial(stash_equipment_on_logout))
+	lock_equipment_on_logout   = sanitize_integer(lock_equipment_on_logout, 0, 1, initial(lock_equipment_on_logout))
 	if(features["chat_color"] == "whoopsie")
 		features["chat_color"] = random_color()
 
@@ -1375,6 +1379,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["gender"]					, gender)
 	WRITE_FILE(S["tbs"]						, tbs)
 	WRITE_FILE(S["kisser"]					, kisser)
+	WRITE_FILE(S["stash_equipment_on_logout"] , stash_equipment_on_logout)
 	WRITE_FILE(S["body_model"]				, features["body_model"])
 	WRITE_FILE(S["body_size"]				, features["body_size"])
 	WRITE_FILE(S["body_width"]				, features["body_width"])

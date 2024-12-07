@@ -250,7 +250,7 @@
 			dt,
 			TRUE
 		)
-		if(I.damtype == BRUTE)
+		if(I.damtype == BRUTE && SSmobs.attacks_cause_blood)
 			if(prob(33))
 				I.add_mob_blood(src)
 				var/turf/location = get_turf(src)

@@ -16,8 +16,7 @@
 	icon_dead = "berry-dead" // Same for the dead icon
 	genes = list(/datum/plant_gene/trait/repeated_harvest)
 	mutatelist = list(
-		/obj/item/seeds/berry/glow,
-		/obj/item/seeds/berry/poison
+		/obj/item/seeds/berry/glow
 	)
 	reagents_add = list(
 		/datum/reagent/consumable/nutriment/vitamin = 0.04,

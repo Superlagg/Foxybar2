@@ -662,34 +662,36 @@
 		if(method == INGEST)
 			var/obj/item/bodypart/head/hed = M.get_bodypart(BODY_ZONE_HEAD)
 			if(hed)
-				hed.receive_damage(
-					brute = volume,
-					burn = 0,
-					stamina = volume,
-					blocked = 0,
-					updating_health = TRUE,
-					required_status = null,
-					wound_bonus = volume * 2,
-					bare_wound_bonus = volume * 2,
-					sharpness = SHARP_EDGED,
-					damage_coverings = FALSE
-				)
+				if(SSmobs.allow_wounds)
+					hed.receive_damage(
+						brute = volume,
+						burn = 0,
+						stamina = volume,
+						blocked = 0,
+						updating_health = TRUE,
+						required_status = null,
+						wound_bonus = volume * 2,
+						bare_wound_bonus = volume * 2,
+						sharpness = SHARP_EDGED,
+						damage_coverings = FALSE
+					)
 			to_chat(M, span_alert("I get a mouth full of sharp shell fragments! They really hurt!"))
 		else
 			var/obj/item/bodypart/party = M.get_bodypart(BODY_ZONE_CHEST)
 			if(party)
-				party.receive_damage(
-					brute = volume,
-					burn = 0,
-					stamina = volume,
-					blocked = 0,
-					updating_health = TRUE,
-					required_status = null,
-					wound_bonus = volume * 2,
-					bare_wound_bonus = volume * 2,
-					sharpness = SHARP_EDGED,
-					damage_coverings = FALSE
-				)
+				if(SSmobs.allow_wounds)
+					party.receive_damage(
+						brute = volume,
+						burn = 0,
+						stamina = volume,
+						blocked = 0,
+						updating_health = TRUE,
+						required_status = null,
+						wound_bonus = volume * 2,
+						bare_wound_bonus = volume * 2,
+						sharpness = SHARP_EDGED,
+						damage_coverings = FALSE
+					)
 			to_chat(M, span_alert("I feel sharp shell fragments enter your blood! They really hurt!"))
 		M.emote("scream")
 	..()
@@ -698,18 +700,19 @@
 	. = ..()
 	var/obj/item/bodypart/part = M.get_bodypart(pick(GLOB.main_body_parts))
 	if(part)
-		part.receive_damage(
-			brute = volume,
-			burn = 0,
-			stamina = volume,
-			blocked = 0,
-			updating_health = TRUE,
-			required_status = null,
-			wound_bonus = 0,
-			bare_wound_bonus = 0,
-			sharpness = SHARP_EDGED,
-			damage_coverings = FALSE
-		)
+		if(SSmobs.allow_wounds)
+			part.receive_damage(
+				brute = volume,
+				burn = 0,
+				stamina = volume,
+				blocked = 0,
+				updating_health = TRUE,
+				required_status = null,
+				wound_bonus = 0,
+				bare_wound_bonus = 0,
+				sharpness = SHARP_EDGED,
+				damage_coverings = FALSE
+			)
 		if(prob(10))
 			M.emote("scream")
 
@@ -772,16 +775,16 @@ GLOBAL_LIST_EMPTY(clam_fished)
 		ClamFished()
 		user.put_in_hands(clam)
 		if(HAS_TRAIT(user, TRAIT_CLAM_LOVER))
-			to_chat(user, span_notice("I jab your hand into the water and pull out a [span_love("clam~")]"))
+			to_chat(user, span_notice("I jab my hand into the water and pull out a [span_love("clam~")]"))
 		else
-			to_chat(user, span_notice("I jab your hand into the water and pull out a clam!"))
+			to_chat(user, span_notice("I jab my hand into the water and pull out a clam!"))
 		playsound(user, 'sound/effects/grab_clam.ogg', 75, TRUE)
 		return
 	else
 		to_chat(user, span_notice("I start sifting through the mud for some clams..."))
 		playsound(user, 'sound/effects/fish_for_clam.ogg', 75, TRUE)
 		if(!do_after(user, 5 SECONDS, TRUE, src))
-			to_chat(user, span_alert("I were interrupted!"))
+			to_chat(user, span_alert("I was interrupted!"))
 			return
 		if(prob(50))
 			if(HAS_TRAIT(user, TRAIT_CLAM_LOVER))

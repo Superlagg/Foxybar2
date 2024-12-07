@@ -39,14 +39,14 @@ export const ChemDispenser = (props, context) => {
               Recording
             </Box>
           )}>
-          <LabeledList>
+          {/* <LabeledList>
             <LabeledList.Item label="Chemical Storage">
               <ProgressBar
                 value={data.cartridgeCharge / data.maxCartridgeCharge}>
                 {toFixed(data.cartridgeCharge) + ' units'}
               </ProgressBar>
             </LabeledList.Item>
-          </LabeledList>
+          </LabeledList> */}
         </Section>
         <Section
           title="Recipes"

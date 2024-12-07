@@ -138,7 +138,7 @@
 	to_chat(user, span_notice("I begin loading [bluuet] into [src].")) //tell the user the gun is being loaded
 	if(!do_after(user, load_time, TRUE, src, allow_movement = TRUE)) //do after for loading the gun
 		load_loop.stop()
-		to_chat(user, span_alert("I were interrupted!")) //tell the user they stopped loading the gun
+		to_chat(user, span_alert("I was interrupted!")) //tell the user they stopped loading the gun
 		return //return
 	load_loop.stop()
 	if(!user.transferItemToLoc(bluuet, src)) //if the user cannot transfer the item to the location of the gun

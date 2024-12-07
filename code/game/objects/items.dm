@@ -1298,7 +1298,7 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 
 /obj/item/attack(mob/living/M, mob/living/user, attackchain_flags = NONE, damage_multiplier = 1, damage_override)
 	// Check if the user is behind the target
-	if(get_dir(user, M) == M.dir && isliving(M))
+	if(SSmobs.allow_backstabs && get_dir(user, M) == M.dir && isliving(M))
 		damage_multiplier = backstab_multiplier // Apply the backstab multiplier
 		playsound(user.loc, 'sound/effects/dismember.ogg', 50, 1, -1) // Play a backstab sound
 		to_chat(user, "<span class='notice'>You backstab [M]!</span>")

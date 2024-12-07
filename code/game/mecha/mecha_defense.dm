@@ -177,7 +177,7 @@
 				E.attach(src)
 				user.visible_message("[user] attaches [W] to [src].", span_notice("I attach [W] to [src]."))
 			else
-				to_chat(user, span_warning("I were unable to attach [W] to [src]!"))
+				to_chat(user, span_warning("I was unable to attach [W] to [src]!"))
 		return
 	if(W.GetID())
 		if(add_req_access || maint_access)
