@@ -810,7 +810,7 @@
 	ckeywhitelist = list("Whirlsam")
 
 /obj/item/storage/box/large/custom_kit/aphass/PopulateContents()
-	new /obj/item/gun/energy/plasmacutter/adv(src)
+	new /obj/item/slimecross/charged/green(src)
 
 /datum/gear/donator/kits/palpapus
 	name = "Darth Plapappus Customs"
