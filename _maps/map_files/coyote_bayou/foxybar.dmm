@@ -62,7 +62,7 @@
 	icon_state = "darkrusty";
 	name = "dirty floor"
 	},
-/area/f13/fb/bar)
+/area)
 "akT" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1;
@@ -764,7 +764,7 @@
 	icon_state = "darkrusty";
 	name = "dirty floor"
 	},
-/area/f13/fb/bar)
+/area)
 "dpG" = (
 /obj/effect/turf_decal/stripes/asteroid/line{
 	dir = 9
@@ -949,60 +949,11 @@
 /turf/open/indestructible/ground/outside/sidewalk,
 /area/f13/wasteland/city/newboston/outdoors)
 "edI" = (
+/obj/effect/overlay/fog/fog2{
+	plane = -2;
+	alpha = 175
+	},
 /obj/structure/table/abductor,
-/obj/item/reagent_containers/food/condiment/enzyme{
-	pixel_y = 16;
-	pixel_x = 9
-	},
-/obj/item/reagent_containers/food/condiment/cherryjelly{
-	pixel_y = 16
-	},
-/obj/item/reagent_containers/food/condiment/cherryjelly{
-	pixel_y = 16
-	},
-/obj/item/reagent_containers/food/condiment/cherryjelly{
-	pixel_y = 16
-	},
-/obj/item/reagent_containers/food/condiment/bbqsauce{
-	pixel_y = 17;
-	pixel_x = -9
-	},
-/obj/item/reagent_containers/food/condiment/bbqsauce{
-	pixel_y = 17;
-	pixel_x = -9
-	},
-/obj/item/reagent_containers/food/condiment/bbqsauce{
-	pixel_y = 17;
-	pixel_x = -9
-	},
-/obj/item/reagent_containers/food/condiment/honey{
-	pixel_y = 1;
-	pixel_x = 10
-	},
-/obj/item/reagent_containers/food/condiment/honey{
-	pixel_y = 1;
-	pixel_x = 10
-	},
-/obj/item/reagent_containers/food/condiment/honey{
-	pixel_y = 1;
-	pixel_x = 10
-	},
-/obj/item/reagent_containers/food/condiment/ketchup,
-/obj/item/reagent_containers/food/condiment/ketchup,
-/obj/item/reagent_containers/food/condiment/ketchup,
-/obj/item/reagent_containers/food/condiment/mayonnaise{
-	pixel_x = -6
-	},
-/obj/item/reagent_containers/food/condiment/mayonnaise{
-	pixel_x = -6
-	},
-/obj/item/reagent_containers/food/condiment/mayonnaise{
-	pixel_x = -6
-	},
-/obj/item/reagent_containers/food/condiment/mustard,
-/obj/item/reagent_containers/food/condiment/mustard,
-/obj/item/reagent_containers/food/condiment/mustard,
-/obj/item/reagent_containers/food/condiment/mustard,
 /obj/effect/overlay/fog/fog2{
 	plane = -2;
 	alpha = 175
@@ -1613,7 +1564,7 @@
 	icon_state = "darkrusty";
 	name = "dirty floor"
 	},
-/area/f13/fb/bar)
+/area)
 "gLq" = (
 /obj/machinery/telecomms/processor/preset_three,
 /obj/machinery/light/floor{
@@ -1653,7 +1604,6 @@
 	alpha = 175
 	},
 /obj/item/seeds/eggplant/eggy,
-/obj/item/seeds/ambrosia/gaia,
 /turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
 "hcd" = (
@@ -1934,15 +1884,6 @@
 	icon_state = "darkrusty";
 	name = "dirty floor"
 	},
-/area/f13/fb/bar)
-"hQs" = (
-/obj/structure/table/abductor,
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/obj/item/storage/bag/tray/bluespace,
-/turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
 "hSj" = (
 /obj/machinery/light/small{
@@ -2713,18 +2654,8 @@
 	plane = -2;
 	alpha = 175
 	},
-/obj/structure/closet/secure_closet/freezer/kitchen,
-/obj/item/reagent_containers/food/condiment/flour,
-/obj/item/reagent_containers/food/condiment/flour,
-/obj/item/reagent_containers/food/condiment/flour,
-/obj/item/storage/fancy/egg_box,
-/obj/item/storage/fancy/egg_box,
-/obj/item/storage/fancy/egg_box,
-/obj/item/reagent_containers/food/condiment/rice,
-/obj/item/reagent_containers/food/condiment/rice,
-/obj/item/reagent_containers/food/condiment/rice,
-/turf/open/floor/plasteel/f13/darkmarble,
-/area/f13/fb/bar)
+/turf/closed/wall/mineral/brick,
+/area)
 "mKq" = (
 /obj/structure/table/wood/settler,
 /turf/open/floor/f13{
@@ -2732,7 +2663,7 @@
 	icon_state = "darkrusty";
 	name = "dirty floor"
 	},
-/area/f13/fb/bar)
+/area)
 "mLV" = (
 /obj/effect/overlay/fog/fog2{
 	plane = -2
@@ -2867,19 +2798,6 @@
 	},
 /turf/open/floor/carpet/purple,
 /area/f13/fb/bar)
-"nPj" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/obj/structure/table/abductor,
-/obj/effect/turf_decal/siding/wood{
-	color = "#3B2B1A"
-	},
-/obj/item/paper_bin,
-/obj/item/pen,
-/turf/open/floor/carpet/royalblack,
-/area/f13/fb/bar)
 "nPu" = (
 /obj/machinery/processor,
 /obj/effect/overlay/fog/fog2{
@@ -2902,6 +2820,11 @@
 	},
 /area/f13/fb/bar)
 "oaA" = (
+/obj/machinery/hydroponics/constructable,
+/obj/effect/overlay/fog/fog2{
+	plane = -2;
+	alpha = 175
+	},
 /obj/machinery/light/small{
 	color = "#993311";
 	dir = 4;
@@ -2909,13 +2832,6 @@
 	light_power = 2;
 	light_range = 2;
 	pixel_y = 13
-	},
-/obj/item/kirbyplants/random{
-	pixel_y = 5
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
 	},
 /turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
@@ -3091,7 +3007,7 @@
 	icon_state = "darkrusty";
 	name = "dirty floor"
 	},
-/area/f13/fb/bar)
+/area)
 "pbh" = (
 /obj/structure/sign/poster/contraband/pinup_shower{
 	pixel_y = 32
@@ -3874,7 +3790,7 @@
 	icon_state = "darkrusty";
 	name = "dirty floor"
 	},
-/area/f13/fb/bar)
+/area)
 "ukT" = (
 /obj/effect/turf_decal/stripes/asteroid/line{
 	dir = 4
@@ -4301,7 +4217,7 @@
 	icon_state = "darkrusty";
 	name = "dirty floor"
 	},
-/area/f13/fb/bar)
+/area)
 "wEo" = (
 /obj/machinery/telecomms/server/presets/ncr,
 /turf/open/floor/plasteel/f13{
@@ -7788,7 +7704,7 @@ iYl
 iYl
 iYl
 iYl
-nPj
+fNI
 gHF
 okV
 okV
@@ -8136,7 +8052,7 @@ dLD
 bPG
 lvh
 pXC
-hQs
+lvh
 bPG
 bPG
 hHE
@@ -8254,7 +8170,7 @@ rWC
 rWC
 rWC
 rWC
-mGF
+rWC
 rWC
 vJz
 bPG
@@ -9188,11 +9104,11 @@ xNF
 xNF
 xNF
 xNF
-bPG
+mGF
 mKq
 dig
 uie
-bPG
+mGF
 xNF
 xNF
 xNF
@@ -9305,11 +9221,11 @@ xNF
 xNF
 xNF
 xNF
-bPG
+mGF
 gJF
 uie
 uie
-bPG
+mGF
 xNF
 xNF
 xNF
@@ -9422,11 +9338,11 @@ xNF
 xNF
 xNF
 xNF
-bPG
+mGF
 wCz
 paz
 ajq
-bPG
+mGF
 xNF
 xNF
 xNF
@@ -9539,11 +9455,11 @@ xNF
 xNF
 xNF
 xNF
-bPG
-bPG
-bPG
-bPG
-bPG
+mGF
+mGF
+mGF
+mGF
+mGF
 xNF
 xNF
 xNF

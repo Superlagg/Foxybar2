@@ -84,8 +84,8 @@
 		else
 			inside_areas += place
 
-	sound_ao.output_atoms = outside_areas
-	sound_ai.output_atoms = inside_areas
+	sound_ao?.output_atoms = outside_areas
+	sound_ai?.output_atoms = inside_areas
 
 //Fog
 /datum/weather/rain/fog

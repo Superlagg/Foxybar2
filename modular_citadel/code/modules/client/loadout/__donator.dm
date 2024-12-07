@@ -805,12 +805,14 @@
 	new	/obj/item/gun/ballistic/rifle/mag/antimaterial/loadout(src)
 
 /datum/gear/donator/kits/aphass
-	name = "lapine smelling premium plasmacutter box"
+	name = "Goopy tarbox"
 	path = /obj/item/storage/box/large/custom_kit/aphass
 	ckeywhitelist = list("Whirlsam")
 
 /obj/item/storage/box/large/custom_kit/aphass/PopulateContents()
-	new /obj/item/gun/energy/plasmacutter/adv(src)
+	new /obj/item/slimecross/charged/green(src)
+	new /obj/item/reagent_containers/syringe(src)
+	new /obj/item/stack/sheet/mineral/plasma(src)
 
 /datum/gear/donator/kits/palpapus
 	name = "Darth Plapappus Customs"

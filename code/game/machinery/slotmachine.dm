@@ -52,7 +52,7 @@
 
 /obj/machinery/computer/slot_machine/Destroy()
 	if(balance)
-		drop_caps(balance)
+		drop_caps(balance, TRUE)
 	return ..()
 
 /obj/machinery/computer/slot_machine/process()
@@ -127,16 +127,28 @@
 		spin(usr)
 
 	else if(href_list["refund"])
-		drop_caps(balance)
+		drop_caps(balance, TRUE)
 		updateDialog()
 
-/obj/machinery/computer/slot_machine/proc/drop_caps(amt)
-	// Come back when you're a little bit richer...
-	if(!balance)
-		return FALSE
-
+/obj/machinery/computer/slot_machine/proc/drop_caps(amt, fromBalance = FALSE)
 	if(isturf(get_turf(src)))
 		var/currentamt = amt
+		if(fromBalance)
+			// Come back when you're a little bit richer...
+			if(!balance)
+				return FALSE
+			if(balance >= amt)
+				balance -= amt
+			else
+				currentamt = balance
+				balance = 0
+		else
+			if(money >= amt)
+				money -= amt
+			else
+				currentamt = money
+				money = 0
+
 		// Stop cash stacks from going over their limit.
 		if(currentamt >= MAX_CASH_STACK_AMOUNT)
 			while(currentamt >= MAX_CASH_STACK_AMOUNT)
@@ -148,7 +160,6 @@
 			var/obj/item/stack/f13Cash/moneytodrop = new /obj/item/stack/f13Cash/caps(get_turf(src))
 			moneytodrop.amount = currentamt
 			moneytodrop.use(0) //Hacky, updates the sprite
-		balance -= amt
 		return TRUE
 
 	return FALSE
@@ -219,7 +230,6 @@
 		playsound(src, 'sound/machines/jackpot.ogg', 50, TRUE, -1)
 		jackpots += 1
 		drop_caps(money)
-		money = 0
 
 	else if(linelength == 5)
 		visible_message("<b>[src]</b> says, 'Big Winner! You win [BIG_PRIZE] coins!'")
@@ -235,7 +245,6 @@
 		to_chat(user, span_notice("I win three free games!"))
 		drop_caps(SPIN_PRICE * 4)
 		playsound(src, 'sound/machines/smallwin.ogg', 50, TRUE, -1)
-		money = max(money - SPIN_PRICE * 4, money)
 
 	else
 		to_chat(user, span_warning("No luck!"))

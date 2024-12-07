@@ -1,17 +1,17 @@
 /mob/Login()
 	add_to_player_list()
-	lastKnownIP	= client.address
-	computer_id	= client.computer_id
+	lastKnownIP	= client?.address
+	computer_id	= client?.computer_id
 	log_access("Mob Login: [key_name(src)] was assigned to a [type]")
 	world.update_status()
-	client.screen = list()				//remove hud items just in case
-	client.images = list()
+	client?.screen = list()				//remove hud items just in case
+	client?.images = list()
 
 	if(!hud_used)
 		create_mob_hud()
 	if(hud_used)
 		hud_used.show_hud(hud_used.hud_version)
-		hud_used.update_ui_style(ui_style2icon(client.prefs.UI_style))
+		hud_used.update_ui_style(ui_style2icon(client?.prefs.UI_style))
 
 	. = ..()
 
@@ -55,7 +55,7 @@
 
 	log_message("Client [key_name(src)] has taken ownership of mob [src]([src.type])", LOG_OWNERSHIP)
 	SEND_SIGNAL(src, COMSIG_MOB_CLIENT_LOGIN, client)
-	SSprogress_bars.client_connected(client.ckey)
+	SSprogress_bars.client_connected(client?.ckey)
 
 	if(has_field_of_vision && CONFIG_GET(flag/use_field_of_vision))
 		LoadComponent(/datum/component/field_of_vision, field_of_vision_type)

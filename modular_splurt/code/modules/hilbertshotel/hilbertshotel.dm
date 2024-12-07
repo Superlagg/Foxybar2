@@ -27,6 +27,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	"Snowcabin-One",
 	// "Hospital",
 	"Chess",
+	"Glade-One",
 	"Wildsauna-One",
 	)
 	var/datum/map_template/hilbertshotel/apartment/one/hilberts_hotel_rooms_apartment_one
@@ -45,6 +46,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	var/datum/map_template/hilbertshotel/apartment/snowcabin_one/snowcabin_one
 	// var/datum/map_template/hilbertshotel/apartment/hospital_one/hospital_one
 	var/datum/map_template/hilbertshotel/apartment/chessboard/thechess
+	var/datum/map_template/hilbertshotel/apartment/glade_one/glade_one
 	var/datum/map_template/hilbertshotel/apartment/wildsauna_one/wildsauna_one
 	//FB Maps End
 	var/datum/map_template/hilbertshotel/hotelRoomTemp
@@ -84,6 +86,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	snowcabin_one = new()
 	// hospital_one = new()
 	thechess = new()
+	glade_one = new()
 	wildsauna_one = new()
 
 /obj/hilbertshotel/proc/getMapTemplate(roomType) // To load a map and remove it's atoms
@@ -103,6 +106,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 		if("Snowcabin-One") return snowcabin_one
 		// if("Hospital") return hospital_one
 		if("Chess") return thechess
+		if("Glade-One") return glade_one
 		if("Wildsauna-One") return wildsauna_one
 		if("Mystery Room") return hotelRoomTempLore
 		
@@ -135,6 +139,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 			if("Snowcabin-One") mapTemplate = snowcabin_one
 			// if("Hospital") mapTemplate = hospital_one
 			if("Chess") mapTemplate = thechess
+			if("Glade-One") mapTemplate = glade_one
 			if("Wildsauna-One") mapTemplate = wildsauna_one
 
 	if(!mapTemplate)
@@ -223,6 +228,10 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 /datum/map_template/hilbertshotel/apartment/chessboard
 	name = "Chess"
 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/chess.dmm'
+
+/datum/map_template/hilbertshotel/apartment/glade_one
+	name = "Glade-One"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/glade_1.dmm'
 
 /datum/map_template/hilbertshotel/apartment/wildsauna_one
 	name = "Wildsauna-One"

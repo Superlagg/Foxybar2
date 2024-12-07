@@ -448,7 +448,7 @@
 	departing_mob.despawn()
 
 /turf/closed/indestructible/f13/matrix/proc/whoosh(mob/departing_mob)
-	do_sparks(2, TRUE, departing_mob)
+	do_sparks(2, TRUE, get_turf(departing_mob))
 	playsound(departing_mob, 'sound/effects/player_despawn.ogg', 80, TRUE)
 
 /proc/StuffPlayerContentsIntoABag(mob/who, atom/where, lockit)

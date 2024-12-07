@@ -88,7 +88,7 @@
 		return
 	if(!I)
 		if(!length(other_items))
-			to_chat(src, span_warning("I can't block with your bare hands!"))
+			to_chat(src, span_warning("I can't block with my bare hands!"))
 			return
 		I = other_items[1]
 	if(!I.can_active_block())

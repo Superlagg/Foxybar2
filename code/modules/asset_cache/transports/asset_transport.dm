@@ -69,12 +69,12 @@
 	// To ensure code that breaks on cdns breaks in local testing, we only
 	// use the normal filename on legacy assets and name space assets.
 	var/keep_local_name = dont_mutate_filenames \
-		|| asset_cache_item.legacy \
-		|| asset_cache_item.keep_local_name \
-		|| (asset_cache_item.namespace && !asset_cache_item.namespace_parent)
+		|| asset_cache_item?.legacy \
+		|| asset_cache_item?.keep_local_name \
+		|| (asset_cache_item?.namespace && !asset_cache_item?.namespace_parent)
 	if (keep_local_name)
-		return url_encode(asset_cache_item.name)
-	return url_encode("asset.[asset_cache_item.hash][asset_cache_item.ext]")
+		return url_encode(asset_cache_item?.name)
+	return url_encode("asset.[asset_cache_item?.hash][asset_cache_item?.ext]")
 
 
 /// Sends a list of browser assets to a client

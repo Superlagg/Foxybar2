@@ -50,7 +50,7 @@
 	var/allow_trash_messages = FALSE
 	//Save us the trouble of reloading the preferences menu 15 times when someone turns all
 	//of the vore shit on one at a time by just having most of them start on and the master off
-	var/master_vore_toggle = FALSE
+	var/master_vore_toggle = TRUE
 
 
 	// These are 'modifier' prefs, do nothing on their own but pair with drop_prey/drop_pred settings.

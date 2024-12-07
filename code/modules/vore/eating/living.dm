@@ -22,6 +22,7 @@
 	set category = "Private"
 
 	if(!isbelly(loc))
+		to_chat(src, span_alert("You're not in a belly!"))
 		return
 	var/obj/vore_belly/vb = loc
 	if(!vb.is_in_belly(src))
@@ -69,8 +70,8 @@
 	if(!LAZYLEN(smellable))
 		return
 	var/mob/living/sniffed = show_radial_menu(src, src, smellable, radius = 40, require_near = TRUE)
-	if(!Adjacent(sniffed))
-		return
+	// if(!Adjacent(sniffed))
+	// 	return
 	SEND_SIGNAL(sniffed, COMSIG_VORE_SNIFF_LIVING, src)
 
 /mob/living/proc/toggle_voremode()

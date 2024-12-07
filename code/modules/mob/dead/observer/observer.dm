@@ -141,6 +141,8 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	INVOKE_ASYNC(src, PROC_REF(slam_dunk_to_main_menu))
 
 /mob/dead/observer/proc/slam_dunk_to_main_menu()
+	if(!SSchat.forbid_ghosting)
+		return
 	if(IsAdminGhost(src, TRUE))
 		return TRUE
 	if(client)
