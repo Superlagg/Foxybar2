@@ -18,7 +18,7 @@
 	aoe_message = "HEY EVERYONE, %FLIRTER% is looking at your boobs!"
 	aoe_message_span = "greentext"
 
-	aoe_range = 5
+	aoe_range = 2
 
 	categories = list("Debug", "If you can see this", "69 me")
 	/// sound it makes to us bolth
