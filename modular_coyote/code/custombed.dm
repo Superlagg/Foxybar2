@@ -60,14 +60,14 @@
 
 
 /obj/item/bedsheet/big/Initialize()
-    ..()
-    transform = transform.Scale(2)
-    update_icon()
+	. = ..()
+	transform = transform.Scale(2)
+	update_icon()
 
 /obj/item/bedsheet/huge/Initialize()
-    ..()
-    transform = transform.Scale(3)
-    update_icon()
+	. = ..()
+	transform = transform.Scale(3)
+	update_icon()
 
 /obj/item/bedsheet/big/deerdouble
 	name = "deer bedsheet"
