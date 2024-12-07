@@ -268,7 +268,7 @@
 		return
 	summon_backup(15)
 	if(!ckey)
-		say("KILL 'EM, FELLAS!")
+		say("KILL 'EM, FELLAS!", only_overhead = TRUE)
 
 /mob/living/simple_animal/hostile/raider/ranged/boss/mangomatt
 	name = "Mango Mathew and his Merry Meth Madlads"
@@ -320,8 +320,8 @@
 		"*growl",\
 		"*come",\
 		"Fuck em' up!"\
-		))
-	loot = list(/obj/effect/spawner/lootdrop/f13/uncommon, /obj/effect/spawner/lootdrop/f13/rare)
+		), only_overhead = TRUE)
+	loot = list()
 	loot_drop_amount = 10
 	loot_amount_random = TRUE
 
@@ -382,7 +382,7 @@
 		"*kyaa",\
 		"*come",\
 		"YOU'RE ABOUT TO GET A DISCOUNT ON A GRAVE, BUDDY!",\
-		))
+		), only_overhead = TRUE)
 
 // RANGED RAIDER WITH ARMOR
 /mob/living/simple_animal/hostile/raider/ranged/sulphiteranged

@@ -578,7 +578,7 @@ GLOBAL_LIST_EMPTY(playmob_cooldowns)
 				length += emote_see.len
 			var/randomValue = rand(1,length)
 			if(randomValue <= speak.len)
-				say(pick(speak), forced = "poly")
+				say(pick(speak), forced = "poly", only_overhead = TRUE)
 			else
 				randomValue -= speak.len
 				if(emote_see && randomValue <= emote_see.len)
@@ -586,7 +586,7 @@ GLOBAL_LIST_EMPTY(playmob_cooldowns)
 				else
 					emote("me [pick(emote_hear)]", 2)
 		else
-			say(pick(speak), forced = "poly")
+			say(pick(speak), forced = "poly", only_overhead = TRUE)
 	else
 		if(!(emote_hear && emote_hear.len) && (emote_see && emote_see.len))
 			emote("me", EMOTE_VISIBLE, pick(emote_see))
@@ -743,9 +743,9 @@ GLOBAL_LIST_EMPTY(playmob_cooldowns)
 /mob/living/simple_animal/emote(act, m_type=1, message = null, intentional = FALSE, only_overhead)
 	if(stat)
 		return
-	if(act == "scream")
-		message = "makes a loud and pained whimper." //ugly hack to stop animals screaming when crushed :P
-		act = "me"
+	// if(act == "scream")
+	// 	message = "makes a loud and pained whimper." //ugly hack to stop animals screaming when crushed :P
+	// 	act = "me"
 	..(act, m_type, message)
 
 /mob/living/simple_animal/proc/set_varspeed(var_value)

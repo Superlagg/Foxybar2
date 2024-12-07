@@ -345,7 +345,6 @@
 	message = "grimaces."
 	message_param = "grimaces at %t."
 
-
 /datum/emote/living/kiss
 	key = "kiss"
 	key_third_person = "kisses"
@@ -848,6 +847,14 @@
 		if(. && isliving(user))
 			pick(playsound(C, 'sound/f13effects/sunsetsounds/baa.ogg', 50, 1),playsound(C, 'sound/f13effects/sunsetsounds/baa2.ogg', 50, 1))
 
+/datum/emote/living/moxi
+	key = "moxi"
+	key_third_person = "moxis"
+	message = "diligently says hi!"
+	message_param = "diligently says hi to %t."
+	emote_type = EMOTE_AUDIBLE
+	sound = 'sound/effects/moxi.ogg' //im
+
 /datum/emote/purr
 	key = "purr"
 	key_third_person = "purrs contentedly"
@@ -1161,6 +1168,7 @@
 	key_third_person = "raises an eyebrow menacingly!"
 	message = "raises an eyebrow menacingly!"
 	sound = 'sound/f13effects/sunsetsounds/vineboom.ogg'
+
 
 /datum/emote/living/frogcry
 	key = "frogcry"
@@ -1485,6 +1493,7 @@
 	message_param = "<span class='urgent'>%t</span>" //Funny block text
 	sound = "modular_splurt/sound/voice/alienbeeper.ogg"
 
+
 //Slime start
 
 //Framework
@@ -1512,6 +1521,7 @@
 			S.slime_mood = slime_mood
 			S.handle_body(H)
 
+
 /datum/emote/mood/sneaky
 	key = "slimesneaky"
 	slime_mood = "aslime-mischevous"
@@ -1537,3 +1547,4 @@
 	slime_mood = "aslime-angry"
 
 // Slime end
+

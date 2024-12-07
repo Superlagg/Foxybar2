@@ -72,7 +72,8 @@
 			output += "<p><a href='byond://?src=[REF(src)];SelectedJob=Customer'>Join in!</a></p>"
 		else
 			output += "<p><a href='byond://?src=[REF(src)];late_join=1'>Join in!</a></p>"
-		//output += "<p>[LINKIFY_READY("Observe", PLAYER_READY_TO_OBSERVE)]</p>"
+		if(!SSchat.forbid_ghosting || check_rights_for(client, R_ADMIN))
+			output += "<p>[LINKIFY_READY("Observe", PLAYER_READY_TO_OBSERVE)]</p>"
 		output += "<p><a href='byond://?src=[REF(src)];refresh_chat=1)'>(Fix Chat Window)</a></p>"
 		output += "<p><a href='byond://?src=[REF(src)];fit_viewport_lobby=1)'>(Fit Viewport)</a></p>"
 
@@ -391,7 +392,7 @@
 
 //When you cop out of the round (NB: this HAS A SLEEP FOR PLAYER INPUT IN IT)
 /mob/dead/new_player/proc/make_me_an_observer()
-	if(QDELETED(src) || !src.client)
+	if(QDELETED(src) || !src.client || (SSchat.forbid_ghosting && !check_rights_for(src.client, R_ADMIN)))
 		ready = PLAYER_NOT_READY
 		return FALSE
 
