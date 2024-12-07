@@ -1,8 +1,8 @@
 %TITLE:Images can be URLs too! TXT route
-%TOP_IMAGE<1|fit;URL>:https://cdn.discordapp.com/attachments/999170698029305946/1113708397079035924/image.png
-%TOP_IMAGE<2|stretch;URL>:https://cdn.discordapp.com/attachments/999170698029305946/1113708980208930887/image.png
-%BOTTOM_IMAGE<1|fit;URL>:https://cdn.discordapp.com/attachments/999170698029305946/1113703412069052466/80d589e0d0fbe879b751a42aa8b13b28.png
-%BOTTOM_IMAGE<2|stretch;URL>:https://media.tenor.com/fNs8_8hiJFgAAAAC/cat-blind-flashbang-light-mode.gif
+%TOP_IMAGE<1|fit;URL>:https://images.gamebanana.com/img/embeddables/Mod_205676_sd_image.jpg
+%TOP_IMAGE<2|stretch;URL>:https://images.gamebanana.com/img/embeddables/Mod_205676_sd_image.jpg
+%BOTTOM_IMAGE<1|fit;URL>:https://images.gamebanana.com/img/embeddables/Mod_205676_sd_image.jpg
+%BOTTOM_IMAGE<2|stretch;URL>:https://images.gamebanana.com/img/embeddables/Mod_205676_sd_image.jpg
 
 Hi! All the images in this chapter are pulled from URLs!
 This will be how you, as a bookmaker, put images in the books you make.
