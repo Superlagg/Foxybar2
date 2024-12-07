@@ -226,6 +226,8 @@
 	if(stage != MAIN_STAGE)
 		return
 	for(var/P in GLOB.player_list)
+		if(isnewplayer(P))
+			continue // Apparently new players are nowhere! spooky
 		handle_looping_sound(P)
 	if(aesthetic)
 		return
@@ -250,7 +252,7 @@
 	// var/turf/mob_turf = get_turf(L)
 	// if(mob_turf?.z in impacted_z_levels)
 	var/area/mob_area = get_area(L)
-	if(mob_area.outdoors)//Mob is outdoors, add them to the outdoors list and remove them from the indoors
+	if(mob_area?.outdoors)//Mob is outdoors, add them to the outdoors list and remove them from the indoors
 		sound_ao?.output_atoms |= L
 		sound_ai?.output_atoms -= L
 	else//Mob is indoors, add them to the indoor list and remove from outdoors

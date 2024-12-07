@@ -848,8 +848,9 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 /obj/item/proc/remove_item_from_storage(atom/newLoc) //please use this if you're going to snowflake an item out of a obj/item/storage
 	if(!newLoc)
 		return FALSE
-	if(SEND_SIGNAL(loc, COMSIG_CONTAINS_STORAGE))
-		return SEND_SIGNAL(loc, COMSIG_TRY_STORAGE_TAKE, src, newLoc, FALSE)
+	if(loc) // swear to FFFFFFFFFFFFF
+		if(SEND_SIGNAL(loc, COMSIG_CONTAINS_STORAGE))
+			return SEND_SIGNAL(loc, COMSIG_TRY_STORAGE_TAKE, src, newLoc, FALSE)
 	return FALSE
 
 /obj/item/proc/get_belt_overlay() //Returns the icon used for overlaying the object on a belt

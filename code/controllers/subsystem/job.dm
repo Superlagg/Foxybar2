@@ -724,9 +724,16 @@ SUBSYSTEM_DEF(job)
 		for(var/i in chosen_gear)
 			var/datum/gear/G = istext(i[LOADOUT_ITEM]) ? text2path(i[LOADOUT_ITEM]) : i[LOADOUT_ITEM]
 			if(!G) // aint there? ditch it
+				message_admins("Invalid gear in loadout for [the_mob] at slot [the_prefs.loadout_slot]: [i[LOADOUT_ITEM]]")
+				stack_trace("Invalid gear in loadout for [the_mob] at slot [the_prefs.loadout_slot]: [i[LOADOUT_ITEM]]")
 				the_prefs.remove_gear_from_loadout(the_prefs.loadout_slot, i[LOADOUT_ITEM])
 				continue
 			G = GLOB.loadout_items[initial(G.category)][initial(G.subcategory)][initial(G.name)]
+			if(!G || !G.path) // are you *sure* its there? cus, it aint
+				message_admins("Invalid gear in loadout for [the_mob] at slot [the_prefs.loadout_slot]: [i[LOADOUT_ITEM]]. G.path is [G.path]. Eat me, Fenny.")
+				stack_trace("Invalid gear in loadout for [the_mob] at slot [the_prefs.loadout_slot]: [i[LOADOUT_ITEM]]. G.path is [G.path]. Eat me, Fenny.")
+				the_prefs.remove_gear_from_loadout(the_prefs.loadout_slot, i[LOADOUT_ITEM])
+				continue
 			var/permitted = TRUE
 			if(!bypass_prereqs && G.restricted_roles && G.restricted_roles.len && !(M.mind.assigned_role in G.restricted_roles))
 				permitted = FALSE
