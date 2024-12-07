@@ -281,6 +281,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["aghost_squelches"]		>> aghost_squelches
 	S["genital_whitelist"]		>> genital_whitelist
 	S["see_furry_dating_sim"]		>> see_furry_dating_sim
+	S["show_this_many"]		>> show_this_many
+	S["names_per_row"]		>> names_per_row
 
 	S["lockouts"]	>> lockouts // my bans!
 	S["admin_wire_tap"]	>> admin_wire_tap // my bans!
@@ -313,6 +315,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	color_chat_log          = sanitize_integer(color_chat_log, FALSE, TRUE, initial(color_chat_log))
 	tgui_fancy              = sanitize_integer(tgui_fancy, 0, 1, initial(tgui_fancy))
 	tgui_lock               = sanitize_integer(tgui_lock, 0, 1, initial(tgui_lock))
+	show_this_many          = sanitize_integer(show_this_many, 0, 30, initial(show_this_many))
+	names_per_row           = sanitize_integer(names_per_row, 0, 10, initial(names_per_row))
 	buttons_locked          = sanitize_integer(buttons_locked, 0, 1, initial(buttons_locked))
 	windowflashing          = sanitize_integer(windowflashing, 0, 1, initial(windowflashing))
 	default_slot            = sanitize_integer(default_slot, 1, max_save_slots, initial(default_slot))
@@ -452,6 +456,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["key_bindings"], key_bindings)
 	WRITE_FILE(S["modless_key_bindings"], modless_key_bindings)
 	WRITE_FILE(S["see_furry_dating_sim"], see_furry_dating_sim)
+	WRITE_FILE(S["show_this_many"], show_this_many)
+	WRITE_FILE(S["names_per_row"], names_per_row)
 
 	//citadel code
 	WRITE_FILE(S["screenshake"], screenshake)
@@ -525,7 +531,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		outputs += lein
 	return outputs.Join(", ")
 
-/datum/preferences/proc/load_character(slot)
+/datum/preferences/proc/load_character(slot, copypls)
 	if(!path)
 		return FALSE
 	if(world.time < loadcharcooldown) //This is before the check to see if the filepath exists to ensure that BYOND can't get hung up on read attempts when the hard drive is a little slow
@@ -659,7 +665,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(!slot)
 		slot = default_slot
 	slot = sanitize_integer(slot, 1, max_save_slots, initial(default_slot))
-	if(slot != default_slot)
+	if(slot != default_slot && !copypls)
 		default_slot = slot
 		WRITE_FILE(S["default_slot"] , slot)
 

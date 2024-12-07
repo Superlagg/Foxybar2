@@ -472,6 +472,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/stash_equipment_on_logout = TRUE
 	var/lock_equipment_on_logout = TRUE
 
+	var/copyslot = 0
+	var/copyname = ""
+
+	var/show_this_many = 30
+	var/names_per_row = 6
+
 /datum/preferences/New(client/C)
 	parent = C
 
@@ -544,19 +550,28 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				var/savefile/S = new /savefile(path)
 				if(S)
 					dat += "<center>"
+					dat += "<table><tr>"
 					var/name
 					var/unspaced_slots = 0
-					for(var/i=1, i<=max_save_slots, i++)
+					for(var/i=1, i<=min(max_save_slots, show_this_many), i++)
 						unspaced_slots++
-						if(unspaced_slots > 8)
-							dat += "<br>"
-							unspaced_slots = 0
+						if(unspaced_slots > names_per_row)
+							dat += "</tr>"
+							dat += "<tr>"
+							unspaced_slots = 1
+						dat += "<td>"
 						S.cd = "/character[i]"
 						S["real_name"] >> name
 						if(!name)
 							name = "Character[i]"
 						dat += "<a style='white-space:nowrap;' href='?_src_=prefs;preference=changeslot;num=[i];' [i == default_slot ? "class='linkOn'" : ""]>[name]</a> "
+						dat += "</td>"
+					dat += "</tr></table>"
 					dat += "</center>"
+					dat += "<a href='?_src_=prefs;preference=copyslot;'>Copy</a> | <a href='?_src_=prefs;preference=paste;'>Paste</a>"
+					dat += " | Showing <a href='?_src_=prefs;preference=show_this_many;num=1;'>[show_this_many]</a> characters, <a href='?_src_=prefs;preference=names_per_row;num=1;'>[names_per_row]</a> per row"
+					if(copyslot)
+						dat += "<br>Copying FROM: [copyslot] ([copyname])"
 
 			dat += "<center><h2>Quest Board UID</h2>"
 			dat += "[quester_uid]</center>"
@@ -4290,6 +4305,36 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("delete_character")
 					run_deletion_song_and_dance()
 
+				if("copyslot")
+					set_copyslot()
+				
+				if("paste")
+					run_paste_song_and_dance()
+
+				if("show_this_many")
+					var/s_howmany = input(
+						user,
+						"How many character slots do you want to be able to see? This will just \
+						hide the rest, they'll still be there when you change this back later. \
+						(1-[max_save_slots])",
+						"Hide The Unused",
+						show_this_many
+					) as null|num
+					if(s_howmany)
+						show_this_many = clamp(s_howmany, 1, max_save_slots)
+						to_chat(user, span_notice("You will now see [show_this_many] character slots! Any characters in the hidden slots will be inaccessible until you change this back. If there aren't any characters there, then, good, all is well!"))
+
+				if("names_per_row")
+					var/narow = input(
+						user,
+						"How many character names do you want to see per row? (1-10)",
+						"Character Preference",
+						names_per_row
+					) as null|num
+					if(narow)
+						names_per_row = clamp(narow, 1, 10)
+						to_chat(user, span_notice("You will now see [names_per_row] character names per row!"))
+
 				if("changeslot")
 					if(!load_character(text2num(href_list["num"])))
 						initialize_preferences() // just so we dont carry over literally everything from the last character
@@ -4880,6 +4925,42 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			cells_left = quirks_per_row
 	dat += "</table>"
 	return dat.Join()
+
+/datum/preferences/proc/set_copyslot()
+	copyslot = default_slot
+	copyname = real_name
+	to_chat(usr, span_notice("Copied [real_name] to the clipboard."))
+
+/datum/preferences/proc/run_paste_song_and_dance()
+	if(copyslot == default_slot)
+		to_chat(usr, span_danger("You can't paste a character to itself, it just wouldn't work!"))
+		return
+	var/tobsure = alert(
+		usr,
+		"Just to be clear, this will copy everything from [copyname] in slot [copyslot] to \
+		[real_name], the currently selected character in slot [copyslot]. Everything on THIS \
+		character ([real_name]) will be totally, utterly, completely lost and deleted forever, \
+		and in its place will be everything from [copyname]. Are you sure you want to do this?",
+		"Character Paste",
+		"Yes, Paste [copyname] to [real_name]",
+		"NO WAIT I CHANGED MY MIND",
+	)
+	if(tobsure != "Yes, Paste [copyname] to [real_name]")
+		to_chat(usr, span_green("Nevermind!! Your character remains safe and sound."))
+		return
+	var/sure2 = input(
+		usr,
+		"Just in case you kinda sorta fat-fingered the last prompt, please type 'Chiara is wide' \
+		in the box below to confirm that you really want to paste [copyname] to [real_name] and \
+		utterly delete [real_name] forever and ever. No quotes, please!",
+		"Character Paste, part II",
+	) as text|null
+	if(sure2 != "Chiara is wide")
+		to_chat(usr, span_green("Nevermind!! Your character remains safe and sound."))
+		return
+	load_character(copyslot, TRUE)
+	save_character()
+	to_chat(usr, span_notice("Character pasted successfully!"))
 
 #undef MAX_FREE_PER_CAT
 #undef HANDS_SLOT_AMT
