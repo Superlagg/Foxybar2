@@ -8,8 +8,12 @@
 /datum/emote/living/vore/run_emote(mob/user)
 	if(!..())
 		return
-	if(SEND_SIGNAL(user, COMSIG_VORE_CAN_EAT) == FALSE)
-		to_chat(user, span_alert("I can't eat anything right now!"))
+	var/voreturn = SEND_SIGNAL(user, COMSIG_VORE_CAN_EAT)
+	if(voreturn & 16)
+		to_chat(user, span_alert("You don't have any vorebellies to put anyone or anything into! Go into the vore settings and give yourself one (or more =3)"))
+		return
+	if(!voreturn)
+		to_chat(user, span_alert("You can't eat anything right now!"))
 		return
 	if(SEND_SIGNAL(user, COMSIG_VORE_DO_VORE, user, user.pulling))
 		return // probably eating someone right now
