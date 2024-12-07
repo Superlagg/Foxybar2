@@ -1337,6 +1337,12 @@
 /obj/effect/turf_decal/siding/wood{
 	color = "#3B2B1A"
 	},
+/obj/item/clothing/head/christmashat,
+/obj/item/clothing/head/christmashat,
+/obj/item/clothing/head/christmashat,
+/obj/item/clothing/head/christmashatg,
+/obj/item/clothing/head/christmashatg,
+/obj/item/clothing/head/christmashatg,
 /turf/open/floor/carpet/royalblack,
 /area/f13/fb/bar)
 "fRv" = (
@@ -2558,6 +2564,16 @@
 	},
 /turf/open/floor/wood_fancy{
 	color = "#779999"
+	},
+/area/f13/fb/bar)
+"lAb" = (
+/obj/effect/overlay/fog/fog2{
+	plane = -2;
+	alpha = 175
+	},
+/obj/structure/flora/tree/pine/xmas,
+/turf/open/floor/plasteel/f13/whitemarble{
+	color = "#333333"
 	},
 /area/f13/fb/bar)
 "lJE" = (
@@ -7225,7 +7241,7 @@ wxN
 lel
 fvH
 orZ
-orZ
+lAb
 orZ
 orZ
 mRP
