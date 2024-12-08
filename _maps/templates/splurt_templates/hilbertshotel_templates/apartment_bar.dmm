@@ -12,7 +12,6 @@
 	},
 /obj/structure/table/wood/fancy/royalblack,
 /obj/item/storage/fancy/heart_box,
-/obj/item/paper/fluff/hilbertshotel/welcomeletter,
 /turf/open/floor/wood_common/wood_common_dark,
 /area/hilbertshotel)
 "ee" = (
@@ -65,8 +64,8 @@
 /area/hilbertshotel)
 "kQ" = (
 /turf/closed/indestructible/hoteldoor{
-	icon_state = "door_closed";
-	icon = 'icons/obj/doors/puzzledoor/default.dmi'
+	icon = 'icons/obj/doors/puzzledoor/default.dmi';
+	icon_state = "door_closed"
 	},
 /area/hilbertshotel)
 "li" = (
@@ -301,8 +300,8 @@
 "Ji" = (
 /obj/machinery/jukebox/disco{
 	anchored = 1;
-	req_one_access = null;
-	area_limited = 1
+	area_limited = 1;
+	req_one_access = null
 	},
 /turf/open/floor/carpet/black,
 /area/hilbertshotel)

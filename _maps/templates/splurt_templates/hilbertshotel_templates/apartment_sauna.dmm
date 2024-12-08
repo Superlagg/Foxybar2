@@ -58,8 +58,8 @@
 	icon = 'icons/effects/effects.dmi';
 	icon_state = "smoke";
 	name = "steam";
-	pixel_y = 12;
 	pixel_x = 17;
+	pixel_y = 12;
 	plane = -2
 	},
 /obj/structure/spacevine{
@@ -155,8 +155,8 @@
 	icon = 'icons/effects/effects.dmi';
 	icon_state = "smoke";
 	name = "steam";
-	pixel_y = 12;
 	pixel_x = 17;
+	pixel_y = 12;
 	plane = -2
 	},
 /obj/structure/spacevine{
@@ -172,8 +172,8 @@
 /area/hilbertshotel)
 "jX" = (
 /obj/structure/mineral_door/paperframe{
-	name = "Changing Room";
-	dir = 4
+	dir = 4;
+	name = "Changing Room"
 	},
 /turf/open/floor/plasteel/white,
 /area/hilbertshotel)
@@ -228,8 +228,8 @@
 /area/hilbertshotel)
 "pw" = (
 /obj/structure/mineral_door/paperframe{
-	name = "Changing Room";
-	dir = 8
+	dir = 8;
+	name = "Changing Room"
 	},
 /turf/open/floor/wood_common/wood_common_dark,
 /area/hilbertshotel)
@@ -257,8 +257,8 @@
 	icon = 'icons/effects/effects.dmi';
 	icon_state = "smoke";
 	name = "steam";
-	pixel_y = 12;
 	pixel_x = 17;
+	pixel_y = 12;
 	plane = -2
 	},
 /obj/structure/spacevine{
@@ -275,7 +275,6 @@
 "qm" = (
 /obj/structure/table/wood,
 /obj/item/storage/fancy/heart_box,
-/obj/item/paper/fluff/hilbertshotel/welcomeletter,
 /turf/open/floor/wood_common/wood_common_dark,
 /area/hilbertshotel)
 "qv" = (
@@ -301,8 +300,8 @@
 /area/hilbertshotel)
 "rX" = (
 /obj/structure/mineral_door/paperframe{
-	name = "Changing Room";
-	dir = 8
+	dir = 8;
+	name = "Changing Room"
 	},
 /turf/open/floor/plasteel/white,
 /area/hilbertshotel)
@@ -412,8 +411,8 @@
 	icon = 'icons/effects/effects.dmi';
 	icon_state = "smoke";
 	name = "steam";
-	pixel_y = 12;
 	pixel_x = 17;
+	pixel_y = 12;
 	plane = -2
 	},
 /obj/structure/spacevine{
@@ -452,8 +451,8 @@
 	icon = 'icons/effects/effects.dmi';
 	icon_state = "smoke";
 	name = "steam";
-	pixel_y = 12;
 	pixel_x = 17;
+	pixel_y = 12;
 	plane = -2
 	},
 /obj/structure/spacevine{
@@ -485,8 +484,8 @@
 	icon = 'icons/effects/effects.dmi';
 	icon_state = "smoke";
 	name = "steam";
-	pixel_y = 12;
 	pixel_x = 17;
+	pixel_y = 12;
 	plane = -2
 	},
 /obj/structure/spacevine{
@@ -552,8 +551,8 @@
 	icon = 'icons/effects/effects.dmi';
 	icon_state = "smoke";
 	name = "steam";
-	pixel_y = 12;
 	pixel_x = 17;
+	pixel_y = 12;
 	plane = -2
 	},
 /obj/structure/spacevine{
@@ -615,8 +614,8 @@
 	icon = 'icons/effects/effects.dmi';
 	icon_state = "smoke";
 	name = "steam";
-	pixel_y = 12;
 	pixel_x = 17;
+	pixel_y = 12;
 	plane = -2
 	},
 /obj/structure/spacevine{
@@ -644,8 +643,8 @@
 /area/hilbertshotel)
 "GJ" = (
 /turf/closed/indestructible/hoteldoor{
-	icon_state = "door_closed";
-	icon = 'icons/obj/doors/puzzledoor/default.dmi'
+	icon = 'icons/obj/doors/puzzledoor/default.dmi';
+	icon_state = "door_closed"
 	},
 /area/hilbertshotel)
 "HB" = (
@@ -706,8 +705,8 @@
 /area/hilbertshotel)
 "MT" = (
 /obj/machinery/jukebox{
-	req_one_access = null;
-	area_limited = 1
+	area_limited = 1;
+	req_one_access = null
 	},
 /turf/open/floor/carpet/red,
 /area/hilbertshotel)
@@ -741,8 +740,8 @@
 	icon = 'icons/effects/effects.dmi';
 	icon_state = "smoke";
 	name = "steam";
-	pixel_y = 12;
 	pixel_x = 17;
+	pixel_y = 12;
 	plane = -2
 	},
 /obj/structure/spacevine{
@@ -859,8 +858,8 @@
 /area/hilbertshotel)
 "TH" = (
 /obj/structure/mineral_door/paperframe{
-	name = "Changing Room";
-	dir = 4
+	dir = 4;
+	name = "Changing Room"
 	},
 /turf/open/floor/wood_common/wood_common_dark,
 /area/hilbertshotel)
@@ -908,8 +907,8 @@
 	icon = 'icons/effects/effects.dmi';
 	icon_state = "smoke";
 	name = "steam";
-	pixel_y = 12;
 	pixel_x = 17;
+	pixel_y = 12;
 	plane = -2
 	},
 /obj/structure/spacevine{
@@ -951,8 +950,8 @@
 	icon = 'icons/effects/effects.dmi';
 	icon_state = "smoke";
 	name = "steam";
-	pixel_y = 12;
 	pixel_x = 17;
+	pixel_y = 12;
 	plane = -2
 	},
 /obj/structure/spacevine{
