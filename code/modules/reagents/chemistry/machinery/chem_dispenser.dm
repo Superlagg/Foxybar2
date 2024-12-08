@@ -681,6 +681,7 @@
 		/datum/reagent/consumable/ethanol/champagne,
 		/datum/reagent/consumable/ethanol/fernet,
 		/datum/reagent/consumable/ethanol/amaretto
+		/datum/reagent/consumable/ethanol/lizardwine
 	)
 	upgrade_reagents = list(
 		/datum/reagent/consumable/ethanol,
