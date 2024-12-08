@@ -71,7 +71,7 @@
 "r" = (
 /obj/effect/particle_effect/steam,
 /obj/effect/overlay/fog/fog3,
-/turf/open/pool,
+/turf/open/water,
 /area/hilbertshotel)
 "s" = (
 /obj/machinery/light{
@@ -203,7 +203,7 @@
 	},
 /obj/effect/particle_effect/steam,
 /obj/effect/overlay/fog/fog3,
-/turf/open/pool,
+/turf/open/water,
 /area/hilbertshotel)
 
 (1,1,1) = {"

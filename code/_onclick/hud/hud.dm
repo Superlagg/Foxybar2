@@ -72,6 +72,8 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	var/atom/movable/screen/chardir_hud_button
 	var/atom/movable/screen/pvp_focus_toggle/pvp_focus_toggle
 	var/atom/movable/screen/flirt_hud_button
+	var/atom/movable/screen/merp_button
+	var/atom/movable/screen/vore_button
 	var/atom/movable/screen/touch_hud_button
 	var/atom/movable/screen/lick_hud_button
 	var/atom/movable/screen/kiss_hud_button

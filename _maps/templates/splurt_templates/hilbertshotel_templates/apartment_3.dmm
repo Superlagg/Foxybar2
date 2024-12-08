@@ -39,8 +39,8 @@
 /area/hilbertshotel)
 "at" = (
 /turf/closed/indestructible/hoteldoor{
-	icon_state = "door_closed";
-	icon = 'icons/obj/doors/puzzledoor/default.dmi'
+	icon = 'icons/obj/doors/puzzledoor/default.dmi';
+	icon_state = "door_closed"
 	},
 /area/hilbertshotel)
 "ax" = (
@@ -137,7 +137,6 @@
 "bl" = (
 /obj/structure/table/wood,
 /obj/item/storage/fancy/heart_box,
-/obj/item/paper/fluff/hilbertshotel/welcomeletter,
 /turf/open/floor/carpet,
 /area/hilbertshotel)
 "bp" = (
@@ -196,8 +195,8 @@
 /area/hilbertshotel)
 "bA" = (
 /obj/machinery/jukebox{
-	req_one_access = null;
-	area_limited = 1
+	area_limited = 1;
+	req_one_access = null
 	},
 /obj/effect/turf_decal/siding/wood,
 /turf/open/floor/wood_common/wood_common_dark,
@@ -391,9 +390,6 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/machinery/light_switch{
-	pixel_x = -32
-	},
 /turf/open/floor/plasteel/stairs/medium,
 /area/hilbertshotel)
 "KM" = (
@@ -465,18 +461,6 @@
 /obj/item/kirbyplants/random,
 /obj/effect/turf_decal/siding/wood{
 	dir = 5
-	},
-/turf/open/floor/wood_common/wood_common_dark,
-/area/hilbertshotel)
-"Yf" = (
-/obj/machinery/light_switch{
-	pixel_x = -32
-	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 4
-	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 8
 	},
 /turf/open/floor/wood_common/wood_common_dark,
 /area/hilbertshotel)
@@ -670,7 +654,7 @@ aa
 aa
 aj
 Nv
-Yf
+kT
 kT
 nE
 lm

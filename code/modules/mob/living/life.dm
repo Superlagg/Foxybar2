@@ -119,6 +119,8 @@
 	return TRUE
 
 /mob/living/proc/handle_passive_heal()
+	if(!SSmobs.autoheal_to_stamina)
+		return
 	var/brut = getBruteLoss()
 	var/fire = getFireLoss()
 	var/oxy = getOxyLoss()

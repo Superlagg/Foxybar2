@@ -136,6 +136,211 @@
 		return
 	H.emote("flirt")
 
+/atom/movable/screen/merp_button
+	name = "Open mechanical ERP window!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "merp"
+	screen_loc = ui_merp
+
+/atom/movable/screen/merp_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(H))
+		to_chat(H, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	var/obj/item/hand_item/merp_doer/brick = new(H)
+
+	if(H.put_in_hands(brick))
+		to_chat(H, span_notice("Now click someone with this thing (or yourself)! Range is infinite, so you can totally interact with people across the bar!"))
+	else
+		qdel(brick)
+
+/// special cool button that turns into more buttons!
+/atom/movable/screen/foldout
+	name = "Cool Foldabutton"
+	icon = 'icons/mob/screen_gen_vore.dmi'
+	icon_state = "vore_off"
+	var/icon/closed_icon = 'icons/mob/screen_gen_vore.dmi'
+	var/closed_state = "vore_off"
+	var/closed_loc = "EAST-1:-11, SOUTH+2:12"
+	var/icon/open_icon = 'icons/mob/screen_gen_vore.dmi'
+	var/open_state = "vore_on"
+	var/open_loc = "EAST-1:-22, SOUTH+2:12"
+	var/list/foldies = list()
+	var/open = FALSE
+
+/atom/movable/screen/foldout/Initialize(mapload)
+	. = ..()
+	InitButtons()
+
+/atom/movable/screen/foldout/Click(location,control,params)
+	if(!usr.client || !ismob(usr))
+		return
+	if(open)
+		FoldUp(usr)
+	else
+		UnFold(usr)
+
+/atom/movable/screen/foldout/proc/UnFold(mob/user)
+	if(open)
+		return
+	open = TRUE
+	for(var/atom/movable/screen/sub_button/S in foldies)
+		S.Show()
+	icon = open_icon
+	icon_state = open_state
+	screen_loc = open_loc
+
+/atom/movable/screen/foldout/proc/FoldUp(mob/user)
+	if(!open)
+		return
+	open = FALSE
+	for(var/atom/movable/screen/sub_button/S in foldies)
+		S.Hide()
+	icon = closed_icon
+	icon_state = closed_state
+	screen_loc = closed_loc
+
+/atom/movable/screen/foldout/proc/InitButtons(mob/user)
+	var/list/inittedbuttons = list()
+	for(var/i in 1 to LAZYLEN(foldies))
+		var/atom/movable/screen/sub_button/S = foldies[i]
+		S = new S()
+		S.parent = src
+		S.hud = hud
+		S.Hide()
+		inittedbuttons += S
+	foldies = inittedbuttons
+
+////////////////////////////////////////////////////////////
+/atom/movable/screen/sub_button // aka, my cl-
+	name = "sub_button"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "sub_button"
+	// screen_loc = ui_vore_b1
+	var/atom/movable/screen/foldout/parent
+
+/atom/movable/screen/sub_button/Click(location,control,params)
+	parent.FoldUp(usr)
+
+/atom/movable/screen/sub_button/proc/Hide()
+	alpha = 0
+	mouse_opacity = 0
+	var/client/C = extract_client(usr)
+	if(C)
+		C.screen -= src
+
+/atom/movable/screen/sub_button/proc/Show()
+	alpha = 255
+	mouse_opacity = 1
+	var/client/C = extract_client(usr)
+	if(C)
+		C.screen |= src
+
+////////////////////////////////////////////////////////////
+/atom/movable/screen/foldout/vore_button
+	name = "Vore Menu Menu"
+	desc = "It's the menu for the vore menu!"
+	icon = 'icons/mob/screen_gen_vore.dmi'
+	icon_state = "vore_off"
+	screen_loc = "EAST-1:-11, SOUTH+2:12"
+	closed_icon = 'icons/mob/screen_gen_vore.dmi'
+	closed_state = "vore_off"
+	closed_loc = "EAST-1:-11, SOUTH+2:12"
+	open_icon = 'icons/mob/screen_gen_vore.dmi'
+	open_state = "vore_on" // no YOURE the voreon
+	open_loc = "EAST-1:-22, SOUTH+2:12"
+	foldies = list(
+		/atom/movable/screen/sub_button/vore_menu,
+		/atom/movable/screen/sub_button/vorer_thing,
+		/atom/movable/screen/sub_button/eater_thing,
+		/atom/movable/screen/sub_button/enabler,
+	)
+
+////////////////////////////////////////////////////////////
+/atom/movable/screen/sub_button/vore_menu
+	name = "Open the Vore Options!"
+	icon = 'icons/mob/screen_gen_vore.dmi'
+	icon_state = "vore_options"
+	screen_loc = "EAST-1:-22, SOUTH+2:12"
+
+/atom/movable/screen/sub_button/vore_menu/Click(location,control,params)
+	. = ..()
+	var/mob/living/L = usr
+	if(!ishuman(L))
+		to_chat(L, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	L?.insidePanel()
+	to_chat(L, span_notice("You opened the vore options! Hopefully!"))
+
+////////////////////////////////////////////////////////////
+/atom/movable/screen/sub_button/vorer_thing
+	name = "Vore someone!"
+	desc = "This will either give you an item to vore someone with, or vore whoever youre grabbing!"
+	icon = 'icons/mob/screen_gen_vore.dmi'
+	icon_state = "vore_eat"
+	screen_loc = "EAST-1:-22, SOUTH+2:12"
+
+/atom/movable/screen/sub_button/vorer_thing/Click(location,control,params)
+	. = ..()
+	var/mob/living/L = usr
+	if(!ishuman(L))
+		to_chat(L, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	L.emote("vore")
+
+////////////////////////////////////////////////////////////
+
+/atom/movable/screen/sub_button/eater_thing
+	name = "Feed someone to someone!"
+	desc = "This will either give you an item to feed someone to someone with, or feed whoever youre grabbing to whoever youre grabbing!"
+	icon = 'icons/mob/screen_gen_vore.dmi'
+	icon_state = "vore_feed"
+	screen_loc = "EAST-1:-22, SOUTH+2:12"
+
+/atom/movable/screen/sub_button/eater_thing/Click(location,control,params)
+	. = ..()
+	var/mob/living/L = usr
+	if(!ishuman(L))
+		to_chat(L, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	L.emote("feed")
+
+/atom/movable/screen/sub_button/enabler
+	name = "Enable Vore!"
+	desc = "Looks like your vore is off, click here to enable it!"
+	icon = 'icons/mob/screen_gen_vore.dmi'
+	icon_state = "vore_enable"
+	screen_loc = "EAST-1:-22, SOUTH+2:12"
+
+/atom/movable/screen/sub_button/enabler/Show()
+	if(CHECK_PREFS(usr, VOREPREF_MASTER))
+		return // already enabled
+	. = ..() // WINDOWS G, ENABLE
+
+/atom/movable/screen/sub_button/enabler/Click(location,control,params)
+	. = ..()
+	var/mob/living/L = usr
+	if(!ishuman(L))
+		to_chat(L, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	var/datum/preferences/P = extract_prefs(L)
+	P.allow_eating_sounds = TRUE
+	P.allow_digestion_sounds = TRUE
+	P.allow_digestion_damage = TRUE
+	P.allow_digestion_death = TRUE
+	P.allow_vore_messages = TRUE
+	P.allow_death_messages = TRUE
+	P.allow_being_prey = TRUE
+	P.allow_being_fed_to_others = TRUE
+	P.allow_being_fed_prey = TRUE
+	P.allow_seeing_belly_descriptions = TRUE
+	P.allow_being_sniffed = TRUE
+	P.master_vore_toggle = TRUE
+	P.save_character()
+	to_chat(L, span_notice("Vore Core online! Be sure to set up your vore preferences!"))
+
+
+////////////////////////////////////////////////////////////
 /atom/movable/screen/touch_hud_button
 	name = "Touch on people!"
 	icon = 'icons/mob/screen_gen.dmi'
