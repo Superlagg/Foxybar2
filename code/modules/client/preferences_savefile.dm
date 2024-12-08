@@ -369,9 +369,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	aghost_squelches        = sanitize_islist(aghost_squelches, list())
 	admin_wire_tap          = sanitize_integer(admin_wire_tap, TRUE)
 	see_furry_dating_sim    = sanitize_integer(see_furry_dating_sim, TRUE)
-	see_pfp_max_hight       = sanitize_integer(see_pfp_max_hight, 0, 5000, 300)
-	see_pfp_max_widht       = sanitize_integer(see_pfp_max_widht, 0, 5000, 300)
 	hear_people_on_other_zs = sanitize_integer(hear_people_on_other_zs, FALSE, TRUE, initial(hear_people_on_other_zs))
+	see_pfp_max_hight       = sanitize_integer(see_pfp_max_hight, 0, 5000, 300)
+	see_pfp_max_widht       = sanitize_integer(see_pfp_max_widht, 0, 100, 100)
 
 	verify_keybindings_valid()		// one of these days this will runtime and you'll be glad that i put it in a different proc so no one gets their saves wiped
 

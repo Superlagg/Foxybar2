@@ -462,8 +462,8 @@
 /area/hilbertshotel)
 "SS" = (
 /turf/closed/indestructible/hoteldoor{
-	icon_state = "door_closed";
-	icon = 'icons/obj/doors/puzzledoor/default.dmi'
+	icon = 'icons/obj/doors/puzzledoor/default.dmi';
+	icon_state = "door_closed"
 	},
 /area/hilbertshotel)
 "SV" = (
@@ -534,7 +534,6 @@
 	dir = 8
 	},
 /obj/item/storage/fancy/heart_box,
-/obj/item/paper/fluff/hilbertshotel/welcomeletter,
 /turf/open/floor/wood_common/wood_common_dark,
 /area/hilbertshotel)
 "WX" = (

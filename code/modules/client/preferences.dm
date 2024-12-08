@@ -1520,8 +1520,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat += "<b>Show Health Smileys:</b> <a href='?_src_=prefs;preference=show_health_smilies;task=input'>[show_health_smilies ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<br>"
-			dat += "<b>Max PFP Examine Image Height:</b> <a href='?_src_=prefs;preference=max_pfp_hight;task=input'>[see_pfp_max_hight]</a><br>"
-			dat += "<b>Max PFP Examine Image Width:</b> <a href='?_src_=prefs;preference=max_pfp_with;task=input'>[see_pfp_max_widht]</a><br>"
+			dat += "<b>Max PFP Examine Image Height px:</b> <a href='?_src_=prefs;preference=max_pfp_hight;task=input'>[see_pfp_max_hight]px</a><br>"
+			dat += "<b>Max PFP Examine Image Width %:</b> <a href='?_src_=prefs;preference=max_pfp_with;task=input'>[see_pfp_max_widht]%</a><br>"
 			dat += "</td>"
 			dat += "</tr></table>"
 			if(unlock_content)
