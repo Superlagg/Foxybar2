@@ -64,12 +64,6 @@
 	},
 /turf/open/indestructible/hoteltile,
 /area/hilbertshotel)
-"ke" = (
-/obj/machinery/light_switch{
-	pixel_x = -32
-	},
-/turf/open/floor/wood_common/wood_common_dark,
-/area/hilbertshotel)
 "kU" = (
 /obj/machinery/telecomms/relay/preset/auto,
 /area/hilbertshotel)
@@ -236,7 +230,6 @@
 "MA" = (
 /obj/structure/table/wood/fancy,
 /obj/item/storage/fancy/heart_box,
-/obj/item/paper/fluff/hilbertshotel/welcomeletter,
 /turf/open/floor/wood_common/wood_common_dark,
 /area/hilbertshotel)
 "MZ" = (
@@ -463,7 +456,7 @@ wC
 Uc
 yh
 MZ
-ke
+MZ
 MZ
 hz
 wf
