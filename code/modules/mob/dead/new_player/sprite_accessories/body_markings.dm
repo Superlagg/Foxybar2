@@ -632,6 +632,12 @@
 	icon_state = "scutesbelly"
 	covered_limbs = list("Chest" = MATRIX_RED)
 
+/datum/sprite_accessory/mam_body_markings/scutesbellylight
+	name = "Scutes Belly - Light"
+	icon = 'icons/mob/mam/coyote/mam_markings.dmi'
+	icon_state = "scutesbellyalt"
+	covered_limbs = list("Chest" = MATRIX_RED)
+
 // Tattoos
 
 /datum/sprite_accessory/mam_body_markings/tatnightling
