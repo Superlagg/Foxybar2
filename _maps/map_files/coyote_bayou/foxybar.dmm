@@ -634,9 +634,6 @@
 /turf/open/floor/carpet/purple,
 /area/f13/fb/bar)
 "cSI" = (
-/obj/structure/chair/stool/retro/backed{
-	dir = 4
-	},
 /obj/effect/turf_decal/siding/wood{
 	color = "#3B2B1A"
 	},
@@ -644,6 +641,7 @@
 	dir = 8;
 	color = "#3B2B1A"
 	},
+/obj/structure/chair/stool/retro/tan,
 /obj/effect/overlay/fog/fog2{
 	plane = -2;
 	alpha = 175
@@ -1033,13 +1031,11 @@
 	dir = 1;
 	color = "#3B2B1A"
 	},
-/obj/structure/chair/stool/retro/backed{
-	dir = 4
-	},
 /obj/effect/overlay/fog/fog2{
 	plane = -2;
 	alpha = 175
 	},
+/obj/structure/chair/stool/retro/tan,
 /turf/open/floor/carpet/royalblack,
 /area/f13/fb/bar)
 "eBd" = (
@@ -1080,20 +1076,6 @@
 	alpha = 175
 	},
 /turf/open/floor/plasteel/freezer,
-/area/f13/fb/bar)
-"eYB" = (
-/obj/structure/chair/stool/retro/backed{
-	dir = 4
-	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 8;
-	color = "#3B2B1A"
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/turf/open/floor/carpet/royalblack,
 /area/f13/fb/bar)
 "eYJ" = (
 /obj/item/toy/tennis/blue{
@@ -1300,25 +1282,6 @@
 /obj/machinery/telecomms/server/presets/science,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/f13/wasteland/city/newboston/outdoors)
-"fUM" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 8;
-	color = "#3B2B1A"
-	},
-/obj/machinery/light/floor{
-	light_color = "#993311";
-	color = "#993311";
-	alpha = 10
-	},
-/obj/structure/chair/stool/retro/backed{
-	dir = 4
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/turf/open/floor/carpet/royalblack,
-/area/f13/fb/bar)
 "fUR" = (
 /obj/effect/decal/marking,
 /obj/effect/overlay/fog/fog2{
@@ -4131,7 +4094,7 @@
 /turf/open/floor/carpet/royalblack,
 /area/f13/fb/bar)
 "wlF" = (
-/obj/structure/chair/stool/retro/backed,
+/obj/structure/chair/stool/retro/tan,
 /obj/effect/overlay/fog/fog2{
 	plane = -2;
 	alpha = 175
@@ -4147,9 +4110,6 @@
 	},
 /area/f13/wasteland/city/newboston/outdoors)
 "wsB" = (
-/obj/structure/chair/stool/retro/backed{
-	dir = 4
-	},
 /obj/effect/turf_decal/siding/wood{
 	dir = 8;
 	color = "#3B2B1A"
@@ -4158,6 +4118,7 @@
 	dir = 8;
 	color = "#3B2B1A"
 	},
+/obj/structure/chair/stool/retro/tan,
 /obj/effect/overlay/fog/fog2{
 	plane = -2;
 	alpha = 175
@@ -7477,11 +7438,11 @@ gyr
 iku
 wxN
 eyp
-eYB
-fUM
-eYB
-eYB
-fUM
+wsB
+wsB
+wsB
+wsB
+wsB
 wsB
 cSI
 lel
