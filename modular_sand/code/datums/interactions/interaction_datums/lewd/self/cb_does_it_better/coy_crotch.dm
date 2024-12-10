@@ -1506,3 +1506,4 @@
 	user_lust_mult = 0.2 // set this to how much lust should be given
 	target_lust_mult = 0.8
 	lust_go_to = LUST_USER | LUST_TARGET // and who should get the lust, its a bitfield! for both, it'd be LUST_USER | LUST_TARGET
+
