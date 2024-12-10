@@ -327,3 +327,62 @@
 		"XU_NAME gags themselves as XU_THEIR deepthroats XU_THEIR own cock",
 	)
 	user_lust_mult = 0.8
+
+/////////////////
+//Drool//
+////////////////
+/datum/interaction/lewd/self/drool //lewd makes it pink, the name is just what the code calls it. Step 2 on this line.  Step 3 is just below it.
+	description = "Self/Whine - Drool." //This naming convention is to help players who want to filter functions. In this case its Self, as in, yourSELF, and a function of the 'area' crotch.  Then it describes what you're doing to the area.
+	// Self/Partner for the left hand side.
+	// Head/Neck/Body/Arms/Stomach/Crotch/Thighs/Legs/Tail for the right hand side.
+	simple_sounds = null //Does this emote have a sound attached?  This defaults to the parent at lewd_interactions.dm line 7 and can be replaced to make this action always make a sound!
+	require_user_hands = TRUE //True or false, you have to have hands to do whatever this action is.
+	is_self_action = TRUE //Is the user of this verb the target of it?  This is what defines if the verb is a 'self' verb.  If its for use on others you should set it to false.  Then remember to set range! Some things, like winking, can be done at a distance!
+	max_distance = 0 //The max distance you can use this verb on others, starts on the tiles AROUND the player, so thusly it includes the players own tile.
+	help_messages = list(
+		"XU_NAME is {drooling, salivating} a little.",
+	)
+	disarm_messages = list(
+		"XU_NAME is {drooling, salivating} a fair bit.",
+	)
+	grab_messages = list(
+		"XU_NAME is {drooling, salivating} enough to get it on themselves.",
+	)
+	harm_messages = list(
+		"XU_NAME is {drooling, salivating} a LOT doing whatever they're doing.",
+	)
+	simple_sounds = list(		
+		'modular_coyote/sound/lewd/sexslide5.wav',
+		'modular_coyote/sound/lewd/sexslide7.wav',
+		'modular_coyote/sound/lewd/sexslide8.wav',
+		'modular_coyote/sound/lewd/sexslide9.wav',
+		'modular_coyote/sound/lewd/sexslide10.wav',
+		)
+	user_lust_mult = 0.6
+
+/////////////////
+//Whine//
+////////////////
+/datum/interaction/lewd/self/whine //lewd makes it pink, the name is just what the code calls it. Step 2 on this line.  Step 3 is just below it.
+	description = "Self/Head - Whine." //This naming convention is to help players who want to filter functions. In this case its Self, as in, yourSELF, and a function of the 'area' crotch.  Then it describes what you're doing to the area.
+	// Self/Partner for the left hand side.
+	// Head/Neck/Body/Arms/Stomach/Crotch/Thighs/Legs/Tail for the right hand side.
+	simple_sounds = null //Does this emote have a sound attached?  This defaults to the parent at lewd_interactions.dm line 7 and can be replaced to make this action always make a sound!
+	require_user_hands = TRUE //True or false, you have to have hands to do whatever this action is.
+	is_self_action = TRUE //Is the user of this verb the target of it?  This is what defines if the verb is a 'self' verb.  If its for use on others you should set it to false.  Then remember to set range! Some things, like winking, can be done at a distance!
+	max_distance = 0 //The max distance you can use this verb on others, starts on the tiles AROUND the player, so thusly it includes the players own tile.
+	help_messages = list(
+		"XU_NAME is {whimpers, whines, moans} a little.",
+	)
+	disarm_messages = list(
+		"XU_NAME is {whimpering, whining, moaning} a fair bit.",
+	)
+	grab_messages = list(
+		"XU_NAME is {whimpering, whining, moaning} quite loudly.",,
+	)
+	harm_messages = list(
+		"XU_NAME is {whimpering, whining, moaning} a very loudly!",
+	)
+	simple_sounds = list() //Need to break this verb into masculine noises and feminine noises
+	user_lust_mult = 0.6
+
