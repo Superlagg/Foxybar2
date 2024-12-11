@@ -30,6 +30,7 @@ SUBSYSTEM_DEF(who) // SS who? SS you!
 	var/show_coords = FALSE
 
 	var/admin_level_to_see_all = R_ADMIN
+	var/obfuscate_hilbert_where = TRUE
 
 	var/debug_regions = TRUE
 

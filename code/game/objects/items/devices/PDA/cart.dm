@@ -734,7 +734,7 @@ Current Size: [usr.transform.a]<br><br>
 				if(!isnum(desired_size))
 					desired_size = 100
 				var/scaled_size = desired_size / 100
-				var/size_max = 2
+				var/size_max = 3
 				var/size_min = 0.25
 				var/size_to_use = clamp(scaled_size, size_min, size_max)
 

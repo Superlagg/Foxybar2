@@ -613,7 +613,7 @@ Raider
 		///obj/item/gun/ballistic/automatic/marksman/policerifle = 1,
 		/obj/item/melee/classic_baton/militarypolice = 1,
 		///obj/item/ammo_box/magazine/m556/rifle  = 2,
-		/obj/item/seeds/cannabis = 1,
+//		/obj/item/seeds/cannabis = 1,
 		/obj/item/storage/fancy/rollingpapers = 1,
 		)
 
@@ -786,7 +786,7 @@ Raider
 	name = "Fieldhand"
 	backpack_contents = list(
 		/obj/item/reagent_containers/glass/bottle/nutrient/l4z = 1,
-		/obj/item/seeds/cannabis = 1,
+//		/obj/item/seeds/cannabis = 1,
 		/obj/item/shovel/trench = 1,
 		/obj/item/cultivator/rake = 1,
 		///obj/item/gun/ballistic/revolver/single_shotgun = 1,

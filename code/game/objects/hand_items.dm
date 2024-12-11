@@ -274,10 +274,10 @@ touch + help + facing their rear = pat back
 	slot_flags = INV_SLOTBIT_GLOVES
 	w_class = WEIGHT_CLASS_TINY
 	flags_1 = CONDUCT_1
-	force = 15
-	backstab_multiplier = 1.8
+	force = 0
+	backstab_multiplier = 1.0
 	throwforce = 0
-	wound_bonus = 4
+	wound_bonus = 0
 	sharpness = SHARP_POINTY
 	attack_speed = CLICK_CD_MELEE * 0.7
 	item_flags = PERSONAL_ITEM | ABSTRACT | HAND_ITEM
@@ -679,6 +679,21 @@ touch + help + facing their rear = pat back
 	hitsound = 'sound/weapons/sear.ogg'
 	damtype = BURN
 	attack_verb = list("seared", "zapped", "fried", "shocked")
+
+
+/obj/item/hand_item/merp_doer
+	name = "MERP doer"
+	desc = "Click someone with this thing to open the MERP interactions menu! From there, you can do all sorts of lewd or not-so-lewd things with them (or yourself!!)!"
+	icon = 'icons/obj/in_hands.dmi'
+	icon_state = "blushfox"
+
+/obj/item/hand_item/merp_doer/attack(mob/living/M, mob/living/user)
+	SEND_SIGNAL(user, COMSIG_CLICK_CTRL_SHIFT, M)
+	qdel(src)
+
+
+
+
 
 /* *
  *

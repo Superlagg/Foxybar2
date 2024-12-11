@@ -39,8 +39,8 @@
 /obj/machinery/vending/kink
 	name = "\improper Kink Vendor"
 	desc = "A place to get all your lewd needs!"
-	product_slogans = "This is where the dildo's are! Come get you one!"
-	product_ads = "Don't have a partner? We got you covered!"
+//	product_slogans = "This is where the dildo's are! Come get you one!"
+//	product_ads = "Don't have a partner? We got you covered!"
 	icon_state = "kink"
 	vend_reply = "Have fun!"
 	products = list(

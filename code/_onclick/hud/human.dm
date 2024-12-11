@@ -402,6 +402,14 @@
 	flirt_hud_button.hud = src
 	infodisplay += flirt_hud_button
 
+	merp_button = new /atom/movable/screen/merp_button()
+	merp_button.hud = src
+	infodisplay += merp_button
+
+	vore_button = new /atom/movable/screen/foldout/vore_button()
+	vore_button.hud = src
+	infodisplay += vore_button
+
 	touch_hud_button = new /atom/movable/screen/touch_hud_button()
 	touch_hud_button.hud = src
 	infodisplay += touch_hud_button

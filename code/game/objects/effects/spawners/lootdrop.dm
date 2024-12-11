@@ -113,7 +113,7 @@
 		var/amount = rand(1,3)
 		var/obj/item/stack/S = new path(loc, amount)
 		return S
-	
+
 	var/block_recursive_tier_swap = (tier_adjusted && ispath(path, /obj/effect/spawner/lootdrop))
 	var/atom/movable/spawned_loot = new path(loc, block_recursive_tier_swap)
 	return spawned_loot
@@ -571,7 +571,7 @@
 		/obj/effect/spawner/lootdrop/cig_packs/no_turf = 10,
 		/obj/effect/spawner/lootdrop/cigars_cases/no_turf = 2,
 		/obj/effect/spawner/lootdrop/space_cash/no_turf = 5,
-		/obj/item/reagent_containers/food/snacks/grown/cannabis = 5,
+//		/obj/item/reagent_containers/food/snacks/grown/cannabis = 5,
 		/obj/item/storage/box/dice = 5,
 		/obj/item/toy/cards/deck = 5,
 		/obj/effect/spawner/lootdrop/druggie_pill/no_turf = 5
@@ -590,7 +590,7 @@
 		/obj/effect/spawner/lootdrop/coin/no_turf = 5,
 		/obj/effect/spawner/lootdrop/cig_packs/no_turf = 10,
 		/obj/effect/spawner/lootdrop/cigars_cases/no_turf = 5,
-		/obj/item/reagent_containers/food/snacks/grown/cannabis = 5,
+//		/obj/item/reagent_containers/food/snacks/grown/cannabis = 5,
 		/obj/item/storage/box/dice = 5,
 		/obj/item/toy/cards/deck = 5,
 		/obj/effect/spawner/lootdrop/druggie_pill/no_turf = 5,

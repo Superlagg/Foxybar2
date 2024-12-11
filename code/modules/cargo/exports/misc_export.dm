@@ -536,13 +536,11 @@
 		/obj/item/reagent_containers/food/snacks/grown/berries/glow,
 		/obj/item/reagent_containers/food/snacks/grown/bluecherries,
 		/obj/item/reagent_containers/food/snacks/grown/cherrybulbs,
-		/obj/item/reagent_containers/food/snacks/grown/cannabis,
-		/obj/item/reagent_containers/food/snacks/grown/cannabis/white,
+//		/obj/item/reagent_containers/food/snacks/grown/cannabis,
 		/obj/item/reagent_containers/food/snacks/grown/meatwheat,
 		/obj/item/reagent_containers/food/snacks/grown/icepepper,
 		/obj/item/reagent_containers/food/snacks/grown/ghost_chili,
 		/obj/item/reagent_containers/food/snacks/grown/citrus/orange_3d,
-		/obj/item/reagent_containers/food/snacks/grown/firelemon,
 		/obj/item/reagent_containers/food/snacks/grown/vanillapod,
 		/obj/item/reagent_containers/food/snacks/grown/bungofruit,
 		/obj/item/reagent_containers/food/snacks/grown/bungopit,
@@ -556,7 +554,7 @@
 		/obj/item/grown/rose,
 		/obj/item/grown/carbon_rose,
 		/obj/item/reagent_containers/food/snacks/grown/holymelon,
-		/obj/item/reagent_containers/food/snacks/grown/cherry_bomb,
+//		/obj/item/reagent_containers/food/snacks/grown/cherry_bomb,
 		/obj/item/reagent_containers/food/snacks/grown/mushroom/angel,
 		/obj/item/reagent_containers/food/snacks/grown/mushroom/walkingmushroom,
 		/obj/item/reagent_containers/food/snacks/grown/mushroom/jupitercup,
@@ -575,9 +573,6 @@
 		/obj/item/reagent_containers/food/snacks/grown/tea/catnip,
 		/obj/item/reagent_containers/food/snacks/grown/coffee/robusta,
 		/obj/item/reagent_containers/food/snacks/grown/tobacco/space,
-		/obj/item/reagent_containers/food/snacks/grown/tomato/blood,
-		/obj/item/reagent_containers/food/snacks/grown/tomato/blue,
-		/obj/item/reagent_containers/food/snacks/grown/tomato/killer,
 		/obj/item/grown/log/bamboo
 	)
 

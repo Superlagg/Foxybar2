@@ -127,7 +127,6 @@
 	icon_grow = "lime-grow"
 	icon_dead = "lime-dead"
 	genes = list(/datum/plant_gene/trait/repeated_harvest)
-	mutatelist = list(/obj/item/seeds/firelemon)
 	reagents_add = list(
 		/datum/reagent/consumable/nutriment/vitamin = 0.04,
 		/datum/reagent/consumable/nutriment = 0.05
@@ -140,7 +139,7 @@
 	icon_state = "lemon"
 	filling_color = "#FFD700"
 	juice_results = list(/datum/reagent/consumable/lemonjuice = 0)
-
+/*
 // Combustible lemon
 /obj/item/seeds/firelemon //combustible lemon is too long so firelemon
 	name = "pack of combustible lemon seeds"
@@ -214,3 +213,4 @@
 			update_mob()
 			explosion(src.loc,-1,-1,2, flame_range = 5)
 			qdel(src)
+*/

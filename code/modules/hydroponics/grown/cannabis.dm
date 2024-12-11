@@ -1,4 +1,5 @@
 // Cannabis
+
 /obj/item/seeds/cannabis
 	name = "pack of cannabis seeds"
 	desc = "Taxable."
@@ -14,19 +15,13 @@
 	icon_grow = "cannabis-grow" // Uses one growth icons set for all the subtypes
 	icon_dead = "cannabis-dead" // Same for the dead icon
 	genes = list(/datum/plant_gene/trait/repeated_harvest)
-	mutatelist = list(
-		/obj/item/seeds/cannabis/rainbow,
-		/obj/item/seeds/cannabis/death
-	)
 	reagents_add = list(
-		/datum/reagent/drug/space_drugs = 0.15,
-		/datum/reagent/toxin/lipolicide = 0.35
+		/datum/reagent/consumable/nutriment = 2
 	)// gives u the munchies
-
 // ---------------------------------------------------------------
 
 /obj/item/reagent_containers/food/snacks/grown/cannabis
-	seed = /obj/item/seeds/cannabis
+//	seed = /obj/item/seeds/cannabis
 	name = "cannabis leaf"
 	desc = "Also known as marijuana."
 	icon_state = "cannabis"
@@ -36,7 +31,7 @@
 	tastes = list("cannabis" = 1)
 	wine_power = 20
 
-
+/*
 /obj/item/seeds/cannabis/white
 	name = "pack of lifeweed seeds"
 	desc = "I will give unto him that is munchies of the fountain of the cravings of life, freely."
@@ -140,3 +135,4 @@
 	icon_state = "ocannabis"
 	volume = 420
 	wine_power = 90
+*/

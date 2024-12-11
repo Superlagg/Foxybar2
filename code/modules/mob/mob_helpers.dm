@@ -77,15 +77,17 @@
  *
  * This proc is not laggy at all, and is better in every way =3
  */
-/proc/dots(phrase, probability = 25, distance, maxdistance)
-	if(probability <= 0)
+/proc/dots(phrase, probability = 25, distance, maxdistance, some_anyway)
+	if(probability <= 0 && !some_anyway)
 		return phrase
 	if(distance && maxdistance)
 		/// throw out probability and calculate a new one based on how far away the message is
 		/// from the source of the message (distance) and the maximum distance the message can be
 		/// heard from (maxdistance)
-		probability = 100 - (distance / maxdistance) * 100
+		probability = (distance / maxdistance) * 100
 		probability = clamp(probability, 0, 90)
+	if(some_anyway)
+		probability = max(probability, 10)
 	phrase = html_decode(phrase)
 	var/list/words = splittext(phrase, " ")
 	. = ""
@@ -93,7 +95,10 @@
 	var/has_multiple_words = LAZYLEN(words) > 1
 	for(var/word in words)
 		if(prob(probability))
-			. += "..."
+			for(var/i in 1 to min(3, length(word)))
+				. += "."
+			// if(has_multiple_words && indes < LAZYLEN(words))
+			// 	. += " "
 		else
 			if(has_multiple_words && indes < LAZYLEN(words))
 				. += "[word] "

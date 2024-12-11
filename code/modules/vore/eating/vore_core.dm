@@ -244,11 +244,11 @@
 		return FALSE
 	if(!vore_selected)
 		if(!LAZYLEN(vore_organs))
-			return FALSE
+			return 16
 		if(isbelly(vore_organs[1]))
 			vore_selected = vore_organs[1]
 			if(!vore_selected)
-				return FALSE
+				return 16
 	return TRUE
 
 /datum/component/vore/proc/can_be_eaten()
@@ -378,35 +378,35 @@
 				to_chat(master, span_alert("[movable_prey] is too far away from [living_pred]!"))
 				return
 			if(!prey_consents && !CHECK_PREFS(movable_prey, VOREPREF_BEING_PREY))
-				to_chat(master, span_alert("I respect the fact that [movable_prey.name] prefers not to be eaten, and refuse to feed them to [living_pred.name]."))
-				to_chat(movable_prey, span_alert("I notice that [master.name] understands your preference to not be eaten."), pref_check = VOREPREF_VORE_MESSAGES)
-				to_chat(living_pred, span_alert("I notice that [master.name] understands [movable_prey.name]'s preference to not be eaten."), pref_check = VOREPREF_VORE_MESSAGES)
+				to_chat(master, span_alert("You notice that [movable_prey.name] prefers not to be eaten, and refuse to feed them to [living_pred.name]."))
+				to_chat(movable_prey, span_alert("You notice that [master.name] understands your preference to not be eaten."))
+				to_chat(living_pred, span_alert("You notice that [master.name] understands [movable_prey.name]'s preference to not be eaten."))
 				return
 			if(living_pred.ckey && !CHECK_PREFS(living_pred, VOREPREF_BEING_FED_PREY))
-				to_chat(master, span_alert("I respect the fact that [living_pred.name] prefers not to be fed anyone, and refuse to feed [movable_prey.name] them to them."))
-				to_chat(movable_prey, span_alert("I notice that [master.name] understands [living_pred.name]'s preference to not be fed to anyone."), pref_check = VOREPREF_VORE_MESSAGES)
-				to_chat(living_pred, span_alert("I notice that [master.name] understands your preference to not be fed to [movable_prey.name]."), pref_check = VOREPREF_VORE_MESSAGES)
+				to_chat(master, span_alert("You respect the fact that [living_pred.name] prefers not to be fed anyone, and refuse to feed [movable_prey.name] to them."))
+				to_chat(movable_prey, span_alert("You notice that [master.name] understands [living_pred.name]'s preference to not be fed to anyone."))
+				to_chat(living_pred, span_alert("You notice that [master.name] understands your preference to not be fed to [movable_prey.name]."))
 				return
 			if(!prey_consents && SEND_SIGNAL(movable_prey, COMSIG_VORE_CAN_BE_EATEN) == FALSE)
-				to_chat(master, span_alert("[movable_prey] would prefer not to be eaten!"))
+				to_chat(master, span_alert("[movable_prey] can't seem to be eaten!"))
 				return FALSE // they dont want to be eaten
 			if(!SEND_SIGNAL(living_pred, COMSIG_VORE_CAN_BE_FED_PREY))
-				to_chat(master, span_alert("[living_pred] would prefer not to be fed!"))
+				to_chat(master, span_alert("[living_pred] can't seem to be fed!"))
 				return FALSE // they cont want to eat em
 			INVOKE_ASYNC(src,PROC_REF(feed_prey_to_predator), living_pred, movable_prey)
 		if(VORETYPE_FEED_US_TO_PRED)
 			if(!master.Adjacent(living_pred))
-				to_chat(master, span_alert("I am too far away from [living_pred]!"))
+				to_chat(master, span_alert("You are too far away from [living_pred]!"))
 				return FALSE
 			if(!CHECK_PREFS(living_pred, VOREPREF_BEING_FED_PREY))
-				to_chat(master, span_alert("I respect the fact that [living_pred.name] prefers not to have you feed yourself to them."))
-				to_chat(living_pred, span_alert("I notice that [master.name] understands your preference not to feed themself to you."), pref_check = VOREPREF_VORE_MESSAGES)
+				to_chat(master, span_alert("You respect the fact that [living_pred.name] prefers not to have you feed yourself to them."))
+				to_chat(living_pred, span_alert("You notice that [master.name] understands your preference not to feed themself to you."))
 				return
 			if(!SEND_SIGNAL(living_pred, COMSIG_VORE_CAN_EAT))
 				to_chat(master, span_alert("[living_pred] can't eat you right now!"))
 				return FALSE
 			if(!can_be_eaten()) // just in case
-				to_chat(master, span_alert("I can't be eaten right now!"))
+				to_chat(master, span_alert("You can't be eaten right now!"))
 				return FALSE // they cont want to eat em
 			if(!SEND_SIGNAL(living_pred, COMSIG_VORE_CAN_BE_FED_PREY))
 				to_chat(master, span_alert("[living_pred] would prefer not to be fed prey!"))
@@ -414,17 +414,17 @@
 			INVOKE_ASYNC(src,PROC_REF(feed_self_to_other), living_pred)
 		if(VORETYPE_EAT_PREY)
 			if(!master.Adjacent(movable_prey))
-				to_chat(master, span_alert("I am too far away from [movable_prey]!"))
+				to_chat(master, span_alert("You are too far away from [movable_prey]!"))
 				return FALSE
 			if(!prey_consents && !CHECK_PREFS(movable_prey, VOREPREF_BEING_PREY))
-				to_chat(master, span_alert("I respect the fact that [movable_prey.name] prefers not to be eaten, and refuse to eat them."))
-				to_chat(movable_prey, span_alert("I notice that [master.name] understands your preference to not be eaten."), pref_check = VOREPREF_VORE_MESSAGES)
+				to_chat(master, span_alert("You respect the fact that [movable_prey.name] prefers not to be eaten, and refuse to eat them."))
+				to_chat(movable_prey, span_alert("You notice that [master.name] understands your preference to not be eaten."))
 				return
 			if(!prey_consents && SEND_SIGNAL(movable_prey, COMSIG_VORE_CAN_BE_EATEN) == FALSE)
 				to_chat(master, span_alert("[movable_prey] can't be eaten right now!"))
 				return FALSE
 			if(!can_eat()) // just in case
-				to_chat(master, span_alert("I can't eat [movable_prey] right now!"))
+				to_chat(master, span_alert("You can't eat [movable_prey] right now!"))
 				return FALSE
 			INVOKE_ASYNC(src,PROC_REF(devour_prey), movable_prey)
 	return TRUE

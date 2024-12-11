@@ -16,10 +16,6 @@
 	grind_results = list(/datum/reagent/mustardgrind = 1)
 	growing_icon = 'icons/obj/hydroponics/growing_flowers.dmi'
 	genes = list(/datum/plant_gene/trait/plant_type/weed_hardy)
-	mutatelist = list(
-		/obj/item/seeds/starthistle/corpse_flower,
-		/obj/item/seeds/galaxythistle
-	)
 
 /obj/item/seeds/starthistle/harvest(mob/user)
 	var/obj/machinery/hydroponics/parent = loc
@@ -166,7 +162,7 @@
 	bitesize_mod = 2
 	foodtype = VEGETABLES | SUGAR
 	distill_reagent = /datum/reagent/consumable/ethanol/rum
-
+/*
 // Gatfruit
 /obj/item/seeds/gatfruit
 	name = "pack of gatfruit seeds"
@@ -253,7 +249,7 @@
 /obj/item/reagent_containers/food/snacks/grown/cherry_bomb/proc/detonate()
 	reagents.chem_temp = 1000 //Sets off the black powder
 	reagents.handle_reactions()
-
+*/
 // Coconut
 /obj/item/seeds/coconut
 	name = "pack of coconut seeds"

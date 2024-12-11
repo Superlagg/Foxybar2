@@ -24,7 +24,7 @@ $include policy.txt
 @SERVERNAME Foxybar
 
 ## Server tagline: This will appear right below the server's title.
-SERVERTAGLINE [18+] CB-Code Bar Roleplay. Designed for comfort and warmth to help find scenes in a bar environment! https://discord.gg/FYSksfduBn
+SERVERTAGLINE [18+] Pure Bar Roleplay. Designed for socializing and erp.  Drop in today! https://discord.gg/FYSksfduBn
 ## Server SQL name: This is the name used to identify the server to the SQL DB, distinct from SERVERNAME as it must be at most 32 characters.
 # SERVERSQLNAME fo13sql
 

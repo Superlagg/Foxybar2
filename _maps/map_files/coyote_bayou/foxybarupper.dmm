@@ -1,14 +1,18 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "ad" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 1;
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 1;
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 4;
+	color = "#3B2B1A"
+	},
 /obj/machinery/door/unpowered/securedoor,
-/obj/effect/turf_decal/siding/wood{
-	dir = 1;
-	color = "#3B2B1A"
-	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 1;
-	color = "#3B2B1A"
-	},
 /turf/open/floor/carpet/red,
 /area/f13/fb/bar)
 "ag" = (
@@ -40,9 +44,6 @@
 	plane = -6
 	},
 /obj/effect/decal/cleanable/glitter/blue,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -115,6 +116,16 @@
 	},
 /turf/open/floor/wood_common/wood_common_dark,
 /area/f13/fb/bar)
+"aM" = (
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
+	},
+/turf/open/transparent/glass{
+	color = "#BB3333";
+	light_color = "#880000";
+	light_power = 0.5
+	},
+/area/f13/fb/bar)
 "aU" = (
 /obj/machinery/shower{
 	dir = 4
@@ -127,26 +138,20 @@
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
 "be" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32
-	},
 /turf/open/floor/wood_common{
 	color = "#779999"
 	},
 /area/f13/fb/bar)
 "bg" = (
-/obj/structure/chair/stool/retro/backed{
-	dir = 1
-	},
 /obj/effect/turf_decal/siding/wood{
 	color = "#3B2B1A"
 	},
+/obj/structure/table/abductor{
+	pixel_y = -17;
+	density = 0
+	},
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "bm" = (
@@ -157,38 +162,43 @@
 /turf/open/indestructible/cobble/dark,
 /area/f13/fb/bar)
 "bp" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /obj/structure/railing{
 	color = "#A47449";
 	dir = 4
 	},
 /obj/item/kirbyplants/random,
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32
-	},
 /turf/open/floor/wood_common{
 	color = "#779999"
 	},
 /area/f13/fb/bar)
-"bt" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
+"by" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 1;
+	color = "#3B2B1A"
 	},
-/turf/open/transparent/openspace,
+/obj/effect/turf_decal/siding/wood{
+	dir = 4;
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 4;
+	color = "#3B2B1A"
+	},
+/obj/structure/table/abductor{
+	pixel_y = 17;
+	density = 0
+	},
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
+	},
 /area/f13/fb/bar)
-"bB" = (
-/obj/structure/railing{
-	color = "#A47449";
-	dir = 1
+"bE" = (
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 4;
+	color = "#3B2B1A"
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/turf/open/transparent/openspace,
-/area/f13/fb/bar)
+/turf/open/indestructible/cobble/dark,
+/area)
 "bI" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1;
@@ -221,7 +231,11 @@
 	dir = 2;
 	color = "#3B2B1A"
 	},
-/turf/open/floor/carpet/black,
+/turf/open/transparent/glass{
+	color = "#BB3333";
+	light_color = "#880000";
+	light_power = 0.5
+	},
 /area/f13/fb/bar)
 "cm" = (
 /obj/structure/campfire/stove{
@@ -263,9 +277,6 @@
 	dir = 4;
 	pixel_x = 4
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/caves)
 "cO" = (
@@ -292,8 +303,15 @@
 	dir = 8;
 	color = "#3B2B1A"
 	},
-/obj/item/kirbyplants/random,
-/turf/open/floor/carpet/black,
+/obj/structure/chair/bench{
+	dir = 8;
+	plane = -6
+	},
+/turf/open/transparent/glass{
+	color = "#BB3333";
+	light_color = "#880000";
+	light_power = 0.5
+	},
 /area/f13/fb/bar)
 "cR" = (
 /obj/effect/turf_decal/weather/splineplain{
@@ -326,6 +344,17 @@
 	},
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
+"cY" = (
+/obj/effect/decal/cleanable/glitter/blue{
+	color = "#444499";
+	layer = 3;
+	plane = -1
+	},
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
+	},
+/turf/open/floor/carpet/black,
+/area/f13/fb/bar)
 "dl" = (
 /obj/structure/table/wood/settler,
 /obj/item/clothing/shoes/f13/swimfins,
@@ -333,18 +362,6 @@
 /obj/item/clothing/shoes/f13/swimfins,
 /obj/item/clothing/shoes/f13/swimfins,
 /obj/item/clothing/shoes/f13/swimfins,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = -32
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = -32;
-	pixel_x = 32
-	},
 /turf/open/floor/wood_common,
 /area/f13/caves)
 "dm" = (
@@ -355,6 +372,13 @@
 /obj/structure/decoration/sign{
 	icon_state = "vault_level2";
 	pixel_y = 30
+	},
+/obj/machinery/light/small{
+	light_power = 2;
+	light_range = 2;
+	light_color = "#E1D5D5";
+	color = "#33FF33";
+	dir = 1
 	},
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
@@ -422,10 +446,6 @@
 	pixel_y = 6;
 	pixel_x = -12
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 0
-	},
 /turf/open/floor/wood_common{
 	color = "#99BBBB"
 	},
@@ -450,24 +470,10 @@
 	dir = 1;
 	pixel_y = 4
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32
-	},
 /turf/open/floor/wood_common{
 	color = "#99BBBB"
 	},
 /area/f13/fb/bar)
-"dS" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/turf/closed/indestructible/f13/obsidian,
-/area/f13/caves)
 "dU" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 4;
@@ -484,52 +490,32 @@
 	dir = 1;
 	pixel_y = 4
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
 /turf/open/floor/wood_common{
 	color = "#99BBBB"
 	},
 /area/f13/fb/bar)
 "ea" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 1;
-	color = "#3B2B1A"
-	},
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 1;
 	color = "#3B2B1A"
 	},
-/turf/open/floor/carpet/red,
+/turf/open/transparent/glass{
+	color = "#BB3333";
+	light_color = "#880000";
+	light_power = 0.5
+	},
 /area/f13/fb/bar)
 "eg" = (
 /obj/structure/curtain{
 	color = "#c40e0e"
 	},
 /obj/structure/window/fulltile/civ/redsandstone_windownew_full,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/floor/wood_common,
 /area/f13/fb/bar)
 "eu" = (
 /obj/structure/simple_door/room,
 /obj/item/lock_bolt,
 /turf/open/floor/carpet/purple,
-/area/f13/fb/bar)
-"eI" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/obj/structure/railing{
-	color = "#A47449";
-	dir = 4
-	},
-/obj/item/kirbyplants/random,
-/turf/open/floor/wood_common{
-	color = "#779999"
-	},
 /area/f13/fb/bar)
 "eL" = (
 /obj/effect/turf_decal/siding/wood{
@@ -543,23 +529,12 @@
 	dir = 1;
 	pixel_y = 4
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32
-	},
 /turf/open/floor/wood_common{
 	color = "#99BBBB"
 	},
 /area/f13/fb/bar)
 "eP" = (
 /obj/structure/curtain/directional/north,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/floor/wood_common,
 /area/f13/caves)
 "fm" = (
@@ -626,9 +601,6 @@
 	plane = -4;
 	layer = 3
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /obj/effect/sound_emitter/foxybar/hottub,
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
@@ -643,9 +615,6 @@
 	plane = -6
 	},
 /obj/effect/decal/cleanable/glitter/pink,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -687,9 +656,6 @@
 	dir = 1;
 	plane = -6
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -723,6 +689,9 @@
 	pixel_x = -32;
 	pixel_y = -33
 	},
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
+	},
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "gs" = (
@@ -737,8 +706,9 @@
 	dir = 8;
 	color = "#3B2B1A"
 	},
+/obj/item/kirbyplants/random,
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "gw" = (
@@ -769,9 +739,6 @@
 	plane = -6
 	},
 /obj/effect/decal/cleanable/glitter/pink,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -798,9 +765,6 @@
 	pixel_y = 8;
 	randomize_xy = 0
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/inside/mountain{
 	color = "#B18770"
 	},
@@ -823,21 +787,22 @@
 	dir = 1;
 	color = "#3B2B1A"
 	},
-/obj/machinery/light/small{
-	light_power = 2;
-	light_range = 2;
-	light_color = "#E1D5D5";
-	color = "#33FF33";
-	dir = 1
+/obj/machinery/mineral/wasteland_trader/bountyticket{
+	pixel_y = 14;
+	density = 0
 	},
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "ha" = (
-/obj/machinery/door/unpowered/securedoor,
 /obj/effect/turf_decal/siding/wood{
 	dir = 1;
 	color = "#3B2B1A"
 	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 8;
+	color = "#3B2B1A"
+	},
+/obj/machinery/door/unpowered/securedoor,
 /turf/open/floor/carpet/red,
 /area/f13/fb/bar)
 "hc" = (
@@ -890,9 +855,6 @@
 /area/f13/fb/bar)
 "if" = (
 /obj/structure/table/abductor,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/floor/wood_common{
 	color = "#99BBBB"
 	},
@@ -945,7 +907,7 @@
 "iO" = (
 /obj/structure/table/abductor,
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "jb" = (
@@ -970,18 +932,29 @@
 	pixel_x = 4;
 	pixel_y = -6
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/inside/mountain{
 	color = "#B18770"
 	},
 /area/f13/caves)
 "jf" = (
-/obj/structure/table/abductor,
-/obj/item/toy/cards/deck,
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 4;
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 2;
+	color = "#3B2B1A"
+	},
+/obj/item/kirbyplants/random,
+/obj/structure/table/abductor{
+	pixel_y = -17;
+	density = 0
+	},
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "ji" = (
@@ -1030,23 +1003,10 @@
 	},
 /turf/open/floor/wood_common,
 /area/f13/fb/bar)
-"jU" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32
-	},
-/turf/closed/wall/mineral/brick,
-/area/f13/fb/bar)
 "kb" = (
 /obj/structure/flora/chomp/shrub0,
 /obj/effect/turf_decal/siding/wideplating/dark/corner{
 	dir = 1
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
 	},
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/caves)
@@ -1107,9 +1067,6 @@
 /obj/item/clothing/under/shorts/polychromic,
 /obj/item/clothing/under/shorts/polychromic,
 /obj/item/clothing/under/shorts/polychromic,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /obj/machinery/light/small{
 	color = "#444499";
 	dir = 4;
@@ -1124,9 +1081,6 @@
 /obj/structure/chair/bench{
 	dir = 1;
 	plane = -6
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
 	},
 /turf/open/floor/wood_common,
 /area/f13/caves)
@@ -1199,18 +1153,12 @@
 	color = "#666666"
 	},
 /area/f13/fb/bar)
-"lB" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
+"lA" = (
+/obj/structure/railing{
+	color = "#A47449";
+	dir = 4
 	},
-/obj/item/kirbyplants/random,
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32
-	},
-/turf/open/floor/wood_common{
-	color = "#779999"
-	},
+/turf/closed/wall/mineral/brick,
 /area/f13/fb/bar)
 "lF" = (
 /obj/structure/rug/carpet3{
@@ -1229,31 +1177,6 @@
 	color = "#C6321F"
 	},
 /area/f13/fb/bar)
-"lR" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 4;
-	color = "#3B2B1A"
-	},
-/obj/effect/turf_decal/siding/wood{
-	color = "#3B2B1A"
-	},
-/obj/structure/chair/right{
-	dir = 1;
-	plane = -2;
-	pixel_y = -4
-	},
-/obj/structure/window/bronze{
-	plane = -2;
-	pixel_y = -4
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/turf/open/floor/wood_common{
-	color = "#99BBBB"
-	},
-/area/f13/fb/bar)
 "mb" = (
 /obj/structure/chair/comfy/purple,
 /obj/effect/turf_decal/weather/splineplain{
@@ -1265,23 +1188,23 @@
 /turf/open/floor/wood_common,
 /area/f13/fb/bar)
 "mu" = (
-/obj/effect/turf_decal/siding/wood{
-	color = "#3B2B1A"
-	},
-/obj/effect/turf_decal/siding/wood/corner{
-	dir = 2;
-	color = "#3B2B1A"
-	},
-/obj/effect/turf_decal/siding/wood/corner{
-	dir = 8;
-	color = "#3B2B1A"
-	},
-/turf/open/floor/carpet/red,
-/area/f13/fb/bar)
+/turf/open/transparent/openspace,
+/area)
 "mv" = (
 /obj/structure/chess/whitebishop,
 /turf/open/floor/plasteel/f13/whitemarble{
 	color = "#666666"
+	},
+/area/f13/fb/bar)
+"mz" = (
+/obj/structure/railing{
+	color = "#A47449";
+	dir = 4
+	},
+/obj/structure/simple_door/room,
+/obj/item/lock_bolt,
+/turf/open/floor/wood_common{
+	color = "#779999"
 	},
 /area/f13/fb/bar)
 "mF" = (
@@ -1310,9 +1233,6 @@
 	plane = -6
 	},
 /obj/effect/decal/cleanable/glitter/pink,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -1346,9 +1266,6 @@
 /obj/effect/decal/cleanable/glitter/blue{
 	plane = -4;
 	layer = 3
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
 	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
@@ -1399,9 +1316,6 @@
 /area/f13/fb/bar)
 "nh" = (
 /obj/structure/flora/chomp/potplant2,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/caves)
 "ns" = (
@@ -1452,13 +1366,6 @@
 /obj/item/clothing/under/swimsuit/white,
 /obj/item/clothing/under/swimsuit/white,
 /obj/item/clothing/under/swimsuit/white,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = -32
-	},
 /turf/open/floor/wood_common,
 /area/f13/caves)
 "nC" = (
@@ -1493,6 +1400,17 @@
 	},
 /turf/open/floor/carpet/red,
 /area/f13/fb/bar)
+"nL" = (
+/obj/structure/destructible/tribal_torch/wall/lit{
+	dir = 8;
+	light_color = "#f4e3b0"
+	},
+/obj/structure/destructible/tribal_torch/wall/lit{
+	dir = 2;
+	light_color = "#f4e3b0"
+	},
+/turf/open/indestructible/cobble/dark,
+/area)
 "nM" = (
 /obj/effect/turf_decal/siding/wood{
 	color = "#3B2B1A"
@@ -1509,10 +1427,6 @@
 /obj/structure/window/bronze{
 	plane = -2;
 	pixel_y = -4
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
 	},
 /turf/open/floor/wood_common{
 	color = "#99BBBB"
@@ -1567,21 +1481,27 @@
 /turf/open/floor/wood_common,
 /area/f13/fb/bar)
 "oA" = (
-/obj/structure/chair/stool/retro/backed{
-	dir = 8
+/obj/machinery/light/small{
+	color = "#444499";
+	dir = 1;
+	light_color = "#444499";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 13
 	},
 /obj/effect/turf_decal/siding/wood{
-	dir = 4;
+	dir = 1;
 	color = "#3B2B1A"
 	},
+/obj/structure/chair/bench{
+	dir = 1;
+	plane = -6
+	},
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "oB" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /obj/structure/railing{
 	color = "#A47449";
 	dir = 1
@@ -1610,10 +1530,6 @@
 	plane = -2;
 	pixel_y = -4
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
 /turf/open/floor/wood_common{
 	color = "#99BBBB"
 	},
@@ -1622,9 +1538,6 @@
 /obj/structure/mirror{
 	pixel_y = -1;
 	pixel_x = 27
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
 	},
 /turf/open/floor/wood_common,
 /area/f13/caves)
@@ -1636,9 +1549,6 @@
 /obj/structure/flora/wasteplant/fever_blossom{
 	pixel_y = 20;
 	randomize_xy = 0
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
 	},
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/caves)
@@ -1695,8 +1605,9 @@
 /obj/effect/turf_decal/siding/wood{
 	color = "#3B2B1A"
 	},
+/obj/structure/chair/bench,
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "ph" = (
@@ -1722,17 +1633,20 @@
 	},
 /turf/open/floor/carpet/red,
 /area/f13/fb/bar)
+"po" = (
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 1;
+	color = "#3B2B1A"
+	},
+/turf/open/indestructible/cobble/dark,
+/area)
 "pq" = (
 /obj/structure/table/wood/settler,
 /turf/open/floor/wood_common/wood_common_dark,
 /area/f13/fb/bar)
 "pv" = (
-/obj/effect/turf_decal/siding/wood/corner{
-	dir = 4;
-	color = "#3B2B1A"
-	},
 /turf/open/indestructible/cobble/dark,
-/area/f13/fb/bar)
+/area)
 "pI" = (
 /obj/structure/table/wood_counter{
 	dir = 8;
@@ -1768,15 +1682,6 @@
 	plane = -2;
 	pixel_y = -4
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175;
-	pixel_x = 32
-	},
 /turf/open/floor/wood_common{
 	color = "#99BBBB"
 	},
@@ -1806,15 +1711,17 @@
 /obj/item/clothing/under/swimsuit/striped,
 /obj/item/clothing/under/swimsuit/striped,
 /obj/item/clothing/under/swimsuit/striped,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = -32
-	},
 /turf/open/floor/wood_common,
 /area/f13/caves)
+"qf" = (
+/obj/structure/simple_door/room,
+/obj/item/lock_bolt{
+	dir = 1
+	},
+/turf/open/floor/wood_common{
+	color = "#779999"
+	},
+/area/f13/fb/bar)
 "qo" = (
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 8;
@@ -1830,15 +1737,25 @@
 /turf/open/floor/carpet/red,
 /area/f13/fb/bar)
 "qq" = (
-/obj/structure/destructible/tribal_torch/wall/lit{
-	dir = 2;
-	light_color = "#f4e3b0"
+/obj/machinery/light/small{
+	color = "#444499";
+	dir = 1;
+	light_color = "#444499";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 13
 	},
-/obj/structure/destructible/tribal_torch/wall/lit{
-	dir = 4;
-	light_color = "#f4e3b0"
+/obj/effect/turf_decal/siding/wood{
+	dir = 1;
+	color = "#3B2B1A"
 	},
-/turf/open/indestructible/cobble/dark,
+/obj/structure/table/abductor{
+	pixel_y = 17;
+	density = 0
+	},
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
+	},
 /area/f13/fb/bar)
 "qC" = (
 /obj/effect/turf_decal/siding/wood{
@@ -1850,35 +1767,12 @@
 "qR" = (
 /turf/open/floor/wood_common,
 /area/f13/fb/bar)
-"qW" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 1;
-	color = "#3B2B1A"
-	},
-/obj/structure/chair/middle{
-	pixel_y = 4
-	},
-/obj/structure/window/bronze{
-	dir = 1;
-	pixel_y = 4
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/turf/open/floor/wood_common{
-	color = "#99BBBB"
-	},
-/area/f13/fb/bar)
 "rc" = (
 /obj/structure/towel_rack{
 	pixel_y = 27
 	},
 /obj/structure/bedsheetbin/towel,
 /obj/structure/table/wood/settler,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/caves)
 "rf" = (
@@ -1917,11 +1811,19 @@
 	color = "#c40e0e"
 	},
 /obj/structure/window/fulltile/civ/windowclear,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/floor/wood_common,
 /area/f13/fb/bar)
+"rx" = (
+/obj/structure/destructible/tribal_torch/wall/lit{
+	dir = 2;
+	light_color = "#f4e3b0"
+	},
+/obj/structure/destructible/tribal_torch/wall/lit{
+	dir = 4;
+	light_color = "#f4e3b0"
+	},
+/turf/open/indestructible/cobble/dark,
+/area)
 "ry" = (
 /obj/structure/chess/blackpawn,
 /turf/open/floor/plasteel/f13/whitemarble{
@@ -1929,45 +1831,19 @@
 	},
 /area/f13/fb/bar)
 "rA" = (
-/obj/structure/destructible/tribal_torch/wall/lit{
-	dir = 2;
-	light_color = "#f4e3b0"
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
 	},
-/turf/open/indestructible/cobble/dark,
-/area/f13/fb/bar)
-"rL" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = -32
-	},
-/turf/open/floor/wood_common,
-/area/f13/caves)
-"rM" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 8;
 	color = "#3B2B1A"
 	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 1;
-	color = "#3B2B1A"
+/obj/structure/table/abductor{
+	pixel_y = -17;
+	density = 0
 	},
-/obj/structure/chair/right{
-	dir = 2;
-	pixel_y = 4
-	},
-/obj/structure/window/bronze{
-	dir = 1;
-	pixel_y = 4
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/turf/open/floor/wood_common{
-	color = "#99BBBB"
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "rV" = (
@@ -1994,9 +1870,6 @@
 /obj/structure/chair/bench{
 	dir = 8;
 	plane = -6
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
 	},
 /obj/effect/sound_emitter/foxybar/hottub,
 /turf/open/indestructible/ground/outside/water{
@@ -2067,57 +1940,18 @@
 /obj/structure/glowshroom{
 	color = "green"
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/caves)
-"sJ" = (
+"sE" = (
 /obj/effect/turf_decal/siding/wood{
-	dir = 8;
 	color = "#3B2B1A"
 	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 1;
-	color = "#3B2B1A"
+/obj/structure/chair/bench,
+/turf/open/transparent/glass{
+	color = "#BB3333";
+	light_color = "#880000";
+	light_power = 0.5
 	},
-/obj/structure/chair/right{
-	dir = 2;
-	pixel_y = 4
-	},
-/obj/structure/window/bronze{
-	dir = 1;
-	pixel_y = 4
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/obj/machinery/light/small{
-	color = "#444499";
-	dir = 8;
-	light_color = "#444499";
-	light_power = 2;
-	light_range = 2;
-	pixel_y = 13
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32
-	},
-/turf/open/floor/wood_common{
-	color = "#99BBBB"
-	},
-/area/f13/fb/bar)
-"ta" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_x = 32
-	},
-/turf/open/transparent/openspace,
 /area/f13/fb/bar)
 "tg" = (
 /obj/structure/window/bronze{
@@ -2125,20 +1959,10 @@
 	light_color = "#b5a642";
 	light_range = 1
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_x = -32
-	},
 /turf/open/transparent/openspace,
 /area/f13/fb/bar)
 "tq" = (
 /obj/structure/flora/chomp/thicket2,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/caves)
 "tu" = (
@@ -2175,9 +1999,6 @@
 /obj/effect/fake_stairs/south{
 	alpha = 30
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -2186,16 +2007,6 @@
 	light_color = "#BAF8FF"
 	},
 /area/f13/caves)
-"tF" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32
-	},
-/turf/open/transparent/openspace,
-/area/f13/fb/bar)
 "tH" = (
 /obj/structure/window/bronze/fulltile,
 /obj/structure/curtain{
@@ -2220,9 +2031,6 @@
 	plane = -2
 	},
 /obj/effect/decal/cleanable/glitter/blue,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /obj/effect/sound_emitter/foxybar/hottub,
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
@@ -2233,9 +2041,6 @@
 	},
 /area/f13/caves)
 "tL" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /obj/machinery/light/small{
 	color = "#444499";
 	light_color = "#444499";
@@ -2272,9 +2077,6 @@
 	plane = -6
 	},
 /obj/effect/decal/cleanable/glitter/blue,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -2308,6 +2110,13 @@
 	},
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
+"up" = (
+/obj/structure/simple_door/room,
+/obj/item/lock_bolt,
+/turf/open/floor/wood_common{
+	color = "#779999"
+	},
+/area/f13/fb/bar)
 "uu" = (
 /obj/effect/turf_decal/weather/splineplain{
 	dir = 10
@@ -2337,9 +2146,6 @@
 	pixel_y = 27
 	},
 /obj/structure/table/wood/settler,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/caves)
 "uD" = (
@@ -2384,9 +2190,6 @@
 	},
 /area/f13/fb/bar)
 "vb" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /obj/item/kirbyplants/random,
 /turf/open/floor/wood_common{
 	color = "#779999"
@@ -2407,6 +2210,7 @@
 	dir = 4;
 	color = "#3B2B1A"
 	},
+/obj/item/kirbyplants/random,
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "vv" = (
@@ -2421,31 +2225,35 @@
 	light_range = 2;
 	pixel_y = 13
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/floor/wood_common,
 /area/f13/caves)
 "vB" = (
-/obj/structure/destructible/tribal_torch/wall/lit{
-	dir = 8;
-	light_color = "#f4e3b0"
-	},
-/obj/structure/destructible/tribal_torch/wall/lit{
-	dir = 2;
-	light_color = "#f4e3b0"
-	},
-/turf/open/indestructible/cobble/dark,
-/area/f13/fb/bar)
-"vC" = (
 /obj/effect/turf_decal/siding/wood{
+	dir = 1;
 	color = "#3B2B1A"
 	},
+/obj/machinery/light/small{
+	color = "#444499";
+	dir = 1;
+	light_color = "#444499";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 13
+	},
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
+	},
+/area/f13/fb/bar)
+"vC" = (
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 8;
 	color = "#3B2B1A"
 	},
-/turf/open/floor/carpet/red,
+/turf/open/transparent/glass{
+	color = "#BB3333";
+	light_color = "#880000";
+	light_power = 0.5
+	},
 /area/f13/fb/bar)
 "vE" = (
 /obj/structure/chair/stool/retro/tan,
@@ -2494,9 +2302,6 @@
 	dir = 8;
 	color = "#3B2B1A"
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/floor/wood_common{
 	color = "#99BBBB"
 	},
@@ -2518,9 +2323,6 @@
 	plane = -2
 	},
 /obj/effect/decal/cleanable/glitter/blue,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -2529,15 +2331,22 @@
 	light_color = "#BAF8FF"
 	},
 /area/f13/caves)
-"wB" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/turf/closed/wall/mineral/brick,
-/area/f13/fb/bar)
 "wM" = (
 /obj/item/kirbyplants/random,
 /turf/open/floor/wood_common/wood_common_dark,
+/area/f13/fb/bar)
+"wO" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 1;
+	color = "#3B2B1A"
+	},
+/obj/structure/chair/bench{
+	dir = 1;
+	plane = -6
+	},
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
+	},
 /area/f13/fb/bar)
 "xd" = (
 /obj/effect/turf_decal/siding/wood/corner{
@@ -2550,11 +2359,21 @@
 /obj/structure/simple_door/room{
 	name = "changing rooms"
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/floor/wood_common,
 /area/f13/caves)
+"xx" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 1;
+	color = "#3B2B1A"
+	},
+/obj/structure/table/abductor{
+	pixel_y = 17;
+	density = 0
+	},
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
+	},
+/area/f13/fb/bar)
 "xI" = (
 /obj/structure/railing/wood/post{
 	pixel_x = 16;
@@ -2577,26 +2396,9 @@
 	},
 /turf/open/floor/wood_common,
 /area/f13/fb/bar)
-"xS" = (
-/obj/structure/railing{
-	color = "#A47449";
-	dir = 4
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32
-	},
-/turf/open/transparent/openspace,
-/area/f13/fb/bar)
 "xX" = (
 /obj/effect/turf_decal/siding/wideplating/dark{
 	dir = 9
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
 	},
 /obj/structure/railing{
 	color = "#A47449";
@@ -2608,11 +2410,15 @@
 /obj/effect/turf_decal/siding/wood{
 	color = "#4F3528"
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/caves)
+"yg" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 1;
+	color = "#3B2B1A"
+	},
+/turf/open/indestructible/cobble/dark,
+/area)
 "yj" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 8;
@@ -2623,57 +2429,6 @@
 	plane = -6
 	},
 /turf/open/floor/carpet/black,
-/area/f13/fb/bar)
-"yl" = (
-/obj/structure/sign/painting/library{
-	pixel_x = -32
-	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 8;
-	color = "#3B2B1A"
-	},
-/obj/structure/table/abductor,
-/obj/item/reagent_containers/food/condiment/saltshaker{
-	pixel_x = 11;
-	pixel_y = 5;
-	layer = 4
-	},
-/obj/item/reagent_containers/food/condiment/peppermill{
-	pixel_x = 10;
-	pixel_y = 1;
-	layer = 4
-	},
-/obj/item/reagent_containers/food/condiment/ketchup{
-	pixel_y = 6;
-	pixel_x = 4
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/obj/machinery/light/small{
-	color = "#444499";
-	dir = 4;
-	light_color = "#444499";
-	light_power = 2;
-	light_range = 2;
-	pixel_y = 13
-	},
-/obj/machinery/light/small{
-	color = "#444499";
-	dir = 4;
-	light_color = "#444499";
-	light_power = 2;
-	light_range = 2;
-	pixel_y = 13
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175;
-	pixel_x = 32
-	},
-/turf/open/floor/wood_common{
-	color = "#99BBBB"
-	},
 /area/f13/fb/bar)
 "ym" = (
 /obj/structure/chess/whiteknight,
@@ -2712,14 +2467,6 @@
 	dir = 1;
 	pixel_y = 4
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32
-	},
 /obj/structure/sign/poster/contraband/eat{
 	pixel_y = 33
 	},
@@ -2728,13 +2475,16 @@
 	},
 /area/f13/fb/bar)
 "ys" = (
-/obj/structure/chair/stool/retro/backed,
+/obj/structure/chair/bench{
+	dir = 1;
+	plane = -6
+	},
 /obj/effect/turf_decal/siding/wood{
 	dir = 1;
 	color = "#3B2B1A"
 	},
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "yx" = (
@@ -2788,9 +2538,6 @@
 	plane = -4;
 	layer = 3
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -2800,9 +2547,6 @@
 	},
 /area/f13/caves)
 "yJ" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /obj/structure/railing{
 	color = "#A47449";
 	dir = 4
@@ -2814,10 +2558,6 @@
 	light_power = 2;
 	light_range = 2;
 	pixel_y = 13
-	},
-/obj/structure/curtain{
-	color = "#c40e0e";
-	open = 0
 	},
 /turf/open/floor/wood_common{
 	color = "#779999"
@@ -2837,9 +2577,6 @@
 	name = "steam";
 	pixel_y = 12;
 	pixel_x = 17;
-	plane = -2
-	},
-/obj/effect/overlay/fog/fog2{
 	plane = -2
 	},
 /turf/open/indestructible/ground/outside/water{
@@ -2985,9 +2722,6 @@
 	pixel_x = 17;
 	plane = -2
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -3016,9 +2750,6 @@
 	plane = -6
 	},
 /obj/effect/decal/cleanable/glitter/white,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -3043,18 +2774,8 @@
 	color = "#3B2B1A"
 	},
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
-/area/f13/fb/bar)
-"Ah" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_x = -32
-	},
-/turf/open/transparent/openspace,
 /area/f13/fb/bar)
 "Aq" = (
 /obj/machinery/shower{
@@ -3091,9 +2812,6 @@
 	plane = -2
 	},
 /obj/effect/decal/cleanable/glitter/pink,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -3103,11 +2821,11 @@
 	},
 /area/f13/caves)
 "Bb" = (
-/obj/effect/turf_decal/siding/wood/corner{
-	dir = 1;
-	color = "#3B2B1A"
+/obj/structure/table/abductor,
+/obj/item/toy/cards/deck,
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
 	},
-/turf/open/indestructible/cobble/dark,
 /area/f13/fb/bar)
 "Bj" = (
 /obj/item/flashlight/littlelamp{
@@ -3128,9 +2846,6 @@
 	icon_state = "smoke";
 	name = "steam";
 	pixel_y = 16;
-	plane = -2
-	},
-/obj/effect/overlay/fog/fog2{
 	plane = -2
 	},
 /turf/open/indestructible/ground/outside/water{
@@ -3161,9 +2876,6 @@
 	plane = -2
 	},
 /obj/effect/decal/cleanable/glitter/white,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -3172,18 +2884,6 @@
 	light_color = "#BAF8FF"
 	},
 /area/f13/caves)
-"Cl" = (
-/obj/structure/railing{
-	color = "#A47449";
-	dir = 4
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/turf/open/floor/wood_common{
-	color = "#779999"
-	},
-/area/f13/fb/bar)
 "Cw" = (
 /obj/structure/chair/sofa/left{
 	dir = 4;
@@ -3202,22 +2902,8 @@
 /obj/structure/flora/wasteplant/fever_blossom{
 	randomize_xy = 0
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/caves)
-"CP" = (
-/obj/structure/window/bronze{
-	dir = 1;
-	light_color = "#b5a642";
-	light_range = 1
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/turf/open/transparent/openspace,
-/area/f13/fb/bar)
 "CW" = (
 /obj/machinery/libraryscanner,
 /obj/structure/decoration/clock/active{
@@ -3282,18 +2968,12 @@
 /obj/effect/sound_emitter/foxybar/machinery,
 /turf/open/floor/wood_common/wood_common_dark,
 /area/f13/fb/bar)
-"DY" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
+"Ea" = (
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -1;
-	alpha = 175
-	},
-/turf/closed/wall/mineral/brick{
-	plane = -1
-	},
+/obj/item/kirbyplants/random,
+/turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "Ec" = (
 /obj/machinery/light/small{
@@ -3337,6 +3017,18 @@
 /obj/structure/bookcase,
 /turf/open/floor/wood_common/wood_common_dark,
 /area/f13/fb/bar)
+"Eq" = (
+/obj/effect/decal/cleanable/glitter/blue{
+	color = "#444499";
+	layer = 3;
+	plane = -1
+	},
+/turf/open/transparent/glass{
+	color = "#BB3333";
+	light_color = "#880000";
+	light_power = 0.5
+	},
+/area/f13/fb/bar)
 "Ew" = (
 /obj/structure/window/bronze/fulltile,
 /obj/effect/turf_decal/siding/wood{
@@ -3364,36 +3056,9 @@
 /turf/open/floor/wood_common/wood_common_dark,
 /area/f13/fb/bar)
 "EK" = (
-/obj/item/kirbyplants/random,
 /obj/effect/turf_decal/siding/wood{
+	dir = 1;
 	color = "#3B2B1A"
-	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 4;
-	color = "#3B2B1A"
-	},
-/obj/effect/turf_decal/siding/wood/corner{
-	dir = 2;
-	color = "#3B2B1A"
-	},
-/turf/open/floor/carpet/black{
-	color = "#CCCCCC"
-	},
-/area/f13/fb/bar)
-"EM" = (
-/obj/structure/flora/chomp/shrub4,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/turf/open/indestructible/ground/inside/mountain,
-/area/f13/caves)
-"EN" = (
-/obj/structure/railing{
-	color = "#A47449";
-	dir = 4
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
 	},
 /obj/machinery/light/small{
 	color = "#444499";
@@ -3403,9 +3068,27 @@
 	light_range = 2;
 	pixel_y = 13
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32
+/obj/structure/chair/stool/retro/tan,
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
+	},
+/area/f13/fb/bar)
+"EM" = (
+/obj/structure/flora/chomp/shrub4,
+/turf/open/indestructible/ground/inside/mountain,
+/area/f13/caves)
+"EN" = (
+/obj/structure/railing{
+	color = "#A47449";
+	dir = 4
+	},
+/obj/machinery/light/small{
+	color = "#444499";
+	dir = 1;
+	light_color = "#444499";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 13
 	},
 /turf/open/floor/wood_common{
 	color = "#779999"
@@ -3414,36 +3097,6 @@
 "EP" = (
 /obj/structure/chess/blackking,
 /turf/open/floor/plasteel/f13/whitemarble,
-/area/f13/fb/bar)
-"EX" = (
-/obj/structure/sign/painting/library{
-	pixel_x = -32
-	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 8;
-	color = "#3B2B1A"
-	},
-/obj/structure/table/abductor,
-/obj/item/reagent_containers/food/condiment/saltshaker{
-	pixel_x = -7;
-	pixel_y = 5;
-	layer = 4
-	},
-/obj/item/reagent_containers/food/condiment/peppermill{
-	pixel_x = -9;
-	pixel_y = 1;
-	layer = 4
-	},
-/obj/item/reagent_containers/food/condiment/ketchup{
-	pixel_y = 6;
-	pixel_x = -12
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/turf/open/floor/wood_common{
-	color = "#99BBBB"
-	},
 /area/f13/fb/bar)
 "EY" = (
 /obj/structure/chess/blackqueen,
@@ -3465,26 +3118,29 @@
 	},
 /turf/open/floor/wood_common,
 /area/f13/fb/bar)
-"Fo" = (
-/obj/structure/window/bronze{
+"Fl" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 8;
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood{
 	dir = 1;
-	light_color = "#b5a642";
-	light_range = 1
+	color = "#3B2B1A"
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 1;
+	color = "#3B2B1A"
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_x = 32
+/obj/structure/table/abductor{
+	pixel_y = 17;
+	density = 0
 	},
-/turf/open/transparent/openspace,
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
+	},
 /area/f13/fb/bar)
 "Fq" = (
 /obj/structure/glowshroom/glowcap,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/caves)
 "Fv" = (
@@ -3501,6 +3157,24 @@
 	},
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
+"Fy" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 8;
+	color = "#3B2B1A"
+	},
+/obj/structure/chair/stool/retro/tan,
+/obj/machinery/light/small{
+	color = "#444499";
+	dir = 8;
+	light_color = "#444499";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 13
+	},
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
+	},
+/area/f13/fb/bar)
 "FS" = (
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 8;
@@ -3509,9 +3183,6 @@
 /turf/open/indestructible/cobble/dark,
 /area/f13/fb/bar)
 "Ga" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/floor/wood_common,
 /area/f13/caves)
 "Gf" = (
@@ -3555,14 +3226,36 @@
 /turf/open/indestructible/cobble/dark,
 /area/f13/fb/bar)
 "GM" = (
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 4;
+	color = "#3B2B1A"
+	},
 /obj/machinery/door/unpowered/securedoor,
-/obj/effect/turf_decal/siding/wood{
-	color = "#3B2B1A"
-	},
-/obj/effect/turf_decal/siding/wood{
-	color = "#3B2B1A"
-	},
 /turf/open/floor/carpet/red,
+/area/f13/fb/bar)
+"GR" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 1;
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 4;
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 4;
+	color = "#3B2B1A"
+	},
+/obj/item/kirbyplants/random,
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
+	},
 /area/f13/fb/bar)
 "Hb" = (
 /obj/hilbertshotel,
@@ -3575,9 +3268,6 @@
 	name = "steam";
 	pixel_y = 12;
 	pixel_x = 17;
-	plane = -2
-	},
-/obj/effect/overlay/fog/fog2{
 	plane = -2
 	},
 /turf/open/indestructible/ground/outside/water{
@@ -3625,44 +3315,6 @@
 	},
 /turf/open/floor/carpet/arcade,
 /area/f13/fb/bar)
-"HT" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 4;
-	color = "#3B2B1A"
-	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 1;
-	color = "#3B2B1A"
-	},
-/obj/structure/chair/left{
-	pixel_y = 4
-	},
-/obj/structure/window/bronze{
-	dir = 1;
-	pixel_y = 4
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175;
-	pixel_x = 32
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32;
-	pixel_x = 32
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/turf/open/floor/wood_common{
-	color = "#99BBBB"
-	},
-/area/f13/fb/bar)
 "Ib" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1;
@@ -3679,6 +3331,13 @@
 /obj/effect/sound_emitter/foxybar/threecandles,
 /turf/closed/wall/mineral/brick,
 /area/f13/fb/bar)
+"Iq" = (
+/obj/structure/destructible/tribal_torch/wall/lit{
+	dir = 2;
+	light_color = "#f4e3b0"
+	},
+/turf/open/indestructible/cobble/dark,
+/area)
 "Iu" = (
 /obj/structure/toilet{
 	dir = 8;
@@ -3717,9 +3376,6 @@
 	plane = -2
 	},
 /obj/effect/decal/cleanable/glitter/white,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -3767,10 +3423,17 @@
 	},
 /turf/open/floor/carpet/arcade,
 /area/f13/fb/bar)
-"JQ" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
+"JG" = (
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 2;
+	color = "#3B2B1A"
 	},
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
+	},
+/turf/open/floor/carpet/black,
+/area/f13/fb/bar)
+"JQ" = (
 /obj/structure/railing{
 	color = "#A47449";
 	dir = 1
@@ -3807,22 +3470,19 @@
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "Kb" = (
-/obj/structure/chair/stool/retro/backed{
-	dir = 1
-	},
 /obj/effect/turf_decal/siding/wood{
-	color = "#3B2B1A"
-	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 4;
 	color = "#3B2B1A"
 	},
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 2;
 	color = "#3B2B1A"
 	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 4;
+	color = "#3B2B1A"
+	},
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "Kc" = (
@@ -3860,9 +3520,6 @@
 /turf/open/indestructible/cobble/dark,
 /area/f13/fb/bar)
 "KH" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /obj/machinery/light/small{
 	color = "#444499";
 	dir = 4;
@@ -3870,10 +3527,6 @@
 	light_power = 2;
 	light_range = 2;
 	pixel_y = 13
-	},
-/obj/structure/curtain{
-	color = "#c40e0e";
-	open = 0
 	},
 /turf/open/floor/wood_common{
 	color = "#779999"
@@ -3885,6 +3538,14 @@
 /turf/open/floor/wood_common/wood_common_dark,
 /area/f13/fb/bar)
 "KU" = (
+/obj/structure/chair/bench{
+	dir = 1;
+	plane = -6
+	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 1;
+	color = "#3B2B1A"
+	},
 /obj/machinery/light/small{
 	color = "#444499";
 	dir = 1;
@@ -3893,12 +3554,8 @@
 	light_range = 2;
 	pixel_y = 13
 	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 1;
-	color = "#3B2B1A"
-	},
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "Ll" = (
@@ -3914,7 +3571,15 @@
 	dir = 8;
 	color = "#3B2B1A"
 	},
-/turf/open/floor/carpet/black,
+/obj/structure/chair/bench{
+	dir = 8;
+	plane = -6
+	},
+/turf/open/transparent/glass{
+	color = "#BB3333";
+	light_color = "#880000";
+	light_power = 0.5
+	},
 /area/f13/fb/bar)
 "LC" = (
 /obj/machinery/light/floor{
@@ -3922,12 +3587,18 @@
 	color = "#444499";
 	alpha = 10
 	},
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
+	},
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "LE" = (
 /obj/effect/decal/cleanable/glitter/white{
 	color = "#884444";
 	plane = -1
+	},
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
 	},
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
@@ -3966,9 +3637,6 @@
 	pixel_y = 8;
 	randomize_xy = 0
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /obj/item/candle/infinite{
 	pixel_y = 39;
 	pixel_x = -11;
@@ -4000,9 +3668,6 @@
 	color = "#3B2B1A"
 	},
 /obj/structure/table/abductor,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/floor/wood_common{
 	color = "#99BBBB"
 	},
@@ -4042,16 +3707,9 @@
 	pixel_y = 19;
 	density = 0
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/floor/wood_common,
 /area/f13/caves)
 "NE" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -1;
-	alpha = 175
-	},
 /turf/closed/wall/mineral/brick{
 	plane = -1
 	},
@@ -4085,8 +3743,15 @@
 	dir = 4;
 	color = "#3B2B1A"
 	},
-/obj/item/kirbyplants/random,
-/turf/open/floor/carpet/black,
+/obj/structure/chair/bench{
+	dir = 4;
+	pixel_x = 4
+	},
+/turf/open/transparent/glass{
+	color = "#BB3333";
+	light_color = "#880000";
+	light_power = 0.5
+	},
 /area/f13/fb/bar)
 "NW" = (
 /obj/effect/turf_decal/siding/wood/corner{
@@ -4111,9 +3776,6 @@
 "Oo" = (
 /obj/effect/turf_decal/siding/wideplating/dark{
 	dir = 8
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
 	},
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/caves)
@@ -4166,9 +3828,6 @@
 	dir = 1;
 	plane = -6
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -4213,16 +3872,7 @@
 	},
 /turf/open/floor/wood_common,
 /area/f13/fb/bar)
-"OD" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/turf/closed/wall/mineral/brick,
-/area/f13/caves)
 "OF" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /obj/structure/railing{
 	color = "#A47449";
 	dir = 4
@@ -4252,6 +3902,11 @@
 	},
 /turf/open/floor/wood_common,
 /area/f13/fb/bar)
+"OZ" = (
+/turf/closed{
+	icon_state = "black"
+	},
+/area/f13/fb/bar)
 "Pc" = (
 /obj/machinery/light/floor{
 	light_color = "#444499";
@@ -4273,9 +3928,6 @@
 /obj/item/clothing/under/misc/bathrobe,
 /obj/machinery/light/floor{
 	plane = -6
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
 	},
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/caves)
@@ -4308,9 +3960,6 @@
 	pixel_x = 17;
 	plane = -2
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -4320,29 +3969,17 @@
 	},
 /area/f13/caves)
 "PA" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 4;
-	color = "#3B2B1A"
+/obj/structure/chair/stool/retro/tan,
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
 	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 1;
-	color = "#3B2B1A"
-	},
-/obj/structure/table/abductor,
-/obj/machinery/light/small{
-	color = "#444499";
-	dir = 1;
-	light_color = "#444499";
-	light_power = 2;
-	light_range = 2;
-	pixel_y = 13
-	},
-/obj/effect/turf_decal/siding/wood/corner{
-	dir = 4;
-	color = "#3B2B1A"
+/area/f13/fb/bar)
+"PU" = (
+/obj/structure/chair/stool/retro/backed{
+	dir = 1
 	},
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "PV" = (
@@ -4368,9 +4005,6 @@
 	color = "#A47449";
 	dir = 4
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/transparent/openspace,
 /area/f13/fb/bar)
 "Ql" = (
@@ -4389,6 +4023,29 @@
 	color = "#4F3528"
 	},
 /turf/open/floor/wood_common,
+/area/f13/fb/bar)
+"Qs" = (
+/obj/structure/table/abductor,
+/obj/item/dice/d6{
+	pixel_y = 12;
+	pixel_x = 6
+	},
+/obj/item/dice/d6{
+	pixel_y = 0;
+	pixel_x = -5
+	},
+/obj/item/storage/bag/dice_cup,
+/obj/item/dice/d6{
+	pixel_y = 12;
+	pixel_x = -4
+	},
+/obj/item/dice/d6{
+	pixel_y = 0;
+	pixel_x = 9
+	},
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
+	},
 /area/f13/fb/bar)
 "QF" = (
 /obj/structure/chess/whiteknight,
@@ -4421,61 +4078,26 @@
 /obj/effect/sound_emitter/foxybar/machinery,
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
-"QR" = (
+"QT" = (
+/turf/closed/wall/mineral/brick,
+/area)
+"QY" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 4;
 	color = "#3B2B1A"
 	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 1;
-	color = "#3B2B1A"
+/obj/structure/chair/stool/retro/tan,
+/obj/machinery/light/small{
+	color = "#444499";
+	dir = 4;
+	light_color = "#444499";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 13
 	},
-/obj/structure/chair/left{
-	pixel_y = 4
-	},
-/obj/structure/window/bronze{
-	dir = 1;
-	pixel_y = 4
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175;
-	pixel_x = 32
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32;
-	pixel_x = 32
-	},
-/turf/open/floor/wood_common{
-	color = "#99BBBB"
-	},
-/area/f13/fb/bar)
-"QT" = (
-/obj/structure/table/abductor,
-/obj/item/dice/d6{
-	pixel_y = 12;
-	pixel_x = 6
-	},
-/obj/item/dice/d6{
-	pixel_y = 0;
-	pixel_x = -5
-	},
-/obj/item/storage/bag/dice_cup,
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
-/area/f13/fb/bar)
-"QY" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 1;
-	color = "#3B2B1A"
-	},
-/turf/open/indestructible/cobble/dark,
 /area/f13/fb/bar)
 "Rb" = (
 /obj/structure/curtain{
@@ -4505,13 +4127,13 @@
 /turf/open/floor/wood_common/wood_common_dark,
 /area/f13/fb/bar)
 "Ri" = (
-/obj/structure/table/abductor,
 /obj/effect/turf_decal/siding/wood{
 	dir = 4;
 	color = "#3B2B1A"
 	},
+/obj/structure/chair/stool/retro/tan,
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "Rp" = (
@@ -4536,9 +4158,6 @@
 /obj/item/reagent_containers/food/condiment/ketchup{
 	pixel_y = 6;
 	pixel_x = 4
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
 	},
 /obj/machinery/light/small{
 	color = "#444499";
@@ -4603,10 +4222,6 @@
 	dir = 1;
 	pixel_y = 4
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	alpha = 175
-	},
 /obj/machinery/light/small{
 	color = "#444499";
 	dir = 8;
@@ -4627,9 +4242,6 @@
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "RS" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /obj/machinery/light/small{
 	color = "#444499";
 	dir = 1;
@@ -4637,10 +4249,6 @@
 	light_power = 2;
 	light_range = 2;
 	pixel_y = 13
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2;
-	pixel_y = 32
 	},
 /turf/open/floor/wood_common{
 	color = "#779999"
@@ -4670,8 +4278,9 @@
 	dir = 1;
 	color = "#3B2B1A"
 	},
+/obj/item/kirbyplants/random,
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "Sf" = (
@@ -4710,9 +4319,6 @@
 	plane = -2
 	},
 /obj/effect/decal/cleanable/glitter/white,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -4821,9 +4427,6 @@
 	plane = -2
 	},
 /obj/effect/decal/cleanable/glitter/white,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -4852,8 +4455,9 @@
 	dir = 8;
 	color = "#3B2B1A"
 	},
+/obj/item/kirbyplants/random,
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "UB" = (
@@ -4864,9 +4468,6 @@
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "UD" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /obj/machinery/light/small{
 	color = "#444499";
 	light_color = "#444499";
@@ -4886,9 +4487,6 @@
 /obj/structure/railing{
 	color = "#A47449";
 	dir = 1
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
 	},
 /turf/open/floor/wood_common{
 	color = "#779999"
@@ -4912,10 +4510,26 @@
 	color = "#C6321F"
 	},
 /area/f13/fb/bar)
+"UV" = (
+/obj/structure/chair/stool/retro/backed,
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
+	},
+/area/f13/fb/bar)
 "UY" = (
 /obj/structure/chess/whitequeen,
 /turf/open/floor/plasteel/f13/whitemarble{
 	color = "#666666"
+	},
+/area/f13/fb/bar)
+"Vg" = (
+/obj/structure/chair/stool/retro/tan,
+/obj/effect/turf_decal/siding/wood{
+	dir = 8;
+	color = "#3B2B1A"
+	},
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "Vk" = (
@@ -4945,9 +4559,6 @@
 	dir = 8;
 	plane = -6
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -4971,9 +4582,6 @@
 	plane = -2
 	},
 /obj/effect/decal/cleanable/glitter/pink,
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -5011,7 +4619,11 @@
 	dir = 8;
 	color = "#3B2B1A"
 	},
-/turf/open/floor/carpet/black,
+/turf/open/transparent/glass{
+	color = "#BB3333";
+	light_color = "#880000";
+	light_power = 0.5
+	},
 /area/f13/fb/bar)
 "VN" = (
 /obj/effect/turf_decal/weather/splineplain{
@@ -5027,9 +4639,6 @@
 "VT" = (
 /obj/effect/turf_decal/siding/wideplating/dark{
 	dir = 8
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
 	},
 /obj/hilbertshotel,
 /turf/open/indestructible/ground/inside/mountain,
@@ -5053,22 +4662,31 @@
 	},
 /area/f13/fb/bar)
 "Wh" = (
-/obj/structure/chair/stool/retro/backed{
-	dir = 4
-	},
-/turf/open/floor/carpet/black{
-	color = "#CCCCCC"
-	},
-/area/f13/fb/bar)
-"Wj" = (
 /obj/effect/turf_decal/siding/wood{
 	color = "#3B2B1A"
 	},
-/obj/effect/turf_decal/siding/wood/corner{
-	dir = 2;
-	color = "#3B2B1A"
+/obj/machinery/light/small{
+	color = "#444499";
+	light_color = "#444499";
+	light_power = 2;
+	light_range = 2
 	},
-/turf/open/floor/carpet/red,
+/turf/open/floor/carpet/black{
+	color = "#C6321F"
+	},
+/area/f13/fb/bar)
+"Wj" = (
+/obj/structure/railing{
+	color = "#A47449";
+	dir = 4
+	},
+/obj/structure/simple_door/room,
+/obj/item/lock_bolt{
+	dir = 1
+	},
+/turf/open/floor/wood_common{
+	color = "#779999"
+	},
 /area/f13/fb/bar)
 "Wr" = (
 /obj/structure/chess/whiterook,
@@ -5161,43 +4779,19 @@
 /area/f13/fb/bar)
 "XH" = (
 /obj/effect/turf_decal/siding/wood{
-	dir = 4;
-	color = "#3B2B1A"
-	},
-/obj/effect/turf_decal/siding/wood{
 	dir = 1;
-	color = "#3B2B1A"
-	},
-/obj/machinery/light/small{
-	color = "#444499";
-	dir = 1;
-	light_color = "#444499";
-	light_power = 2;
-	light_range = 2;
-	pixel_y = 13
-	},
-/obj/effect/turf_decal/siding/wood/corner{
-	dir = 4;
 	color = "#3B2B1A"
 	},
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "XK" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 1;
-	color = "#3B2B1A"
+/turf/open/transparent/glass{
+	color = "#BB3333";
+	light_color = "#880000";
+	light_power = 0.5
 	},
-/obj/effect/turf_decal/siding/wood/corner{
-	dir = 4;
-	color = "#3B2B1A"
-	},
-/obj/effect/turf_decal/siding/wood/corner{
-	dir = 1;
-	color = "#3B2B1A"
-	},
-/turf/open/floor/carpet/red,
 /area/f13/fb/bar)
 "XN" = (
 /obj/effect/turf_decal/siding/wood{
@@ -5212,8 +4806,9 @@
 	dir = 1;
 	color = "#3B2B1A"
 	},
+/obj/item/kirbyplants/random,
 /turf/open/floor/carpet/black{
-	color = "#CCCCCC"
+	color = "#C6321F"
 	},
 /area/f13/fb/bar)
 "XQ" = (
@@ -5240,9 +4835,6 @@
 /obj/structure/chair/bench{
 	plane = -6
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -5251,30 +4843,19 @@
 	light_color = "#BAF8FF"
 	},
 /area/f13/caves)
-"XR" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
-/turf/open/floor/wood_common{
-	color = "#779999"
-	},
-/area/f13/fb/bar)
 "XW" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/caves)
 "Ys" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 1;
-	color = "#3B2B1A"
-	},
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 4;
 	color = "#3B2B1A"
 	},
-/turf/open/floor/carpet/red,
+/turf/open/transparent/glass{
+	color = "#BB3333";
+	light_color = "#880000";
+	light_power = 0.5
+	},
 /area/f13/fb/bar)
 "Yu" = (
 /obj/structure/spacevine{
@@ -5291,9 +4872,6 @@
 	pixel_x = 19;
 	plane = -2
 	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
 	color = "#90DBFE";
@@ -5303,6 +4881,13 @@
 	},
 /area/f13/caves)
 "Yw" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 8;
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
+	},
 /obj/machinery/door/unpowered/securedoor,
 /turf/open/floor/carpet/red,
 /area/f13/fb/bar)
@@ -5332,9 +4917,6 @@
 /obj/structure/chair/bench{
 	dir = 1;
 	plane = -6
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
 	},
 /turf/open/indestructible/ground/outside/water{
 	name = "hot spring";
@@ -5367,9 +4949,6 @@
 /obj/machinery/gear_painter{
 	pixel_y = 13;
 	plane = 0
-	},
-/obj/effect/overlay/fog/fog2{
-	plane = -2
 	},
 /obj/machinery/light/small{
 	color = "#444499";
@@ -5494,12 +5073,17 @@
 	dir = 4;
 	color = "#3B2B1A"
 	},
-/turf/open/floor/carpet/black,
+/obj/structure/chair/bench{
+	dir = 4;
+	pixel_x = 4
+	},
+/turf/open/transparent/glass{
+	color = "#BB3333";
+	light_color = "#880000";
+	light_power = 0.5
+	},
 /area/f13/fb/bar)
 "ZT" = (
-/obj/effect/overlay/fog/fog2{
-	plane = -2
-	},
 /obj/structure/railing{
 	color = "#A47449";
 	dir = 4
@@ -6785,15 +6369,15 @@ nZ
 nZ
 nZ
 nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (12,1,1) = {"
@@ -6862,13 +6446,13 @@ nZ
 nZ
 nZ
 nZ
-dS
-dS
-dS
-dS
-dS
-dS
-dS
+iF
+iF
+iF
+iF
+iF
+iF
+iF
 nZ
 nZ
 Bj
@@ -6894,23 +6478,23 @@ il
 il
 il
 il
-jU
-wB
-wB
-wB
-wB
-wB
-wB
-wB
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+il
+il
+il
+il
+il
+il
+il
+il
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (13,1,1) = {"
@@ -6979,13 +6563,13 @@ nZ
 nZ
 nZ
 iF
-dS
+iF
 Vk
 ah
 gw
 rV
-dS
-dS
+iF
+iF
 nZ
 nZ
 il
@@ -7011,23 +6595,23 @@ kf
 wn
 ki
 il
-sJ
+RF
 dz
 nM
 NE
 RF
-EX
+dz
 nM
 NE
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (14,1,1) = {"
@@ -7102,7 +6686,7 @@ SP
 Hn
 mG
 XQ
-dS
+iF
 nZ
 nZ
 il
@@ -7131,20 +6715,20 @@ il
 eL
 if
 oI
-DY
-qW
+NE
+eL
 if
 oI
-DY
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+NE
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (15,1,1) = {"
@@ -7219,7 +6803,7 @@ AR
 Cd
 yM
 zK
-dS
+iF
 nZ
 nZ
 il
@@ -7247,21 +6831,21 @@ Dh
 il
 yr
 Nf
-lR
-DY
+pL
+NE
 dU
 Nf
-lR
-DY
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+pL
+NE
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (16,1,1) = {"
@@ -7336,7 +6920,7 @@ tJ
 Vo
 ws
 tM
-dS
+iF
 nZ
 nZ
 il
@@ -7363,22 +6947,22 @@ vU
 vv
 il
 be
-XR
+be
 UD
-wB
-XR
-XR
+il
+be
+be
 UD
 eg
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (17,1,1) = {"
@@ -7453,7 +7037,7 @@ yH
 Yu
 zB
 fT
-dS
+iF
 nZ
 nZ
 il
@@ -7479,23 +7063,23 @@ Oq
 MX
 ln
 il
-xS
+Qf
 UK
 Qf
-wB
+il
 Qf
 JQ
 Qf
 eg
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (18,1,1) = {"
@@ -7564,13 +7148,13 @@ nZ
 nZ
 nZ
 iF
-dS
+iF
 ws
 Ps
 tv
 xX
-dS
-dS
+iF
+iF
 nZ
 nZ
 il
@@ -7596,23 +7180,23 @@ vv
 Ex
 cs
 il
-lB
-XR
-XR
-wB
-XR
-XR
+vb
+be
+il
+il
+il
+be
 vb
 eg
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (19,1,1) = {"
@@ -7681,13 +7265,13 @@ nZ
 nZ
 nZ
 nZ
-dS
+iF
 VT
 Oo
 Oo
 kb
 nh
-dS
+iF
 nZ
 nZ
 il
@@ -7704,7 +7288,7 @@ il
 dm
 zr
 zr
-hj
+Ea
 Kj
 Ew
 ad
@@ -7714,22 +7298,22 @@ il
 il
 il
 EN
-Cl
 ZT
+Wj
 yJ
-ZT
+mz
 ZT
 OF
 eg
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (20,1,1) = {"
@@ -7798,15 +7382,15 @@ nZ
 nZ
 nZ
 nZ
-dS
+iF
 oT
 XW
 XW
 XW
 sx
-dS
-dS
-dS
+iF
+iF
+iF
 il
 il
 Ox
@@ -7828,25 +7412,25 @@ ea
 vC
 VG
 tg
-Ah
-bt
-bt
-bt
-bt
-bt
-bt
-bt
-bt
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
 ru
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (21,1,1) = {"
@@ -7915,7 +7499,7 @@ nZ
 nZ
 nZ
 nZ
-dS
+iF
 EM
 XW
 XW
@@ -7923,8 +7507,8 @@ XW
 XW
 XW
 CA
-dS
-dS
+iF
+iF
 il
 pc
 sd
@@ -7938,32 +7522,32 @@ il
 HK
 Ts
 zr
-zr
-zr
-zr
-Ys
-Wj
-UB
-CP
-bt
-bt
-bt
-bt
-bt
-bt
-bt
-bt
-bt
+hj
+XK
+XK
+XK
+XK
+sE
+tg
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
 ru
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (22,1,1) = {"
@@ -8032,7 +7616,7 @@ nZ
 nZ
 nZ
 nZ
-dS
+iF
 Fq
 cK
 cK
@@ -8041,7 +7625,7 @@ XW
 XW
 XW
 tq
-dS
+iF
 il
 jA
 Rv
@@ -8055,32 +7639,32 @@ il
 SZ
 vE
 zr
-ph
-zr
-zr
-vU
-zL
-UB
-CP
-bt
-bt
-bt
-bt
-bt
-bt
-bt
-bt
-bt
+cY
+XK
+XK
+XK
+XK
+sE
+tg
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
 ru
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (23,1,1) = {"
@@ -8149,16 +7733,16 @@ nZ
 nZ
 nZ
 nZ
-dS
-dS
+iF
+iF
 gz
 jb
 MT
-dS
+iF
 Pq
 XW
 XW
-dS
+iF
 il
 xd
 il
@@ -8173,31 +7757,31 @@ Jq
 mN
 SL
 LC
-zr
-zr
 XK
-mu
-hj
-CP
-bt
-bt
-bt
-bt
-bt
-bt
-bt
-bt
-bt
+XK
+XK
+XK
+aM
+tg
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
 ru
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (24,1,1) = {"
@@ -8267,11 +7851,11 @@ nZ
 nZ
 nZ
 nZ
-dS
-dS
-dS
-dS
-dS
+iF
+iF
+iF
+iF
+iF
 uA
 XW
 xY
@@ -8289,32 +7873,32 @@ dy
 oD
 zr
 zr
-zr
-zr
-ph
-vU
-zL
-UB
-CP
-bt
-bt
-bt
-bt
-bt
-bt
-bt
-bt
-bt
+hj
+XK
+Eq
+XK
+XK
+sE
+tg
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
 ru
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (25,1,1) = {"
@@ -8388,7 +7972,7 @@ nZ
 nZ
 nZ
 nZ
-dS
+iF
 rc
 XW
 xY
@@ -8407,31 +7991,31 @@ zr
 ph
 zr
 LE
-zr
-zr
-ea
-vC
-UB
-CP
-bt
-bt
-bt
-bt
-bt
-bt
-bt
-bt
-bt
+XK
+XK
+XK
+XK
+sE
+tg
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
+Qe
 ru
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (26,1,1) = {"
@@ -8505,10 +8089,10 @@ nZ
 nZ
 nZ
 nZ
-dS
-dS
+iF
+iF
 XW
-dS
+iF
 iF
 il
 il
@@ -8523,15 +8107,15 @@ zr
 zr
 zr
 zr
-Kp
+JG
 ZQ
 NT
 Ys
-Wj
+XK
 bP
-Fo
-ta
-bt
+tg
+Qe
+Qe
 Qf
 Qf
 Qf
@@ -8540,15 +8124,15 @@ Qf
 Qf
 Qf
 ru
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (27,1,1) = {"
@@ -8622,8 +8206,8 @@ nZ
 nZ
 nZ
 nZ
-OD
-OD
+Dp
+Dp
 xv
 iF
 il
@@ -8650,22 +8234,22 @@ il
 il
 il
 RS
-XR
-XR
+be
+qf
 KH
-XR
-XR
+up
+be
 tL
 eg
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (28,1,1) = {"
@@ -8736,12 +8320,12 @@ nZ
 nZ
 nZ
 nZ
-OD
-OD
-OD
-OD
+Dp
+Dp
+Dp
+Dp
 YV
-rL
+Ga
 Dp
 il
 uM
@@ -8767,22 +8351,22 @@ Re
 Wz
 il
 bp
-XR
-ZT
-wB
-ZT
-XR
-eI
+be
+lA
+il
+lA
+be
+bp
 eg
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (29,1,1) = {"
@@ -8853,12 +8437,12 @@ nZ
 nZ
 nZ
 nZ
-OD
+Dp
 kE
 vw
 eP
 Ga
-rL
+Ga
 Dp
 In
 Zw
@@ -8883,23 +8467,23 @@ BS
 gT
 Rs
 il
-tF
+Qe
 oB
 WO
-wB
-bt
+il
+Qe
 oB
-bB
+WO
 eg
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (30,1,1) = {"
@@ -8970,12 +8554,12 @@ nZ
 nZ
 nZ
 nZ
-OD
+Dp
 ND
 oO
-OD
+Dp
 Ga
-rL
+Ga
 Dp
 fm
 NW
@@ -9001,22 +8585,22 @@ aL
 gy
 il
 be
-XR
+be
 UD
-wB
-XR
-XR
+il
+be
+be
 UD
 eg
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (31,1,1) = {"
@@ -9087,10 +8671,10 @@ nZ
 nZ
 nZ
 nZ
-OD
-OD
-OD
-OD
+Dp
+Dp
+Dp
+Dp
 Ga
 qd
 Dp
@@ -9103,11 +8687,11 @@ Jp
 hR
 il
 KU
-iO
-bg
+gh
+pd
 il
-KU
-Wh
+oA
+gh
 pd
 il
 CY
@@ -9121,19 +8705,19 @@ dD
 wo
 nM
 NE
-rM
+dD
 wo
 nM
 NE
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (32,1,1) = {"
@@ -9204,7 +8788,7 @@ nZ
 nZ
 nZ
 nZ
-OD
+Dp
 kE
 vw
 eP
@@ -9220,12 +8804,12 @@ il
 il
 il
 ys
-jf
-bg
+gh
+pd
 il
-ys
-QT
-bg
+wO
+gh
+pd
 il
 MD
 fw
@@ -9237,20 +8821,20 @@ il
 eL
 if
 oI
-DY
-qW
+NE
+eL
 if
 oI
-DY
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+NE
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (33,1,1) = {"
@@ -9321,10 +8905,10 @@ nZ
 nZ
 nZ
 nZ
-OD
+Dp
 ND
 oO
-OD
+Dp
 kr
 dl
 Dp
@@ -9333,16 +8917,16 @@ nU
 OA
 Wa
 il
-nZ
-nZ
-il
-PA
-Ri
-Kb
+OZ
+OZ
 il
 XH
-oA
-EK
+gh
+Vq
+il
+XH
+gh
+Vq
 il
 KN
 CW
@@ -9351,23 +8935,23 @@ kQ
 vU
 zL
 il
-HT
-yl
-pL
-DY
-QR
+dU
 Rp
-lR
-DY
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+pL
+NE
+dU
+Rp
+pL
+NE
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (34,1,1) = {"
@@ -9438,28 +9022,28 @@ nZ
 nZ
 nZ
 nZ
-OD
-OD
-OD
-OD
-OD
-OD
+Dp
+Dp
+Dp
+Dp
+Dp
+Dp
 Dp
 il
 il
 uD
 il
 il
-nZ
-nZ
 il
 il
 il
+XH
+gh
+Vq
 il
-il
-il
-il
-il
+XH
+gh
+Vq
 il
 il
 il
@@ -9473,18 +9057,18 @@ il
 il
 il
 il
-wB
-wB
-wB
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+il
+il
+il
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (35,1,1) = {"
@@ -9567,15 +9151,18 @@ nZ
 nZ
 nZ
 nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+il
+Fl
+Vg
+PA
+gh
+Vq
+il
+XH
+gh
+PA
+Fy
+rA
 il
 Kz
 ag
@@ -9587,21 +9174,18 @@ ag
 GE
 ag
 ag
-ag
-vB
-il
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+pv
+nL
+QT
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
+mu
 nZ
 "}
 (36,1,1) = {"
@@ -9684,15 +9268,18 @@ nZ
 nZ
 nZ
 nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+il
+qq
+iO
+iO
+PA
+Wh
+il
+vB
+PA
+iO
+iO
+bg
 il
 ag
 bm
@@ -9704,12 +9291,9 @@ qC
 qC
 qC
 qC
+bE
 pv
-ag
-il
-nZ
-nZ
-nZ
+QT
 nZ
 nZ
 nZ
@@ -9801,15 +9385,18 @@ nZ
 nZ
 nZ
 nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+il
+xx
+UV
+Bb
+PA
+Vq
+il
+XH
+PA
+Qs
+PU
+bg
 il
 ag
 Tu
@@ -9821,12 +9408,9 @@ LF
 Ht
 zZ
 Wr
-QY
-ag
-il
-nZ
-nZ
-nZ
+yg
+pv
+QT
 nZ
 nZ
 nZ
@@ -9918,15 +9502,18 @@ nZ
 nZ
 nZ
 nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+il
+qq
+iO
+iO
+PA
+Wh
+il
+EK
+PA
+iO
+iO
+bg
 il
 ag
 Tu
@@ -9938,12 +9525,9 @@ Ht
 LF
 lt
 ym
-QY
-ag
-il
-nZ
-nZ
-nZ
+yg
+pv
+QT
 nZ
 nZ
 nZ
@@ -10035,15 +9619,18 @@ nZ
 nZ
 nZ
 nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+il
+by
+Ri
+Ri
+nU
+Kb
+il
+GR
+nU
+Ri
+QY
+jf
 il
 tu
 Tu
@@ -10055,12 +9642,9 @@ LF
 Ht
 zZ
 mv
-QY
-rA
-il
-nZ
-nZ
-nZ
+yg
+Iq
+QT
 nZ
 nZ
 nZ
@@ -10152,15 +9736,18 @@ nZ
 nZ
 nZ
 nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
-nZ
+il
+il
+il
+il
+il
+il
+il
+il
+il
+il
+il
+il
 il
 ag
 Tu
@@ -10172,12 +9759,9 @@ Ht
 LF
 lt
 ud
-QY
-ag
-il
-nZ
-nZ
-nZ
+yg
+pv
+QT
 nZ
 nZ
 nZ
@@ -10278,6 +9862,9 @@ nZ
 nZ
 nZ
 nZ
+nZ
+nZ
+nZ
 il
 ag
 Tu
@@ -10289,12 +9876,9 @@ LF
 Ht
 zZ
 UY
-QY
-ag
-il
-nZ
-nZ
-nZ
+yg
+pv
+QT
 nZ
 nZ
 nZ
@@ -10395,6 +9979,9 @@ nZ
 nZ
 nZ
 nZ
+nZ
+nZ
+nZ
 il
 tu
 Tu
@@ -10406,12 +9993,9 @@ Ht
 LF
 lt
 se
-QY
-rA
-il
-nZ
-nZ
-nZ
+yg
+Iq
+QT
 nZ
 nZ
 nZ
@@ -10512,6 +10096,9 @@ nZ
 nZ
 nZ
 nZ
+nZ
+nZ
+nZ
 il
 ag
 Tu
@@ -10523,12 +10110,9 @@ LF
 Ht
 zZ
 QF
-QY
-ag
-il
-nZ
-nZ
-nZ
+yg
+pv
+QT
 nZ
 nZ
 nZ
@@ -10629,6 +10213,9 @@ nZ
 nZ
 nZ
 nZ
+nZ
+nZ
+nZ
 il
 ag
 Tu
@@ -10640,12 +10227,9 @@ Ht
 LF
 lt
 Up
-QY
-ag
-il
-nZ
-nZ
-nZ
+yg
+pv
+QT
 nZ
 nZ
 nZ
@@ -10746,6 +10330,9 @@ nZ
 nZ
 nZ
 nZ
+nZ
+nZ
+nZ
 il
 ag
 FS
@@ -10757,12 +10344,9 @@ nF
 nF
 nF
 nF
-Bb
-ag
-il
-nZ
-nZ
-nZ
+po
+pv
+QT
 nZ
 nZ
 nZ
@@ -10863,6 +10447,9 @@ nZ
 nZ
 nZ
 nZ
+nZ
+nZ
+nZ
 il
 aG
 ag
@@ -10874,12 +10461,9 @@ Hb
 PW
 ag
 ag
-ag
-qq
-il
-nZ
-nZ
-nZ
+pv
+rx
+QT
 nZ
 nZ
 nZ
@@ -10980,23 +10564,23 @@ nZ
 nZ
 nZ
 nZ
-il
-il
-il
-il
-il
-il
-il
-il
-il
-il
-il
-il
-il
-il
 nZ
 nZ
 nZ
+il
+il
+il
+il
+il
+il
+il
+il
+il
+il
+il
+QT
+QT
+QT
 nZ
 nZ
 nZ

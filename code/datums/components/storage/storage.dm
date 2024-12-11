@@ -28,6 +28,7 @@
 	var/list/mob/is_using							//lazy list of mobs looking at the contents of this storage.
 
 	var/locked = FALSE								//when locked nothing can see inside or use it.
+	var/lock_key = null								//Only this ckey can use this storage (or admins)
 
 	/// Storage flags, including what kinds of limiters we use for how many items we can hold
 	var/storage_flags = STORAGE_FLAGS_VOLUME_AND_NUMBER
@@ -632,6 +633,8 @@
 
 /datum/component/storage/proc/check_locked(datum/source, mob/user, message = FALSE)
 	. = locked
+	if(lock_key && user && ckey(user.ckey) != ckey(lock_key))
+		. = TRUE
 	if(message && . && user)
 		to_chat(user, span_warning("[parent] seems to be locked!"))
 

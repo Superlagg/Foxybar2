@@ -17,6 +17,15 @@
 	rustle_sound = TRUE
 	number_of_rows = STORAGE_ROWS_BACKPACK
 
+/datum/component/storage/concrete/debug_sack/massive
+	storage_flags = STORAGE_FLAGS_VOLUME_DEFAULT // space limited, only
+	max_items = STORAGE_BACKPACK_DEFAULT_MAX_ITEMS
+	max_w_class = WEIGHT_CLASS_GIGANTIC
+	max_combined_w_class = STORAGE_DUFFEL_SCAV_DEFAULT_MAX_TOTAL_SPACE * 2
+	max_volume = STORAGE_DUFFEL_SCAV_DEFAULT_MAX_TOTAL_SPACE * 2
+	rustle_sound = TRUE
+	number_of_rows = STORAGE_ROWS_DUFFEL_SCAV + 1
+
 /// Backpack
 /datum/component/storage/concrete/backpack
 	storage_flags = STORAGE_FLAGS_VOLUME_DEFAULT // space limited, only

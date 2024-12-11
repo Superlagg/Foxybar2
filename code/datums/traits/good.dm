@@ -672,7 +672,7 @@ GLOBAL_LIST_INIT(security_expert, list(
 	medical_record_text = "Patient appears to be a well renowned gunsmith."
 */
 
-/*
+
 /datum/quirk/voracious
 	name = "Bottomless Stomach"
 	desc = "Nothing gets between I and my food. I eat twice as fast as everyone else!"
@@ -684,7 +684,7 @@ GLOBAL_LIST_INIT(security_expert, list(
 	gain_text = span_notice("I feel HONGRY.")
 	lose_text = span_danger("I no longer feel HONGRY.")
 	medical_record_text = "Patient demonstrates a disturbing capacity for eating. Please, make sure they don't eat my lunch again."
-*/
+//butts
 
 /*
 /datum/quirk/bloodpressure
@@ -1933,7 +1933,7 @@ GLOBAL_LIST_INIT(security_expert, list(
 	var/mob/living/H = quirk_holder
 	if(H)
 		H.faction -= list("bees-friend")
-
+*/
 /datum/quirk/wildshape
 	name = "Wild Shape"
 	desc = "I've developed through some means the ability to adopt a lesser form. What I become was decided by myself or mere circumstance, but I can transform back and forth at will."
@@ -1961,7 +1961,7 @@ GLOBAL_LIST_INIT(security_expert, list(
 	if(H)
 		H.RemoveSpell(wildshape)
 		QDEL_NULL(wildshape)
-
+/*
 /datum/quirk/zoomies
 	name = "Zoomies"
 	desc = "Physical prowess, mutation, or cybernetic enhancement, I can sprint a good deal longer than most folk. Justt don't run into things."

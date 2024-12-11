@@ -815,8 +815,7 @@ GLOBAL_LIST_INIT(loot_seed, list(
 	/obj/item/seeds/liberty,
 	/obj/item/seeds/nettle,
 	/obj/item/seeds/plump,
-	/obj/item/seeds/reishi,
-	/obj/item/seeds/cannabis,
+	/obj/item/seeds/reishi,,
 	/obj/item/seeds/starthistle,
 	/obj/item/seeds/random
 ))

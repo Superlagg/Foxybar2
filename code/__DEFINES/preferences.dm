@@ -148,6 +148,7 @@ GLOBAL_LIST_INIT(undie_position_strings, list("Under Clothes", "Over Clothes", "
 #define PMC_UNBREAK_FAVORITE_PLAPS "/datum/interaction/bang/datum/interaction/funch" // Player Master Changelog
 #define PMC_FENNY_FINISHED_124_QUESTS "and_killed_the_server" // Player Master Changelog
 #define PMC_MY_PDA_FLIES_IN_FULL_COLOR "nekooooooooo" // Player Master Changelog
+#define PMC_MOMMYCHAT_IS_COOL "ill be your mommy tonight uwu" // Player Master Changelog
 
 /// The master Preferences Changelog to check the player's prefs against.
 /// includes a list of actions that need to be taken to update the player's prefs.
@@ -157,6 +158,7 @@ GLOBAL_LIST_INIT(undie_position_strings, list("Under Clothes", "Over Clothes", "
 	PMC_DAN_MESSED_UP_WHO_STUFF,\
 	PMC_FENNY_FINISHED_124_QUESTS,\
 	PMC_MY_PDA_FLIES_IN_FULL_COLOR,\
+	PMC_MOMMYCHAT_IS_COOL,\
 )
 
 #define PMR_WHY_DOES_EVERYTHING_DEFAULT_TO_OFF "lookingatyouwiretap" // Player Master Changelog
@@ -164,6 +166,7 @@ GLOBAL_LIST_INIT(undie_position_strings, list("Under Clothes", "Over Clothes", "
 #define PMR_ADDED_RADIO_BLURBLES "CHAT_HEAR_RADIOBLURBLES" // Player Master Changelog
 #define PMR_ADDED_RADIO_STATIC "PMR_ADDED_RADIO_STATIC" // Player Master Changelog
 #define PMR_ADDED_COOLCHAT "fill-me-to-the-brimcon" // Player Master Changelog
+#define PMR_RUNECHAT_LENGTHENING "long_long_maaaaaaaaaaaaan" // Player Master Changelog
 
 /// The master Preferences Changelog to check the player's prefs against.
 /// includes a list of actions that need to be taken to update the player's prefs.
@@ -173,4 +176,5 @@ GLOBAL_LIST_INIT(undie_position_strings, list("Under Clothes", "Over Clothes", "
 	PMR_ADDED_RADIO_BLURBLES,\
 	PMR_DAN_MESSED_UP_CHATPREFS,\
 	PMR_ADDED_COOLCHAT,\
+	PMR_RUNECHAT_LENGTHENING,\
 )

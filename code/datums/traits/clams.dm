@@ -40,7 +40,7 @@
 	desc = "You're a master at fishing for clams! You're so good in fact that you can just jab your hand into the water and snag em!"
 	value = 7
 	category = "Food Quirks"
-	mechanics = "I can click on water tiles to fish for clams with your bare hands. Otherwise, clam fishing takes around 5 seconds, and has a chance of failing!"
+	mechanics = "I can click on water tiles to fish for clams with my bare hands. Otherwise, clam fishing takes around 5 seconds, and has a chance of failing!"
 	mob_trait = TRAIT_CLAM_FISHER
 	gain_text = span_notice("Zhere isn't a clam alive zhat can escape your grazhp!")
 	lose_text = span_notice("You've lost your touch for clam fishing.")

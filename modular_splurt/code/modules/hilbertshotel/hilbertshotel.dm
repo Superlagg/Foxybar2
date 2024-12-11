@@ -17,7 +17,8 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	"Apartment-2",
 	"Apartment-3", 
 	"Apartment-4",
-	"Apartment-Bar", 
+	"Apartment-Bar",
+	"Apartment-Big",
 	"Apartment-Garden",
 	"Apartment-Sauna",
 	// "Movie-Theater",
@@ -26,12 +27,15 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	"Snowcabin-One",
 	// "Hospital",
 	"Chess",
+	"Glade-One",
+	"Wildsauna-One",
 	)
 	var/datum/map_template/hilbertshotel/apartment/one/hilberts_hotel_rooms_apartment_one
 	var/datum/map_template/hilbertshotel/apartment/two/hilberts_hotel_rooms_apartment_two
 	var/datum/map_template/hilbertshotel/apartment/three/hilberts_hotel_rooms_apartment_three
 	var/datum/map_template/hilbertshotel/apartment/four/hilberts_hotel_rooms_apartment_four
 	var/datum/map_template/hilbertshotel/apartment/bar/hilberts_hotel_rooms_apartment_bar
+	var/datum/map_template/hilbertshotel/apartment/big/hilberts_hotel_rooms_apartment_big
 	var/datum/map_template/hilbertshotel/apartment/garden/hilberts_hotel_rooms_apartment_garden
 	var/datum/map_template/hilbertshotel/apartment/sauna/hilberts_hotel_rooms_apartment_sauna
 	//SPLURT EDIT END
@@ -42,6 +46,8 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	var/datum/map_template/hilbertshotel/apartment/snowcabin_one/snowcabin_one
 	// var/datum/map_template/hilbertshotel/apartment/hospital_one/hospital_one
 	var/datum/map_template/hilbertshotel/apartment/chessboard/thechess
+	var/datum/map_template/hilbertshotel/apartment/glade_one/glade_one
+	var/datum/map_template/hilbertshotel/apartment/wildsauna_one/wildsauna_one
 	//FB Maps End
 	var/datum/map_template/hilbertshotel/hotelRoomTemp
 	var/datum/map_template/hilbertshotel/empty/hotelRoomTempEmpty
@@ -70,6 +76,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	hilberts_hotel_rooms_apartment_three = new()
 	hilberts_hotel_rooms_apartment_four = new()
 	hilberts_hotel_rooms_apartment_bar = new()
+	hilberts_hotel_rooms_apartment_big = new()
 	hilberts_hotel_rooms_apartment_garden = new()
 	hilberts_hotel_rooms_apartment_sauna = new()
 	//FB EDIT START
@@ -79,6 +86,156 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	snowcabin_one = new()
 	// hospital_one = new()
 	thechess = new()
+	glade_one = new()
+	wildsauna_one = new()
+
+/obj/hilbertshotel/proc/getMapTemplate(roomType) // To load a map and remove it's atoms
+	switch(roomType)
+		if("Hotel Room") return hotelRoomTemp
+		if("Apartment-1") return hilberts_hotel_rooms_apartment_one
+		if("Apartment-2") return hilberts_hotel_rooms_apartment_two
+		if("Apartment-3") return hilberts_hotel_rooms_apartment_three
+		if("Apartment-4") return hilberts_hotel_rooms_apartment_four
+		if("Apartment-Bar") return hilberts_hotel_rooms_apartment_bar
+		if("Apartment-Big") return hilberts_hotel_rooms_apartment_big
+		if("Apartment-Garden") return hilberts_hotel_rooms_apartment_garden
+		if("Apartment-Sauna") return hilberts_hotel_rooms_apartment_sauna
+		// if("Movie-Theater") return hilberts_hotel_rooms_movie_theater
+		//if("Dungeon-One") return dungeon_one
+		if("Oasis-One") return oasis_one
+		if("Snowcabin-One") return snowcabin_one
+		// if("Hospital") return hospital_one
+		if("Chess") return thechess
+		if("Glade-One") return glade_one
+		if("Wildsauna-One") return wildsauna_one
+		if("Mystery Room") return hotelRoomTempLore
+		
+	return hotelRoomTemp // Default to Hotel Room if no match is found
+
+//SPLURT EDIT START: HOTEL UPDATE. Was sendToNewRoom(chosenRoomNumber, target) | Added new selectable apartments
+/obj/hilbertshotel/proc/sendToNewRoom(roomNumber, mob/user, chosen_room)
+	var/datum/turf_reservation/roomReservation = SSmapping.RequestBlockReservation(hotelRoomTemp.width, hotelRoomTemp.height)
+	mysteryRoom = GLOB.hhmysteryRoomNumber
+
+	var/datum/map_template/hilbertshotel/mapTemplate
+
+	if(ruinSpawned && roomNumber == mysteryRoom)
+		chosen_room = "Mystery Room"
+		mapTemplate = hotelRoomTempLore
+	else
+		switch(chosen_room)
+			if("Hotel Room") mapTemplate = hotelRoomTemp
+			if("Apartment-1") mapTemplate = hilberts_hotel_rooms_apartment_one
+			if("Apartment-2") mapTemplate = hilberts_hotel_rooms_apartment_two
+			if("Apartment-3") mapTemplate = hilberts_hotel_rooms_apartment_three
+			if("Apartment-4") mapTemplate = hilberts_hotel_rooms_apartment_four
+			if("Apartment-Bar") mapTemplate = hilberts_hotel_rooms_apartment_bar
+			if("Apartment-Big") mapTemplate = hilberts_hotel_rooms_apartment_big
+			if("Apartment-Garden") mapTemplate = hilberts_hotel_rooms_apartment_garden
+			if("Apartment-Sauna") mapTemplate = hilberts_hotel_rooms_apartment_sauna
+			// if("Movie-Theater") mapTemplate = hilberts_hotel_rooms_movie_theater
+			// if("Dungeon-One") mapTemplate = dungeon_one
+			if("Oasis-One") mapTemplate = oasis_one
+			if("Snowcabin-One") mapTemplate = snowcabin_one
+			// if("Hospital") mapTemplate = hospital_one
+			if("Chess") mapTemplate = thechess
+			if("Glade-One") mapTemplate = glade_one
+			if("Wildsauna-One") mapTemplate = wildsauna_one
+
+	if(!mapTemplate)
+		mapTemplate = hotelRoomTemp //Default Hotel Room
+
+	mapTemplate.load(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
+	activeRooms["[roomNumber]"] = roomReservation
+
+	// Set the room type for the newly created area
+	var/area/hilbertshotel/currentArea = get_area(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
+	currentArea.roomType = chosen_room // Sets the room type here
+
+	//To send the user one tile above default when teleported
+	var/additionalY = chosen_room == "Apartment-Sauna" ? 1 : 0
+
+	linkTurfs(roomReservation, roomNumber)
+	do_sparks(3, FALSE, get_turf(user))
+	user.forceMove(locate(roomReservation.bottom_left_coords[1] + mapTemplate.landingZoneRelativeX, roomReservation.bottom_left_coords[2] + mapTemplate.landingZoneRelativeY + additionalY, roomReservation.bottom_left_coords[3]))
+	if(!mob_dorms[user]?.Find(roomNumber))
+		LAZYADD(mob_dorms[user], roomNumber)
+
+//SPLURT EDIT END
+
+// Better SPLURT version of hilbert's
+/datum/map_template/hilbertshotel
+	mappath = '_maps/templates/splurt_templates/hilbertshotel.dmm'
+
+// Empty room - different due to the dimensions of the updated map
+/datum/map_template/hilbertshotel/empty
+	mappath = '_maps/templates/splurt_templates/hilbertshotelempty.dmm'
+
+// SELECTABLE APARTMENTS UPDATE
+/datum/map_template/hilbertshotel/apartment/one
+	name = "Apartment_1"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/apartment_1.dmm'
+
+/datum/map_template/hilbertshotel/apartment/two
+	name = "Apartment_2"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/apartment_2.dmm'
+
+/datum/map_template/hilbertshotel/apartment/three
+	name = "Apartment_3"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/apartment_3.dmm'
+
+/datum/map_template/hilbertshotel/apartment/four
+	name = "Apartment_4"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/apartment_4.dmm'
+
+/datum/map_template/hilbertshotel/apartment/bar
+	name = "Apartment_bar"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/apartment_bar.dmm'
+
+/datum/map_template/hilbertshotel/apartment/big
+	name = "Apartment_big"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/apartment_big.dmm'
+
+/datum/map_template/hilbertshotel/apartment/garden
+	name = "Apartment_garden"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/apartment_garden.dmm'
+
+/datum/map_template/hilbertshotel/apartment/sauna
+	name = "Apartment_sauna"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/apartment_sauna.dmm'
+
+//FB maps
+// /datum/map_template/hilbertshotel/apartment/movietheater
+// 	name = "Movie_Theater"
+// 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/movie_theater.dmm'
+
+// /datum/map_template/hilbertshotel/apartment/dungeon_one
+// 	name = "Dungeon-One"
+// 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/dungeon_1.dmm'
+
+/datum/map_template/hilbertshotel/apartment/oasis_one
+	name = "oasis-One"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/oasis_1.dmm'
+
+/datum/map_template/hilbertshotel/apartment/snowcabin_one
+	name = "snowcabin-One"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/snowcabin_1.dmm'
+
+// /datum/map_template/hilbertshotel/apartment/hospital_one
+// 	name = "Hospital"
+// 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/hospital.dmm'
+
+/datum/map_template/hilbertshotel/apartment/chessboard
+	name = "Chess"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/chess.dmm'
+
+/datum/map_template/hilbertshotel/apartment/glade_one
+	name = "Glade-One"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/glade_1.dmm'
+
+/datum/map_template/hilbertshotel/apartment/wildsauna_one
+	name = "Wildsauna-One"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/wildsauna_1.dmm'
 
 /obj/hilbertshotel/Destroy()
 	ejectRooms()
@@ -248,75 +405,69 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	else
 		return FALSE
 
-/obj/hilbertshotel/proc/getMapTemplate(roomType) // To load a map and remove it's atoms
-	switch(roomType)
-		if("Hotel Room") return hotelRoomTemp
-		if("Apartment-1") return hilberts_hotel_rooms_apartment_one
-		if("Apartment-2") return hilberts_hotel_rooms_apartment_two
-		if("Apartment-3") return hilberts_hotel_rooms_apartment_three
-		if("Apartment-4") return hilberts_hotel_rooms_apartment_four
-		if("Apartment-Bar") return hilberts_hotel_rooms_apartment_bar
-		if("Apartment-Garden") return hilberts_hotel_rooms_apartment_garden
-		if("Apartment-Sauna") return hilberts_hotel_rooms_apartment_sauna
-		// if("Movie-Theater") return hilberts_hotel_rooms_movie_theater
-		//if("Dungeon-One") return dungeon_one
-		if("Oasis-One") return oasis_one
-		if("Snowcabin-One") return snowcabin_one
-		// if("Hospital") return hospital_one
-		if("Chess") return thechess
-		if("Mystery Room") return hotelRoomTempLore
-	return hotelRoomTemp // Default to Hotel Room if no match is found
-
-//SPLURT EDIT START: HOTEL UPDATE. Was sendToNewRoom(chosenRoomNumber, target) | Added new selectable apartments
-/obj/hilbertshotel/proc/sendToNewRoom(roomNumber, mob/user, chosen_room)
-	var/datum/turf_reservation/roomReservation = SSmapping.RequestBlockReservation(hotelRoomTemp.width, hotelRoomTemp.height)
-	mysteryRoom = GLOB.hhmysteryRoomNumber
-
-	var/datum/map_template/hilbertshotel/mapTemplate
-
-	if(ruinSpawned && roomNumber == mysteryRoom)
-		chosen_room = "Mystery Room"
-		mapTemplate = hotelRoomTempLore
-	else
-		switch(chosen_room)
-			if("Hotel Room") mapTemplate = hotelRoomTemp
-			if("Apartment-1") mapTemplate = hilberts_hotel_rooms_apartment_one
-			if("Apartment-2") mapTemplate = hilberts_hotel_rooms_apartment_two
-			if("Apartment-3") mapTemplate = hilberts_hotel_rooms_apartment_three
-			if("Apartment-4") mapTemplate = hilberts_hotel_rooms_apartment_four
-			if("Apartment-Bar") mapTemplate = hilberts_hotel_rooms_apartment_bar
-			if("Apartment-Garden") mapTemplate = hilberts_hotel_rooms_apartment_garden
-			if("Apartment-Sauna") mapTemplate = hilberts_hotel_rooms_apartment_sauna
-			// if("Movie-Theater") mapTemplate = hilberts_hotel_rooms_movie_theater
-			// if("Dungeon-One") mapTemplate = dungeon_one
-			if("Oasis-One") mapTemplate = oasis_one
-			if("Snowcabin-One") mapTemplate = snowcabin_one
-			// if("Hospital") mapTemplate = hospital_one
-			if("Chess") mapTemplate = thechess
-	if(!mapTemplate)
-		mapTemplate = hotelRoomTemp //Default Hotel Room
-
-	mapTemplate.load(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
-	activeRooms["[roomNumber]"] = roomReservation
-
-	// Set the room type for the newly created area
-	var/area/hilbertshotel/currentArea = get_area(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
-	currentArea.roomType = chosen_room // Sets the room type here
-
-	//To send the user one tile above default when teleported
-	var/additionalY = chosen_room == "Apartment-Sauna" ? 1 : 0
-
-	linkTurfs(roomReservation, roomNumber)
-	do_sparks(3, FALSE, get_turf(user))
-	user.forceMove(locate(roomReservation.bottom_left_coords[1] + mapTemplate.landingZoneRelativeX, roomReservation.bottom_left_coords[2] + mapTemplate.landingZoneRelativeY + additionalY, roomReservation.bottom_left_coords[3]))
-	if(!mob_dorms[user]?.Find(roomNumber))
-		LAZYADD(mob_dorms[user], roomNumber)
-
-//SPLURT EDIT END
-
 /obj/hilbertshotel/proc/linkTurfs(var/datum/turf_reservation/currentReservation, var/currentRoomnumber, var/chosen_room)
 	var/area/hilbertshotel/currentArea = get_area(locate(currentReservation.bottom_left_coords[1], currentReservation.bottom_left_coords[2], currentReservation.bottom_left_coords[3]))
-	currentArea.name = "Hilbert's Hotel Room [currentRoomnumber]"
+	var/rumnam = "Hilbert's Hotel Room [currentRoomnumber]"
+	if(SSwho.obfuscate_hilbert_where)
+		var/list/starts = list(
+			"Somewhere",
+			"Someplace",
+			"Roughly",
+			"Vaguely",
+		)
+		var/list/relatives = list(
+			"adjacent to",
+			"near",
+			"within",
+			"beside",
+			"around",
+			"surrounding the greater area of",
+			"in the general vicinity of",
+			"on top of",
+			"beneath",
+			"bottoming for",
+			"topping for",
+			"inside of",
+			"outside of",
+			"draped over",
+			"clinging to",
+			"clinging to the underbelly of",
+			"clinging to the backside of",
+			"enjoying the company of",
+		)
+		var/list/prefixes = list(
+			"the great",
+			"a sexy",
+			"some kind of",
+			"an historic",
+			"your",
+			"the esteemed mister",
+			"the illustrious missus",
+			"the mysterious",
+			"the enigmatic",
+			"the legendary",
+			"the infamous",
+			"the notorious",
+			"the fabled",
+			"some random",
+			"an EXTREMELY busty",
+			"a worryingly well endowed",
+			"the one and only",
+			"your mom's",
+			"the",
+			"the reason the 14 is STILL under construction, AKA.",
+			"the hit new romcom:",
+			"the sink after a night with",
+		)
+		var/sharkfirst = safepick(GLOB.megacarp_first_names)
+		var/sharklast = safepick(GLOB.megacarp_last_names)
+		rumnam = ""
+		rumnam += "[safepick(starts)] "
+		rumnam += "[safepick(relatives)] "
+		rumnam += "[safepick(prefixes)] "
+		rumnam += "[sharkfirst] [sharklast]"
+
+	currentArea.name = rumnam // somewhere topping for the illustrious missus exploding terror shark
 	currentArea.parentSphere = src
 	currentArea.storageTurf = storageTurf
 	currentArea.roomnumber = currentRoomnumber
@@ -715,70 +866,6 @@ Lay your head to rest, it soon becomes clear
 There's always more room around every bend
 Not all that's countable has an end..._
 "}
-
-
-
-// Better SPLURT version of hilbert's
-/datum/map_template/hilbertshotel
-	mappath = '_maps/templates/splurt_templates/hilbertshotel.dmm'
-
-// Empty room - different due to the dimensions of the updated map
-/datum/map_template/hilbertshotel/empty
-	mappath = '_maps/templates/splurt_templates/hilbertshotelempty.dmm'
-
-// SELECTABLE APARTMENTS UPDATE
-/datum/map_template/hilbertshotel/apartment/one
-	name = "Apartment_1"
-	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/apartment_1.dmm'
-
-/datum/map_template/hilbertshotel/apartment/two
-	name = "Apartment_2"
-	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/apartment_2.dmm'
-
-/datum/map_template/hilbertshotel/apartment/three
-	name = "Apartment_3"
-	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/apartment_3.dmm'
-
-/datum/map_template/hilbertshotel/apartment/four
-	name = "Apartment_4"
-	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/apartment_4.dmm'
-
-/datum/map_template/hilbertshotel/apartment/bar
-	name = "Apartment_bar"
-	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/apartment_bar.dmm'
-
-/datum/map_template/hilbertshotel/apartment/garden
-	name = "Apartment_garden"
-	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/apartment_garden.dmm'
-
-/datum/map_template/hilbertshotel/apartment/sauna
-	name = "Apartment_sauna"
-	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/apartment_sauna.dmm'
-
-//FB maps
-// /datum/map_template/hilbertshotel/apartment/movietheater
-// 	name = "Movie_Theater"
-// 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/movie_theater.dmm'
-
-// /datum/map_template/hilbertshotel/apartment/dungeon_one
-// 	name = "Dungeon-One"
-// 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/dungeon_1.dmm'
-
-/datum/map_template/hilbertshotel/apartment/oasis_one
-	name = "oasis-One"
-	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/oasis_1.dmm'
-
-/datum/map_template/hilbertshotel/apartment/snowcabin_one
-	name = "snowcabin-One"
-	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/snowcabin_1.dmm'
-
-// /datum/map_template/hilbertshotel/apartment/hospital_one
-// 	name = "Hospital"
-// 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/hospital.dmm'
-
-/datum/map_template/hilbertshotel/apartment/chessboard
-	name = "Chess"
-	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/chess.dmm'
 
 // // Fluff - Misc
 // /obj/item/paper/fluff/hilbertshotel/welcomeletter

@@ -1438,9 +1438,9 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 				return FALSE
 			if( istype(I, /obj/item/pda) || istype(I, /obj/item/pen) || is_type_in_list(I, GLOB.default_all_armor_slot_allowed) )
 				return TRUE
-			if(HAS_TRAIT(H, TRAIT_PACKRAT))
-				if(istype(I, /obj/item/storage/backpack))
-					return TRUE
+			// if(HAS_TRAIT(H, TRAIT_PACKRAT))
+			// 	if(istype(I, /obj/item/storage/backpack))
+			// 		return TRUE
 			return FALSE
 		if(SLOT_HANDCUFFED)
 			if(H.handcuffed)
@@ -1692,6 +1692,9 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 	if(user.incapacitated(allow_crit = TRUE))
 		if(!extract_ckey(target)) // you can punch players, not mob
 			return FALSE
+	
+	if(!PVPcheck(user, target))
+		return FALSE
 
 	if(!attacker_style && HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, span_warning("I don't want to harm [target]!"))
@@ -1771,39 +1774,39 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 		target.lastattackerckey = user.ckey
 		user.dna.species.spec_unarmedattacked(user, target)
 
-		if(user.limb_destroyer)
-			target.dismembering_strike(user, affecting.body_zone)
 
 		target.apply_damage(damage, STAMINA, affecting, armor_block)
 		log_combat(user, target, "punched")
-		// if(atk_verb == ATTACK_EFFECT_KICK)//kicks deal 1.5x raw damage + 0.5x stamina damage
-		// 	target.apply_damage(damage*1.5, attack_type, affecting, armor_block)
-		// 	target.apply_damage(damage*0.5, STAMINA, affecting, armor_block)
-		// 	log_combat(user, target, "kicked")
-		// else//other attacks deal full raw damage + 2x in stamina damage
-		// 	target.apply_damage(damage, attack_type, affecting, armor_block)
+		if(!SSmobs.punching_only_does_stamina_damage)
+			if(user.limb_destroyer)
+				target.dismembering_strike(user, affecting.body_zone)
+			if(atk_verb == ATTACK_EFFECT_KICK)//kicks deal 1.5x raw damage + 0.5x stamina damage
+				target.apply_damage(damage*1.5, attack_type, affecting, armor_block)
+				target.apply_damage(damage*0.5, STAMINA, affecting, armor_block)
+				log_combat(user, target, "kicked")
+			else//other attacks deal full raw damage + 2x in stamina damage
+				target.apply_damage(damage, attack_type, affecting, armor_block)
+			if((target.stat != DEAD) && damage >= user.dna.species.punchstunthreshold)
+				if((punchedstam > 50) && prob(punchedstam*0.5)) //If our punch victim has been hit above the threshold, and they have more than 50 stamina damage, roll for stun, probability of 1% per 2 stamina damage
 
-		if((target.stat != DEAD) && damage >= user.dna.species.punchstunthreshold)
-			if((punchedstam > 50) && prob(punchedstam*0.5)) //If our punch victim has been hit above the threshold, and they have more than 50 stamina damage, roll for stun, probability of 1% per 2 stamina damage
+					target.visible_message(span_danger("[user] knocks [target] down!"), \
+									span_userdanger("You're knocked down by [user]!"),
+									span_hear("I hear aggressive shuffling followed by a loud thud!"), COMBAT_MESSAGE_RANGE, null,
+									user, span_danger("I knock [target] down!"))
 
-				target.visible_message(span_danger("[user] knocks [target] down!"), \
-								span_userdanger("You're knocked down by [user]!"),
-								span_hear("I hear aggressive shuffling followed by a loud thud!"), COMBAT_MESSAGE_RANGE, null,
-								user, span_danger("I knock [target] down!"))
+					var/knockdown_duration = 40 + (punchedstam + (punchedbrute*0.5))*0.8 - armor_block
+					target.DefaultCombatKnockdown(knockdown_duration)
+					target.forcesay(GLOB.hit_appends)
+					log_combat(user, target, "got a stun punch with their previous punch")
 
-				var/knockdown_duration = 40 + (punchedstam + (punchedbrute*0.5))*0.8 - armor_block
-				target.DefaultCombatKnockdown(knockdown_duration)
+					// if(HAS_TRAIT(user, TRAIT_KI_VAMPIRE) && !HAS_TRAIT(target, TRAIT_NOBREATH) && (punchedbrute < 100)) //If we're a ki vampire we also sap them of lifeforce, but only if they're not too beat up. Also living organics only.
+					// 	user.adjustBruteLoss(-5)
+					// 	user.adjustFireLoss(-5)
+					// 	user.adjustStaminaLoss(-20)
+					// 	target.adjustBruteLoss(20)
+
+			else if(!(target.mobility_flags & MOBILITY_STAND))
 				target.forcesay(GLOB.hit_appends)
-				log_combat(user, target, "got a stun punch with their previous punch")
-
-				// if(HAS_TRAIT(user, TRAIT_KI_VAMPIRE) && !HAS_TRAIT(target, TRAIT_NOBREATH) && (punchedbrute < 100)) //If we're a ki vampire we also sap them of lifeforce, but only if they're not too beat up. Also living organics only.
-				// 	user.adjustBruteLoss(-5)
-				// 	user.adjustFireLoss(-5)
-				// 	user.adjustStaminaLoss(-20)
-				// 	target.adjustBruteLoss(20)
-
-		else if(!(target.mobility_flags & MOBILITY_STAND))
-			target.forcesay(GLOB.hit_appends)
 
 /datum/species/proc/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return
@@ -2058,7 +2061,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 	var/bloody = 0
 	if(((I.damtype == BRUTE) && totitemdamage && prob(25 + (totitemdamage * 2))))
-		if(affecting.status == BODYPART_ORGANIC)
+		if(affecting.status == BODYPART_ORGANIC && SSmobs.attacks_cause_blood)
 			I.add_mob_blood(H)	//Make the weapon bloody, not the person.
 			if(prob(totitemdamage * 2))	//blood spatter!
 				bloody = 1

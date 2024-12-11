@@ -323,6 +323,7 @@
 /datum/crafting_recipe/rip
 	subcategory = CAT_MISCELLANEOUS
 	category = CAT_MISC
+	always_available = FALSE
 
 /datum/crafting_recipe/rip/gravemarker
 	name = "Gravemarker"

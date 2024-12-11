@@ -148,9 +148,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/buttons_locked = FALSE
 	var/hotkeys = FALSE
 	var/chat_on_map = TRUE
-	var/max_chat_length = CHAT_MESSAGE_MAX_LENGTH
+	var/max_chat_length = CHAT_MESSAGE_LENGTH_DEFAULT
+	var/chat_width = CHAT_MESSAGE_WIDTH
 	var/see_chat_non_mob = TRUE
 	var/see_furry_dating_sim = TRUE
+	var/visualchat_see_horny_radio = TRUE
+	var/visualchat_use_contrasting_color = TRUE
 	///Whether emotes will be displayed on runechat. Requires chat_on_map to have effect. Boolean.
 	var/see_rc_emotes = TRUE
 	///Whether to apply mobs' runechat color to the chat log as well
@@ -298,6 +301,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/creature_pfphost = ""
 	var/creature_body_size = 1
 	var/creature_fuzzy = FALSE
+
+	var/see_pfp_max_hight = 300
+	var/see_pfp_max_widht = 300
 
 	var/list/ProfilePics = list(
 		list(
@@ -469,6 +475,17 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	/// lets the user see runechat that's hidden behind a wall
 	var/see_hidden_runechat = TRUE
 
+	var/stash_equipment_on_logout = TRUE
+	var/lock_equipment_on_logout = TRUE
+
+	var/copyslot = 0
+	var/copyname = ""
+
+	var/show_this_many = 30
+	var/names_per_row = 6
+
+	var/hear_people_on_other_zs = TRUE
+
 /datum/preferences/New(client/C)
 	parent = C
 
@@ -541,19 +558,28 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				var/savefile/S = new /savefile(path)
 				if(S)
 					dat += "<center>"
+					dat += "<table><tr>"
 					var/name
 					var/unspaced_slots = 0
-					for(var/i=1, i<=max_save_slots, i++)
+					for(var/i=1, i<=min(max_save_slots, show_this_many), i++)
 						unspaced_slots++
-						if(unspaced_slots > 8)
-							dat += "<br>"
-							unspaced_slots = 0
+						if(unspaced_slots > names_per_row)
+							dat += "</tr>"
+							dat += "<tr>"
+							unspaced_slots = 1
+						dat += "<td>"
 						S.cd = "/character[i]"
 						S["real_name"] >> name
 						if(!name)
 							name = "Character[i]"
 						dat += "<a style='white-space:nowrap;' href='?_src_=prefs;preference=changeslot;num=[i];' [i == default_slot ? "class='linkOn'" : ""]>[name]</a> "
+						dat += "</td>"
+					dat += "</tr></table>"
 					dat += "</center>"
+					dat += "<a href='?_src_=prefs;preference=copyslot;'>Copy</a> | <a href='?_src_=prefs;preference=paste;'>Paste</a>"
+					dat += " | Showing <a href='?_src_=prefs;preference=show_this_many;num=1;'>[show_this_many]</a> characters, <a href='?_src_=prefs;preference=names_per_row;num=1;'>[names_per_row]</a> per row"
+					if(copyslot)
+						dat += "<br>Copying FROM: [copyslot] ([copyname])"
 
 			dat += "<center><h2>Quest Board UID</h2>"
 			dat += "[quester_uid]</center>"
@@ -578,7 +604,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<center><h2>S.P.E.C.I.A.L.</h2>"
 			dat += "<a href='?_src_=prefs;preference=special;task=menu'>Allocate Points</a><br></center>"
 			//Left Column
-			dat += "<table><tr><td width='30%'valign='top'>"
+			dat += "<table><tr><td width='70%'valign='top'>"
 			dat += "<h2>Identity</h2>"
 			if(jobban_isbanned(user, "appearance"))
 				dat += "<b>You are banned from using custom names and appearances. You can continue to adjust your characters, but you will be randomised once you join the game.</b><br>"
@@ -589,8 +615,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat += "<b>Gender:</b> <a href='?_src_=prefs;preference=gender;task=input'>[gender == MALE ? "Male" : (gender == FEMALE ? "Female" : (gender == PLURAL ? "Non-binary" : "Object"))]</a><BR>"
 			dat += "<b>Age:</b> <a style='display:block;width:30px' href='?_src_=prefs;preference=age;task=input'>[age]</a><BR>"
-			dat += "<b>Top/Bottom/Switch:</b> <a href='?_src_=prefs;preference=tbs;task=input'>[tbs]</a><BR>"
-			dat += "<b>Orientation:</b> <a href='?_src_=prefs;preference=kisser;task=input'>[kisser]</a><BR>"
+			dat += "<b>Top/Bottom/Switch:</b> <a href='?_src_=prefs;preference=tbs;task=input'>[tbs || "Set me!"]</a><BR>"
+			dat += "<b>Orientation:</b> <a href='?_src_=prefs;preference=kisser;task=input'>[kisser || "Set me!"]</a><BR>"
+			dat += "<b>When you despawn, all your equipment...</b> <a href='?_src_=prefs;preference=stash_equipment_on_logout;task=input'>[stash_equipment_on_logout?"will be left where you despawn":"will be deleted"]</a><BR>"
+			dat += "<b>Your equipment, if left behind...</b> <a href='?_src_=prefs;preference=lock_equipment_on_logout;task=input'>[lock_equipment_on_logout?"will be locked (only you can open it)":"will be open for everyone"]</a><BR>"
 			dat += "</td>"
 /*			//Middle Column
 			dat +="<td width='30%' valign='top'>"
@@ -1432,9 +1460,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>tgui Style:</b> <a href='?_src_=prefs;preference=tgui_fancy'>[(tgui_fancy) ? "Fancy" : "No Frills"]</a><br>"
 			dat += "<b>Show Runechat Chat Bubbles:</b> <a href='?_src_=prefs;preference=chat_on_map'>[chat_on_map ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Runechat message char limit:</b> <a href='?_src_=prefs;preference=max_chat_length;task=input'>[max_chat_length]</a><br>"
+			dat += "<b>Runechat message width:</b> <a href='?_src_=prefs;preference=chat_width;task=input'>[chat_width]</a><br>"
+			dat += "<b>Runechat off-screen:</b> <a href='?_src_=prefs;preference=offscreen;task=input'>[see_fancy_offscreen_runechat ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>See Runechat for non-mobs:</b> <a href='?_src_=prefs;preference=see_chat_non_mob'>[see_chat_non_mob ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>See Runechat emotes:</b> <a href='?_src_=prefs;preference=see_rc_emotes'>[see_rc_emotes ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Use Runechat color in chat log:</b> <a href='?_src_=prefs;preference=color_chat_log'>[color_chat_log ? "Enabled" : "Disabled"]</a><br>"
+			dat += "<br>"
+			dat += "<b>See Runechat / hear sounds above/below you:</b> <a href='?_src_=prefs;preference=upperlowerfloor;task=input'>[hear_people_on_other_zs ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<br>"
 			dat += "<b>Action Buttons:</b> <a href='?_src_=prefs;preference=action_buttons'>[(buttons_locked) ? "Locked In Place" : "Unlocked"]</a><br>"
 			dat += "<br>"
@@ -1477,7 +1509,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<h2>Preferences</h2>" //Because fuck me if preferences can't be fucking modularized and expected to update in a reasonable timeframe.
 			dat += "<b>End of round deathmatch:</b> <a href='?_src_=prefs;preference=end_of_round_deathmatch'>[end_of_round_deathmatch ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<h2>Citadel Preferences</h2>" //Because fuck me if preferences can't be fucking modularized and expected to update in a reasonable timeframe.
-			// dat += "<b>Widescreen:</b> <a href='?_src_=prefs;preference=widescreenpref'>[widescreenpref ? "Enabled ([CONFIG_GET(string/default_view)])" : "Disabled (15x15)"]</a><br>"
+			dat += "<b>Widescreen:</b> <a href='?_src_=prefs;preference=widescreenpref'>[widescreenpref ? "Enabled ([CONFIG_GET(string/default_view)])" : "Disabled (15x15)"]</a><br>"
 			dat += "<b>Auto stand:</b> <a href='?_src_=prefs;preference=autostand'>[autostand ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Auto OOC:</b> <a href='?_src_=prefs;preference=auto_ooc'>[auto_ooc ? "Disabled" : "Enabled" ]</a><br>"
 			dat += "<b>Force Slot Storage HUD:</b> <a href='?_src_=prefs;preference=no_tetris_storage'>[no_tetris_storage ? "Enabled" : "Disabled"]</a><br>"
@@ -1488,6 +1520,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat += "<b>Show Health Smileys:</b> <a href='?_src_=prefs;preference=show_health_smilies;task=input'>[show_health_smilies ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<br>"
+			dat += "<b>Max PFP Examine Image Height px:</b> <a href='?_src_=prefs;preference=max_pfp_hight;task=input'>[see_pfp_max_hight]px</a><br>"
+			dat += "<b>Max PFP Examine Image Width %:</b> <a href='?_src_=prefs;preference=max_pfp_with;task=input'>[see_pfp_max_widht]%</a><br>"
 			dat += "</td>"
 			dat += "</tr></table>"
 			if(unlock_content)
@@ -2668,6 +2702,20 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			if(href_list["preference"] in GLOB.preferences_custom_names)
 				ask_for_custom_name(user,href_list["preference"])
 			switch(href_list["preference"])
+				if("max_pfp_hight")
+					var/newhight = input(user, "How many pixels tall should profile examine images be when you see em?", "tall") as num|null
+					if(newhight)
+						see_pfp_max_hight = newhight
+					else
+						to_chat("Okay!")
+					return 1
+				if("max_pfp_with")
+					var/newhight = input(user, "How many pixels wide should profile examine images be when you see em?", "wide") as num|null
+					if(newhight)
+						see_pfp_max_widht = newhight
+					else
+						to_chat("Okay!")
+					return 1
 				if("show_health_smilies")
 					TOGGLE_VAR(show_health_smilies)
 					return 1
@@ -2798,6 +2846,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/newkiss = input(user, "What sort of person do you like to kisser?", "Character Preference") as null|anything in KISS_LIST
 					if(newkiss)
 						kisser = newkiss
+				if("stash_equipment_on_logout")
+					TOGGLE_VAR(stash_equipment_on_logout)
+				if("lock_equipment_on_logout")
+					TOGGLE_VAR(lock_equipment_on_logout)
 				if("age")
 					var/new_age = input(user, "Choose your character's age:\n([AGE_MIN]-[AGE_MAX])", "Character Preference") as num|null
 					if(new_age)
@@ -3737,6 +3789,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if (!isnull(desiredlength))
 						max_chat_length = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_LENGTH)
 
+				if ("chat_width")
+					var/desiredlength = input(user, "Choose the max character length of shown Runechat messages. Valid range is 1 to [CHAT_MESSAGE_MAX_LENGTH] (default: [initial(max_chat_length)]))", "Character Preference", max_chat_length)  as null|num
+					if (!isnull(desiredlength))
+						chat_width = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_WIDTH)
+					
+				if("offscreen")
+					TOGGLE_VAR(see_hidden_runechat)
+
 				if("hud_toggle_color")
 					var/new_toggle_color = input(user, "Choose your HUD toggle flash color:", "Game Preference",hud_toggle_color) as color|null
 					if(new_toggle_color)
@@ -3961,7 +4021,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("has_belly")
 					features["has_belly"] = !features["has_belly"]
 				if("widescreenpref")
-					widescreenpref = TRUE
+					TOGGLE_VAR(widescreenpref)
 					user.client.change_view(CONFIG_GET(string/default_view))
 				if("end_of_round_deathmatch")
 					end_of_round_deathmatch = !end_of_round_deathmatch
@@ -4280,6 +4340,36 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 				if("delete_character")
 					run_deletion_song_and_dance()
+
+				if("copyslot")
+					set_copyslot()
+				
+				if("paste")
+					run_paste_song_and_dance()
+
+				if("show_this_many")
+					var/s_howmany = input(
+						user,
+						"How many character slots do you want to be able to see? This will just \
+						hide the rest, they'll still be there when you change this back later. \
+						(1-[max_save_slots])",
+						"Hide The Unused",
+						show_this_many
+					) as null|num
+					if(s_howmany)
+						show_this_many = clamp(s_howmany, 1, max_save_slots)
+						to_chat(user, span_notice("You will now see [show_this_many] character slots! Any characters in the hidden slots will be inaccessible until you change this back. If there aren't any characters there, then, good, all is well!"))
+
+				if("names_per_row")
+					var/narow = input(
+						user,
+						"How many character names do you want to see per row? (1-10)",
+						"Character Preference",
+						names_per_row
+					) as null|num
+					if(narow)
+						names_per_row = clamp(narow, 1, 10)
+						to_chat(user, span_notice("You will now see [names_per_row] character names per row!"))
 
 				if("changeslot")
 					if(!load_character(text2num(href_list["num"])))
@@ -4871,6 +4961,42 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			cells_left = quirks_per_row
 	dat += "</table>"
 	return dat.Join()
+
+/datum/preferences/proc/set_copyslot()
+	copyslot = default_slot
+	copyname = real_name
+	to_chat(usr, span_notice("Copied [real_name] to the clipboard."))
+
+/datum/preferences/proc/run_paste_song_and_dance()
+	if(copyslot == default_slot)
+		to_chat(usr, span_danger("You can't paste a character to itself, it just wouldn't work!"))
+		return
+	var/tobsure = alert(
+		usr,
+		"Just to be clear, this will copy everything from [copyname] in slot [copyslot] to \
+		[real_name], the currently selected character in slot [copyslot]. Everything on THIS \
+		character ([real_name]) will be totally, utterly, completely lost and deleted forever, \
+		and in its place will be everything from [copyname]. Are you sure you want to do this?",
+		"Character Paste",
+		"Yes, Paste [copyname] to [real_name]",
+		"NO WAIT I CHANGED MY MIND",
+	)
+	if(tobsure != "Yes, Paste [copyname] to [real_name]")
+		to_chat(usr, span_green("Nevermind!! Your character remains safe and sound."))
+		return
+	var/sure2 = input(
+		usr,
+		"Just in case you kinda sorta fat-fingered the last prompt, please type 'Chiara is wide' \
+		in the box below to confirm that you really want to paste [copyname] to [real_name] and \
+		utterly delete [real_name] forever and ever. No quotes, please!",
+		"Character Paste, part II",
+	) as text|null
+	if(sure2 != "Chiara is wide")
+		to_chat(usr, span_green("Nevermind!! Your character remains safe and sound."))
+		return
+	load_character(copyslot, TRUE)
+	save_character()
+	to_chat(usr, span_notice("Character pasted successfully!"))
 
 #undef MAX_FREE_PER_CAT
 #undef HANDS_SLOT_AMT
