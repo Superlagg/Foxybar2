@@ -232,7 +232,28 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	var/is_pasta = FALSE
 	var/is_rice = FALSE
 	var/is_potato = FALSE
-	
+	var/is_fruit = FALSE
+	var/is_cheese = FALSE
+	var/is_dairy = FALSE
+	var/is_buttery = FALSE
+	var/is_hotdog = FALSE
+	var/is_human = FALSE
+	var/is_robot = FALSE
+	var/is_alien = FALSE
+	var/is_huge = FALSE
+	var/is_spooky = FALSE
+	var/is_toxic = FALSE
+	var/is_fish = FALSE
+	var/is_meat = FALSE
+	var/is_meme = FALSE
+	var/is_sliceable = FALSE
+	var/is_cake = FALSE
+	var/is_slice = FALSE
+	var/is_egg = FALSE
+	var/is_icecream = FALSE
+	var/is_sushi = FALSE
+	var/is_insect = FALSE
+
 
 
 

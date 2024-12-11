@@ -569,13 +569,14 @@
 	tastes = list("broken" = 1, "code" = 1)
 	foodtype = MEAT | SUGAR
 	var/dried_being = /mob/living/carbon/monkey //What the cube will spawn mob wise
+	is_food = FALSE
 
 /obj/item/reagent_containers/food/snacks/cube/On_Consume(mob/living/carbon/M)
 	if(iscarbon(M))
 		M.visible_message("[src] bursts out of [M]!</span>")
 		M.emote("scream")
 		M.DefaultCombatKnockdown(40)
-		M.adjustBruteLoss(60)
+		// M.adjustBruteLoss(60)
 		Expand()
 		return TRUE
 	return ..()
@@ -595,28 +596,33 @@
 	desc = "Just add water!"
 	tastes = list("the jungle" = 1, "bananas" = 1)
 	dried_being = /mob/living/carbon/monkey
+	is_food = FALSE
 
 /obj/item/reagent_containers/food/snacks/cube/beno
 	name = "alien drone cube"
 	desc = "Just add water and run!"
 	tastes = list("the jungle" = 1, "acid" = 1)
 	dried_being = /mob/living/carbon/alien/humanoid/drone
+	is_food = FALSE
 
 /obj/item/reagent_containers/food/snacks/cube/goat
 	name = "goat cube"
 	tastes = list("grass" = 1)
 	dried_being = /mob/living/simple_animal/hostile/retaliate/goat
+	is_food = FALSE
 
 /obj/item/reagent_containers/food/snacks/cube/cow
 	name = "cow cube"
 	tastes = list("milk" = 1, "beef" = 1)
 	dried_being = /mob/living/simple_animal/cow
+	is_food = FALSE
 
 /obj/item/reagent_containers/food/snacks/cube/ape
 	name = "ape cube"
 	desc = "Don't add water."
 	tastes = list("the jungle" = 1, "bananas" = 1, "jimmies" = 1)
 	dried_being = /mob/living/simple_animal/hostile/gorilla
+	is_food = FALSE // as funny as gorillas are, they kinda soil the vibe
 
 /obj/item/reagent_containers/food/snacks/cube/egg
 //Well eggs normally are able to hatch into small birds, this one does not.

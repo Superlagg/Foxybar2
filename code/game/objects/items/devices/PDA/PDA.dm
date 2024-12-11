@@ -115,6 +115,9 @@ GLOBAL_LIST_EMPTY(PDAs)
 
 	var/list/saved_frequencies = list("Common" = FREQ_COMMON)
 
+	/// used to relay stuff sent to this thing to something else
+	var/datum/weakref/forward_to
+
 /obj/item/pda/examine(mob/user)
 	. = ..()
 	. += id ? span_notice("Alt-click to remove the id.") : ""
@@ -1025,6 +1028,9 @@ GLOBAL_LIST_EMPTY(PDAs)
 
 		to_chat(L, "[icon2html(src)] <b>Message from [hrefstart][signal.data["name"]] ([signal.data["job"]])[hrefend], </b>[inbound_message] (<a href='byond://?src=[REF(src)];choice=Message;skiprefresh=1;target=[REF(signal.source)]'>Reply</a>) (<a href='byond://?src=[REF(src)];choice=toggle_block;target=[signal.data["name"]]'>BLOCK/UNBLOCK</a>)")
 
+	var/datum/rental_mommy/pda/pda_mommy = SSrentaldatums.get_pda_mommy()
+	SEND_SIGNAL(src, COMSIG_PDA_MESSAGE_RECEIVED, )
+
 	new_alert = TRUE
 	update_icon(TRUE)
 
@@ -1323,6 +1329,7 @@ GLOBAL_LIST_EMPTY(PDAs)
 		QDEL_NULL(geiger)
 	if(istype(extinguisher))
 		QDEL_NULL(extinguisher)
+	forward_to = null
 	return ..()
 
 //AI verb and proc for sending PDA messages.
