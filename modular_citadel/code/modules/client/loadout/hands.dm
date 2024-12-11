@@ -1,5 +1,6 @@
 /datum/gear/hands
 	category = LOADOUT_CATEGORY_HANDS
+	subcategory = LOADOUT_SUBCATEGORY_NECK_GENERAL
 	slot = SLOT_HANDS
 	cost = 0
 
@@ -301,67 +302,83 @@
 /datum/gear/hands/studearrings
 	name = "stud earrings, glass"
 	path = "/obj/item/clothing/accessory/earring/stud/glass"
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 	cost = 0
 
 /datum/gear/hands/studearrings/wood
 	name = "stud earrings, wood"
 	path = "/obj/item/clothing/accessory/earring/stud/wood"
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 
 /datum/gear/hands/studearrings/iron
 	name = "stud earrings, iron"
 	path = "/obj/item/clothing/accessory/earring/stud/iron"
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 
 /datum/gear/hands/studearrings/steel
 	name = "stud earrings, steel"
 	path = "/obj/item/clothing/accessory/earring/stud/steel"
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 
 /datum/gear/hands/studearrings/silver
 	name = "stud earrings, silver"
 	path = "/obj/item/clothing/accessory/earring/stud/silver"
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 
 /datum/gear/hands/studearrings/gold
 	name = "stud earrings, gold"
 	path = "/obj/item/clothing/accessory/earring/stud/gold"
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 
 /datum/gear/hands/studearrings/platinum
 	name = "stud earrings, platinum"
 	path = "/obj/item/clothing/accessory/earring/stud/platinum"
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 
 /datum/gear/hands/studearrings/diamond
 	name = "stud earrings, diamond"
 	path = "/obj/item/clothing/accessory/earring/stud/diamond"
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 
 //dangle-danglers
 /datum/gear/hands/dangleearrings
 	name = "dangle earrings, glass"
 	path = "/obj/item/clothing/accessory/earring/dangle/glass"
 	cost = 0
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 
 /datum/gear/hands/dangleearrings/wood
 	name = "dangle earrings, wood"
 	path = "/obj/item/clothing/accessory/earring/dangle/wood"
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 
 /datum/gear/hands/dangleearrings/iron
 	name = "dangle earrings, iron"
 	path = "/obj/item/clothing/accessory/earring/dangle/iron"
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 
 /datum/gear/hands/dangleearrings/steel
 	name = "dangle earrings, steel"
 	path = "/obj/item/clothing/accessory/earring/dangle/steel"
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 
 /datum/gear/hands/dangleearrings/silver
 	name = "dangle earrings, silver"
 	path = "/obj/item/clothing/accessory/earring/dangle/silver"
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 
 /datum/gear/hands/dangleearrings/gold
 	name = "dangle earrings, gold"
 	path = "/obj/item/clothing/accessory/earring/dangle/gold"
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 
 /datum/gear/hands/dangleearrings/platinum
 	name = "dangle earrings, platinum"
 	path = "/obj/item/clothing/accessory/earring/dangle/platinum"
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 
 /datum/gear/hands/dangleearrings/diamond
 	name = "dangle earrings, diamond"
 	path = "/obj/item/clothing/accessory/earring/dangle/diamond"
+	subcategory = LOADOUT_SUBCATEGORIES_EARRINGS
 

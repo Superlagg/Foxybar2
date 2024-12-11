@@ -585,87 +585,93 @@
 /datum/gear/backpack/pinkishskirt
 	name = "Pinkish Skirt"
 	path = /obj/item/clothing/accessory/pinkishskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
-
 /datum/gear/backpack/brownskirt
 	name = "Brown Skirt"
 	path = /obj/item/clothing/accessory/brownskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
-
 /datum/gear/backpack/reddishskirt
 	name = "Reddish Skirt w/ Belt"
 	path = /obj/item/clothing/accessory/priestess
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
 /datum/gear/backpack/greenandpurpleskirt
 	name = "Green and Purple Skirt"
 	path = /obj/item/clothing/accessory/greenfrillyskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
 /datum/gear/backpack/blackandwhiteskirt
 	name = "Black and White Checker Skirt"
 	path = /obj/item/clothing/accessory/checkerskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
 /datum/gear/backpack/maidskirt
 	name = "Maid Skirt"
 	path = /obj/item/clothing/accessory/maidskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
 /datum/gear/backpack/plaidredlongskirt
 	name = "Plaid Skirt - Red, Long"
 	path = /obj/item/clothing/accessory/plaidredlongskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
-
 /datum/gear/backpack/plaidredshortskirt
 	name = "Plaid Skirt - Red, Short"
 	path = /obj/item/clothing/accessory/plaidredshortskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
-
 /datum/gear/backpack/plaidbluelongskirt
 	name = "Plaid Skirt - Blue, Long"
 	path = /obj/item/clothing/accessory/plaidbluelongskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
-
 /datum/gear/backpack/plaidblueshortskirt
 	name = "Plaid Skirt - Blue, Short"
 	path = /obj/item/clothing/accessory/plaidblueshortskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
-
 /datum/gear/backpack/plaidpurplelongskirt
 	name = "Plaid Skirt - Purple, Long"
 	path = /obj/item/clothing/accessory/plaidpurplelongskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
-
 /datum/gear/backpack/plaidpurpleshortskirt
 	name = "Plaid Skirt - Purple, Short"
 	path = /obj/item/clothing/accessory/plaidpurpleshortskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
-
 /datum/gear/backpack/plaidgreenlongskirt
 	name = "Plaid Skirt - Green, Long"
 	path = /obj/item/clothing/accessory/plaidgreenlongskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
-
 /datum/gear/backpack/plaidgreenshortskirt
 	name = "Plaid Skirt - Green, Short"
 	path = /obj/item/clothing/accessory/plaidgreenshortskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
-
 /datum/gear/backpack/engineskirt
 	name = "Orange and Yellow Skirt"
 	path = /obj/item/clothing/accessory/engineskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
-
 /datum/gear/backpack/cmoskirt
 	name = "Soft Blue and White Skirt"
 	path = /obj/item/clothing/accessory/cmoskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
-
 /datum/gear/backpack/hopskirt
 	name = "Navy Blue Skirt"
 	path = /obj/item/clothing/accessory/hopskirt
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA
 	cost = 1
-
+	
 /datum/gear/backpack/draculass
 	name = "Goth Skirt w/ Stockings"
 	path = /obj/item/clothing/accessory/draculass
+	
 	cost = 1
 
 /datum/gear/backpack/prisonerskirt
@@ -826,59 +832,73 @@
 /datum/gear/backpack/lipstick
 	name = "Red lipstick"
 	path = /obj/item/lipstick
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_MAKEUP
 	cost = 0
 /datum/gear/backpack/lipstick_purple
 	name = "Purple lipstick"
 	path = /obj/item/lipstick/purple
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_MAKEUP
 	cost = 0
 /datum/gear/backpack/lipstick_jade
 	name = "Jade lipstick"
 	path = /obj/item/lipstick/jade
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_MAKEUP
 	cost = 0
 /datum/gear/backpack/lipstick_black
 	name = "Black lipstick"
 	path = /obj/item/lipstick/black
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_MAKEUP
 	cost = 0
 /datum/gear/backpack/lipstick_random
 	name = "Random lipstick"
 	path = /obj/item/lipstick/random
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_MAKEUP
 	cost = 0
 
 /datum/gear/backpack/nailpolish
 	name = "Midnight nailpolish"
 	path = /obj/item/nailpolish
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_MAKEUP
 	cost = 0
 /datum/gear/backpack/nailpolish_red
 	name = "Red nailpolish"
 	path = /obj/item/nailpolish/red
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_MAKEUP
 	cost = 0
 /datum/gear/backpack/nailpolish_blue
 	name = "Blue nailpolish"
 	path = /obj/item/nailpolish/blue
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_MAKEUP
 	cost = 0
 /datum/gear/backpack/nailpolish_aqua
 	name = "Aqua nailpolish"
 	path = /obj/item/nailpolish/aqua
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_MAKEUP
 	cost = 0
 /datum/gear/backpack/nailpolish_black
 	name = "Black nailpolish"
 	path = /obj/item/nailpolish/black
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_MAKEUP
 	cost = 0
 /datum/gear/backpack/nailpolish_white
 	name = "White nailpolish"
 	path = /obj/item/nailpolish/white
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_MAKEUP
 	cost = 0
 /datum/gear/backpack/nailpolish_navy
 	name = "Navy nailpolish"
 	path = /obj/item/nailpolish/navy
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_MAKEUP
 	cost = 0
 /datum/gear/backpack/nailpolish_yellow
 	name = "Yellow nailpolish"
 	path = /obj/item/nailpolish/yellow
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_MAKEUP
 	cost = 0
 /datum/gear/backpack/nailpolish_purple
 	name = "Purple nailpolish"
 	path = /obj/item/nailpolish/purple
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_MAKEUP
 	cost = 0
 
 

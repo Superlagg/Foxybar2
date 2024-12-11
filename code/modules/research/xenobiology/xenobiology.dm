@@ -143,7 +143,7 @@
 			var/obj/O = new food_type
 			if(!user.put_in_active_hand(O))
 				O.forceMove(user.drop_location())
-			playsound(user, 'sound/effects/splat.ogg', 50, 1)
+			playsound(user, 'sound/effects/rustle1.ogg', 50, 1)
 			user.visible_message(span_warning("[user] spits out [O]!"), span_notice("I spit out [O]!"))
 			return 200
 		if(SLIME_ACTIVATE_MAJOR)
@@ -151,7 +151,7 @@
 			var/obj/O = new drink_type
 			if(!user.put_in_active_hand(O))
 				O.forceMove(user.drop_location())
-			playsound(user, 'sound/effects/splat.ogg', 50, 1)
+			playsound(user, 'sound/effects/rustle1.ogg', 50, 1)
 			user.visible_message(span_warning("[user] spits out [O]!"), span_notice("I spit out [O]!"))
 			return 200
 

@@ -369,6 +369,7 @@
 /datum/gear/neck/flagcape
 	name = "american flag cape"
 	path = /obj/item/clothing/neck/tie/flagcape
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/fzuliecloak
@@ -479,81 +480,97 @@
 /datum/gear/neck/polcape
 	name = "Polish Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/icelandcape
 	name = "Icelandic Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories/no2
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/finlandcape
 	name = "Finnish Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories/no3
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/norwaycape
 	name = "Norwegian Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories/no4
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/natogermanycape
 	name = "West German Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories/no5
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/frcape
 	name = "French Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories/no6
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/denmcape
 	name = "Danish Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories/no7
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/swedcape
 	name = "Swedish Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories/no8
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/tsarcape
 	name = "Tsar Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories/no9
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/irecape
 	name = "Irish Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories/no10
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/brazcape
 	name = "Brazilian Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories/no11
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/cancape
 	name = "Canadian Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories/no12
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/ukcape
 	name = "British Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories/no13
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/auscape
 	name = "Australian Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories/no14
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/nzeacape
 	name = "New Zealand Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories/no15
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/italiancape
 	name = "Italian Cape"
 	path = /obj/item/clothing/neck/tie/flagcapesaccessories/no16
+	subcategory = LOADOUT_SUBCATEGORY_NECK_FLAGCAPE
 	cost = 0
 
 /datum/gear/neck/thundercape
@@ -596,6 +613,7 @@
 /datum/gear/neck/choker
 	name = "choker"
 	path = /obj/item/clothing/neck/petcollar/choker
+	subcategory = LOADOUT_SUBCATEGORY_NECK_COLLAR
 
 /datum/gear/neck/silver_necklace
 	name = "Silver Necklace"
@@ -612,34 +630,41 @@
 /datum/gear/neck/spikecollar
 	name = "Spiked Collar"
 	path = /obj/item/clothing/neck/spikecollar
+	subcategory = LOADOUT_SUBCATEGORY_NECK_COLLAR
 
 /datum/gear/neck/sapphirecollar
 	name = "Sapphire Collar"
 	path = /obj/item/clothing/neck/sapphirecollar
 	cost = 2
+	subcategory = LOADOUT_SUBCATEGORY_NECK_COLLAR
 
 /datum/gear/neck/rubycollar
 	name = "Ruby Collar"
 	path = /obj/item/clothing/neck/rubycollar
 	cost = 2
+	subcategory = LOADOUT_SUBCATEGORY_NECK_COLLAR
 
 /datum/gear/neck/heartcollar
 	name = "Heart Collar"
 	path = /obj/item/clothing/neck/heartcollar
 	cost = 2
+	subcategory = LOADOUT_SUBCATEGORY_NECK_COLLAR
 
 /datum/gear/neck/redcowbell
 	name = "Red cowbell collar"
 	path = /obj/item/clothing/neck/redcowbell
 	cost = 0
+	subcategory = LOADOUT_SUBCATEGORY_NECK_COLLAR
 
 /datum/gear/neck/whitecowbell
 	name = "white cowbell collar"
 	path = /obj/item/clothing/neck/whitecowbell
 	cost = 0
+	subcategory = LOADOUT_SUBCATEGORY_NECK_COLLAR
 
 /datum/gear/neck/bluecowbell
 	name = "Blue cowbell collar"
 	path = /obj/item/clothing/neck/bluecowbell
 	cost = 0
+	subcategory = LOADOUT_SUBCATEGORY_NECK_COLLAR
 
