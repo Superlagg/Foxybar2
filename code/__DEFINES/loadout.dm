@@ -26,12 +26,16 @@
 #define LOADOUT_SUBCATEGORY_BACKPACK_BACKPACKS 	"Backpacks"
 #define LOADOUT_SUBCATEGORY_BACKPACK_RATIONS 	"Snacks"
 //#define LOADOUT_SUBCATEGORY_BACKPACK_VAULTGUNS	"Vault Guns"
+#define LOADOUT_SUBCATEGORY_BACKPACK_MAKEUP 	"Makeup"
+#define LOADOUT_SUBCATEGORY_BACKPACK_SKIRTA 	"Skirt accessories"
 
 //neck
 #define LOADOUT_CATEGORY_NECK "Neck"
 #define LOADOUT_SUBCATEGORY_NECK_GENERAL 	"General"
 //#define LOADOUT_SUBCATEGORY_NECK_TIE 		"Ties"
 #define LOADOUT_SUBCATEGORY_NECK_SCARVES 	"Scarves"
+#define LOADOUT_SUBCATEGORY_NECK_FLAGCAPE 	"Flag Capes"
+#define LOADOUT_SUBCATEGORY_NECK_COLLAR 	"Collars"
 
 //mask
 #define LOADOUT_CATEGORY_MASK "Mask"
@@ -41,6 +45,8 @@
 
 //hands
 #define LOADOUT_CATEGORY_HANDS 				"Hands"
+#define LOADOUT_SUBCATEGORIES_GENERAL 		"General"
+#define LOADOUT_SUBCATEGORIES_EARRINGS 		"Earrings"
 
 //uniform
 #define LOADOUT_CATEGORY_UNIFORM 			"Uniform" //there's so many types of uniform it's best to have lots of categories
@@ -67,6 +73,8 @@
 #define LOADOUT_SUBCATEGORY_SUIT_BALLISTICVEST 		"Ballistic Vests"
 #define LOADOUT_SUBCATEGORY_SUIT_JACKETS	"Jackets"
 #define LOADOUT_SUBCATEGORY_SUIT_TAUR 		"Taur Saddles"
+#define LOADOUT_SUBCATEGORY_SUIT_FLAG 		"Flags"
+#define LOADOUT_SUBCATEGORY_SUIT_CLOAK 		"Cloaks"
 //#define LOADOUT_SUBCATEGORY_SUIT_FACTIONS		"Factions"
 
 //Belt
@@ -77,6 +85,9 @@
 #define LOADOUT_SUBCATEGORY_HEAD_GENERAL 	"General"
 #define LOADOUT_SUBCATEGORY_HEAD_COWBOY			"Cowboy hats"
 #define LOADOUT_SUBCATEGORY_HEAD_HELMETS 		"Helmets"
+#define LOADOUT_SUBCATEGORY_HEAD_MILSIM 		"Military getup"
+#define LOADOUT_SUBCATEGORY_HEAD_MAGICHAT 		"Magical millinery"
+#define LOADOUT_SUBCATEGORY_HEAD_PELTS 		"Pelts"
 
 //shoes
 #define LOADOUT_CATEGORY_SHOES 		"Shoes"

@@ -356,28 +356,34 @@
 /datum/gear/head/usarmy
 	name = "US Army field cap"
 	path = /obj/item/clothing/head/f13/army
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 
 /datum/gear/head/usarmy/officer
 	name = "US Army officer's cap"
 	path = /obj/item/clothing/head/f13/army/officer
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 
 /datum/gear/head/usarmy/beret
 	name = "US Army beret"
 	path = /obj/item/clothing/head/f13/army/beret
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 
 /datum/gear/head/usarmy/beretairborne
 	name = "US Army airborne beret"
 	path = /obj/item/clothing/head/f13/army/beret/airborne
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 
 //CHINA
 
 /datum/gear/head/chinese
 	name = "PLA field cap"
 	path = /obj/item/clothing/head/f13/chinese
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 
 /datum/gear/head/chinese/officer
 	name = "PLA officer's cap"
 	path = /obj/item/clothing/head/f13/chinese/officer
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 
 /datum/gear/head/khan_horned
 	name = "horned helmet"
@@ -617,30 +623,37 @@
 /datum/gear/head/mk2/one
 	name = "MK2, one"
 	path = /obj/item/clothing/head/mk2/one
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 
 /datum/gear/head/mk2/two
 	name = "MK2, two"
 	path = /obj/item/clothing/head/mk2/two
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 
 /datum/gear/head/mk2/four
 	name = "MK2, four"
 	path = /obj/item/clothing/head/mk2/four
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 
 /datum/gear/head/slouch
 	name = "khaki slouch hat"
 	path = /obj/item/clothing/head/slouch
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 
 /datum/gear/head/slouch/alt
 	name = "khaki slouch hat, alt version"
 	path = /obj/item/clothing/head/slouch/alt
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 
 /datum/gear/head/slouch/colorable
 	name = "slouch hat, colorable"
 	path = /obj/item/clothing/head/slouch/colorable
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 
 /datum/gear/head/turban
 	name = "Military Turban"
 	path = /obj/item/clothing/head/military_turban
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 
 /datum/gear/head/burmacowboyblack
 	name = "Burma Cowboy Hat, black"
@@ -660,10 +673,12 @@
 /datum/gear/head/pith
 	name = "Pith"
 	path = /obj/item/clothing/head/burma/pith
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 
 /datum/gear/head/glengarry
 	name = "Glengarry"
 	path = /obj/item/clothing/head/burma/glengarry
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 
 
 
@@ -795,13 +810,13 @@
 /datum/gear/head/unberets
 	name = "United Nations beret"
 	path = /obj/item/clothing/head/f13/unberet
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 1
 
 /datum/gear/head/russianberet
 	name = "Russian VDV beret"
 	path = /obj/item/clothing/head/f13/rusvdvberet
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 1
 
 /datum/gear/head/morionhelmet
@@ -813,25 +828,25 @@
 /datum/gear/head/armoredcossack
 	name = "Armored black bearskin hat"
 	path = /obj/item/clothing/head/cossackgear
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 /datum/gear/head/armoredpilotka
 	name = "Armored pilotka hat"
 	path = /obj/item/clothing/head/kevlarhelmet/pilotka
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 /datum/gear/head/armoredsoviethelmet
 	name = "Old Soviet helmet"
 	path = /obj/item/clothing/head/kevlarhelmet/steelww2soviet
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_HELMETS
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 /datum/gear/head/armoredcossackwhite
 	name = "Armored white bearskin hat"
 	path = /obj/item/clothing/head/cossackgear/white
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 /datum/gear/head/bikersteelhelmet
@@ -849,25 +864,25 @@
 /datum/gear/head/steelushanka
 	name = "Armored Soviet Ushanka hat"
 	path = /obj/item/clothing/head/armoredushanka
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 /datum/gear/head/steelpapahat
 	name = "Armored papakha hat"
 	path = /obj/item/clothing/head/cossackgear/papakhacossack
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 /datum/gear/head/steelpaphatwinter
 	name = "Armored white papakha hat"
 	path = /obj/item/clothing/head/cossackgear/papakhawhitecossack
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 /datum/gear/head/steelpapahatkuban
 	name = "Armored Kuban papakha hat "
 	path = /obj/item/clothing/head/cossackgear/papakhakubancossack
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 /datum/gear/head/skullmask
@@ -879,25 +894,25 @@
 /datum/gear/head/steelm1
 	name = "M1 Helmet "
 	path = /obj/item/clothing/head/kevlarhelmet/ww2usa
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_HELMETS
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 /datum/gear/head/ancientusa
 	name = "Ancient ballistic American Helmet "
 	path = /obj/item/clothing/head/kevlarhelmet/warhammerhatsandhelmets/imperiumhelmet
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_HELMETS
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 /datum/gear/head/ancientwestgermany
 	name = "Armored Ancient West German cap "
 	path = /obj/item/clothing/head/kevlarhelmet/warhammerhatsandhelmets
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 /datum/gear/head/steeljap
 	name = "Old Japanese Helmet "
 	path = /obj/item/clothing/head/kevlarhelmet/ww237jap
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_HELMETS
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 /datum/gear/head/ninja
@@ -909,27 +924,27 @@
 /datum/gear/head/armoredimperialrussia
 	name = "Armored Imperial Russian cap "
 	path = /obj/item/clothing/head/kevlarhelmet/ww1russiancap
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 /datum/gear/head/armoredimperialgermancap
 	name = "Armored East German cap "
 	path = /obj/item/clothing/head/kevlarhelmet/ww1capseries/german
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 
 /datum/gear/head/armoredbritishcap
 	name = "Armored British cap "
 	path = /obj/item/clothing/head/kevlarhelmet/ww1capseries
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 
 /datum/gear/head/armoredfrenchcap
 	name = "Armored French cap "
 	path = /obj/item/clothing/head/kevlarhelmet/ww1capseries/french
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 /datum/gear/head/spartanhelmets
@@ -990,7 +1005,7 @@
 /datum/gear/head/ww1germanhelmet
 	name = "Outdated steel helmet"
 	path = /obj/item/clothing/head/kevlarhelmet/ww1steelgerman
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_HELMETS
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MILSIM
 	cost = 2
 
 /datum/gear/head/greekhelmet
@@ -1160,13 +1175,13 @@
 /datum/gear/head/bearpelt
 	name = "Bear Pelt"
 	path = /obj/item/clothing/head/coyote/bearpelt
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_PELTS
 	cost = 1
 
 /datum/gear/head/wolfpelt
 	name = "Wolf Pelt"
 	path = /obj/item/clothing/head/coyote/bearpelt
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_PELTS
 	cost = 1
 
 /datum/gear/head/mayanheaddress
@@ -1185,25 +1200,25 @@
 /datum/gear/head/lionpelt
 	name = "Lion Pelt"
 	path = /obj/item/clothing/head/coyote/lionpelt
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_PELTS
 	cost = 1
 
 /datum/gear/head/foxpelt
 	name = "Fox Pelt"
 	path = /obj/item/clothing/head/coyote/foxpelt
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_PELTS
 	cost = 1
 
 /datum/gear/head/whitefoxpelt
 	name = "White Fox Pelt"
 	path = /obj/item/clothing/head/coyote/whitefoxpelt
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_PELTS
 	cost = 1
 
 /datum/gear/head/gatorpelt
 	name = "Gator Pelt"
 	path = /obj/item/clothing/head/coyote/gatorpelt
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_PELTS
 	cost = 1
 
 /datum/gear/head/blackcape
@@ -1215,19 +1230,19 @@
 /datum/gear/head/sheeppelt
 	name = "Sheep Pelt"
 	path = /obj/item/clothing/head/coyote/sheeppelt
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_PELTS
 	cost = 1
 
 /datum/gear/head/goatpelt
 	name = "Goat Pelt"
 	path = /obj/item/clothing/head/coyote/goatpelt
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_PELTS
 	cost = 1
 
 /datum/gear/head/lizardpelt
 	name = "Lizard Pelt"
 	path = /obj/item/clothing/head/coyote/lizardpelt
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_PELTS
 	cost = 1
 
 
@@ -1246,7 +1261,7 @@
 /datum/gear/head/bisonpelt
 	name = "Bison Pelt"
 	path = /obj/item/clothing/head/coyote/bisonpelt
-	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_PELTS
 	cost = 1
 
 /datum/gear/head/hennin
@@ -1368,26 +1383,87 @@
 /datum/gear/head/wizard/red
 	name = "red wizard hat"
 	path = /obj/item/clothing/head/wizard/red
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
 
 /datum/gear/head/wizard/yellow
 	name = "yellow wizard hat"
 	path = /obj/item/clothing/head/wizard/yellow
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
 
 /datum/gear/head/wizard/black
 	name = "black wizard hat"
 	path = /obj/item/clothing/head/wizard/black
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
 
 /datum/gear/head/wizard/marisa
 	name = "marisa wizard hat"
 	path = /obj/item/clothing/head/wizard/marisa
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
 
 /datum/gear/head/wizard/magus
 	name = "magus wizard hat"
 	path = /obj/item/clothing/head/wizard/magus
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
 
 /datum/gear/head/wizard/violet
 	name = "violet wizard hat"
 	path = /obj/item/clothing/head/wizard/violet
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
+
+/datum/gear/head/witch/good
+	name = "good witch hat"
+	path = /obj/item/clothing/head/good_witch
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
+
+/datum/gear/head/witch/dark
+	name = "dark witch hat"
+	path = /obj/item/clothing/head/dark_witch
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
+
+/datum/gear/head/witch/classic
+	name = "classic witch hat"
+	path = /obj/item/clothing/head/classic_witch
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
+
+/datum/gear/head/witch/healer
+	name = "healer witch hat"
+	path = /obj/item/clothing/head/healer_witch
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
+
+/datum/gear/head/witch/cutie
+	name = "cutie witch hat"
+	path = /obj/item/clothing/head/cutie_witch
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
+
+/datum/gear/head/witch/shy
+	name = "shy witch hat"
+	path = /obj/item/clothing/head/shy_witch
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
+
+/datum/gear/head/witch/sexy
+	name = "sexy witch hat"
+	path = /obj/item/clothing/head/sexy_witch
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
+
+/datum/gear/head/witch/bunny
+	name = "bunny witch hat"
+	path = /obj/item/clothing/head/bunny_witch
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
+
+/datum/gear/head/witch/potions
+	name = "potions witch hat"
+	path = /obj/item/clothing/head/potions_witch
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
+
+/datum/gear/head/witch/syndie
+	name = "syndie witch hat"
+	path = /obj/item/clothing/head/syndie_witch
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
+
+/datum/gear/head/witch/nt
+	name = "blue witch hat"
+	path = /obj/item/clothing/head/nt_witch
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_MAGICHAT
 
 /datum/gear/head/aurora/voidsman
 	name = "Voidsman hat"
@@ -1440,50 +1516,6 @@
 /datum/gear/head/aurora/tiara
 	name = "Tiara"
 	path = /obj/item/clothing/head/aurora/sayyidah_tiara
-
-/datum/gear/head/witch/good
-	name = "good witch hat"
-	path = /obj/item/clothing/head/good_witch
-
-/datum/gear/head/witch/dark
-	name = "dark witch hat"
-	path = /obj/item/clothing/head/dark_witch
-
-/datum/gear/head/witch/classic
-	name = "classic witch hat"
-	path = /obj/item/clothing/head/classic_witch
-
-/datum/gear/head/witch/healer
-	name = "healer witch hat"
-	path = /obj/item/clothing/head/healer_witch
-
-/datum/gear/head/witch/cutie
-	name = "cutie witch hat"
-	path = /obj/item/clothing/head/cutie_witch
-
-/datum/gear/head/witch/shy
-	name = "shy witch hat"
-	path = /obj/item/clothing/head/shy_witch
-
-/datum/gear/head/witch/sexy
-	name = "sexy witch hat"
-	path = /obj/item/clothing/head/sexy_witch
-
-/datum/gear/head/witch/bunny
-	name = "bunny witch hat"
-	path = /obj/item/clothing/head/bunny_witch
-
-/datum/gear/head/witch/potions
-	name = "potions witch hat"
-	path = /obj/item/clothing/head/potions_witch
-
-/datum/gear/head/witch/syndie
-	name = "syndie witch hat"
-	path = /obj/item/clothing/head/syndie_witch
-
-/datum/gear/head/witch/nt
-	name = "blue witch hat"
-	path = /obj/item/clothing/head/nt_witch
 
 /datum/gear/head/hoodcowl
 	name = "Hood cowl"

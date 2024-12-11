@@ -6,6 +6,7 @@
 /datum/gear/suit/redhood
 	name = "Red cloak"
 	path = /obj/item/clothing/suit/hooded/cloak/david
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_CLOAK
 	cost = 0
 
 /datum/gear/suit/greyrobes
@@ -26,6 +27,7 @@
 /datum/gear/suit/hoodedmask
 	name = "patched heavy leather cloak"
 	path = /obj/item/clothing/suit/hooded/outcast
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/suspenders
@@ -676,122 +678,121 @@
 /datum/gear/suit/armor/flagcapesclothing
 	name = "Armored Polish flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/poland
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/il
 	name = "Armored Icelandic flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/iceland
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/nor
 	name = "Armored Norwegian flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/norway
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/swed
 	name = "Armored Swedish flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/sweden
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/dmark
 	name = "Armored Danish flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/denmark
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/fin
 	name = "Armored Finnish flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/finland
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/ger
 	name = "Armored West German flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/germanynato
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/fr
 	name = "Armored French flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/france
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/tsar
 	name = "Armored Tsarist flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/tsaristrussia
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/irla
 	name = "Armored Irish flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/ireland
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/braz
 	name = "Armored Brazilian flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/brazil
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/ily
 	name = "Armored Italian flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/italy
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/cn
 	name = "Armored Canadian flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/canada
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/uk
 	name = "Armored British flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/unitedkingdom
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/aus
 	name = "Armored Australian flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/australia
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/nz
 	name = "Armored New Zealander flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/flagcapes/newzealand
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/tc
 	name = "Armored Thunderous flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/warriorcats
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
-
 
 /datum/gear/suit/armor/flagcapesclothing/sc
 	name = "Armored Shadowed flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/warriorcats/shadow
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/wc
 	name = "Armored Windy flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/warriorcats/wind
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/flagcapesclothing/rc
 	name = "Armored Rivulet flag cape"
 	path = /obj/item/clothing/suit/armor/outfit/warriorcats/river
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_FLAG
 	cost = 1
 
 /datum/gear/suit/armor/warhammerk
@@ -954,13 +955,13 @@
 /datum/gear/suit/armor/cyberstuff/cloak
 	name = "Black and red cloak"
 	path = /obj/item/clothing/suit/armor/outfit/jacket/themedcloaks
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_CLOAK
 	cost = 1
 
 /datum/gear/suit/armor/cyberstuff/cloakqm
 	name = "Merchant cloak"
 	path = /obj/item/clothing/suit/armor/outfit/jacket/themedcloaks/qm
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_CLOAK
 	cost = 1
 
 /datum/gear/suit/armor/thegreatwargear
@@ -1032,37 +1033,37 @@
 /datum/gear/suit/armor/cyberstuff/cloakengineer
 	name = "Engineering cloak"
 	path = /obj/item/clothing/suit/armor/outfit/jacket/themedcloaks/ce
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_CLOAK
 	cost = 1
 
 /datum/gear/suit/armor/cyberstuff/cloakresearcher
 	name = "Researcher cloak"
 	path = /obj/item/clothing/suit/armor/outfit/jacket/themedcloaks/rd
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_CLOAK
 	cost = 1
 
 /datum/gear/suit/armor/cyberstuff/cloakcaptain
 	name = "Regal Captain cloak"
 	path = /obj/item/clothing/suit/armor/outfit/jacket/themedcloaks/captain
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_CLOAK
 	cost = 1
 
 /datum/gear/suit/armor/cyberstuff/cloakcleaner
 	name = "Bubbly Janitor cloak"
 	path = /obj/item/clothing/suit/armor/outfit/jacket/themedcloaks/cleaner
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_CLOAK
 	cost = 1
 
 /datum/gear/suit/armor/cyberstuff/cloakhealer
 	name = "Healer cloak"
 	path = /obj/item/clothing/suit/armor/outfit/jacket/themedcloaks/healer
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_CLOAK
 	cost = 1
 
 /datum/gear/suit/armor/cyberstuff/cloakminer
 	name = "Miner cloak"
 	path = /obj/item/clothing/suit/armor/outfit/jacket/themedcloaks/miner
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_CLOAK
 	cost = 1
 
 /datum/gear/suit/armor/ncrheavy
@@ -1265,7 +1266,7 @@
 /datum/gear/suit/pip_cloak
 	name = "Heart cloak"
 	path = /obj/item/clothing/suit/pip_cloak
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_GENERAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_CLOAK
 	cost = 0
 
 /datum/gear/suit/flintlock
@@ -2042,7 +2043,7 @@
 /datum/gear/suit/medical
 	name = "Medical cloak"
 	path = /obj/item/clothing/suit/armor/outfit/jacket/themedcloaks/cmo
-	subcategory = LOADOUT_SUBCATEGORY_SUIT_MEDICAL
+	subcategory = LOADOUT_SUBCATEGORY_SUIT_CLOAK
 	cost = 1
 
 /datum/gear/suit/medical/wintercoat
