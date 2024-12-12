@@ -281,8 +281,8 @@
 	name = "Religious Supplies Crate"
 	desc = "Keep your local chaplain happy and well-supplied, lest they call down judgement upon your cargo bay. Contains two bottles of holywater, bibles, chaplain robes, and burial garmets."
 	cost = 1250	// it costs so much because the Space Church needs funding to build a cathedral
-	contains = list(/obj/item/reagent_containers/food/drinks/bottle/holywater,
-					/obj/item/reagent_containers/food/drinks/bottle/holywater,
+	contains = list(//obj/item/reagent_containers/food/drinks/bottle/holywater,
+					//obj/item/reagent_containers/food/drinks/bottle/holywater,
 					/obj/item/storage/book/bible/booze,
 					/obj/item/storage/book/bible/booze,
 					/obj/item/clothing/suit/hooded/chaplain_hoodie,
@@ -314,7 +314,7 @@
 // However, enterprising individuals shouldn't be rewarded for snuffing that lifeline.
 // This IS a multiplayer game afterall.
 //
-// As such, consider your actions wisely. 
+// As such, consider your actions wisely.
 // Coins conversion, or cool shit in the shuttle?
 // -
 // I've chosen here. It would be better for the majority if an overachieving minority didn't have complete control over what can be bought or sold.
@@ -333,7 +333,7 @@
 	cost = 5000
 	contains = list(/obj/item/stack/f13Cash/caps/fivezerozero)
 	crate_name = "coins crate 2"
-*/ 
+*/
 
 
 //////////////////////////////////////////////////////////////////////////////

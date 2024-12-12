@@ -176,7 +176,7 @@
 
 /obj/item/reagent_containers/food/drinks/bottle/rum/empty
 	list_reagents = null
-
+/*
 /obj/item/reagent_containers/food/drinks/bottle/holywater
 	name = "flask of holy water"
 	desc = "A flask of the chaplain's holy water."
@@ -203,7 +203,7 @@
 /obj/item/reagent_containers/food/drinks/bottle/holyoil/empty
 	name = "flask of zelus oil (empty)"
 	list_reagents = null
-
+*/
 /obj/item/reagent_containers/food/drinks/bottle/vermouth
 	name = "Goldeneye vermouth"
 	desc = "Sweet, sweet dryness~"
