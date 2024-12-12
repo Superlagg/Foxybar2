@@ -1804,6 +1804,23 @@
 	},
 /turf/open/floor/carpet/purple,
 /area/f13/fb/bar)
+"kBm" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 8;
+	color = "#3B2B1A"
+	},
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 8;
+	color = "#3B2B1A"
+	},
+/obj/structure/chair/stool/retro/tan,
+/obj/machinery/light/floor{
+	light_color = "#993311";
+	color = "#993311";
+	alpha = 10
+	},
+/turf/open/floor/carpet/royalblack,
+/area/f13/fb/bar)
 "kFu" = (
 /obj/effect/turf_decal/stripes/asteroid/line{
 	dir = 4
@@ -2282,10 +2299,10 @@
 	light_range = 2;
 	pixel_y = 13
 	},
-/obj/item/kirbyplants/random{
-	pixel_x = -1;
-	pixel_y = 10
-	},
+/obj/machinery/hydroponics/constructable,
+/obj/item/shovel/spade,
+/obj/item/reagent_containers/glass/bucket/wateringcan,
+/obj/item/cultivator,
 /turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
 "oey" = (
@@ -2805,9 +2822,7 @@
 	},
 /area/f13/fb/bar)
 "sbf" = (
-/obj/item/reagent_containers/glass/bucket/wateringcan,
-/obj/item/cultivator,
-/obj/item/shovel/spade,
+/obj/structure/table/abductor,
 /turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
 "sbi" = (
@@ -2896,8 +2911,7 @@
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
 "sTj" = (
-/obj/structure/table/abductor,
-/obj/machinery/microwave,
+/obj/structure/food_printer,
 /turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
 "sXl" = (
@@ -6576,7 +6590,7 @@ wxN
 eyp
 wsB
 wsB
-wsB
+kBm
 wsB
 wsB
 wsB
@@ -7277,7 +7291,7 @@ hov
 tFy
 sTj
 rWC
-uME
+rWC
 rWC
 rWC
 lqG
@@ -7627,9 +7641,9 @@ tFy
 tFy
 tFy
 gzb
-gBo
-edI
-nPu
+rWC
+rWC
+qlV
 rWC
 rWC
 rWC
@@ -7743,10 +7757,10 @@ xNF
 xNF
 xNF
 tFy
-tFy
-tFy
-tFy
-wUe
+gBo
+rWC
+rWC
+rWC
 rWC
 rWC
 rWC
@@ -7859,12 +7873,12 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
 tFy
-wUe
 sbf
+rWC
+rWC
+rWC
+rWC
 rWC
 rWC
 xNu
@@ -7976,10 +7990,10 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
 tFy
+edI
+nPu
+uME
 oaA
 wUe
 wUe
@@ -8093,9 +8107,9 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
+tFy
+tFy
+tFy
 tFy
 tFy
 tFy
