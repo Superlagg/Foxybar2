@@ -63,7 +63,7 @@
 	desc = "Tastes like appendicitis."
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = 6, /datum/reagent/consumable/nutriment/vitamin = 6)
 	icon_state = "appendixburger"
-	tastes = list("bun" = 4, "grass" = 2)
+	tastes = list("bun" = 4, "strange meat" = 2)
 	foodtype = GRAIN | MEAT | GROSS
 	is_human = TRUE
 
