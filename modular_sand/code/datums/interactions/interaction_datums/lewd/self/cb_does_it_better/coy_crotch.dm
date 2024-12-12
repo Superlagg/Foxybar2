@@ -1344,16 +1344,16 @@
 	require_user_hands = TRUE
 	/// okay copy from here...
 	help_messages = list(
-		"XU_NAME {carefully, gently, eagerly} {mlems, licks, laps at, slobbers on, slurps on, tastes, taste-tests, brushing} XU_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt}.",
+		"XU_NAME {carefully, gently, eagerly} {mlems, licks, laps at, slobbers on, slurps on, tastes, taste-tests, brushing} XT_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt}.",
 	)
 	disarm_messages = list(
-		"XU_NAME {playfully, warmly} {mlems, licks, laps at, slobbers on, slurps on, tastes, taste-tests, brushing} XU_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt}.",
+		"XU_NAME {playfully, warmly} {mlems, licks, laps at, slobbers on, slurps on, tastes, taste-tests, brushing} XT_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt}.",
 	)
 	grab_messages = list(
-		"XU_NAME {mlems, licks, laps at, slobbers on, slurps on, tastes, taste-tests, brushing} XU_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt} with {affection, love, vigor}.",
+		"XU_NAME {mlems, licks, laps at, slobbers on, slurps on, tastes, taste-tests, brushing} XT_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt} with {affection, love, vigor}.",
 	)
 	harm_messages = list(
-		"XU_NAME {mlems, licks, laps at, slobbers on, slurps on, tastes, taste-tests, brushing} XU_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt} {possessively, deeply, greedily}.",
+		"XU_NAME {mlems, licks, laps at, slobbers on, slurps on, tastes, taste-tests, brushing} XT_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt} {possessively, deeply, greedily}.",
 	)
 
 	simple_sounds = list(
@@ -1380,16 +1380,16 @@
 	require_user_hands = TRUE
 	/// okay copy from here...
 	help_messages = list(
-		"XU_NAME {carefully, gently, eagerly} {suckles, mouths} XU_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt}.",
+		"XU_NAME {carefully, gently, eagerly} {suckles, mouths} XT_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt}.",
 	)
 	disarm_messages = list(
-		"XU_NAME {playfully, warmly} {suckles, mouths} XU_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt}.",
+		"XU_NAME {playfully, warmly} {suckles, mouths} XT_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt}.",
 	)
 	grab_messages = list(
-		"XU_NAME {suckles, mouths} XU_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt} with {affection, love, vigor}.",
+		"XU_NAME {suckles, mouths} XT_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt} with {affection, love, vigor}.",
 	)
 	harm_messages = list(
-		"XU_NAME {suckles, mouths} XU_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt} {possessively, deeply, greedily}.",
+		"XU_NAME {suckles, mouths} XT_NAME's {canine, doggy, puppy making, fortune cookie shaped, spadelike} {pussy, snatch, love hole, love tunnel, cunt} {possessively, deeply, greedily}.",
 	)
 
 	simple_sounds = list(
