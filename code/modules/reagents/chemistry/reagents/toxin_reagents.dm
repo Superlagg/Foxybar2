@@ -21,6 +21,8 @@
 	if(toxpwr)
 		M.adjustToxLoss(toxpwr*REM, 0)
 		. = TRUE
+	if(metabolization_rate < 2)
+		metabolization_rate = 2
 	..()
 
 /datum/reagent/toxin/on_mob_life_synth(mob/living/carbon/M)

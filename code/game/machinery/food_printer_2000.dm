@@ -19,6 +19,8 @@
 	var/list/usage_log = list()
 
 	var/obj/item/pda/moviefone
+	var/list/calls = list()
+	var/list/orders_in_progress = list()
 
 /obj/structure/food_printer/Initialize()
 	. = ..()
@@ -40,24 +42,28 @@
 		return
 	moviefone = new /obj/item/pda(src)
 	moviefone.owner = "GekkerTec FoodFox 2000 \[0x[random_color()]\]"
+	moviefone.name = moviefone.owner
+	moviefone.ownjob = "Automated Delivery System"
 	moviefone.ttone = "Ack-Ack!"
-	moviefone.forward_to = WEAKREF(src)
+	RegisterSignal(moviefone, COMSIG_PDA_RECEIVE_MESSAGE, PROC_REF(WasMessaged))
 
-/obj/structure/food_printer/proc/AddPrintJob(FoodKey, amount, mob/user)
+/obj/structure/food_printer/proc/AddPrintJob(FoodKey, amount, mob/user, beacon_override, datum/phone_order/assoc_order)
 	if(!menu)
 		return
 	var/datum/food_menu_entry/food = menu.foods[FoodKey]
 	if(!food)
 		return
-	var/datum/food_printer_workorder/work = new /datum/food_printer_workorder(src)
+	var/datum/food_printer_workorder/work = new /datum/food_printer_workorder(src, user)
 	work.SetMenuItem(food, amount)
-	work.SetOutput(target_beacon)
+	work.SetOutput(beacon_override || target_beacon)
+	if(assoc_order)
+		work.AssociateOrder(assoc_order)
 	worklist += work
-	say("Okay! [work.printing.name] is being printed! It will be ready in about [work.GetTimeLeftString()]!", just_chat = TRUE)
+	say("Okay! [work.printing.name] is being printed! It will be ready in about [work.GetTimeLeftString()]!", only_overhead = TRUE)
 	playsound(src, 'sound/machines/moxi/moxi_hi.ogg', 50, TRUE)
-	LogFoodPrint(work, user)
-	if(LAZYLEN(worklist) == 1)
-		update_static_data(user)
+	if(user)
+		if(LAZYLEN(worklist) == 1)
+			update_static_data(user)
 
 /obj/structure/food_printer/proc/BeaconKey2Output(beacon_key)
 	var/obj/item/foodprinter_output_beacon/beac = LAZYACCESS(SSfood_printer.food_printer_outputs, beacon_key)
@@ -86,7 +92,7 @@
 
 /obj/structure/food_printer/proc/FinishedEverything()
 	playsound(src, 'sound/machines/moxi/moxi_hi.ogg', 50, TRUE)
-	say("All done!")
+	say("All done!", only_overhead = TRUE)
 
 /// the loop that goes through all the work orders and works on them, one by one
 /obj/structure/food_printer/process()
@@ -98,19 +104,44 @@
 			StartWorking()
 		if(!work.in_progress)
 			work.Start()
+			if(work.associated_order)
+				var/datum/phone_order/order = orders_in_progress[work.associated_order]
+				order.StartingOrder()
 		work.TickTime()
 		if(work.timeleft <= 0)
 			work.Stop()
 			FinalizeWork(work)
-		return
 	else
 		if(working)
 			StopWorking()
+	// now, handle our calls
+	for(var/datum/phone_relay/relay in calls)
+		if(relay.CanSend())
+			if(relay.is_beacon_request)
+				var/obj/item/foodprinter_output_beacon/beac = MakeNewBeacon()
+				if(beac)
+					TeleportFood(beac, get_turf(GET_WEAKREF(relay.targetpda))) // not food, but it'll food
+					SendMessage(relay)
+			else
+				SendMessage(relay)
+			calls -= relay
+			qdel(relay)
+	// now, handle our orders
+	for(var/oname in orders_in_progress)
+		var/datum/phone_order/order = orders_in_progress[oname]
+		if(!order.order_confirmed)
+			continue
+		if(!order.order_queued)
+			AddPrintJob(order.food.food_key, order.amount, extract_mob(order.customer_ckey), order.target_beacon, order)
+			order.order_queued = TRUE
+		if(order.fully_done)
+			CancelPhoneOrder(order)
+
 
 /obj/structure/food_printer/proc/CancelOrder(FoodKey)
 	for(var/datum/food_printer_workorder/work in worklist)
 		if(work.mytag == FoodKey)
-			say("Okay! [work.printing.name] is no longer being printed!")
+			say("Okay! [work.printing.name] is no longer being printed!", only_overhead = TRUE)
 			playsound(src, 'sound/machines/moxi/moxi_hi.ogg', 50, TRUE)
 			work.Stop()
 			WorkFinished(work, FALSE)
@@ -119,16 +150,16 @@
 	for(var/datum/food_printer_workorder/work in worklist)
 		work.Stop()
 		WorkFinished(work, null)
-	say("Okay! All orders cancelled!")
+	say("Okay! All orders cancelled!", only_overhead = TRUE)
 	playsound(src, 'sound/machines/moxi/moxi_hi.ogg', 50, TRUE)
 
 /obj/structure/food_printer/proc/TogglePause()
 	paused = !paused
 	if(paused)
-		say("Okay! Pausing all orders!")
+		say("Okay! Pausing all orders!", only_overhead = TRUE)
 		playsound(src, 'sound/machines/moxi/moxi_hi.ogg', 50, TRUE)
 	else
-		say("Okay! Resuming all orders!")
+		say("Okay! Resuming all orders!", only_overhead = TRUE)
 		playsound(src, 'sound/machines/moxi/moxi_hi.ogg', 50, TRUE)
 	
 /obj/structure/food_printer/proc/SetTargetBeacon(beacon_key)
@@ -139,24 +170,24 @@
 	
 /obj/structure/food_printer/proc/MakeNewBeacon()
 	if(world.time < last_new_beacon + (5 SECONDS))
-		say("Hold your horses! I'm still looking for another beacon!")
+		say("Hold your horses! I'm still looking for another beacon!", only_overhead = TRUE)
 		playsound(src, 'sound/machines/moxi/moxi_hi.ogg', 50, TRUE)
 		return
 	last_new_beacon = world.time
-	new /obj/item/foodprinter_output_beacon(GetNearestTable(src, 2, TRUE))
-	say("A new beacon has been created! Be sure to name it!")
+	var/obj/item/foodprinter_output_beacon/beac = new /obj/item/foodprinter_output_beacon(GetNearestTable(src, 2, TRUE))
+	say("A new beacon has been created! Be sure to name it!", only_overhead = TRUE)
 	playsound(src, 'sound/machines/moxi/moxi_hi.ogg', 50, TRUE)
+	return beac
 
-/obj/structure/food_printer/proc/LogFoodPrint(datum/food_printer_workorder/work, mob/user)
-	if(!user)
+/obj/structure/food_printer/proc/LogFoodPrint(datum/food_printer_workorder/work, user_ckey, atom/dest)
+	if(!user_ckey)
 		return
 	var/log = list()
 	log["Time"] = world.time
-	log["User"] = user.ckey
+	log["UserCkey"] = user_ckey
 	log["FoodKey"] = work.printing.food_key
 	log["Amount"] = work.amt
-	log["Beacon"] = work.output_tag
-	var/atom/dest = GET_WEAKREF(work.foutput)
+	log["Beacon"] = work.output_name
 	if(isbelly(dest)) // mainly for this, in case people send un-asked-for things to someone's voregan
 		log["IsBelly"] = TRUE
 	else
@@ -275,7 +306,10 @@
 		var/obj/vore_belly/belly = dest
 		var/mob/owner = belly.owner
 		to_chat(owner, span_notice("Oh! Something just appeared in your [belly.name]!"))
-	LogFoodPrint(work)
+	if(work.associated_order)
+		var/datum/phone_order/order = orders_in_progress[work.associated_order]
+		order.OrderComplete()
+	LogFoodPrint(work, work.ckeywhodidit, dest)
 	WorkFinished(work, TRUE)
 	playsound(src, 'sound/weapons/energy_chargedone_ding.ogg', 95, TRUE)
 
@@ -296,6 +330,364 @@
 	animate(transform = M, time = 5, color = "#1111ff", alpha = 0, easing = CIRCULAR_EASING)
 	QDEL_IN(afterimage, 2 SECONDS)
 
+/obj/structure/food_printer/proc/WasMessaged(datum/source, datum/rental_mommy/pda/pda)
+	if(!moviefone)
+		return
+	var/datum/phone_order/order
+	// okay, parse the message for any key words
+	if(findtextEx(pda.message, "CANCEL ORDER"))
+		order = orders_in_progress[pda.name]
+		if(!order)
+			QueueMessage(pda.sender_pda, "I'm sorry, you don't have an order in progress! Please try again!", quick = TRUE)
+			return
+	if(findtextEx(pda.message, "NEW ORDER"))
+		// okay, we have an order!
+		if(orders_in_progress[pda.name])
+			QueueMessage(pda.sender_pda, "I'm sorry, you already have an order in progress! Please wait for it to finish (or cancel by replying: CANCEL ORDER) before placing a new order!")
+			return
+		QueueMessage(pda.sender_pda, "New order started! Please standby for further instructions!", quick = TRUE)
+		order = new /datum/phone_order(src, pda)
+		orders_in_progress[pda.name] = order
+		order.ParseMessage(pda.message)
+		return // it'll handle the rest
+	// from here, we try to parse for help stuff
+	if(findtextEx(pda.message, "HELP ORDER"))
+		HelpOrder(pda)
+		return
+	if(findtextEx(pda.message, "SEND ME A BEACON"))
+		SendBeacon(pda)
+		return
+	if(findtextEx(pda.message, "LIST BEACONS"))
+		ListBeacons(pda)
+		return
+	if(findtextEx(pda.message, "FIND"))
+		var/str = replacetext(pda.message, "FIND", "")
+		SearchForFood(pda, str)
+		return
+	// now try and fulfill the order
+	order = orders_in_progress[pda.name]
+	if(order)
+		if(order.ParseMessage(pda.message))
+			return
+	SendHello(pda)
+
+/obj/structure/food_printer/proc/SendHello(datum/rental_mommy/pda/pda)
+	var/list/message = list()
+	message += "Hello! You have reached the GekkerTec FoodFox 2000 hotline! Tasty food, live, over the internet!"
+	message += "For more information on how to order food, please respond with: HELP ORDER."
+	message += "To receive a beacon for your food, please respond with: SEND ME A BEACON."
+	message += "To search for a specific food item, please respond with: FIND and the name of the food item."
+	message += "For more information on how to use the GekkerTec FoodFox 2000, please respond with: HELP."
+	QueueMessage(pda.sender_pda, message.Join("\n"))
+
+/obj/structure/food_printer/proc/HelpOrder(datum/rental_mommy/pda/pda)
+	var/list/message = list()
+	message += "To order food from this GekkerTec FoodFox 2000, simply respond with: NEW ORDER."
+	message += "The automated assistant will guide you through the process of selecting a food item and the amount you'd like to order."
+	message += "Once you've placed your order, the GekkerTec FoodFox 2000 will begin preparing your food item."
+	message += "You will receive a message when your food is ready for intergalactic supertransfer."
+	message += "If you'd like to cancel an order, please respond with: CANCEL ORDER."
+	QueueMessage(pda.sender_pda, message.Join("\n"))
+
+/obj/structure/food_printer/proc/ListBeacons(datum/rental_mommy/pda/pda)
+	var/list/message = list()
+	message += "The following beacons are available for use with the GekkerTec FoodFox 2000:"
+	for(var/beacid in SSfood_printer.food_printer_outputs)
+		var/obj/item/foodprinter_output_beacon/beac = SSfood_printer.food_printer_outputs[beacid]
+		message += "[beac.beacon_name]"
+	message += "To use a beacon, you will need to have an active order. To start an order, please respond with: NEW ORDER"
+	QueueMessage(pda.sender_pda, message.Join("\n"))
+
+/obj/structure/food_printer/proc/SearchForFood(datum/rental_mommy/pda/pda, str)
+	var/list/founds = list()
+	for(var/fentry in SSfood_printer.food_menu.foods)
+		var/datum/food_menu_entry/fme = SSfood_printer.food_menu.foods[fentry]
+		if(findtext(fme.name, str))
+			founds += fme
+	if(!founds)
+		QueueMessage(pda.sender_pda, "I'm sorry, I couldn't find any food items containing '[str]'. Please try again!")
+		return
+	if(LAZYLEN(founds) > 25)
+		founds.len = 25
+	var/list/message = list()
+	message += "I have found the following food items containing '[str]':"
+	for(var/datum/food_menu_entry/fme in founds)
+		message += "#[fme.disambiguator] [fme.name]"
+	message += "When ordering, please use the full number on the far left. For example: #1030"
+	QueueMessage(pda.sender_pda, message.Join("\n"))
+
+/obj/structure/food_printer/proc/SendBeacon(datum/rental_mommy/pda/pda)
+	QueueMessage(pda.sender_pda, "Attempting to send you a new Beacon! If one does not arrive, please try again later!", TRUE)
+
+/obj/structure/food_printer/proc/QueueMessage(obj/item/pda/pda, message, is_beacon, quick)
+	var/delay = 3 SECONDS
+	if(quick)
+		delay = 1 SECONDS
+	var/datum/phone_relay/relay = new /datum/phone_relay(message, pda, delay, is_beacon)
+	calls += relay
+
+/obj/structure/food_printer/proc/SendMessage(datum/phone_relay/relay)
+	if(!moviefone)
+		return
+	if(!relay)
+		return
+	var/obj/item/pda/target = GET_WEAKREF(relay.targetpda)
+	if(!target)
+		return
+	moviefone.send_message(null, list(target), FALSE, relay.message) // whether or not it gets there is no longer our concern
+	playsound(src, 'sound/machines/terminal_select.ogg', 50, TRUE)
+
+/obj/structure/food_printer/proc/CancelPhoneOrder(datum/phone_order/po)
+	if(!po)
+		return
+	if(istype(po))
+		orders_in_progress -= po.key_id
+		qdel(po)
+	if(istext(po))
+		po = orders_in_progress[po]
+		orders_in_progress -= po.key_id
+		qdel(po)
+
+/// something to let us write down something to reply to someone with, later
+/datum/phone_relay
+	var/message
+	var/datum/weakref/targetpda
+	var/when_to_send
+	var/is_beacon_request
+
+/datum/phone_relay/New(msg, obj/item/pda/pda, delay, is_beacon)
+	message = msg
+	targetpda = WEAKREF(pda)
+	when_to_send = world.time + delay
+	is_beacon_request = is_beacon
+
+/datum/phone_relay/proc/CanSend()
+	return world.time >= when_to_send
+
+//////////////////////////////////////////////////////////////////////
+// Phone Order! /////////////////////////////////////////////////////
+/datum/phone_order
+	var/obj/structure/food_printer/food_printer
+	var/datum/weakref/target_pda
+	var/datum/food_menu_entry/food
+	var/amount = 1
+	var/target_beacon
+	var/target_beacon_name
+	var/customer_name
+	var/customer_ckey
+	var/customer_quid
+	var/list/possible_beacons = list()
+	var/order_confirmed = FALSE
+	var/order_queued = FALSE
+	var/in_progress = FALSE
+	var/fully_done = FALSE
+	var/key_id
+
+/datum/phone_order/New(printer, datum/rental_mommy/pda/pda)
+	key_id = pda.name
+	food_printer = printer
+	target_pda = WEAKREF(pda.sender_pda)
+	customer_name = pda.name
+	customer_ckey = pda.senderckey
+	customer_quid = pda.senderquid
+
+/datum/phone_order/Destroy()
+	food_printer = null
+	target_pda = null
+	food = null
+	. = ..()
+
+/// OKAY FAT LISTEN UP
+/// We need to extract three things from the message:
+/// 1. The food item they want
+/// 2. The amount of that food item they want
+/// 3. The beacon they want the food item to be sent to
+/// Chances are they arent all gonna be in the same message, but we can try!
+/// a successful order would look like...
+/// ORDER #1304 X5 SENDTO DANK STAX
+/// Though if we start an order, and dont get what we want out of them in the first try, we can keep asking for more info
+/datum/phone_order/proc/ParseMessage(msg)
+	if(findtext(msg, "CANCEL ORDER"))
+		food_printer.QueueMessage(GET_WEAKREF(target_pda), "Your order has been cancelled!", quick = TRUE)
+		food_printer.CancelPhoneOrder(src)
+		return TRUE
+	if(findtext(msg, "CONFIRM ORDER") && food && amount && target_beacon)
+		ActuallyOrder()
+		return TRUE
+	if(findtext(msg, "ORDER INFO"))
+		SendOrderInfo()
+		return TRUE
+	var/list/orderQ = list()
+	var/list/words = splittext(msg, " ")
+	for(var/word in words)
+		if(findtext(word, "#")) // menu number, maybe!
+			var/str = replacetext(word, "#", "")
+			var/foundit = FALSE
+			for(var/fentry in SSfood_printer.food_menu.foods)
+				var/datum/food_menu_entry/fme = SSfood_printer.food_menu.foods[fentry]
+				if(fme.disambiguator == str)
+					food = fme
+					foundit = TRUE
+					break
+			if(foundit)
+				orderQ += "You have selected: [food.name] (#[food.disambiguator])"
+			else
+				orderQ += "I'm sorry, I couldn't find a food item with the number #[str]. Please try again!"
+		if(copytext(word, 1, 2) == "X" && isnum(numberfy(copytext(word, 2, 0)))) // amount, maybe!
+			var/str = replacetext(word, "X", "")
+			amount = numberfy(str)
+			amount = clamp(amount, 1, SSfood_printer.max_food_print)
+			orderQ += "You have selected: [amount] orders."
+			. = TRUE
+		if(findtext(word, "SENDTO")) // beacon, maybe!
+			// this one is a bit more complicated, because it can be a partial match
+			// but, the beacon name is always after the word SENDTO
+			// so we can just grab everything after that
+			var/list/xploded = splittext(msg, "SENDTO")
+			if(LAZYLEN(xploded) == 2)
+				var/str = trim(xploded[2])
+				if(!str)
+					continue // we clearly dont have a beacon name
+				var/numbo = 1
+				for(var/beacid in SSfood_printer.food_printer_outputs)
+					var/obj/item/foodprinter_output_beacon/beac = SSfood_printer.food_printer_outputs[beacid]
+					if(findtext(beac.beacon_name, str))
+						var/list/diambig = list()
+						diambig["BeaconID"] = beac.beacon_id
+						diambig["BeaconName"] = beac.beacon_name
+						diambig["DisNumber"] = "[numbo++]"
+						possible_beacons += list(diambig)
+						. = TRUE
+				if(LAZYLEN(possible_beacons) == 1)
+					target_beacon = possible_beacons[1]["BeaconID"]
+					target_beacon_name = possible_beacons[1]["BeaconName"]
+					possible_beacons = list()
+					orderQ += "You have selected: [target_beacon_name] as your destination."
+					. = TRUE
+				else if(LAZYLEN(possible_beacons) > 1)
+					orderQ += "I found multiple beacons that match your request. Please standby for a message to disambiguate."
+					. = TRUE
+				else
+					orderQ += "I'm sorry, I couldn't find a beacon with the name '[str]'. Please try again!"
+					. = TRUE
+		if(findtext(word, "DISAMBIGUATE")) // disambiguation, maybe!
+			// Same as above, but we need to find the number they want
+			var/list/xploded = splittext(msg, "DISAMBIGUATE")
+			if(LAZYLEN(xploded) == 2)
+				var/str = trim(xploded[2])
+				var/foundit = FALSE
+				for(var/list/diambig in possible_beacons)
+					if(diambig["DisNumber"] == str)
+						target_beacon = diambig["BeaconID"]
+						target_beacon_name = diambig["BeaconName"]
+						possible_beacons = list()
+						orderQ += "You have selected: [target_beacon_name] as your destination."
+						foundit = TRUE
+						. = TRUE
+						break
+				if(!foundit)
+					orderQ += "I'm sorry, I couldn't find a beacon with the number '[str]'. Please try again!"
+					. = TRUE
+			else
+				orderQ += "I'm sorry, I didn't understand your disambiguation request. Please try again!"
+	if(orderQ)
+		food_printer.QueueMessage(GET_WEAKREF(target_pda), orderQ.Join("\n"))
+	if(!food)
+		AskForFood()
+		return TRUE
+	if(!amount)
+		AskForAmount()
+		return TRUE
+	if(!target_beacon)
+		if(LAZYLEN(possible_beacons) > 1)
+			DisambiguateBeacon()
+			return TRUE
+		AskForBeacon()
+		return TRUE
+	// okay, now we need to check if we got everything we need
+	if(food && amount && target_beacon)
+		ConfrimOrder()
+		return TRUE
+
+/datum/phone_order/proc/AskForFood()
+	var/list/message = list()
+	message += "What food item would you like to order? Please respond with the number of the food item you'd like to order."
+	message += "For example, if you'd like to order the food item 'Bepis', and the number is 1304, you would respond with: #1304"
+	message += "If you'd like to search for a specific food item, please respond with: FIND and a partial or full name of the food item, or the number."
+	message += "Note that food item indexes start at #1000 and go up from there."
+	food_printer.QueueMessage(GET_WEAKREF(target_pda), message.Join("\n"))
+
+/datum/phone_order/proc/AskForAmount()
+	var/list/message = list()
+	message += "How many of the food item would you like to order? Please respond with the number of food items you'd like to order."
+	message += "For example, if you'd like to order 5 of the food item, you would respond with: X5"
+	food_printer.QueueMessage(GET_WEAKREF(target_pda), message.Join("\n"))
+
+/datum/phone_order/proc/DisambiguateBeacon()
+	var/list/message = list()
+	message += "I found multiple beacons that match your request."
+	for(var/diambig in possible_beacons)
+		message += "[diambig["DisNumber"]] [diambig["BeaconName"]]"
+	message += "For example, if you'd like to use the beacon 'Dank Stax', and the number is 1, you would respond with: DISAMBIGUATE 1"
+	food_printer.QueueMessage(GET_WEAKREF(target_pda), message.Join("\n"))
+
+/datum/phone_order/proc/AskForBeacon()
+	var/list/message = list()
+	message += "Where would you like your food item to be sent? Please respond with the name of the beacon you'd like to use."
+	message += "For example, if you'd like to use the beacon 'Dank Stax', you would respond with: SENDTO Dank Stax"
+	message += "If you'd like to see a list of available beacons, please respond with: LIST BEACONS"
+	message += "If you'd like a new beacon sent to you, please respond with: SEND ME A BEACON"
+	message += "A full name is not required, but the more specific you are, the better!"
+	food_printer.QueueMessage(GET_WEAKREF(target_pda), message.Join("\n"))
+
+/datum/phone_order/proc/ConfrimOrder()
+	var/list/message = list()
+	message += "You have ordered [amount] of [food.name] to be sent to [target_beacon_name]."
+	message += "If this is correct, please respond with CONFIRM ORDER."
+	message += "If you'd like to cancel this order, please respond with CANCEL ORDER."
+	food_printer.QueueMessage(GET_WEAKREF(target_pda), message.Join("\n"))
+
+/datum/phone_order/proc/ActuallyOrder()
+	food_printer.QueueMessage(GET_WEAKREF(target_pda), "Your order has been placed! Your food item will be ready soon!", quick = TRUE)
+	order_confirmed = TRUE
+	// it'll handle the rest
+
+/datum/phone_order/proc/StartingOrder()
+	var/list/message = list()
+	in_progress = TRUE
+	message += "Your order is being created! Your meal will be delivered soon!"
+	food_printer.QueueMessage(GET_WEAKREF(target_pda), message.Join("\n"))
+
+/datum/phone_order/proc/OrderComplete()
+	var/list/message = list()
+	fully_done = TRUE
+	message += "Your order has been delivered! Thank you for using the GekkerTec FoodFox 2000, we hope you have a very FoodFox day!"
+	food_printer.QueueMessage(GET_WEAKREF(target_pda), message.Join("\n"))
+
+/datum/phone_order/proc/SendOrderInfo()
+	var/list/message = list()
+	message += "Here is a summary of your order:"
+	if(food)
+		message += "Food Item: [food.name]"
+	else
+		message += "Food Item: Not yet selected"
+		message += "To select a food item, please respond with: # and the number of the food item you'd like to order, for example: #1304"
+	if(amount)
+		message += "Amount: [amount]"
+	else
+		message += "Amount: Not yet selected"
+		message += "To select an amount, please respond with: X and the number of food items you'd like to order, for example: X5"
+	if(target_beacon)
+		message += "Beacon: [target_beacon]"
+	else
+		message += "Beacon: Not yet selected"
+		message += "To select a beacon, please respond with: SENDTO and the name of the beacon you'd like to use, for example: SENDTO Dank Stax"
+	food_printer.QueueMessage(GET_WEAKREF(target_pda), message.Join("\n"))
+
+
+
+
+
 
 
 /datum/food_printer_workorder
@@ -303,6 +695,7 @@
 	var/datum/weakref/printer
 	var/datum/weakref/foutput
 	var/output_tag
+	var/output_name
 	var/totaltime = 1
 	var/timeleft = 0
 	var/last_tick = 0
@@ -311,10 +704,14 @@
 	var/mytag
 	var/ckeywhodidit
 	var/quidwhodidit
+	var/associated_order
 
-/datum/food_printer_workorder/New(obj/structure/food_printer)
+/datum/food_printer_workorder/New(obj/structure/food_printer, mob/doer)
 	mytag = "FUPA-[rand(1000,9999)]-[rand(1000,9999)]-BEPIS"
 	printer = WEAKREF(food_printer)
+	if(doer)
+		ckeywhodidit = extract_ckey(doer)
+		quidwhodidit = SSeconomy.extract_quid(doer)
 	. = ..()
 
 /datum/food_printer_workorder/Destroy()
@@ -323,6 +720,9 @@
 	printer = null
 	foutput = null
 	Stop()
+
+/datum/food_printer_workorder/proc/AssociateOrder(datum/phone_order/order)
+	associated_order = order.key_id
 
 /datum/food_printer_workorder/proc/SetMenuItem(datum/food_menu_entry/food, amount)
 	printing = food
@@ -337,14 +737,17 @@
 	if(isatom(dest))
 		foutput = GET_WEAKREF(dest)
 		output_tag = null
+		output_name = null
 	else
 		var/obj/item/foodprinter_output_beacon/beac = SSfood_printer.food_printer_outputs[dest]
 		if(beac)
 			foutput = GET_WEAKREF(beac)
 			output_tag = beac.beacon_id
+			output_name = beac.beacon_name
 		else
 			foutput = null
 			output_tag = null
+			output_name = null
 
 /datum/food_printer_workorder/proc/Start()
 	in_progress = TRUE

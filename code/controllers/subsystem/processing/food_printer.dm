@@ -45,12 +45,15 @@ PROCESSING_SUBSYSTEM_DEF(food_printer)
 
 /// goes through every single item in the game and checks IS IT FOOD? HEY ARE YOU FOOD? WHY DO I KEEP EATING MY FRIENDS
 /datum/food_menu/proc/InitFoodList()
+	var/disambiguator = 1000
 	foods = list()
 	for(var/thing in subtypesof(/obj/item))
 		var/obj/item/I = thing
 		if(!initial(I.is_food))
 			continue
 		var/datum/food_menu_entry/entry = new /datum/food_menu_entry(I)
+		entry.disambiguator = "[disambiguator]"
+		disambiguator++
 		foods += entry
 	foods = sortList(foods, GLOBAL_PROC_REF(cmp_name_asc)) // the entries arent atoms, but! they have a var named 'name', which thanks to our good friend Pali who said never to do this, we can trick the game into using it anyway. thanks pali!
 	var/list/coolfoods = list()
@@ -86,6 +89,7 @@ PROCESSING_SUBSYSTEM_DEF(food_printer)
 	var/list/nut_facts = list()
 	var/print_time = 5 SECONDS
 	var/food_key
+	var/disambiguator = 0
 	var/obj/item/itempath
 
 /datum/food_menu_entry/New(obj/item/thing)
