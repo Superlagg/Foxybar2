@@ -115,13 +115,13 @@
 	id = /datum/reagent/consumable/hot_ramen
 	results = list(/datum/reagent/consumable/hot_ramen = 3)
 	required_reagents = list(/datum/reagent/water = 1, /datum/reagent/consumable/dry_ramen = 3)
-
+/*
 /datum/chemical_reaction/hell_ramen
 	name = "Hell Ramen"
 	id = /datum/reagent/consumable/hell_ramen
 	results = list(/datum/reagent/consumable/hell_ramen = 6)
 	required_reagents = list(/datum/reagent/consumable/capsaicin = 1, /datum/reagent/consumable/hot_ramen = 6)
-
+*/
 /datum/chemical_reaction/imitationcarpmeat
 	name = "Imitation Carpmeat"
 	id = "imitationcarpmeat"
