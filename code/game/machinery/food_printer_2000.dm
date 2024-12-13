@@ -35,6 +35,7 @@
 	. = ..()
 	CancelAllOrders()
 	QDEL_NULL(moviefone)
+	menu = null
 	STOP_PROCESSING(SSfood_printer, src)
 
 /obj/structure/food_printer/proc/GeneratePDA()
