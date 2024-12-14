@@ -1,3 +1,4 @@
+/*
 /datum/chemical_reaction/metalgen
 	name = "metalgen"
 	id = /datum/reagent/metalgen
@@ -146,7 +147,7 @@
 	required_reagents = list(/datum/reagent/liquidgibs = 10, /datum/reagent/lye  = 10) // requires two scooped gib tiles
 	required_temp = 374
 	mob_react = FALSE
-
+*/
 /datum/chemical_reaction/mustard
 	name = "Mustard"
 	id = /datum/reagent/consumable/mustard
@@ -202,13 +203,13 @@
 	required_reagents = list(/datum/reagent/ammonia = 2, /datum/reagent/nitrogen = 1, /datum/reagent/oxygen = 2)
 	required_temp = 525
 
-
+/*
 /datum/chemical_reaction/mulligan
 	name = "Mulligan"
 	id = "mulligan"
 	results = list(/datum/reagent/mulligan = 1)
 	required_reagents = list(/datum/reagent/slime_toxin = 1, /datum/reagent/toxin/mutagen = 1)
-
+*/
 
 /datum/chemical_reaction/fermis_plush
 	name = "Fermis plush"
@@ -223,7 +224,7 @@
 		new /obj/item/toy/plush/catgirl/fermis(location)
 
 ////////////////////////////////// VIROLOGY //////////////////////////////////////////
-
+/*
 /datum/chemical_reaction/virus_food
 	name = "Virus Food"
 	id = "virusfood"
@@ -469,7 +470,7 @@
 	required_catalysts = list(/datum/reagent/blood/synthetics = 1)
 
 ////////////////////////////////// foam and foam precursor ///////////////////////////////////////////////////
-
+*/
 
 /datum/chemical_reaction/surfactant
 	name = "Foam surfactant"

@@ -191,7 +191,7 @@
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = 30, /datum/reagent/consumable/nutriment/vitamin = 6, /datum/reagent/iron = 10, /datum/reagent/medicine/omnizine = 30)
 	tastes = list("crust" = 1, "tomato" = 1, "cheese" = 1, "pepperoni" = 2, "9 millimeter bullets" = 2)
 
-
+/* Nope
 /obj/item/reagent_containers/food/snacks/proc/try_break_off(mob/living/M, mob/living/user) //maybe i give you a pizza maybe i break off your arm
 	var/obj/item/bodypart/l_arm = user.get_bodypart(BODY_ZONE_L_ARM)
 	var/obj/item/bodypart/r_arm = user.get_bodypart(BODY_ZONE_R_ARM)
@@ -216,7 +216,7 @@
 	i_kill_you(I, user)
 	. = ..()
 
-
+*/
 /obj/item/reagent_containers/food/snacks/pizzaslice/arnold
 	name = "\improper Arnold pizza slice"
 	desc = "I come over, maybe I give you a pizza, maybe I break off your arm."
@@ -224,7 +224,7 @@
 	filling_color = "#A52A2A"
 	tastes = list("crust" = 1, "tomato" = 1, "cheese" = 1, "pineapple" = 2, "ham" = 2)
 	foodtype = GRAIN | VEGETABLES | DAIRY | MEAT
-
+/*
 /obj/item/reagent_containers/food/snacks/pizzaslice/arnold/attack(mob/living/M, mob/living/user)
 	. =..()
 	try_break_off(M, user)
@@ -232,7 +232,7 @@
 /obj/item/reagent_containers/food/snacks/pizzaslice/arnold/attackby(obj/item/I, mob/user)
 	i_kill_you(I, user)
 	. = ..()
-
+*/
 
 /obj/item/reagent_containers/food/snacks/pizzaslice/custom
 	name = "pizza slice"

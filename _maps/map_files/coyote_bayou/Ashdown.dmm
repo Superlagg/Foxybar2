@@ -14844,9 +14844,6 @@
 	name = "altar";
 	pixel_y = 7
 	},
-/obj/item/reagent_containers/food/drinks/bottle/holywater/hell{
-	pixel_y = 10
-	},
 /turf/open/floor/carpet/red,
 /area/f13/building/abandoned)
 "gvG" = (

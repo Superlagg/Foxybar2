@@ -8945,7 +8945,6 @@
 	},
 /obj/structure/table/wood/fancy/monochrome,
 /obj/structure/table/wood/fancy/monochrome,
-/obj/item/reagent_containers/food/drinks/bottle/holyoil,
 /obj/effect/spawner/lootdrop/f13/uncommon,
 /turf/open/floor/wood_worn/wood_worn_dark,
 /area/f13/building)
@@ -12969,7 +12968,6 @@
 /area/f13/building)
 "fEN" = (
 /obj/machinery/smartfridge/bottlerack,
-/obj/item/reagent_containers/food/drinks/bottle/holyoil,
 /obj/effect/spawner/lootdrop/f13/rare,
 /turf/open/floor/wood_fancy/wood_fancy_dark,
 /area/f13/building)
