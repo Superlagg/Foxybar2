@@ -384,6 +384,9 @@
 	var/list/message = list()
 	message += "To order food from this GekkerTec FoodFox 2000, simply respond with: NEW ORDER."
 	message += "The automated assistant will guide you through the process of selecting a food item and the amount you'd like to order."
+	message += "A typical order will look something like this: #1304 X5 SENDTO Dank Stax"
+	message += "Where #1304 is the food item number, X5 is the amount of food items you'd like to order (replace 5 with the amount you'd like), and Dank Stax is the beacon you'd'd like to send the food item to."
+	message += "If you'd like to cancel an order, please respond with: CANCEL ORDER."
 	message += "Once you've placed your order, the GekkerTec FoodFox 2000 will begin preparing your food item."
 	message += "You will receive a message when your food is ready for intergalactic supertransfer."
 	message += "If you'd like to cancel an order, please respond with: CANCEL ORDER."
@@ -470,7 +473,7 @@
 	var/obj/structure/food_printer/food_printer
 	var/datum/weakref/target_pda
 	var/datum/food_menu_entry/food
-	var/amount = 1
+	var/amount = 0
 	var/target_beacon
 	var/target_beacon_name
 	var/customer_name
