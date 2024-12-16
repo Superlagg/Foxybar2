@@ -1,0 +1,8 @@
+#define HOTEL_UNLOCKED   0
+#define HOTEL_WHITELIST  1
+#define HOTEL_PASSWORD   2
+#define HOTEL_PERMISSION 3
+#define HOTEL_ONLY_OWNER 4
+
+
+
