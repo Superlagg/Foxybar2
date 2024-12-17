@@ -164,11 +164,17 @@
 	var/turf/T = get_turf(src)
 	if(!T)
 		return
-	var/list/hearers = get_hearers_in_view(vision_distance, src) //caches the hearers and then removes ignored mobs.
+	var/datum/rental_mommy/chat/momchat = LAZYLEN(data) ? data["mom"] : null
+	var/list/hearers
+	var/ignore_blind
+	if(momchat && LAZYLEN(momchat.exclusive_targets))
+		hearers = momchat.exclusive_targets.Copy()
+		ignore_blind = TRUE
+	else
+		hearers = get_hearers_in_view(vision_distance, src) //caches the hearers and then removes ignored mobs.
 	if(!length(hearers)) // yes, hearers is correct
 		return
 	hearers -= ignored_mobs
-	var/datum/rental_mommy/chat/momchat = LAZYLEN(data) ? data["mom"] : null
 
 	var/saycolor = src.get_chat_color()
 	var/targetsaycolor = null
@@ -181,11 +187,12 @@
 		hearers -= target
 		//This entire if/else chain could be in two lines but isn't for readabilty's sake.
 		var/msg = target_message
-		if(target.see_invisible<invisibility || target.is_blind()) //if src is invisible to us,
-			msg = blind_message
-		//the light object is dark and not invisible to us, darkness does not matter if you're directly next to the target
-		else if(T.lighting_object && T.lighting_object.invisibility <= target.see_invisible && T.is_softly_lit() && !in_range(T,target))
-			msg = blind_message
+		if(!ignore_blind)
+			if(target.see_invisible<invisibility || target.is_blind()) //if src is invisible to us,
+				msg = blind_message
+			//the light object is dark and not invisible to us, darkness does not matter if you're directly next to the target
+			else if(T.lighting_object && T.lighting_object.invisibility <= target.see_invisible && T.is_softly_lit() && !in_range(T,target))
+				msg = blind_message
 		if(msg && !CHECK_BITFIELD(visible_message_flags, ONLY_OVERHEAD))
 			if(CHECK_BITFIELD(visible_message_flags, PUT_NAME_IN))
 				msg = "<b>[src.name]</b> [msg]"
@@ -215,8 +222,9 @@
 		var/msg = message
 		//if(M == src)
 			//msg = self_message
-		if(M.see_invisible<invisibility || (T != loc && T != src) || blind)//if src is invisible to us or is inside something (and isn't a turf),
-			msg = blind_message
+		if(!ignore_blind)
+			if(M.see_invisible<invisibility || (T != loc && T != src) || blind)//if src is invisible to us or is inside something (and isn't a turf),
+				msg = blind_message
 
 		if(visible_message_flags & EMOTE_MESSAGE && runechat_prefs_check(M, visible_message_flags)) // blind people can see emotes, sorta
 			M.create_chat_message(src, raw_message = msg, runechat_flags = visible_message_flags)

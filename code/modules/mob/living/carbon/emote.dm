@@ -161,6 +161,19 @@
 	key_third_person = "winks"
 	message = "winks."
 
+/datum/emote/living/carbon/erp
+	key = "erp"
+	key_third_person = "erps"
+
+/datum/emote/living/carbon/erp/run_emote(mob/user)
+	var/obj/item/hand_item/subtle_catapult/licky = SSchat.UnstashHornyThing(user)
+	if(!licky)
+		return
+	if(user.put_in_hands(licky))
+		to_chat(user, span_notice("You get ready to send someone a message."))
+	else
+		SSchat.StashHornyThing(user)
+
 /datum/emote/living/carbon/lick
 	key = "lick"
 	key_third_person = "licks"

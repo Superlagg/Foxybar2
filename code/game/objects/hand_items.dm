@@ -691,6 +691,127 @@ touch + help + facing their rear = pat back
 	SEND_SIGNAL(user, COMSIG_CLICK_CTRL_SHIFT, M)
 	qdel(src)
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/obj/item/hand_item/subtle_catapult
+	name = "discrete action delivery system"
+	desc = "Do lewd things in public, without anyone (but whoever you're doing it to) knowing!"
+	icon = 'icons/obj/in_hands.dmi'
+	icon_state = "blushfox"
+	item_flags = ABSTRACT | HAND_ITEM
+	max_reach = 70
+	var/message
+	var/aoe_range = 1
+
+/obj/item/hand_item/subtle_catapult/examine(mob/user)
+	. = ..()
+	// . += span_green("AOE range: Your tile, plus [aoe_range] tiles in every direction.")
+	. += span_green("Current message:")
+	. += span_notice(message ? message : "None.")
+	. += span_green("--")
+	. += span_green("HOW 2 USE:")
+	. += span_notice("1. Click it in hand to start writing a message.")
+	. += span_notice("2. Click this on someone to send that message to them.")
+	. += span_notice("3. Or CtrlShift click it to pick anyone in view")
+	. += span_notice("You can also alt-click it to view your previous messages, and even select them to send!")
+	. += span_notice("It will ask you to confirm before sending, so don't worry about accidentally sending something you didn't mean to!")
+	. += span_notice("Also dont worry about dropping it or anything, it should still take whatever you wrote with it!")
+	. += span_green("--")
+
+/obj/item/hand_item/subtle_catapult/pre_attack(atom/A, mob/living/user, params, attackchain_flags, damage_multiplier)
+	. = TRUE
+	if(!extract_client(A))
+		return
+	if(message)
+		StartSendMessage(user, A)
+	else
+		EditMessage(user, A)
+
+/obj/item/hand_item/subtle_catapult/attack_self(mob/user)
+	. = ..()
+	EditMessage(user)
+
+/obj/item/hand_item/subtle_catapult/AltClick(mob/user)
+	. = ..()
+	var/list/messages = SSchat.GetHornyHistory(user)
+	if(!LAZYLEN(messages))
+		to_chat(user, span_alert("You haven't made any messages yet!"))
+		return
+	var/selected = input(
+		user, 
+		"Here's a list of the messages you've made with this! Pick one to load it into this tool!", 
+		"Select a message to send!", 
+		message,
+	) as null|anything in messages
+	if(selected)
+		message = selected
+		to_chat(user, span_green("Message loaded!"))
+	else
+		to_chat(user, span_alert("Message selection cancelled!"))
+
+/obj/item/hand_item/subtle_catapult/dropped(mob/user)
+	. = ..()
+	SSchat.StashHornyThing(user)
+
+/obj/item/hand_item/subtle_catapult/proc/EditMessage(mob/user, mob/living/M, and_send)
+	var/head = M ? "Prepare a message for [M]!" : "Prepare a message!"
+	var/msg = stripped_multiline_input_or_reflect(user, EMOTE_HEADER_TEXT, head, message, 99999)
+	if(msg)
+		to_chat(user, span_green("Message prepared:"))
+		to_chat(user, span_notice(msg))
+		to_chat(user, span_green("Click [M] to send it!"))
+		message = msg
+		SSchat.StoreHornyMessage(user, msg)
+		if(M)
+			StartSendMessage(user, M)
+	else
+		to_chat(user, span_alert("Message cancelled! Nothing's changed!!"))
+
+/obj/item/hand_item/subtle_catapult/proc/StartSendMessage(mob/user, mob/living/M)
+	if(!message)
+		return
+	if(!M || !user)
+		return
+	// if(M == user || !M.client)
+	// 	return
+	var/shomsg = message
+	if(LAZYLEN(shomsg) > 700)
+		shomsg = copytext(shomsg, 0, 700) + "..."
+	// first we ask em, you sure you wanna do this?
+	var/confirm = alert(user, "You are about to send this message to [M]:\n\n[message]\n\nAre you sure you want to do this?", "Send message?", "Yes", "No")
+	if(confirm != "Yes")
+		to_chat(user, span_alert("Okay nevermind!!"))
+		return
+	DeliverMessage(user, M)
+
+/obj/item/hand_item/subtle_catapult/proc/DeliverMessage(mob/user, mob/living/M)
+	var/original_message = message
+	var/to_send = message
+
+	user.log_message(to_send, LOG_SUBTLE)
+	var/msg_check = user.say_narrate_replace(to_send, user)
+	if(msg_check)
+		to_send = span_subtle("<i>[msg_check]</i>")
+	else
+		to_send = span_subtle("<b>[user]</b> " + "<i>[user.say_emphasis(to_send)]</i>")
+
+	var/datum/emote/E
+	E = E.emote_list["subtle"]
+
+	var/datum/rental_mommy/chat/mommy = E.BuildMommy(user, to_send)
+	mommy.original_message = original_message
+	mommy.exclusive_targets = list(M, user)
+
+	// Visible to_send, as in only visible to you and them
+	user.visible_message(
+		message = to_send,
+		data = list("mom" = mommy))
+
+	//broadcast to ghosts, if they have a client, are dead, arent in the lobby, allow ghostsight, and, if subtler, are admemes
+	user.emote_for_ghost_sight(mommy.message, TRUE, 0)
+	mommy.checkin()
+	user.playsound_local(get_turf(user), 'sound/f13effects/sunsetsounds/blush.ogg', 80, FALSE)
+	M.playsound_local(get_turf(M), 'sound/f13effects/sunsetsounds/blush.ogg', 80, FALSE)
+
 
 
 
