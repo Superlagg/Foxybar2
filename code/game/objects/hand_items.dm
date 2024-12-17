@@ -697,7 +697,7 @@ touch + help + facing their rear = pat back
 	desc = "Do lewd things in public, without anyone (but whoever you're doing it to) knowing!"
 	icon = 'icons/obj/in_hands.dmi'
 	icon_state = "blushfox"
-	item_flags = ABSTRACT | HAND_ITEM
+	item_flags = ABSTRACT | HAND_ITEM | NO_TURN
 	max_reach = 70
 	var/message
 	var/aoe_range = 1
@@ -745,6 +745,30 @@ touch + help + facing their rear = pat back
 	if(selected)
 		message = selected
 		to_chat(user, span_green("Message loaded!"))
+	else
+		to_chat(user, span_alert("Message selection cancelled!"))
+
+/obj/item/hand_item/subtle_catapult/CtrlShiftClick(mob/user)
+	. = ..()
+	var/list/ppl = hearers(10, user)
+	for(var/mob/M in ppl)
+		if(!extract_client(M))
+			ppl -= M
+		if(!isliving(M))
+			ppl -= M
+		if(M == user)
+			ppl -= M
+	var/mob/whomst = input(
+		user,
+		"Who would you like to send a message to?",
+		"Select a target!",
+		null
+	) as null|anything in ppl
+	if(whomst)
+		if(message)
+			StartSendMessage(user, whomst)
+		else
+			EditMessage(user, whomst)
 	else
 		to_chat(user, span_alert("Message selection cancelled!"))
 

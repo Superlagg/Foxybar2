@@ -77,7 +77,11 @@
 	if(incapacitated(ignore_restraints = 1, allow_crit = TRUE))
 		return
 
-	face_atom(A)
+	var/obj/item/W = get_active_held_item()
+	var/obj/item/V = get_inactive_held_item()
+
+	if(!W || (W && !(W.item_flags & NO_TURN)))
+		face_atom(A)
 
 	if(!CheckActionCooldown(immediate = TRUE))
 		return
@@ -102,9 +106,6 @@
 	if(in_throw_mode)
 		throw_item(A)
 		return
-
-	var/obj/item/W = get_active_held_item()
-	var/obj/item/V = get_inactive_held_item()
 
 	if(W == A)
 		W.attack_self(src)

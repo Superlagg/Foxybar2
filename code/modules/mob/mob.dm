@@ -459,7 +459,7 @@
 /mob/proc/true_examinate(atom/A)
 	if(!A)
 		return
-	face_atom(A)
+	// face_atom(A)
 	var/list/result
 	if(client)
 		LAZYINITLIST(client.recent_examines)
