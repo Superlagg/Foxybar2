@@ -233,6 +233,8 @@ SUBSYSTEM_DEF(chat)
 	var/numbermal_max = 5
 	var/numbermal_default = 1
 
+	var/list/horny_message_cache = list()
+
 /datum/controller/subsystem/chat/Initialize(start_timeofday)
 	setup_emoticon_cache()
 	build_flirt_datums()
@@ -1188,6 +1190,86 @@ SUBSYSTEM_DEF(chat)
 	chai.update(viewer, payload)
 	chai.show_to(viewer)
 	return TRUE
+
+/datum/controller/subsystem/chat/proc/GetHornyThingDatum(mob/horny)
+	if(!istype(horny))
+		return
+	if(!horny.client)
+		return
+	var/quid = SSeconomy.extract_quid(horny)
+	if(!quid)
+		return
+	var/datum/horny_thing/thing = LAZYACCESS(horny_message_cache, quid)
+	if(!thing)
+		thing = new(horny)
+		horny_message_cache[quid] = thing
+	return thing
+
+/datum/controller/subsystem/chat/proc/GetHornyHistory(mob/horny)
+	if(!istype(horny))
+		return
+	if(!horny.client)
+		return
+	var/datum/horny_thing/thing = GetHornyThingDatum(horny)
+	if(!thing)
+		return
+	return thing.ShowHistory()
+
+/datum/controller/subsystem/chat/proc/StoreHornyMessage(mob/horny, message)
+	if(!istype(horny))
+		return
+	if(!horny.client)
+		return
+	var/datum/horny_thing/thing = GetHornyThingDatum(horny)
+	if(!thing)
+		return
+	thing.StoreMessage(message)
+
+/datum/controller/subsystem/chat/proc/StashHornyThing(mob/horny)
+	if(!istype(horny))
+		return
+	if(!horny.client)
+		return
+	var/datum/horny_thing/thing = GetHornyThingDatum(horny)
+	if(!thing)
+		return
+	thing.Stash()
+
+/datum/controller/subsystem/chat/proc/UnstashHornyThing(mob/horny)
+	if(!istype(horny))
+		return
+	if(!horny.client)
+		return
+	var/datum/horny_thing/thing = GetHornyThingDatum(horny)
+	if(!thing)
+		return
+	return thing.Unstash()
+
+/datum/horny_thing
+	var/quid = ""
+	var/obj/item/hand_item/subtle_catapult/sc
+	var/list/msgs = list()
+
+/datum/horny_thing/New(mob/horny)
+	. = ..()
+	quid = SSeconomy.extract_quid(horny)
+	sc = new()
+
+/datum/horny_thing/proc/StoreMessage(message)
+	msgs.Insert(1, message)
+	if(LAZYLEN(msgs) > 300)
+		msgs.len = 300 // juuuust in case
+
+/datum/horny_thing/proc/ShowHistory()
+	return msgs
+
+/datum/horny_thing/proc/Stash()
+	sc.moveToNullspace()
+
+/datum/horny_thing/proc/Unstash()
+	if(QDELETED(sc))
+		sc = new()
+	return sc
 
 /datum/controller/subsystem/chat/proc/flirt_debug_toggle()
 	TOGGLE_VAR(flirt_debug)

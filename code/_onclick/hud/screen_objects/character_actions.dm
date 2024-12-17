@@ -136,6 +136,19 @@
 		return
 	H.emote("flirt")
 
+/atom/movable/screen/erp_button
+	name = "ERP with someone!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "erp"
+	screen_loc = "EAST-1:4, SOUTH+2:11"
+
+/atom/movable/screen/erp_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(usr))
+		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	H.emote("erp")
+
 /atom/movable/screen/merp_button
 	name = "Open mechanical ERP window!"
 	icon = 'icons/mob/screen_gen.dmi'
@@ -242,13 +255,13 @@
 	desc = "It's the menu for the vore menu!"
 	icon = 'icons/mob/screen_gen_vore.dmi'
 	icon_state = "vore_off"
-	screen_loc = "EAST-1:-11, SOUTH+2:12"
+	screen_loc = "EAST-1:-11, SOUTH+2:23"
 	closed_icon = 'icons/mob/screen_gen_vore.dmi'
 	closed_state = "vore_off"
-	closed_loc = "EAST-1:-11, SOUTH+2:12"
+	closed_loc = "EAST-1:-11, SOUTH+2:23"
 	open_icon = 'icons/mob/screen_gen_vore.dmi'
 	open_state = "vore_on" // no YOURE the voreon
-	open_loc = "EAST-1:-22, SOUTH+2:12"
+	open_loc = "EAST-1:-22, SOUTH+2:23"
 	foldies = list(
 		/atom/movable/screen/sub_button/vore_menu,
 		/atom/movable/screen/sub_button/vorer_thing,
@@ -261,7 +274,7 @@
 	name = "Open the Vore Options!"
 	icon = 'icons/mob/screen_gen_vore.dmi'
 	icon_state = "vore_options"
-	screen_loc = "EAST-1:-22, SOUTH+2:12"
+	screen_loc = "EAST-1:-22, SOUTH+2:23"
 
 /atom/movable/screen/sub_button/vore_menu/Click(location,control,params)
 	. = ..()
@@ -278,7 +291,7 @@
 	desc = "This will either give you an item to vore someone with, or vore whoever youre grabbing!"
 	icon = 'icons/mob/screen_gen_vore.dmi'
 	icon_state = "vore_eat"
-	screen_loc = "EAST-1:-22, SOUTH+2:12"
+	screen_loc = "EAST-1:-22, SOUTH+2:23"
 
 /atom/movable/screen/sub_button/vorer_thing/Click(location,control,params)
 	. = ..()
@@ -295,7 +308,7 @@
 	desc = "This will either give you an item to feed someone to someone with, or feed whoever youre grabbing to whoever youre grabbing!"
 	icon = 'icons/mob/screen_gen_vore.dmi'
 	icon_state = "vore_feed"
-	screen_loc = "EAST-1:-22, SOUTH+2:12"
+	screen_loc = "EAST-1:-22, SOUTH+2:23"
 
 /atom/movable/screen/sub_button/eater_thing/Click(location,control,params)
 	. = ..()
@@ -310,7 +323,7 @@
 	desc = "Looks like your vore is off, click here to enable it!"
 	icon = 'icons/mob/screen_gen_vore.dmi'
 	icon_state = "vore_enable"
-	screen_loc = "EAST-1:-22, SOUTH+2:12"
+	screen_loc = "EAST-1:-22, SOUTH+2:23"
 
 /atom/movable/screen/sub_button/enabler/Show()
 	if(CHECK_PREFS(usr, VOREPREF_MASTER))

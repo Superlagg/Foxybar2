@@ -215,6 +215,7 @@
 	icon = 'icons/mob/actions.dmi'
 	icon_state = "velvet_chords"
 	max_reach = 30 // love knows no bounds
+	item_flags = DROPDEL | ABSTRACT | HAND_ITEM | NO_TURN
 	var/flirtkey = "hi"
 
 /obj/item/hand_item/flirter/proc/flirtify(datum/flirt/F) // Fs in chat

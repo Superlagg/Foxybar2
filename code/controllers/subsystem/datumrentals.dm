@@ -172,6 +172,7 @@ SUBSYSTEM_DEF(rentaldatums)
 	var/dots_maxdistance
 	var/dots_some_anyway
 	var/dots_please
+	var/list/exclusive_targets = list()
 
 /datum/rental_mommy/chat/copy_mommy(datum/rental_mommy/chat/mommy)
 	if(!..())
@@ -249,6 +250,7 @@ SUBSYSTEM_DEF(rentaldatums)
 	dots_maxdistance                   = mommy.dots_maxdistance
 	dots_some_anyway                   = mommy.dots_some_anyway
 	dots_please                        = mommy.dots_please
+	exclusive_targets                  = mommy.exclusive_targets
 
 /datum/rental_mommy/chat/wipe()
 	original_message                   = ""
@@ -324,6 +326,7 @@ SUBSYSTEM_DEF(rentaldatums)
 	dots_maxdistance                   = null
 	dots_some_anyway                   = null
 	dots_please                        = null
+	exclusive_targets                  = list()
 
 /datum/rental_mommy/pda
 	var/name            = ""

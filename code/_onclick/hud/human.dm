@@ -406,6 +406,10 @@
 	merp_button.hud = src
 	infodisplay += merp_button
 
+	erp_button = new /atom/movable/screen/erp_button()
+	erp_button.hud = src
+	infodisplay += erp_button
+
 	vore_button = new /atom/movable/screen/foldout/vore_button()
 	vore_button.hud = src
 	infodisplay += vore_button
