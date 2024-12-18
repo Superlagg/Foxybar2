@@ -76,23 +76,10 @@ GLOBAL_LIST_INIT(lush_plant_spawn_list, list(
 	))
 
 GLOBAL_LIST_INIT(medicinal_plant_list, list(
-	/obj/structure/flora/wasteplant/wild_broc = 6,
-	/obj/structure/flora/wasteplant/wild_xander = 6,
-	/obj/structure/flora/wasteplant/wild_feracactus = 6, //barrel cactus
-	/obj/structure/flora/wasteplant/wild_buffalogourd = 5,
-	/obj/structure/flora/wasteplant/wild_horsenettle = 5,
-	/obj/structure/flora/wasteplant/wild_mesquite = 5,
-	/obj/structure/flora/wasteplant/wild_pinyon = 5,
-	/obj/structure/flora/wasteplant/wild_prickly = 5,
-	/obj/structure/flora/wasteplant/wild_datura = 5,
-	/obj/structure/flora/wasteplant/wild_punga = 5,
-	/obj/structure/flora/wasteplant/wild_coyote = 5,
-	/obj/structure/flora/wasteplant/wild_yucca = 5,
-	/obj/structure/flora/wasteplant/wild_tato = 5,
-	/obj/structure/flora/wasteplant/wild_mutfruit = 5,
-	/obj/structure/flora/wasteplant/wild_fungus = 2,
-	/obj/structure/flora/wasteplant/wild_agave = 5,
-	/obj/structure/flora/wasteplant/fever_blossom = 8,
+	/obj/structure/flora/branch = 1,
+	/obj/structure/flora/branch_broken = 1,
+	/obj/structure/flora/brushwood = 1,
+	/obj/structure/flora/wasteplant/fever_blossom = 1,
 	))
 
 GLOBAL_LIST_INIT(grass_plant_list, list(
@@ -197,8 +184,8 @@ GLOBAL_LIST_INIT(tree_plant_list, list(
 
 GLOBAL_LIST_INIT(plant_type_weighted, list(
 	"grass" = 50,
-	"medicinal" = 10,
-	"tree" = 10,
+	"medicinal" = 3,
+	"tree" = 3,
 ))
 
 /turf/open/indestructible/ground/outside/dirthole
