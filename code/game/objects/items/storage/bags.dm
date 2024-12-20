@@ -284,6 +284,7 @@
 	flags_1 = CONDUCT_1
 	custom_materials = list(/datum/material/iron=3000)
 	var/max_items = 7
+	is_kitchenware = TRUE
 
 /obj/item/storage/bag/tray/ComponentInitialize()
 	. = ..()

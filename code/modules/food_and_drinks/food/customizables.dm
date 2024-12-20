@@ -304,6 +304,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	var/fill_icon = 'icons/obj/food/soupsalad.dmi'
 	var/fill_state = "fullbowl"
+	is_kitchenware = TRUE
 
 /obj/item/reagent_containers/glass/bowl/attackby(obj/item/I,mob/user, params)
 	if(istype(I, /obj/item/reagent_containers/food/snacks))

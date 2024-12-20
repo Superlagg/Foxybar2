@@ -418,6 +418,7 @@ Burning extracts:
 	force = 15
 	throwforce = 15
 	damtype = BRUTE
+	is_kitchenware = FALSE
 
 /obj/item/kitchen/knife/rainbowknife/afterattack(atom/O, mob/user, proximity)
 	if(proximity && istype(O, /mob/living))

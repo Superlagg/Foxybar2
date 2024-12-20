@@ -129,6 +129,7 @@
 	custom_materials = list(/datum/material/glass=500)
 	possible_transfer_amounts = list(5,10,15,20,25,30,50,60)
 	container_flags = PH_WEAK|APTFT_ALTCLICK|APTFT_VERB
+	is_kitchenware = TRUE
 
 /obj/item/reagent_containers/glass/beaker/Initialize()
 	. = ..()
@@ -271,12 +272,15 @@
 
 /obj/item/reagent_containers/glass/beaker/cryoxadone
 	list_reagents = list(/datum/reagent/medicine/cryoxadone = 30)
+	is_kitchenware = FALSE
 
 /obj/item/reagent_containers/glass/beaker/sulphuric
 	list_reagents = list(/datum/reagent/toxin/acid = 50)
+	is_kitchenware = FALSE
 
 /obj/item/reagent_containers/glass/beaker/slime
 	list_reagents = list(/datum/reagent/toxin/slimejelly = 50)
+	is_kitchenware = FALSE
 
 /obj/item/reagent_containers/glass/beaker/large/styptic
 	name = "styptic reserve tank"
@@ -296,6 +300,7 @@
 
 /obj/item/reagent_containers/glass/beaker/synthflesh
 	list_reagents = list(/datum/reagent/medicine/synthflesh = 50)
+	is_kitchenware = FALSE
 
 /obj/item/reagent_containers/glass/beaker/big_red/full
 	list_reagents = list(/datum/reagent/consumable/big_red = 60)
