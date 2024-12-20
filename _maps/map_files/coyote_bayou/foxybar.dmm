@@ -163,6 +163,12 @@
 	color = "#779999"
 	},
 /area/f13/fb/bar)
+"aEx" = (
+/obj/structure/sink/greyscale{
+	pixel_y = 20
+	},
+/turf/open/floor/plasteel/f13/darkmarble,
+/area/f13/fb/bar)
 "aEB" = (
 /obj/structure/curtain{
 	color = "#c40e0e"
@@ -1653,6 +1659,12 @@
 	color = "#779999"
 	},
 /area/f13/fb/bar)
+"ifd" = (
+/obj/structure/table/abductor,
+/obj/item/kitchen/knife/butcher,
+/obj/item/kitchen/rollingpin,
+/turf/open/floor/plasteel/f13/darkmarble,
+/area/f13/fb/bar)
 "ihm" = (
 /obj/effect/sound_emitter/foxybar/airconditioner,
 /turf/closed/wall/mineral/brick,
@@ -1804,6 +1816,13 @@
 /area/f13/fb/bar)
 "iYl" = (
 /turf/open/floor/carpet/royalblack,
+/area/f13/fb/bar)
+"jdE" = (
+/obj/structure/sink/greyscale{
+	dir = 8;
+	pixel_x = -13
+	},
+/turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
 "jiT" = (
 /obj/structure/sign/painting/library{
@@ -2493,9 +2512,10 @@
 	},
 /area/f13/fb/bar)
 "oNR" = (
-/obj/structure/table/abductor,
-/obj/item/kitchen/rollingpin,
-/obj/item/kitchen/knife/butcher,
+/obj/structure/closet/crate/bin/trashbin{
+	pixel_x = 12;
+	pixel_y = 6
+	},
 /turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
 "oOK" = (
@@ -2682,6 +2702,10 @@
 	color = "#993311";
 	alpha = 10
 	},
+/obj/structure/table/abductor,
+/obj/item/kitchen/fork,
+/obj/item/kitchen/fork,
+/obj/item/kitchen/fork,
 /turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
 "qms" = (
@@ -2776,6 +2800,15 @@
 /turf/open/floor/wood_fancy{
 	color = "#779999"
 	},
+/area/f13/fb/bar)
+"qGK" = (
+/obj/machinery/light/floor{
+	light_color = "#993311";
+	color = "#993311";
+	alpha = 10
+	},
+/obj/machinery/microwave/stove,
+/turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
 "qKK" = (
 /obj/effect/decal/cleanable/glitter/white{
@@ -11244,7 +11277,7 @@ dLD
 tFy
 lvh
 pXC
-xAW
+sbf
 tFy
 tFy
 hHE
@@ -11358,7 +11391,7 @@ llj
 hov
 tFy
 sTj
-rWC
+jdE
 rWC
 rWC
 rWC
@@ -11591,11 +11624,11 @@ gGC
 ghq
 tPi
 tFy
-oNR
+sbf
 rWC
-rWC
-rWC
-qlV
+ifd
+xAW
+qGK
 rWC
 rWC
 jnG
@@ -11710,9 +11743,9 @@ tFy
 tFy
 gzb
 rWC
-rWC
+oNR
 qlV
-rWC
+aEx
 rWC
 rWC
 jYx
