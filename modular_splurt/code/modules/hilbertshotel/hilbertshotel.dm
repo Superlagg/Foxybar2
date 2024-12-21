@@ -29,6 +29,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	"Chess",
 	"Glade-One",
 	"Wildsauna-One",
+	"Maid cafe"
 	)
 	var/datum/map_template/hilbertshotel/apartment/one/hilberts_hotel_rooms_apartment_one
 	var/datum/map_template/hilbertshotel/apartment/two/hilberts_hotel_rooms_apartment_two
@@ -48,6 +49,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	var/datum/map_template/hilbertshotel/apartment/chessboard/thechess
 	var/datum/map_template/hilbertshotel/apartment/glade_one/glade_one
 	var/datum/map_template/hilbertshotel/apartment/wildsauna_one/wildsauna_one
+	var/datum/map_template/hilbertshotel/apartment/maidcafe/maidcafe
 	//FB Maps End
 	var/datum/map_template/hilbertshotel/hotelRoomTemp
 	var/datum/map_template/hilbertshotel/empty/hotelRoomTempEmpty
@@ -88,6 +90,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	thechess = new()
 	glade_one = new()
 	wildsauna_one = new()
+	maidcafe = new()
 
 /obj/hilbertshotel/proc/getMapTemplate(roomType) // To load a map and remove it's atoms
 	switch(roomType)
@@ -108,6 +111,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 		if("Chess") return thechess
 		if("Glade-One") return glade_one
 		if("Wildsauna-One") return wildsauna_one
+		if("Maid cafe") return maidcafe
 		if("Mystery Room") return hotelRoomTempLore
 		
 	return hotelRoomTemp // Default to Hotel Room if no match is found
@@ -141,6 +145,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 			if("Chess") mapTemplate = thechess
 			if("Glade-One") mapTemplate = glade_one
 			if("Wildsauna-One") mapTemplate = wildsauna_one
+			if("Maid cafe") mapTemplate = maidcafe
 
 	if(!mapTemplate)
 		mapTemplate = hotelRoomTemp //Default Hotel Room
@@ -236,6 +241,11 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 /datum/map_template/hilbertshotel/apartment/wildsauna_one
 	name = "Wildsauna-One"
 	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/wildsauna_1.dmm'
+
+/datum/map_template/hilbertshotel/apartment/maidcafe
+	name = "Maid cafe"
+	mappath = '_maps/templates/splurt_templates/hilbertshotel_templates/maidcafe.dmm'
+
 
 /obj/hilbertshotel/Destroy()
 	ejectRooms()
