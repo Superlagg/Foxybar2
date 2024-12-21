@@ -947,6 +947,7 @@
 
 	interact(cardUser)
 	update_sprite()
+	update_desc()
 	if(length(currenthand) == 1)
 		var/obj/item/toy/cards/singlecard/N = new/obj/item/toy/cards/singlecard(loc)
 		N.parentdeck = parentdeck
@@ -967,6 +968,7 @@
 			qdel(C)
 			interact(user)
 			update_sprite(src)
+			update_desc()
 		else
 			to_chat(user, span_warning("I can't mix cards from other decks!"))
 	else
@@ -1021,6 +1023,13 @@
 	for(var/i = k; i <= overlay_cards; i++)
 		var/card_overlay = image(icon=src.icon,icon_state="sc_[currenthand[i]]_[deckstyle]",pixel_x=(1-i+k)*3,pixel_y=(1-i+k)*3)
 		add_overlay(card_overlay)
+
+/obj/item/toy/cards/cardhand/proc/update_desc()
+	desc = "A number of cards not in a deck, customarily held in ones hand.\nThis hand contains:\n"
+	for(var/c in currenthand)
+		desc += c + "\n"
+
+
 
 /obj/item/toy/cards/singlecard
 	name = "card"
@@ -1088,6 +1097,7 @@
 		qdel(src)
 		H.pickup(user)
 		user.put_in_active_hand(H)
+		H.update_desc()
 	else
 		to_chat(user, span_warning("I can't mix cards from other decks!"))
 
@@ -1100,6 +1110,7 @@
 		user.visible_message("[user] adds a card to [user.p_their()] hand.", span_notice("I add the [cardname] to your hand."))
 		qdel(src)
 		H.interact(user)
+		H.update_desc()
 		if(H.currenthand.len > 4)
 			H.icon_state = "[deckstyle]_hand5"
 		else if(H.currenthand.len > 3)
