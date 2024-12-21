@@ -68,11 +68,11 @@
 /area/hilbertshotel)
 "kC" = (
 /obj/structure/window/spawner/east,
+/obj/structure/table/wood/settler,
 /obj/machinery/light{
 	dir = 4;
 	pixel_x = -5
 	},
-/obj/structure/table/wood/settler,
 /turf/open/floor/wood_fancy/wood_fancy_dark,
 /area/hilbertshotel)
 "kQ" = (
@@ -96,11 +96,11 @@
 /area/hilbertshotel)
 "ni" = (
 /obj/structure/window/spawner/east,
-/obj/structure/table/wood/settler,
 /obj/machinery/light{
 	dir = 4;
 	pixel_x = -5
 	},
+/obj/structure/table/wood/settler,
 /turf/open/floor/wood_fancy/wood_fancy_dark,
 /area/hilbertshotel)
 "nj" = (
@@ -128,7 +128,9 @@
 /turf/open/indestructible/hoteltile,
 /area/hilbertshotel)
 "qn" = (
-/obj/structure/food_printer,
+/obj/structure/food_printer{
+	name = "GekkerTec FoodFox 2000 - Private"
+	},
 /turf/open/floor/plasteel/cafeteria,
 /area/hilbertshotel)
 "qH" = (
@@ -656,10 +658,10 @@ ZE
 (8,1,1) = {"
 ZE
 tl
-kC
+ni
 Mr
 Pz
-ni
+kC
 Mr
 Wg
 Wg
