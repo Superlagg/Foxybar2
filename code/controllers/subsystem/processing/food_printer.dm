@@ -49,7 +49,7 @@ PROCESSING_SUBSYSTEM_DEF(food_printer)
 	foods = list()
 	for(var/thing in subtypesof(/obj/item))
 		var/obj/item/I = thing
-		if(!initial(I.is_food))
+		if(!initial(I.is_food) && !initial(I.is_kitchenware))
 			continue
 		var/datum/food_menu_entry/entry = new /datum/food_menu_entry(I)
 		entry.disambiguator = "[disambiguator]"

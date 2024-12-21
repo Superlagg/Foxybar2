@@ -14,6 +14,7 @@
 	lefthand_file = 'icons/fallout/onmob/tools/kitchen_lefthand.dmi'
 	righthand_file = 'icons/fallout/onmob/tools/kitchen_righthand.dmi'
 	slot_flags = INV_SLOTBIT_BELT | INV_SLOTBIT_BACK
+	is_kitchenware = TRUE
 
 /obj/item/kitchen/fork
 	name = "fork"

@@ -774,6 +774,7 @@
 	foldable = null
 	/// A list of all available papersack reskins
 	var/list/papersack_designs = list()
+	is_kitchenware = TRUE
 
 /obj/item/storage/box/papersack/Initialize(mapload)
 	. = ..()

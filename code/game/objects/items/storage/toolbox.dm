@@ -346,6 +346,7 @@ GLOBAL_LIST_EMPTY(rubber_toolbox_icons)
 	icon_state = "lunchbox_rainbow"
 	desc = "A little lunchbox. This one is the colors of the rainbow!"
 	attack_verb = list("lunched")
+	is_kitchenware = TRUE
 
 /obj/item/storage/bag/plants/lunchbox/hearts
 	name = "heart lunchbox"

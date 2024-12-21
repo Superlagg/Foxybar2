@@ -253,7 +253,7 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	var/is_icecream = FALSE
 	var/is_sushi = FALSE
 	var/is_insect = FALSE
-
+	var/is_kitchenware = FALSE //For things that aren't quite food but are still kitchen/food related and deserve to be printed from the foodfops
 
 
 
