@@ -6,7 +6,7 @@
 	default_color = "00FF00"
 	species_traits = list(MUTCOLORS,EYECOLOR,HAIR,FACEHAIR,LIPS,HORNCOLOR,WINGCOLOR,HAS_FLESH,HAS_BONE)
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID|MOB_REPTILE|MOB_BEAST
-	mutanttongue = /obj/item/organ/tongue/lizard
+	mutanttongue = /obj/item/organ/tongue
 	mutanttail = /obj/item/organ/tail/lizard
 	coldmod = 1.5
 	heatmod = 0.67
@@ -21,7 +21,6 @@
 	skinned_type = /obj/item/stack/sheet/animalhide/lizard
 	exotic_bloodtype = "L"
 	exotic_blood_color = BLOOD_COLOR_LIZARD
-	disliked_food = GRAIN | DAIRY
 	liked_food = GROSS | MEAT
 	inert_mutation = FIREBREATH
 	species_language_holder = /datum/language_holder/lizard
