@@ -68,11 +68,11 @@
 /area/hilbertshotel)
 "kC" = (
 /obj/structure/window/spawner/east,
+/obj/structure/table/wood/settler,
 /obj/machinery/light{
 	dir = 4;
 	pixel_x = -5
 	},
-/obj/structure/table/wood/settler,
 /turf/open/floor/wood_fancy/wood_fancy_dark,
 /area/hilbertshotel)
 "kQ" = (
@@ -96,11 +96,11 @@
 /area/hilbertshotel)
 "ni" = (
 /obj/structure/window/spawner/east,
-/obj/structure/table/wood/settler,
 /obj/machinery/light{
 	dir = 4;
 	pixel_x = -5
 	},
+/obj/structure/table/wood/settler,
 /turf/open/floor/wood_fancy/wood_fancy_dark,
 /area/hilbertshotel)
 "nj" = (
@@ -289,6 +289,10 @@
 "EI" = (
 /obj/structure/fermenting_barrel,
 /obj/machinery/light,
+/turf/open/floor/plasteel/cafeteria,
+/area/hilbertshotel)
+"Fn" = (
+/obj/structure/closet/secure_closet/freezer/meat/open,
 /turf/open/floor/plasteel/cafeteria,
 /area/hilbertshotel)
 "Fz" = (
@@ -659,10 +663,10 @@ ZE
 (8,1,1) = {"
 ZE
 tl
-kC
+ni
 Mr
 Pz
-ni
+kC
 Mr
 Wg
 Wg
@@ -725,7 +729,7 @@ Zn
 yz
 qH
 Zn
-SW
+Fn
 ZE
 "}
 (12,1,1) = {"
