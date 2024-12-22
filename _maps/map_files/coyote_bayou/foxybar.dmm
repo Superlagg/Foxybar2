@@ -33,6 +33,25 @@
 	dir = 1;
 	color = "#3B2B1A"
 	},
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
 /turf/open/floor/wood_fancy{
 	color = "#779999"
 	},
@@ -1011,6 +1030,26 @@
 	color = "#999999"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
+"faS" = (
+/obj/structure/table/wood/settler,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythreeXtwentythree,
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "fcV" = (
 /obj/structure/simple_door/room,
 /obj/item/lock_bolt,
@@ -1848,6 +1887,18 @@
 	},
 /turf/open/floor/carpet/purple,
 /area/f13/fb/bar)
+"iQs" = (
+/obj/structure/flora/tree/jungle{
+	color = "#BEBEBE";
+	mouse_opacity = 0;
+	pixel_x = -39;
+	pixel_y = -6
+	},
+/obj/structure/flora/wasteplant/fever_blossom,
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "iYl" = (
 /turf/open/floor/carpet/royalblack,
 /area/f13/fb/bar)
@@ -2496,7 +2547,9 @@
 "ohS" = (
 /obj/structure/flora/tree/jungle{
 	color = "#BEBEBE";
-	mouse_opacity = 0
+	mouse_opacity = 0;
+	pixel_x = -39;
+	pixel_y = -6
 	},
 /turf/open/indestructible/ground/outside/dirt{
 	color = "#666666"
@@ -3040,6 +3093,13 @@
 /obj/machinery/telecomms/server/presets/engineering,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/f13/wasteland/city/newboston/outdoors)
+"sEm" = (
+/obj/structure/easel,
+/obj/item/canvas/twentythreeXtwentythree,
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "sGq" = (
 /obj/machinery/light/small{
 	color = "#993311";
@@ -3323,6 +3383,12 @@
 	color = "#999999"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
+"uXq" = (
+/obj/structure/chair/stool,
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "vgB" = (
 /obj/structure/sign/crosswalk{
 	icon_state = "stop";
@@ -3426,7 +3492,9 @@
 "vzp" = (
 /obj/structure/flora/tree/jungle{
 	color = "#BEBEBE";
-	mouse_opacity = 0
+	mouse_opacity = 0;
+	pixel_x = -39;
+	pixel_y = -6
 	},
 /turf/open/indestructible/ground/outside/dirt{
 	color = "#666666"
@@ -3465,6 +3533,15 @@
 	color = "#779999"
 	},
 /area/f13/fb/bar)
+"vHb" = (
+/obj/structure/flora/wasteplant/fever_blossom{
+	pixel_y = 16;
+	pixel_x = 16
+	},
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "vJz" = (
 /obj/machinery/light/small{
 	color = "#993311";
@@ -3475,15 +3552,34 @@
 	},
 /turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
+"vNe" = (
+/obj/structure/sign/painting/library{
+	pixel_y = 33;
+	plane = -2
+	},
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "vQt" = (
 /obj/structure/flora/tree/jungle{
 	color = "#BEBEBE";
-	mouse_opacity = 0
+	mouse_opacity = 0;
+	pixel_x = -39;
+	pixel_y = -6
 	},
 /obj/structure/flora/tree/jungle{
 	color = "#BEBEBE";
-	mouse_opacity = 0
+	mouse_opacity = 0;
+	pixel_x = -39;
+	pixel_y = -6
 	},
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
+"wbE" = (
+/obj/structure/flora/wasteplant/fever_blossom,
 /turf/open/indestructible/ground/outside/dirt{
 	color = "#666666"
 	},
@@ -13401,12 +13497,12 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
+vzp
+iQs
+hqa
+vzp
+vzp
+vzp
 xNF
 xNF
 xNF
@@ -13518,15 +13614,15 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
+iQs
+hqa
+hqa
+hqa
+hqa
+wbE
+hqa
+vzp
+vzp
 xNF
 xNF
 xNF
@@ -13635,19 +13731,19 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
+vzp
+sEm
+uXq
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+vzp
+vzp
+vzp
+vzp
 vzp
 dRv
 hqa
@@ -13752,20 +13848,20 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
 vzp
+faS
+hqa
+hqa
+vHb
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
 hqa
 hqa
 hqa
@@ -13869,20 +13965,20 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
 vzp
+vNe
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
 hqa
 hqa
 hqa
@@ -13986,19 +14082,19 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
+vzp
+vNe
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+vzp
+vzp
+vzp
+vzp
 vzp
 hqa
 hqa
@@ -14103,15 +14199,15 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
+iQs
+hqa
+hqa
+vzp
+hqa
+wbE
+vzp
+vzp
+vzp
 xNF
 xNF
 xNF
@@ -14220,12 +14316,12 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
+vQt
+iQs
+hqa
+vzp
+vzp
+vzp
 xNF
 xNF
 xNF
