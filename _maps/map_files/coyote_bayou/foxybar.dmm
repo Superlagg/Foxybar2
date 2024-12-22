@@ -1008,6 +1008,12 @@
 	icon_state = "horizontalbottomborderbottom2left"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
+"eCi" = (
+/obj/structure/chair/stool,
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "eEU" = (
 /obj/effect/turf_decal/stripes/asteroid/corner,
 /turf/open/floor/circuit/telecomms/mainframe,
@@ -1028,26 +1034,6 @@
 	},
 /turf/open/indestructible/ground/outside/road{
 	color = "#999999"
-	},
-/area/f13/wasteland/city/newboston/outdoors)
-"faS" = (
-/obj/structure/table/wood/settler,
-/obj/item/toy/crayon/spraycan,
-/obj/item/toy/crayon/spraycan,
-/obj/item/toy/crayon/spraycan,
-/obj/item/toy/crayon/spraycan,
-/obj/item/toy/crayon/spraycan,
-/obj/item/toy/crayon/spraycan,
-/obj/item/toy/crayon/spraycan,
-/obj/item/toy/crayon/spraycan,
-/obj/item/canvas/twentythreeXtwentythree,
-/obj/item/canvas/twentythreeXtwentythree,
-/obj/item/canvas/twentythreeXtwentythree,
-/obj/item/canvas/twentythreeXtwentythree,
-/obj/item/canvas/twentythreeXtwentythree,
-/obj/item/canvas/twentythreeXtwentythree,
-/turf/open/indestructible/ground/outside/dirt{
-	color = "#666666"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
 "fcV" = (
@@ -1546,6 +1532,12 @@
 	},
 /turf/open/floor/carpet/purple,
 /area/f13/fb/bar)
+"hnP" = (
+/obj/structure/flora/wasteplant/fever_blossom,
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "hov" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 8;
@@ -1887,18 +1879,6 @@
 	},
 /turf/open/floor/carpet/purple,
 /area/f13/fb/bar)
-"iQs" = (
-/obj/structure/flora/tree/jungle{
-	color = "#BEBEBE";
-	mouse_opacity = 0;
-	pixel_x = -39;
-	pixel_y = -6
-	},
-/obj/structure/flora/wasteplant/fever_blossom,
-/turf/open/indestructible/ground/outside/dirt{
-	color = "#666666"
-	},
-/area/f13/wasteland/city/newboston/outdoors)
 "iYl" = (
 /turf/open/floor/carpet/royalblack,
 /area/f13/fb/bar)
@@ -2426,6 +2406,15 @@
 	color = "#666666"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
+"neS" = (
+/obj/structure/flora/wasteplant/fever_blossom{
+	pixel_y = 16;
+	pixel_x = 16
+	},
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "niY" = (
 /obj/effect/landmark/start/f13/wastelander,
 /obj/effect/landmark/latejoin,
@@ -2636,6 +2625,15 @@
 	color = "#333333"
 	},
 /area/f13/fb/bar)
+"oXT" = (
+/obj/structure/sign/painting/library{
+	pixel_y = 33;
+	plane = -2
+	},
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "paz" = (
 /obj/structure/sink/greyscale{
 	dir = 4;
@@ -2704,6 +2702,13 @@
 "pBI" = (
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
+"pBP" = (
+/obj/structure/easel,
+/obj/item/canvas/twentythreeXtwentythree,
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "pGx" = (
 /obj/machinery/telecomms/processor/preset_one,
 /obj/machinery/light/floor{
@@ -3007,14 +3012,25 @@
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/f13/wasteland/city/newboston/outdoors)
 "rSD" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 4;
-	color = "#3B2B1A"
+/obj/structure/table/wood/settler,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythreeXtwentythree,
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
 	},
-/turf/closed{
-	icon_state = "black"
-	},
-/area)
+/area/f13/wasteland/city/newboston/outdoors)
 "rWC" = (
 /turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
@@ -3092,13 +3108,6 @@
 "ste" = (
 /obj/machinery/telecomms/server/presets/engineering,
 /turf/open/floor/circuit/telecomms/mainframe,
-/area/f13/wasteland/city/newboston/outdoors)
-"sEm" = (
-/obj/structure/easel,
-/obj/item/canvas/twentythreeXtwentythree,
-/turf/open/indestructible/ground/outside/dirt{
-	color = "#666666"
-	},
 /area/f13/wasteland/city/newboston/outdoors)
 "sGq" = (
 /obj/machinery/light/small{
@@ -3383,12 +3392,6 @@
 	color = "#999999"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
-"uXq" = (
-/obj/structure/chair/stool,
-/turf/open/indestructible/ground/outside/dirt{
-	color = "#666666"
-	},
-/area/f13/wasteland/city/newboston/outdoors)
 "vgB" = (
 /obj/structure/sign/crosswalk{
 	icon_state = "stop";
@@ -3533,15 +3536,6 @@
 	color = "#779999"
 	},
 /area/f13/fb/bar)
-"vHb" = (
-/obj/structure/flora/wasteplant/fever_blossom{
-	pixel_y = 16;
-	pixel_x = 16
-	},
-/turf/open/indestructible/ground/outside/dirt{
-	color = "#666666"
-	},
-/area/f13/wasteland/city/newboston/outdoors)
 "vJz" = (
 /obj/machinery/light/small{
 	color = "#993311";
@@ -3552,15 +3546,6 @@
 	},
 /turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
-"vNe" = (
-/obj/structure/sign/painting/library{
-	pixel_y = 33;
-	plane = -2
-	},
-/turf/open/indestructible/ground/outside/dirt{
-	color = "#666666"
-	},
-/area/f13/wasteland/city/newboston/outdoors)
 "vQt" = (
 /obj/structure/flora/tree/jungle{
 	color = "#BEBEBE";
@@ -3574,12 +3559,6 @@
 	pixel_x = -39;
 	pixel_y = -6
 	},
-/turf/open/indestructible/ground/outside/dirt{
-	color = "#666666"
-	},
-/area/f13/wasteland/city/newboston/outdoors)
-"wbE" = (
-/obj/structure/flora/wasteplant/fever_blossom,
 /turf/open/indestructible/ground/outside/dirt{
 	color = "#666666"
 	},
@@ -3641,6 +3620,18 @@
 /obj/machinery/telecomms/server/presets/medical,
 /turf/open/floor/plasteel/f13{
 	icon_state = "darkrustysolid"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
+"wpX" = (
+/obj/structure/flora/tree/jungle{
+	color = "#BEBEBE";
+	mouse_opacity = 0;
+	pixel_x = -39;
+	pixel_y = -6
+	},
+/obj/structure/flora/wasteplant/fever_blossom,
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
 "wsB" = (
@@ -13498,7 +13489,7 @@ xNF
 xNF
 xNF
 vzp
-iQs
+wpX
 hqa
 vzp
 vzp
@@ -13614,12 +13605,12 @@ xNF
 xNF
 xNF
 xNF
-iQs
+wpX
 hqa
 hqa
 hqa
 hqa
-wbE
+hnP
 hqa
 vzp
 vzp
@@ -13732,8 +13723,8 @@ xNF
 xNF
 xNF
 vzp
-sEm
-uXq
+pBP
+eCi
 hqa
 hqa
 hqa
@@ -13849,10 +13840,10 @@ xNF
 xNF
 xNF
 vzp
-faS
+rSD
 hqa
 hqa
-vHb
+neS
 hqa
 hqa
 hqa
@@ -13966,7 +13957,7 @@ xNF
 xNF
 xNF
 vzp
-vNe
+oXT
 hqa
 hqa
 hqa
@@ -14083,7 +14074,7 @@ xNF
 xNF
 xNF
 vzp
-vNe
+oXT
 hqa
 hqa
 hqa
@@ -14199,12 +14190,12 @@ xNF
 xNF
 xNF
 xNF
-iQs
+wpX
 hqa
 hqa
 vzp
 hqa
-wbE
+hnP
 vzp
 vzp
 vzp
@@ -14317,7 +14308,7 @@ xNF
 xNF
 xNF
 vQt
-iQs
+wpX
 hqa
 vzp
 vzp
@@ -15310,7 +15301,7 @@ xNF
 xNF
 xNF
 xNF
-rSD
+xNF
 xNF
 xNF
 xNF
