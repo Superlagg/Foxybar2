@@ -44,8 +44,8 @@
 			var/linesbonus = ((l1 * L1_bonus) + (l2*L2_bonus) + (l3*L3_bonus) + (l4 * L4_bonus))
 			if(linesbonus > 0)
 				var/obj/item/stack/f13Cash/caps/linesbonuscash = new /obj/item/stack/f13Cash/caps
-				linesbonuscash.amount = linesbonus + 0 //This doesn't work without the + 0. Why? Has I ever?
 			 	visible_message(span_notice("[src] dispenses [linesbonuscash]!"), span_notice("I hear a chime and a clunk."))
+				linesbonuscash.amount = linesbonus
 				linesbonuscash.forceMove(get_turf(src))
 				
 			// Define score text
