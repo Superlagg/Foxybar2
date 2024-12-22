@@ -43,10 +43,9 @@
 			var/reward_count = clamp(round(temp_score/TETRIS_REWARD_DIVISOR), 0, TETRIS_PRIZES_MAX)
 			var/linesbonus = ((l1 * L1_bonus) + (l2*L2_bonus) + (l3*L3_bonus) + (l4 * L4_bonus))
 			if(linesbonus > 0)
-				var/obj/item/stack/f13Cash/caps/linesbonuscash = new /obj/item/stack/f13Cash/caps
-			 	visible_message(span_notice("[src] dispenses [linesbonuscash]!"), span_notice("I hear a chime and a clunk."))
-				linesbonuscash.amount = linesbonus
-				linesbonuscash.forceMove(get_turf(src))
+				var/obj/item/stack/f13Cash/moneytodrop = new /obj/item/stack/f13Cash/caps(get_turf(src))
+				moneytodrop.amount = linesbonus
+				visible_message(span_notice("[src] dispenses [moneytodrop]!"), span_notice("I hear a chime and a clunk."))
 				
 			// Define score text
 			var/score_text = (reward_count ? temp_score : "You can do it! I believe in you!")
