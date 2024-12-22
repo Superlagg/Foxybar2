@@ -2850,6 +2850,10 @@
 /obj/effect/turf_decal/stripes/asteroid/line{
 	dir = 4
 	},
+/obj/structure/food_printer{
+	is_global = 1;
+	name = "GekkerTec FoodFox 2000 Global Food Delivery Service"
+	},
 /turf/open/floor/plasteel/f13{
 	icon_state = "darkrustysolid"
 	},

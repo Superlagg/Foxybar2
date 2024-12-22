@@ -17,7 +17,7 @@
 	var/target_beacon
 	var/last_new_beacon = 0
 	var/list/usage_log = list()
-
+	var/is_global = FALSE
 	var/obj/item/pda/moviefone
 	var/list/calls = list()
 	var/list/orders_in_progress = list()
@@ -25,7 +25,8 @@
 /obj/structure/food_printer/Initialize()
 	. = ..()
 	menu = SSfood_printer.food_menu
-	GeneratePDA()
+	if(is_global)
+		GeneratePDA()
 	new /obj/item/foodprinter_output_beacon(GetNearestTable(src, 2, TRUE))
 	sl_1 = new /datum/looping_sound/foodprinter_1(list(src), FALSE)
 	sl_2 = new /datum/looping_sound/foodprinter_2(list(src), FALSE)
