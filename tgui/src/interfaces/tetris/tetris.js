@@ -1,4 +1,4 @@
-var i, j, IsOver, MaxX=10, MaxY=20, NextCol, Col, Score, Lines, IsHideFocus=true;
+var i, j, IsOver, MaxX=10, MaxY=20, NextCol, Col, Score, Lines, IsHideFocus=true, Lines1, Lines2, Lines3, Lines4;
 PosX=new Array(4);
 PosY=new Array(4);
 Delay=new Array(828,620,464,348,260,196,148,112,84,64,48,36,27);
@@ -74,6 +74,10 @@ function Init(nn)
     Score=0;
     Level=1;
     Lines=0;
+    Lines1=0;
+    Lines2=0;
+    Lines3=0;
+    Lines4=0;
     window.document.ScoreForm.Score.value = Score;
     window.document.ScoreForm.Level.value = Level;
     window.document.ScoreForm.Lines.value = Lines;
@@ -102,7 +106,7 @@ function Go()
           document.images[PosX[nn]+MaxX*(PosY[nn]-1)].src = Pic[Col+1].src;
       }
       //if (confirm("Super, you got a score of "+Score+" ! Play again ?")) Init(true);
-	  submitScore(Score);
+	  submitScore(Score,Lines1,Lines2,Lines3,Lines4);
       return;
     }
     for (nn=0; nn<4; nn++)
@@ -295,6 +299,22 @@ function Remove()
         }
       }
     }
+  }
+  switch(nn){
+    case 0:
+      break;
+    case 1:
+      Lines1++;
+      break;
+    case 2:
+      Lines2++;
+      break;
+    case 3:
+      Lines3++;
+      break;
+    case 4:
+      Lines4++;
+      break;
   }
   Score+=100*nn;
   Lines+=nn;

@@ -7,7 +7,13 @@
 #define TETRIS_SCORE_MAX_SCI 10000
 #define TETRIS_TIME_COOLDOWN 600
 #define TETRIS_NO_SCIENCE TRUE
-
+//Line bonus defines, for when you clear a set amount of rows in a single go. Beat Fenny with a newspaper if these values are unbalanced, it was their numbers
+#define L1_bonus 1
+#define L2_bonus 3
+#define L3_bonus 9
+#define L4_bonus 15
+//Maximum amount of line bonus monies
+#define MaxBonus 1000
 // Cooldown defines
 #define TETRIS_COOLDOWN_MAIN cooldown_timer
 
@@ -26,7 +32,10 @@
 			// Sanitize score as an integer
 			// Restricts maximum score to (default) 100,000
 			var/temp_score = sanitize_num_clamp(text2num(href_list["tetrisScore"]), max=TETRIS_SCORE_MAX)
-
+			var/l1 = sanitize_num_clamp(text2num(href_list["Lines1"]),max= 100)
+			var/l2 = sanitize_num_clamp(text2num(href_list["Lines2"]), max= 100)
+			var/l3 = sanitize_num_clamp(text2num(href_list["Lines3"]), max= 100)
+			var/l4 = sanitize_num_clamp(text2num(href_list["Lines4"]), max = 100)
 			// Check for high score
 			if(temp_score > TETRIS_SCORE_HIGH)
 				// Alert admins
@@ -34,7 +43,13 @@
 
 			// Round and clamp prize count from 0 to (default) 5
 			var/reward_count = clamp(round(temp_score/TETRIS_REWARD_DIVISOR), 0, TETRIS_PRIZES_MAX)
-
+			var/linesbonus = 0
+			linesbonus = (l1 * L1_bonus) + (l2*L2_bonus) + (l3*L3_bonus) + (l4 * L4_bonus)
+			if(linesbonus > 0)
+				var/obj/item/stack/f13Cash/caps/linesbonuscash = new /obj/item/stack/f13Cash/caps();
+				linesbonuscash.amount = linesbonus;
+			 	visible_message(span_notice("[src] dispenses [linesbonuscash]!"), span_notice("I hear a chime and a clunk."))
+				linesbonuscash.forceMove(get_turf(src))
 			// Define score text
 			var/score_text = (reward_count ? temp_score : "PATHETIC! TRY HARDER")
 
@@ -61,7 +76,7 @@
 			// Vend prizes
 			for(var/i = 0; i < reward_count; i++)
 				prizevend(usr)
-
+			
 			// Check if science points are possible and allowed
 			if((!SSresearch.science_tech) || TETRIS_NO_SCIENCE)
 				return
@@ -107,8 +122,8 @@
 	<META HTTP-EQUIV='Content-Type' CONTENT='text/html; charset=iso-8859-1'>
 	<title>Telemetry Enhanced Testing and Research Informatic Simulator</title>
 	<script language='JavaScript'>
-	function submitScore(s){
-		window.location.href = 'byond://?src=\ref[src];tetrisScore=' + s;
+	function submitScore(s,l1,l2,l3,l4){
+		window.location.href = 'byond://?src=\ref[src];tetrisScore=' + s + '&Lines1=' + l1 + '&Lines2=' + l2 +'&Lines3=' + l3 + "&Lines4="+ l4;
 	}
 	</script>
 	<script language='JavaScript1.2'>
@@ -168,3 +183,7 @@
 #undef TETRIS_TIME_COOLDOWN
 #undef TETRIS_NO_SCIENCE
 #undef TETRIS_COOLDOWN_MAIN
+#undef L1_bonus 
+#undef L2_bonus 
+#undef L3_bonus 
+#undef L4_bonus 
