@@ -103,14 +103,6 @@
 /obj/effect/sound_emitter/foxybar/machinery,
 /turf/open/floor/carpet/royalblack,
 /area/f13/fb/bar)
-"anC" = (
-/obj/machinery/light/floor{
-	light_color = "#993311";
-	color = "#993311";
-	alpha = 10
-	},
-/turf/open/floor/plasteel/f13/darkmarble,
-/area/f13/fb/bar)
 "aoR" = (
 /obj/structure/simple_door/room,
 /obj/item/lock_bolt{
@@ -126,16 +118,6 @@
 	},
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/f13/wasteland/city/newboston/outdoors)
-"ava" = (
-/obj/machinery/light/floor{
-	light_color = "#993311";
-	color = "#993311";
-	alpha = 10
-	},
-/turf/open/floor/wood_fancy{
-	color = "#779999"
-	},
-/area/f13/fb/bar)
 "awD" = (
 /obj/effect/decal/cleanable/glitter/white{
 	color = "#884444"
@@ -363,6 +345,14 @@
 /obj/machinery/telecomms/bus/preset_two,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/f13/wasteland/city/newboston/outdoors)
+"bAD" = (
+/obj/machinery/light/floor{
+	light_color = "#993311";
+	color = "#993311";
+	alpha = 10
+	},
+/turf/open/floor/plasteel/f13/darkmarble,
+/area/f13/fb/bar)
 "bHr" = (
 /obj/structure/window/bronze{
 	dir = 8;
@@ -496,9 +486,7 @@
 /obj/effect/turf_decal/siding/wood{
 	color = "#3B2B1A"
 	},
-/turf/open/floor/wood_fancy{
-	color = "#779999"
-	},
+/turf/open/floor/carpet/purple,
 /area/f13/fb/bar)
 "cFj" = (
 /obj/effect/decal/cleanable/glitter/white{
@@ -686,9 +674,7 @@
 /obj/effect/turf_decal/siding/wood{
 	color = "#3B2B1A"
 	},
-/turf/open/floor/wood_fancy{
-	color = "#779999"
-	},
+/turf/open/floor/carpet/purple,
 /area/f13/fb/bar)
 "dCF" = (
 /obj/effect/turf_decal/siding/wood{
@@ -1045,7 +1031,7 @@
 	},
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
-"fmF" = (
+"fge" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 8;
 	color = "#3B2B1A"
@@ -1064,6 +1050,16 @@
 /obj/effect/landmark/latejoin,
 /turf/open/indestructible/ground/outside/sidewalk{
 	icon_state = "horizontaltopbordertop2"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
+"fuU" = (
+/obj/structure/christmas/xmaslights{
+	dir = 1;
+	pixel_y = 23;
+	plane = 0
+	},
+/turf/open/indestructible/ground/outside/sidewalk{
+	icon_state = "outerborder - E"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
 "fvo" = (
@@ -1401,15 +1397,8 @@
 	dir = 4;
 	color = "#3B2B1A"
 	},
-/obj/effect/turf_decal/siding/wood{
-	color = "#3B2B1A"
-	},
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 1;
-	color = "#3B2B1A"
-	},
-/obj/effect/turf_decal/siding/wood/corner{
-	dir = 2;
 	color = "#3B2B1A"
 	},
 /turf/open/floor/carpet/purple,
@@ -1563,6 +1552,16 @@
 "hrM" = (
 /turf/closed/wall/mineral/brick{
 	plane = -1
+	},
+/area/f13/fb/bar)
+"hxR" = (
+/obj/machinery/light/floor{
+	light_color = "#993311";
+	color = "#993311";
+	alpha = 10
+	},
+/turf/open/floor/wood_fancy{
+	color = "#779999"
 	},
 /area/f13/fb/bar)
 "hAy" = (
@@ -1745,6 +1744,12 @@
 	color = "#779999"
 	},
 /area/f13/fb/bar)
+"itL" = (
+/obj/effect/turf_decal/siding/wood{
+	color = "#3B2B1A"
+	},
+/turf/open/floor/carpet/purple,
+/area/f13/fb/bar)
 "iub" = (
 /turf/open/indestructible/ground/outside/sidewalk{
 	icon_state = "horizontalbottomborderbottom0"
@@ -1825,9 +1830,6 @@
 	pixel_y = 8
 	},
 /obj/structure/chair/stool/retro/tan,
-/obj/effect/turf_decal/siding/wood{
-	color = "#3B2B1A"
-	},
 /obj/effect/turf_decal/siding/wood{
 	dir = 1;
 	color = "#3B2B1A"
@@ -2895,16 +2897,6 @@
 	icon_state = "darkrustysolid"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
-"qYX" = (
-/obj/structure/christmas/xmaslights{
-	dir = 1;
-	pixel_y = 23;
-	plane = 0
-	},
-/turf/open/indestructible/ground/outside/sidewalk{
-	icon_state = "outerborder - E"
-	},
-/area/f13/wasteland/city/newboston/outdoors)
 "qZW" = (
 /obj/effect/turf_decal/stripes/asteroid/line{
 	dir = 10
@@ -2961,6 +2953,15 @@
 /obj/machinery/telecomms/receiver/preset_left,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/f13/wasteland/city/newboston/outdoors)
+"rSD" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 4;
+	color = "#3B2B1A"
+	},
+/turf/closed{
+	icon_state = "black"
+	},
+/area)
 "rWC" = (
 /turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
@@ -3009,6 +3010,14 @@
 	color = "#3B2B1A"
 	},
 /turf/open/floor/carpet/purple,
+/area/f13/fb/bar)
+"sep" = (
+/obj/machinery/light/floor{
+	light_color = "#993311";
+	color = "#993311";
+	alpha = 10
+	},
+/turf/open/floor/carpet/royalblack,
 /area/f13/fb/bar)
 "seF" = (
 /obj/machinery/smartfridge/food{
@@ -3179,9 +3188,6 @@
 	},
 /obj/structure/chair/stool/retro/tan,
 /obj/effect/turf_decal/siding/wood{
-	color = "#3B2B1A"
-	},
-/obj/effect/turf_decal/siding/wood{
 	dir = 1;
 	color = "#3B2B1A"
 	},
@@ -3267,9 +3273,15 @@
 /obj/effect/turf_decal/siding/wood{
 	color = "#3B2B1A"
 	},
-/turf/open/floor/wood_fancy{
-	color = "#779999"
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 2;
+	color = "#3B2B1A"
 	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 4;
+	color = "#3B2B1A"
+	},
+/turf/open/floor/carpet/purple,
 /area/f13/fb/bar)
 "uvk" = (
 /obj/effect/turf_decal/stripes/asteroid/line,
@@ -3647,14 +3659,6 @@
 	color = "#666666"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
-"wKj" = (
-/obj/machinery/light/floor{
-	light_color = "#993311";
-	color = "#993311";
-	alpha = 10
-	},
-/turf/open/floor/carpet/royalblack,
-/area/f13/fb/bar)
 "wPR" = (
 /obj/effect/turf_decal/stripes/asteroid/corner{
 	dir = 1
@@ -9808,7 +9812,7 @@ eJV
 msa
 okV
 okV
-fmF
+fge
 okV
 gOe
 gHF
@@ -10169,7 +10173,7 @@ goB
 goB
 goB
 tCv
-lel
+itL
 maZ
 maZ
 maZ
@@ -10390,7 +10394,7 @@ xNF
 tFy
 agk
 wxN
-ava
+hxR
 kWN
 tFy
 lSC
@@ -10628,14 +10632,14 @@ tFy
 tFy
 tFy
 mRP
-ava
+hxR
 wxN
 wxN
 wxN
-ava
+hxR
 wxN
 wxN
-ava
+hxR
 wxN
 lel
 iFt
@@ -11099,12 +11103,12 @@ adu
 adu
 tFy
 bpJ
-wKj
+sep
 iYl
-wKj
+sep
 iYl
 iYl
-wKj
+sep
 hfS
 jiT
 dmQ
@@ -11329,7 +11333,7 @@ hqa
 vzp
 tFy
 wxN
-ava
+hxR
 wxN
 tFy
 dLD
@@ -11568,11 +11572,11 @@ lel
 tFy
 wTV
 rWC
-anC
+bAD
 rWC
 rWC
 rWC
-anC
+bAD
 xFk
 hrM
 hgF
@@ -11696,7 +11700,7 @@ nJh
 qms
 gZd
 hrM
-qYX
+fuU
 lzG
 tkO
 uWY
@@ -12036,11 +12040,11 @@ xNF
 tFy
 sbf
 rWC
-anC
+bAD
 rWC
 rWC
 rWC
-anC
+bAD
 xNu
 tFy
 xNF
@@ -15210,7 +15214,7 @@ xNF
 xNF
 xNF
 xNF
-xNF
+rSD
 xNF
 xNF
 xNF
