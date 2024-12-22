@@ -12,8 +12,6 @@
 #define L2_bonus 3
 #define L3_bonus 9
 #define L4_bonus 15
-//Maximum amount of line bonus monies
-#define MaxBonus 1000
 // Cooldown defines
 #define TETRIS_COOLDOWN_MAIN cooldown_timer
 
