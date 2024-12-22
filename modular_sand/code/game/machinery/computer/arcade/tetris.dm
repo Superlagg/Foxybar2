@@ -47,6 +47,7 @@
 				linesbonuscash.amount = linesbonus + 0 //This doesn't work without the + 0. Why? Has I ever?
 			 	visible_message(span_notice("[src] dispenses [linesbonuscash]!"), span_notice("I hear a chime and a clunk."))
 				linesbonuscash.forceMove(get_turf(src))
+				
 			// Define score text
 			var/score_text = (reward_count ? temp_score : "You can do it! I believe in you!")
 
