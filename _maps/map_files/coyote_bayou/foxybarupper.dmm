@@ -271,7 +271,9 @@
 	dir = 4;
 	pixel_x = 4
 	},
-/turf/open/indestructible/ground/inside/mountain,
+/turf/open/floor/wood_mosaic/wood_mosaic_light{
+	color = "#bbbbbb"
+	},
 /area/f13/caves)
 "cO" = (
 /obj/structure/curtain{
@@ -682,17 +684,16 @@
 /turf/open/floor/wood_common/wood_common_dark,
 /area/f13/fb/bar)
 "gz" = (
-/obj/effect/turf_decal/siding/wood/end{
-	dir = 1
+/obj/machinery/light/small{
+	color = "#444499";
+	dir = 4;
+	light_color = "#444499";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 13
 	},
-/obj/structure/flora/wild_plant/flower/purple_two{
-	pixel_x = 4;
-	pixel_y = 8;
-	randomize_xy = 0
-	},
-/turf/open/indestructible/ground/inside/mountain{
-	color = "#B18770"
-	},
+/obj/item/kirbyplants/random,
+/turf/open/floor/wood_mosaic/wood_mosaic_dark,
 /area/f13/caves)
 "gH" = (
 /obj/effect/turf_decal/siding/wood{
@@ -838,7 +839,10 @@
 /turf/open/floor/carpet/black,
 /area/f13/fb/bar)
 "iF" = (
-/turf/closed/indestructible/f13/obsidian,
+/obj/effect/turf_decal/siding/wideplating/dark{
+	dir = 8
+	},
+/turf/open/floor/wood_mosaic/wood_mosaic_dark,
 /area/f13/caves)
 "iO" = (
 /obj/structure/table/abductor,
@@ -940,11 +944,12 @@
 /turf/open/floor/wood_common,
 /area/f13/fb/bar)
 "kb" = (
-/obj/structure/flora/chomp/shrub0,
-/obj/effect/turf_decal/siding/wideplating/dark/corner{
-	dir = 1
+/obj/effect/turf_decal/siding/wood{
+	color = "#4F3528"
 	},
-/turf/open/indestructible/ground/inside/mountain,
+/turf/open/floor/wood_mosaic/wood_mosaic_light{
+	color = "#bbbbbb"
+	},
 /area/f13/caves)
 "kf" = (
 /turf/open/floor/wood_common/wood_common_dark,
@@ -1292,8 +1297,14 @@
 /turf/open/floor/wood_common/wood_common_dark,
 /area/f13/fb/bar)
 "nh" = (
-/obj/structure/flora/chomp/potplant2,
-/turf/open/indestructible/ground/inside/mountain,
+/obj/effect/turf_decal/siding/wideplating/dark{
+	dir = 9
+	},
+/obj/structure/railing{
+	color = "#A47449";
+	dir = 8
+	},
+/turf/open/floor/wood_mosaic/wood_mosaic_dark,
 /area/f13/caves)
 "ns" = (
 /obj/structure/dresser{
@@ -1494,15 +1505,16 @@
 /turf/open/floor/wood_common,
 /area/f13/caves)
 "oT" = (
-/obj/structure/flora/wasteplant/fever_blossom{
-	pixel_y = 20;
-	randomize_xy = 0
+/obj/structure/flora/chomp/potplant2,
+/obj/machinery/light/small{
+	color = "#444499";
+	dir = 8;
+	light_color = "#444499";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 13
 	},
-/obj/structure/flora/wasteplant/fever_blossom{
-	pixel_y = 20;
-	randomize_xy = 0
-	},
-/turf/open/indestructible/ground/inside/mountain,
+/turf/open/floor/wood_mosaic/wood_mosaic_dark,
 /area/f13/caves)
 "oW" = (
 /obj/effect/turf_decal/siding/wood{
@@ -1741,7 +1753,17 @@
 	},
 /obj/structure/bedsheetbin/towel,
 /obj/structure/table/wood/settler,
-/turf/open/indestructible/ground/inside/mountain,
+/obj/machinery/light/small{
+	color = "#444499";
+	dir = 4;
+	light_color = "#444499";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 13
+	},
+/turf/open/floor/wood_mosaic/wood_mosaic_light{
+	color = "#bbbbbb"
+	},
 /area/f13/caves)
 "rf" = (
 /obj/structure/curtain{
@@ -1906,10 +1928,12 @@
 /turf/open/floor/plasteel/f13/whitemarble,
 /area/f13/fb/bar)
 "sx" = (
-/obj/structure/glowshroom{
-	color = "green"
+/obj/effect/turf_decal/siding/wideplating/dark{
+	dir = 8
 	},
-/turf/open/indestructible/ground/inside/mountain,
+/turf/open/floor/wood_mosaic/wood_mosaic_light{
+	color = "#bbbbbb"
+	},
 /area/f13/caves)
 "sE" = (
 /obj/structure/curtain{
@@ -1926,8 +1950,7 @@
 /turf/open/transparent/openspace,
 /area/f13/fb/bar)
 "tq" = (
-/obj/structure/flora/chomp/thicket2,
-/turf/open/indestructible/ground/inside/mountain,
+/turf/open/floor/wood_mosaic/wood_mosaic_dark,
 /area/f13/caves)
 "tu" = (
 /obj/structure/destructible/tribal_torch/wall/lit{
@@ -2115,7 +2138,7 @@
 	pixel_y = 27
 	},
 /obj/structure/table/wood/settler,
-/turf/open/indestructible/ground/inside/mountain,
+/turf/open/floor/wood_mosaic/wood_mosaic_dark,
 /area/f13/caves)
 "uD" = (
 /obj/effect/sound_emitter/foxybar/clock,
@@ -2376,7 +2399,7 @@
 /obj/structure/simple_door/room{
 	name = "changing rooms"
 	},
-/turf/open/floor/wood_common,
+/turf/closed/wall/mineral/brick,
 /area/f13/caves)
 "xx" = (
 /obj/effect/turf_decal/siding/wood{
@@ -2413,21 +2436,11 @@
 	},
 /turf/open/floor/wood_common,
 /area/f13/fb/bar)
-"xX" = (
-/obj/effect/turf_decal/siding/wideplating/dark{
-	dir = 9
-	},
-/obj/structure/railing{
-	color = "#A47449";
-	dir = 8
-	},
-/turf/open/indestructible/ground/inside/mountain,
-/area/f13/caves)
 "xY" = (
 /obj/effect/turf_decal/siding/wood{
 	color = "#4F3528"
 	},
-/turf/open/indestructible/ground/inside/mountain,
+/turf/open/floor/wood_mosaic/wood_mosaic_dark,
 /area/f13/caves)
 "yj" = (
 /obj/effect/turf_decal/siding/wood{
@@ -2586,39 +2599,23 @@
 /turf/open/floor/wood_common,
 /area/f13/fb/bar)
 "yQ" = (
-/obj/structure/sink/greyscale{
+/obj/structure/chair/bench{
 	dir = 4;
-	pixel_y = 10;
-	pixel_x = 12
+	pixel_x = 4
 	},
-/obj/structure/mirror{
-	layer = 4;
-	pixel_x = 25;
-	pixel_y = 4
-	},
-/obj/effect/turf_decal/weather/splineplain{
-	dir = 5
-	},
-/turf/open/floor/plasteel/freezer,
-/area/f13/fb/bar)
+/turf/open/floor/wood_mosaic/wood_mosaic_dark,
+/area/f13/caves)
 "zc" = (
 /obj/structure/curtain{
 	color = "#1F1F1F"
 	},
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/structure/spacevine{
-	icon = 'icons/effects/effects.dmi';
-	icon_state = "smoke";
-	name = "fog";
-	pixel_x = -1;
-	opacity = 1;
-	plane = -2
+/turf/open/floor/wood_mosaic/wood_mosaic_light{
+	color = "#bbbbbb"
 	},
-/turf/open/floor/wood_common/wood_common_dark,
 /area/f13/caves)
 "ze" = (
 /obj/effect/turf_decal/weather/splineplain{
-	dir = 4
+	dir = 5
 	},
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
@@ -2885,11 +2882,21 @@
 	},
 /area/f13/fb/bar)
 "CA" = (
-/obj/structure/flora/wasteplant/fever_blossom{
-	randomize_xy = 0
+/obj/effect/turf_decal/weather/splineplain{
+	dir = 4
 	},
-/turf/open/indestructible/ground/inside/mountain,
-/area/f13/caves)
+/obj/structure/sink/greyscale{
+	dir = 4;
+	pixel_y = 10;
+	pixel_x = 12
+	},
+/obj/structure/mirror{
+	layer = 4;
+	pixel_x = 25;
+	pixel_y = 4
+	},
+/turf/open/floor/plasteel/freezer,
+/area/f13/fb/bar)
 "CW" = (
 /obj/machinery/libraryscanner,
 /obj/structure/decoration/clock/active{
@@ -3060,8 +3067,12 @@
 	},
 /area/f13/fb/bar)
 "EM" = (
-/obj/structure/flora/chomp/shrub4,
-/turf/open/indestructible/ground/inside/mountain,
+/obj/effect/turf_decal/siding/wideplating/dark/corner{
+	dir = 1
+	},
+/turf/open/floor/wood_mosaic/wood_mosaic_light{
+	color = "#bbbbbb"
+	},
 /area/f13/caves)
 "EP" = (
 /obj/structure/chess/blackking,
@@ -3109,8 +3120,9 @@
 	},
 /area/f13/fb/bar)
 "Fq" = (
-/obj/structure/glowshroom/glowcap,
-/turf/open/indestructible/ground/inside/mountain,
+/turf/open/floor/wood_mosaic/wood_mosaic_light{
+	color = "#bbbbbb"
+	},
 /area/f13/caves)
 "Fv" = (
 /obj/effect/turf_decal/siding/wood{
@@ -3408,15 +3420,7 @@
 /obj/structure/curtain{
 	color = "#1F1F1F"
 	},
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/structure/spacevine{
-	icon = 'icons/effects/effects.dmi';
-	icon_state = "smoke";
-	name = "fog";
-	pixel_x = -1;
-	opacity = 1
-	},
-/turf/open/floor/wood_common/wood_common_dark,
+/turf/open/floor/wood_mosaic/wood_mosaic_dark,
 /area/f13/caves)
 "Jp" = (
 /obj/effect/turf_decal/siding/wood{
@@ -3776,10 +3780,25 @@
 	},
 /area/f13/fb/bar)
 "Oo" = (
-/obj/effect/turf_decal/siding/wideplating/dark{
-	dir = 8
+/obj/effect/turf_decal/siding/wood/end{
+	dir = 1
 	},
-/turf/open/indestructible/ground/inside/mountain,
+/obj/structure/flora/wild_plant/flower/purple_two{
+	pixel_x = 4;
+	pixel_y = 8;
+	randomize_xy = 0
+	},
+/obj/machinery/light/small{
+	color = "#444499";
+	dir = 4;
+	light_color = "#444499";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 13
+	},
+/turf/open/indestructible/ground/inside/mountain{
+	color = "#B18770"
+	},
 /area/f13/caves)
 "Oq" = (
 /obj/effect/turf_decal/siding/wood{
@@ -3931,7 +3950,9 @@
 /obj/machinery/light/floor{
 	plane = -6
 	},
-/turf/open/indestructible/ground/inside/mountain,
+/turf/open/floor/wood_mosaic/wood_mosaic_light{
+	color = "#bbbbbb"
+	},
 /area/f13/caves)
 "Ps" = (
 /obj/structure/spacevine{
@@ -4573,11 +4594,16 @@
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
 "VT" = (
-/obj/effect/turf_decal/siding/wideplating/dark{
-	dir = 8
+/obj/machinery/light/small{
+	color = "#444499";
+	dir = 8;
+	light_color = "#444499";
+	light_power = 2;
+	light_range = 2;
+	pixel_y = 13
 	},
-/obj/hilbertshotel,
-/turf/open/indestructible/ground/inside/mountain,
+/obj/item/kirbyplants/random,
+/turf/open/floor/wood_mosaic/wood_mosaic_dark,
 /area/f13/caves)
 "Wa" = (
 /obj/effect/turf_decal/siding/wood{
@@ -4770,7 +4796,11 @@
 	},
 /area/f13/caves)
 "XW" = (
-/turf/open/indestructible/ground/inside/mountain,
+/obj/effect/turf_decal/siding/wideplating/dark{
+	dir = 8
+	},
+/obj/hilbertshotel,
+/turf/open/floor/wood_mosaic/wood_mosaic_dark,
 /area/f13/caves)
 "Yu" = (
 /obj/structure/spacevine{
@@ -9837,12 +9867,12 @@ nZ
 nZ
 nZ
 nZ
-il
-il
-il
-il
-il
 nZ
+il
+il
+il
+il
+il
 nZ
 nZ
 nZ
@@ -9914,6 +9944,7 @@ nZ
 nZ
 "}
 (43,1,1) = {"
+nZ
 nZ
 nZ
 nZ
@@ -10028,7 +10059,6 @@ nZ
 nZ
 nZ
 nZ
-nZ
 "}
 (44,1,1) = {"
 nZ
@@ -10071,12 +10101,12 @@ nZ
 nZ
 nZ
 nZ
+nZ
 il
-yQ
 ze
+CA
 Kc
 il
-nZ
 nZ
 nZ
 nZ
@@ -10188,7 +10218,7 @@ nZ
 nZ
 nZ
 nZ
-il
+nZ
 il
 MW
 il
@@ -10297,13 +10327,13 @@ nZ
 nZ
 nZ
 nZ
-iF
-iF
-iF
-iF
-iF
-iF
-iF
+nZ
+nZ
+nZ
+nZ
+nZ
+nZ
+nZ
 nZ
 nZ
 Bj
@@ -10413,16 +10443,16 @@ nZ
 nZ
 nZ
 nZ
-iF
-iF
-Vk
-ah
-gw
-rV
-iF
-iF
 nZ
 nZ
+nZ
+nZ
+Dp
+Dp
+Dp
+Dp
+Dp
+Dp
 il
 ON
 aE
@@ -10530,16 +10560,16 @@ nZ
 nZ
 nZ
 nZ
-iF
-Oz
-fR
-SP
-Hn
-mG
-XQ
-iF
 nZ
 nZ
+nZ
+Dp
+Dp
+Vk
+ah
+gw
+rV
+Dp
 il
 cm
 qR
@@ -10647,16 +10677,16 @@ nZ
 nZ
 nZ
 nZ
-iF
-YD
-Um
-AR
-Cd
-yM
-zK
-iF
 nZ
 nZ
+nZ
+Dp
+Oz
+fR
+SP
+Hn
+mG
+XQ
 il
 nC
 mb
@@ -10764,16 +10794,16 @@ nZ
 nZ
 nZ
 nZ
-iF
-mF
-Bt
-tJ
-Vo
-ws
-tM
-iF
 nZ
 nZ
+nZ
+Dp
+YD
+Um
+AR
+Cd
+yM
+zK
 il
 il
 il
@@ -10881,16 +10911,16 @@ nZ
 nZ
 nZ
 nZ
-iF
-gc
-IC
-yH
-Yu
-zB
-fT
-iF
 nZ
 nZ
+nZ
+Dp
+mF
+Bt
+tJ
+Vo
+ws
+tM
 il
 kF
 Fg
@@ -10998,16 +11028,16 @@ nZ
 nZ
 nZ
 nZ
-iF
-iF
-ws
-Ps
-tv
-xX
-iF
-iF
 nZ
 nZ
+nZ
+Dp
+gc
+IC
+yH
+Yu
+zB
+fT
 il
 cR
 Ze
@@ -11116,15 +11146,15 @@ nZ
 nZ
 nZ
 nZ
-iF
-VT
-Oo
-Oo
-kb
+nZ
+nZ
+Dp
+Dp
+ws
+Ps
+tv
 nh
-iF
-nZ
-nZ
+Dp
 il
 dw
 yn
@@ -11233,15 +11263,15 @@ nZ
 nZ
 nZ
 nZ
-iF
-oT
-XW
-XW
+nZ
+nZ
+Dp
+Dp
 XW
 sx
 iF
-iF
-iF
+EM
+oT
 il
 il
 Ox
@@ -11350,16 +11380,16 @@ nZ
 nZ
 nZ
 nZ
-iF
-EM
-XW
-XW
-XW
-XW
-XW
-CA
-iF
-iF
+nZ
+nZ
+Dp
+VT
+Fq
+tq
+Fq
+tq
+Fq
+Dp
 il
 pc
 sd
@@ -11467,16 +11497,16 @@ nZ
 nZ
 nZ
 nZ
-iF
-Fq
+nZ
+nZ
+Dp
 cK
+yQ
 cK
-cK
-XW
-XW
-XW
 tq
-iF
+Fq
+tq
+Dp
 il
 jA
 Rv
@@ -11584,16 +11614,16 @@ nZ
 nZ
 nZ
 nZ
-iF
-iF
-gz
+nZ
+nZ
+Dp
+Oo
 jb
 MT
-iF
 Pq
-XW
-XW
-iF
+tq
+Fq
+Dp
 il
 xd
 il
@@ -11702,13 +11732,13 @@ nZ
 nZ
 nZ
 nZ
-iF
-iF
-iF
-iF
-iF
+nZ
+Dp
+Dp
+Dp
+Dp
 uA
-XW
+Fq
 xY
 zc
 RJ
@@ -11823,10 +11853,10 @@ nZ
 nZ
 nZ
 nZ
-iF
+Dp
 rc
-XW
-xY
+tq
+kb
 IW
 Jp
 Jp
@@ -11940,11 +11970,11 @@ nZ
 nZ
 nZ
 nZ
-iF
-iF
-XW
-iF
-iF
+Dp
+Dp
+Fq
+gz
+Dp
 il
 il
 il
@@ -12060,7 +12090,7 @@ nZ
 Dp
 Dp
 xv
-iF
+Dp
 il
 il
 il

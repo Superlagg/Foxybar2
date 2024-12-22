@@ -103,6 +103,14 @@
 /obj/effect/sound_emitter/foxybar/machinery,
 /turf/open/floor/carpet/royalblack,
 /area/f13/fb/bar)
+"anC" = (
+/obj/machinery/light/floor{
+	light_color = "#993311";
+	color = "#993311";
+	alpha = 10
+	},
+/turf/open/floor/plasteel/f13/darkmarble,
+/area/f13/fb/bar)
 "aoR" = (
 /obj/structure/simple_door/room,
 /obj/item/lock_bolt{
@@ -118,6 +126,16 @@
 	},
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/f13/wasteland/city/newboston/outdoors)
+"ava" = (
+/obj/machinery/light/floor{
+	light_color = "#993311";
+	color = "#993311";
+	alpha = 10
+	},
+/turf/open/floor/wood_fancy{
+	color = "#779999"
+	},
+/area/f13/fb/bar)
 "awD" = (
 /obj/effect/decal/cleanable/glitter/white{
 	color = "#884444"
@@ -1026,6 +1044,20 @@
 	pixel_y = 25
 	},
 /turf/open/floor/plasteel/freezer,
+/area/f13/fb/bar)
+"fmF" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 8;
+	color = "#3B2B1A"
+	},
+/obj/machinery/light/floor{
+	light_color = "#993311";
+	color = "#993311";
+	alpha = 10
+	},
+/turf/open/floor/wood_fancy{
+	color = "#779999"
+	},
 /area/f13/fb/bar)
 "fqj" = (
 /obj/effect/landmark/start/f13/wastelander,
@@ -2706,6 +2738,11 @@
 /obj/item/kitchen/fork,
 /obj/item/kitchen/fork,
 /obj/item/kitchen/fork,
+/obj/machinery/light/floor{
+	light_color = "#993311";
+	color = "#993311";
+	alpha = 10
+	},
 /turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
 "qms" = (
@@ -2856,6 +2893,16 @@
 	},
 /turf/open/floor/plasteel/f13{
 	icon_state = "darkrustysolid"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
+"qYX" = (
+/obj/structure/christmas/xmaslights{
+	dir = 1;
+	pixel_y = 23;
+	plane = 0
+	},
+/turf/open/indestructible/ground/outside/sidewalk{
+	icon_state = "outerborder - E"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
 "qZW" = (
@@ -3600,6 +3647,14 @@
 	color = "#666666"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
+"wKj" = (
+/obj/machinery/light/floor{
+	light_color = "#993311";
+	color = "#993311";
+	alpha = 10
+	},
+/turf/open/floor/carpet/royalblack,
+/area/f13/fb/bar)
 "wPR" = (
 /obj/effect/turf_decal/stripes/asteroid/corner{
 	dir = 1
@@ -9753,7 +9808,7 @@ eJV
 msa
 okV
 okV
-okV
+fmF
 okV
 gOe
 gHF
@@ -10335,7 +10390,7 @@ xNF
 tFy
 agk
 wxN
-wxN
+ava
 kWN
 tFy
 lSC
@@ -10573,14 +10628,14 @@ tFy
 tFy
 tFy
 mRP
+ava
 wxN
 wxN
 wxN
+ava
 wxN
 wxN
-wxN
-wxN
-wxN
+ava
 wxN
 lel
 iFt
@@ -11044,12 +11099,12 @@ adu
 adu
 tFy
 bpJ
+wKj
+iYl
+wKj
 iYl
 iYl
-iYl
-iYl
-iYl
-iYl
+wKj
 hfS
 jiT
 dmQ
@@ -11274,7 +11329,7 @@ hqa
 vzp
 tFy
 wxN
-wxN
+ava
 wxN
 tFy
 dLD
@@ -11513,11 +11568,11 @@ lel
 tFy
 wTV
 rWC
+anC
 rWC
 rWC
 rWC
-rWC
-rWC
+anC
 xFk
 hrM
 hgF
@@ -11641,7 +11696,7 @@ nJh
 qms
 gZd
 hrM
-mdh
+qYX
 lzG
 tkO
 uWY
@@ -11981,11 +12036,11 @@ xNF
 tFy
 sbf
 rWC
+anC
 rWC
 rWC
 rWC
-rWC
-rWC
+anC
 xNu
 tFy
 xNF
