@@ -1,11 +1,12 @@
 // Configuration defines
-#define TETRIS_REWARD_DIVISOR CONFIG_GET(number/tetris_reward_divisor)
-#define TETRIS_PRIZES_MAX CONFIG_GET(number/tetris_prizes_max)
-#define TETRIS_SCORE_HIGH CONFIG_GET(number/tetris_score_high)
-#define TETRIS_SCORE_MAX CONFIG_GET(number/tetris_score_max)
-#define TETRIS_SCORE_MAX_SCI CONFIG_GET(number/tetris_score_max_sci)
-#define TETRIS_TIME_COOLDOWN CONFIG_GET(number/tetris_time_cooldown)
-#define TETRIS_NO_SCIENCE CONFIG_GET(flag/tetris_no_science)
+//Let's hardcode this because I can't get CONFIG_GET working for the life of me
+#define TETRIS_REWARD_DIVISOR 1000
+#define TETRIS_PRIZES_MAX 10
+#define TETRIS_SCORE_HIGH 10000
+#define TETRIS_SCORE_MAX 100000
+#define TETRIS_SCORE_MAX_SCI 10000
+#define TETRIS_TIME_COOLDOWN 600
+#define TETRIS_NO_SCIENCE TRUE
 
 // Cooldown defines
 #define TETRIS_COOLDOWN_MAIN cooldown_timer
@@ -58,7 +59,8 @@
 			COOLDOWN_START(src, TETRIS_COOLDOWN_MAIN, TETRIS_TIME_COOLDOWN)
 
 			// Vend prizes
-			prizevend(usr, reward_count)
+			for(var/i = 0; i < reward_count; i++)
+				prizevend(usr)
 
 			// Check if science points are possible and allowed
 			if((!SSresearch.science_tech) || TETRIS_NO_SCIENCE)
