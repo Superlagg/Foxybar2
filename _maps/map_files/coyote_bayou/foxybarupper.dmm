@@ -3313,9 +3313,6 @@
 /turf/open/floor/wood_common/wood_common_dark,
 /area/f13/fb/bar)
 "HK" = (
-/obj/machinery/computer/arcade{
-	density = 0
-	},
 /obj/effect/turf_decal/siding/wood{
 	dir = 1;
 	color = "#3B2B1A"
@@ -3332,6 +3329,7 @@
 	dir = 1;
 	color = "#3B2B1A"
 	},
+/obj/machinery/computer/arcade/battle,
 /turf/open/floor/carpet/arcade,
 /area/f13/fb/bar)
 "Ib" = (
@@ -3440,9 +3438,7 @@
 	dir = 4;
 	color = "#3B2B1A"
 	},
-/obj/machinery/computer/arcade{
-	density = 0
-	},
+/obj/machinery/computer/arcade/orion_trail,
 /turf/open/floor/carpet/arcade,
 /area/f13/fb/bar)
 "JG" = (
@@ -4298,10 +4294,8 @@
 	dir = 1;
 	color = "#3B2B1A"
 	},
-/obj/machinery/computer/arcade{
-	density = 0
-	},
 /obj/effect/sound_emitter/foxybar/machinery,
+/obj/machinery/computer/arcade/tetris,
 /turf/open/floor/carpet/arcade,
 /area/f13/fb/bar)
 "Ts" = (
