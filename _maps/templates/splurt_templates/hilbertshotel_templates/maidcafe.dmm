@@ -128,9 +128,7 @@
 /turf/open/indestructible/hoteltile,
 /area/hilbertshotel)
 "qn" = (
-/obj/structure/food_printer{
-	name = "GekkerTec FoodFox 2000 - Private"
-	},
+/obj/structure/food_printer,
 /turf/open/floor/plasteel/cafeteria,
 /area/hilbertshotel)
 "qH" = (
