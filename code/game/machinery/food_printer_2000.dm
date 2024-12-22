@@ -17,7 +17,7 @@
 	var/target_beacon
 	var/last_new_beacon = 0
 	var/list/usage_log = list()
-	var/is_global = FALSE
+	var/is_global = FALSE //If this is false, do not show up on PDAs
 	var/obj/item/pda/moviefone
 	var/list/calls = list()
 	var/list/orders_in_progress = list()
