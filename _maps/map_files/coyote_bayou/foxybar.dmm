@@ -33,6 +33,25 @@
 	dir = 1;
 	color = "#3B2B1A"
 	},
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
 /turf/open/floor/wood_fancy{
 	color = "#779999"
 	},
@@ -989,6 +1008,12 @@
 	icon_state = "horizontalbottomborderbottom2left"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
+"eCi" = (
+/obj/structure/chair/stool,
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "eEU" = (
 /obj/effect/turf_decal/stripes/asteroid/corner,
 /turf/open/floor/circuit/telecomms/mainframe,
@@ -1507,6 +1532,12 @@
 	},
 /turf/open/floor/carpet/purple,
 /area/f13/fb/bar)
+"hnP" = (
+/obj/structure/flora/wasteplant/fever_blossom,
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "hov" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 8;
@@ -2375,6 +2406,15 @@
 	color = "#666666"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
+"neS" = (
+/obj/structure/flora/wasteplant/fever_blossom{
+	pixel_y = 16;
+	pixel_x = 16
+	},
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "niY" = (
 /obj/effect/landmark/start/f13/wastelander,
 /obj/effect/landmark/latejoin,
@@ -2496,7 +2536,9 @@
 "ohS" = (
 /obj/structure/flora/tree/jungle{
 	color = "#BEBEBE";
-	mouse_opacity = 0
+	mouse_opacity = 0;
+	pixel_x = -39;
+	pixel_y = -6
 	},
 /turf/open/indestructible/ground/outside/dirt{
 	color = "#666666"
@@ -2583,6 +2625,15 @@
 	color = "#333333"
 	},
 /area/f13/fb/bar)
+"oXT" = (
+/obj/structure/sign/painting/library{
+	pixel_y = 33;
+	plane = -2
+	},
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "paz" = (
 /obj/structure/sink/greyscale{
 	dir = 4;
@@ -2651,6 +2702,13 @@
 "pBI" = (
 /turf/open/floor/plasteel/freezer,
 /area/f13/fb/bar)
+"pBP" = (
+/obj/structure/easel,
+/obj/item/canvas/twentythreeXtwentythree,
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
 "pGx" = (
 /obj/machinery/telecomms/processor/preset_one,
 /obj/machinery/light/floor{
@@ -2954,14 +3012,25 @@
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/f13/wasteland/city/newboston/outdoors)
 "rSD" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 4;
-	color = "#3B2B1A"
+/obj/structure/table/wood/settler,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/toy/crayon/spraycan,
+/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythreeXtwentythree,
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
 	},
-/turf/closed{
-	icon_state = "black"
-	},
-/area)
+/area/f13/wasteland/city/newboston/outdoors)
 "rWC" = (
 /turf/open/floor/plasteel/f13/darkmarble,
 /area/f13/fb/bar)
@@ -3426,7 +3495,9 @@
 "vzp" = (
 /obj/structure/flora/tree/jungle{
 	color = "#BEBEBE";
-	mouse_opacity = 0
+	mouse_opacity = 0;
+	pixel_x = -39;
+	pixel_y = -6
 	},
 /turf/open/indestructible/ground/outside/dirt{
 	color = "#666666"
@@ -3478,11 +3549,15 @@
 "vQt" = (
 /obj/structure/flora/tree/jungle{
 	color = "#BEBEBE";
-	mouse_opacity = 0
+	mouse_opacity = 0;
+	pixel_x = -39;
+	pixel_y = -6
 	},
 /obj/structure/flora/tree/jungle{
 	color = "#BEBEBE";
-	mouse_opacity = 0
+	mouse_opacity = 0;
+	pixel_x = -39;
+	pixel_y = -6
 	},
 /turf/open/indestructible/ground/outside/dirt{
 	color = "#666666"
@@ -3545,6 +3620,18 @@
 /obj/machinery/telecomms/server/presets/medical,
 /turf/open/floor/plasteel/f13{
 	icon_state = "darkrustysolid"
+	},
+/area/f13/wasteland/city/newboston/outdoors)
+"wpX" = (
+/obj/structure/flora/tree/jungle{
+	color = "#BEBEBE";
+	mouse_opacity = 0;
+	pixel_x = -39;
+	pixel_y = -6
+	},
+/obj/structure/flora/wasteplant/fever_blossom,
+/turf/open/indestructible/ground/outside/dirt{
+	color = "#666666"
 	},
 /area/f13/wasteland/city/newboston/outdoors)
 "wsB" = (
@@ -13401,12 +13488,12 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
+vzp
+wpX
+hqa
+vzp
+vzp
+vzp
 xNF
 xNF
 xNF
@@ -13518,15 +13605,15 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
+wpX
+hqa
+hqa
+hqa
+hqa
+hnP
+hqa
+vzp
+vzp
 xNF
 xNF
 xNF
@@ -13635,19 +13722,19 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
+vzp
+pBP
+eCi
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+vzp
+vzp
+vzp
+vzp
 vzp
 dRv
 hqa
@@ -13752,20 +13839,20 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
 vzp
+rSD
+hqa
+hqa
+neS
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
 hqa
 hqa
 hqa
@@ -13869,20 +13956,20 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
 vzp
+oXT
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
 hqa
 hqa
 hqa
@@ -13986,19 +14073,19 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
+vzp
+oXT
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+hqa
+vzp
+vzp
+vzp
+vzp
 vzp
 hqa
 hqa
@@ -14103,15 +14190,15 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
+wpX
+hqa
+hqa
+vzp
+hqa
+hnP
+vzp
+vzp
+vzp
 xNF
 xNF
 xNF
@@ -14220,12 +14307,12 @@ xNF
 xNF
 xNF
 xNF
-xNF
-xNF
-xNF
-xNF
-xNF
-xNF
+vQt
+wpX
+hqa
+vzp
+vzp
+vzp
 xNF
 xNF
 xNF
@@ -15214,7 +15301,7 @@ xNF
 xNF
 xNF
 xNF
-rSD
+xNF
 xNF
 xNF
 xNF
