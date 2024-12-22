@@ -49,7 +49,7 @@
 			 	visible_message(span_notice("[src] dispenses [linesbonuscash]!"), span_notice("I hear a chime and a clunk."))
 				linesbonuscash.forceMove(get_turf(src))
 			// Define score text
-			var/score_text = (reward_count ? temp_score : "PATHETIC! TRY HARDER")
+			var/score_text = (reward_count ? temp_score : "You can do it! I believe in you!")
 
 			// Display normal message
 			say("YOUR SCORE: [score_text]!")
