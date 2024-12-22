@@ -4213,7 +4213,7 @@
 	pixel_x = -4;
 	pixel_y = 4;
 	plane = -4;
-	desc = "An ancient marble statue. The subject is depicted with a floor-length braid and is wielding a toolbox. By Jove, it's easily the most gorgeous depiction of a woman you've ever seen. The artist must truly be a master of his craft. Shame about the broken arm, though."ssssssss"
+	desc = "An ancient marble statue. The subject is depicted with a floor-length braid and is wielding a toolbox. By Jove, it's easily the most gorgeous depiction of a woman you've ever seen. The artist must truly be a master of his craft. Shame about the broken arm, though."
 	},
 /turf/open/floor/carpet/black{
 	color = "#C6321F"
