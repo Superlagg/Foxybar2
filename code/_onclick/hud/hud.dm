@@ -79,6 +79,13 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	var/atom/movable/screen/lick_hud_button
 	var/atom/movable/screen/kiss_hud_button
 	var/atom/movable/screen/roll_hud_button
+	var/atom/movable/screen/bite_hud_button
+	var/atom/movable/screen/claw_hud_button
+	var/atom/movable/screen/tail_hud_button
+	var/atom/movable/screen/cuphand_hud_button
+	var/atom/movable/screen/tend_hud_button
+	var/atom/movable/screen/butt_hud_button
+
 
 
 	// subtypes can override this to force a specific UI style
