@@ -397,6 +397,14 @@
 				var/mob/living/carbon/C = L
 				if(HAS_TRAIT(src, TRAIT_STRONG_GRABBER))
 					C.grippedby(src)
+	
+			if(has_tail())
+				if(L.has_tail())
+					to_chat(src, span_green("You entwine your tail with [L]'s!"))
+					to_chat(L, span_green("[src] entwines [src.p_their()] tail with around yours!"))
+				else
+					to_chat(src, span_green("You entwine your tail around [L]!"))
+					to_chat(L, span_green("[src] entwines [src.p_their()] tail around you!"))
 
 			update_pull_movespeed()
 

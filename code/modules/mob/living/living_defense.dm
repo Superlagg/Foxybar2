@@ -232,11 +232,6 @@
 
 	if(!user.pulling || user.pulling != src)
 		user.start_pulling(src, supress_message = supress_message)
-		if(user.has_tail() && src.has_tail())
-			user.visible_message(
-				span_green("[user] entwines [user.p_their()] tail with around [src]'s!"),
-				span_green("[user] entwines [user.p_their()] tail with around you!"),
-			)
 		return
 
 	if(!(status_flags & CANPUSH) || HAS_TRAIT(src, TRAIT_PUSHIMMUNE))

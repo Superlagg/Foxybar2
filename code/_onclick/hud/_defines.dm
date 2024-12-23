@@ -69,7 +69,7 @@
 //#define ui_zonesel "Center+5:2,SOUTH:3:1"
 #define ui_mood 	"Center-1:5,South+1:11"
 #define ui_healthdoll 	"EAST-3:-3,SOUTH:4"
-#define ui_health 	"Center+0:0,South+1:-2"
+#define ui_health 	"Right-3:28,South+2:-18"
 #define ui_stamina "Right-2:27,South+1:+3" // replacing internals button
 #define ui_questbook "CENTER+2:19,SOUTH+1:-12"
 #define ui_questscanner "CENTER+3:21,SOUTH+1:-12"
@@ -158,7 +158,7 @@
 
 //living
 #define ui_living_pull "EAST-1:28,CENTER-2:15"
-#define ui_living_health "EAST-1:28,CENTER:15"
+#define ui_living_health "Right-3:28,South+2:-18"
 
 //borgs
 #define ui_borg_health "EAST-1:28,CENTER-1:15"		//borgs have the health display where humans have the pressure damage indicator.
