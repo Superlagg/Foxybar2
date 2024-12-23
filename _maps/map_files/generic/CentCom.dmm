@@ -3194,7 +3194,6 @@
 	},
 /area/centcom/evac)
 "um" = (
-/obj/structure/closet/secure_closet/ertMed,
 /obj/structure/sign/directions/medical{
 	dir = 1;
 	pixel_y = -24
@@ -3202,7 +3201,6 @@
 /turf/open/floor/plasteel/dark,
 /area/centcom/evac)
 "un" = (
-/obj/structure/closet/secure_closet/ertMed,
 /obj/machinery/vending/wallmed{
 	name = "Emergency NanoMed";
 	pixel_y = -32;
