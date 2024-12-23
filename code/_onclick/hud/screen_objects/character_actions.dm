@@ -476,7 +476,7 @@
 	if(!ishuman(usr))
 		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
 		return
-	H.emote("tail")
+	H.emote("tailer")
 
 ////////////////////////////////////////////////////////////
 /// Cuphand button
