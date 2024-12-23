@@ -499,7 +499,7 @@
 	name = "tend on people!"
 	icon = 'icons/mob/screen_gen.dmi'
 	icon_state = "tend"
-	screen_loc = "EAST-1:28, SOUTH+4:-30"
+	screen_loc = "EAST-1:4, SOUTH+4:1"
 
 /atom/movable/screen/tend_hud_button/Click(location,control,params)
 	var/mob/living/carbon/human/H = usr
