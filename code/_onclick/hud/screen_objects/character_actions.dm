@@ -270,6 +270,46 @@
 	)
 
 ////////////////////////////////////////////////////////////
+//stat roller
+
+// Despite being defined, this doesn't render on screen in any capacity, didnt extensively test
+/atom/movable/screen/roll_hud_button
+	name = "roll dice"
+	icon_state = "skillcheck"
+	screen_loc = "RIGHT-2:5,South+2:0"
+
+/atom/movable/screen/roll_hud_button/Click(location,control,params,)
+// This stuff needs to be changed because it was directly lifted from clothing
+	var/static/list/choices = list(
+			"Brawn" = image(icon = 'icons/obj/stationary.dmi', icon_state = "fitnessweight-w"),
+			"Awareness" = image(icon = 'icons/obj/status_display.dmi', icon_state = "ai_friend"),
+			"Toughness" = image(icon = 'modular_coyote/icons/objects/weapons.dmi', icon_state = "imperial_kite"),
+			"Moxie" = image(icon = 'icons/mob/screen_gen.dmi', icon_state = "mood9"),
+			"Smarts" = image(icon = 'modular_roguetown/items/books.dmi', icon_state = "ledger0"),
+			"Deftness" = image(icon = 'icons/obj/implants.dmi', icon_state = "warp"),
+			"Fate" = image(icon = 'icons/obj/economy.dmi', icon_state = "coin_iron_flip"),
+		)
+	var/mob/user = usr
+	var/choice = show_radial_menu(user, src, choices, radius = 32,)
+	switch(choice)
+		if("Brawn")
+			user.emote("special_strength")
+		if("Awareness")
+			user.emote("special_perception")
+		if("Toughness")
+			user.emote("special_endurance")
+		if("Moxie")
+			user.emote("special_charisma")
+		if("Smarts")
+			user.emote("special_intelligence")
+		if("Deftness")
+			user.emote("special_agility")
+		if("Fate")
+			user.emote("special_luck")
+		else
+			return
+
+////////////////////////////////////////////////////////////
 /atom/movable/screen/sub_button/vore_menu
 	name = "Open the Vore Options!"
 	icon = 'icons/mob/screen_gen_vore.dmi'
@@ -393,7 +433,98 @@
 		return
 	H.emote("kiss")
 
+////////////////////////////////////////////////////////////
+/// Bite button
+/atom/movable/screen/bite_hud_button
+	name = "bite on people!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "bite"
+	screen_loc = "EAST-1:28, SOUTH+5:-14"
 
+/atom/movable/screen/bite_hud_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(usr))
+		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	H.emote("bite")
+
+////////////////////////////////////////////////////////////
+/// Claw button
+/atom/movable/screen/claw_hud_button
+	name = "claw on people!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "claw"
+	screen_loc = "EAST-1:28, SOUTH+5:-9"
+
+/atom/movable/screen/claw_hud_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(usr))
+		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	H.emote("claw")
+
+////////////////////////////////////////////////////////////
+/// Tail button
+/atom/movable/screen/tail_hud_button
+	name = "tail on people!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "tail"
+	screen_loc = "EAST-1:28, SOUTH+4:-3"
+
+/atom/movable/screen/tail_hud_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(usr))
+		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	H.emote("tail")
+
+////////////////////////////////////////////////////////////
+/// Cuphand button
+/atom/movable/screen/cuphand_hud_button
+	name = "cuphand on people!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "cuphand"
+	screen_loc = "EAST-1:4, SOUTH+4:12"
+
+/atom/movable/screen/cuphand_hud_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(usr))
+		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	H.emote("cuphand")
+
+////////////////////////////////////////////////////////////
+/// Tend button
+/atom/movable/screen/tend_hud_button
+	name = "tend on people!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "tend"
+	screen_loc = "EAST-1:28, SOUTH+4:-30"
+
+/atom/movable/screen/tend_hud_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(usr))
+		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	H.emote("tend")
+
+////////////////////////////////////////////////////////////
+/// Butt button
+/atom/movable/screen/butt_hud_button
+	name = "butt on people!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "butt"
+	screen_loc = "EAST-1:28, SOUTH+4:-14"
+
+/atom/movable/screen/butt_hud_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(usr))
+		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	if(!H.has_butt())
+		to_chat(H, span_alert("[H], you have no butt!"))
+		return
+	H.emote("butt")
 
 /atom/movable/screen/pvp_focus_toggle
 	name = "PVP focus On/Off"

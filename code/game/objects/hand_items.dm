@@ -836,64 +836,57 @@ touch + help + facing their rear = pat back
 	user.playsound_local(get_turf(user), 'sound/f13effects/sunsetsounds/blush.ogg', 80, FALSE)
 	M.playsound_local(get_turf(M), 'sound/f13effects/sunsetsounds/blush.ogg', 80, FALSE)
 
+////////
+//Bite//
+////////
+/obj/item/hand_item/butt
+	name = "your butt"
+	desc = "Very smoochable."
+	icon = 'icons/obj/in_hands.dmi'
+	icon_state = "biter"
+	attack_verb = list("smecked", "bwapped", "bumped", "clapped", "quapped", "vooped", "whomped")
+	// hitsound = "sound/weapons/bite.ogg"
+	w_class = WEIGHT_CLASS_GIGANTIC // your butt is HUGE!!!!
+	flags_1 = CONDUCT_1
+	force = 0
 
+/obj/item/hand_item/butt/equipped(mob/user, slot)
+	. = ..()
+	buttify(user)
 
+/obj/item/hand_item/butt/pickup(mob/living/user)
+	. = ..()
+	buttify(user)
 
-
-/* *
- *
- */
-
-
-
-// /obj/item/hand_item/tactile/licker/proc/bandage_wound(mob/living/licked, mob/living/carbon/user)
-// 	if(!iscarbon(licked))
-// 		return FALSE
-// 	var/obj/item/organ/tongue/our_tongue = user.getorganslot(ORGAN_SLOT_TONGUE)
-// 	if(!istype(our_tongue.lick_bandage))
-// 		return FALSE
-// 	var/obj/item/stack/medical/tongue_bandage = our_tongue.lick_bandage
-// 	var/mob/living/carbon/mlemmed = licked
-// 	var/obj/item/bodypart/target_bodypart = mlemmed.get_bodypart(user.zone_selected)
-// 	if(!target_bodypart)
-// 		return FALSE
-// 	if(target_bodypart.status != BODYPART_ORGANIC)
-// 		return FALSE
-// 	if(target_bodypart.bleed_dam <= 0)
-// 		return FALSE
-// 	var/has_bleeding_wound = FALSE
-// 	for(var/datum/wound/a_wound in target_bodypart.wounds)
-// 		if(istype(a_wound, /datum/wound/bleed))
-// 			has_bleeding_wound = TRUE
-// 			break
-// 	if(!has_bleeding_wound)
-// 		return FALSE
-// 	if(!target_bodypart.apply_gauze(tongue_bandage, 1, TRUE))
-// 		return FALSE
-// 	working = TRUE
-// 	user.visible_message(
-// 		span_notice("[user] starts carefully lapping at the wounds on [user == mlemmed ? "[mlemmed.p_their()]" : "[mlemmed]'s"] [target_bodypart.name]..."), 
-// 		span_notice("I start running your tongue across the wounds on [user == mlemmed ? "your" : "[mlemmed]'s"] [target_bodypart.name]..."),
-// 		span_notice("I hear licking."),
-// 		LICK_SOUND_TEXT_RANGE
-// 		)
-// 	lick_flavor(atom_licked = licked, licker = user)
-// 	if(!do_mob(user, mlemmed, tongue_bandage.get_delay_time(user, mlemmed, 1), progress = TRUE))
-// 		user.visible_message(span_alert("[user] was interrupted!"))
-// 		working = FALSE
-// 		return LICK_CANCEL
-// 	working = FALSE
-// 	if(QDELETED(our_tongue))
-// 		user.visible_message(span_notice("[user]'s tongue went missing!"))
-// 		return LICK_CANCEL
-// 	if(target_bodypart.apply_gauze(tongue_bandage, 1, FALSE))
-// 		user.visible_message(
-// 			span_green("[user] applies a fresh coat of coagulating saliva on [user == mlemmed ? "[mlemmed.p_their()]" : "[mlemmed]'s"] [target_bodypart.name]!"), 
-// 			span_green("I apply a fresh coat of coagulating saliva to [user == mlemmed ? "your" : "[mlemmed]'s"] [target_bodypart.name]!"),
-// 			span_notice("I hear licking."),
-// 			LICK_SOUND_TEXT_RANGE
-// 			)
-// 		lick_flavor(atom_licked = licked, licker = user)
-// 		return LICK_CANCEL
-// 	user.visible_message(span_alert("[user] was interrupted!"))
-// 	return LICK_CANCEL
+/obj/item/hand_item/butt/proc/buttify(mob/user)
+	if(!iscarbon(user))
+		to_chat(user, span_alert("You aint got a butt!"))
+		return
+	var/mob/living/carbon/human/H = user
+	if(!H.has_butt())
+		to_chat(user, span_alert("[H], you have no butt!"))
+		H.emote("scream")
+		qdel(src)
+		return
+	var/obj/item/organ/genital/butt/B = H.getorganslot(ORGAN_SLOT_BUTT)
+	var/datum/sprite_accessory/sprite_acc = B.get_sprite_accessory()
+	icon = 'icons/obj/genitals/butt_onmob.dmi'
+	icon_state = B.get_icon_state(user, sprite_acc, FALSE, "FRONT")
+	dir = NORTH
+	var/datum/preferences/P = extract_prefs(user)
+	color = "#[P.features["butt_color"]]"
+	force = 6 * B.size
+	attack_speed = (CLICK_CD_MELEE / 3) * B.size
+	switch(B.size)
+		if(1 to 2)
+			w_class = WEIGHT_CLASS_TINY
+		if(3)
+			w_class = WEIGHT_CLASS_SMALL
+		if(4)
+			w_class = WEIGHT_CLASS_NORMAL
+		if(5)
+			w_class = WEIGHT_CLASS_BULKY
+		if(6 to 7)
+			w_class = WEIGHT_CLASS_HUGE
+		if(8 to INFINITY)
+			w_class = WEIGHT_CLASS_GIGANTIC

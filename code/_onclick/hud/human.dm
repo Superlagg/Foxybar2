@@ -390,6 +390,10 @@
 	newbie_hud_button.hud = src
 	infodisplay += newbie_hud_button
 
+	roll_hud_button = new /atom/movable/screen/roll_hud_button()
+	roll_hud_button.hud = src
+	infodisplay += roll_hud_button
+
 	// chardir_hud_button = new /atom/movable/screen/chardir_hud_button()
 	// chardir_hud_button.hud = src
 	// infodisplay += chardir_hud_button
@@ -425,6 +429,30 @@
 	kiss_hud_button = new /atom/movable/screen/kiss_hud_button()
 	kiss_hud_button.hud = src
 	infodisplay += kiss_hud_button
+
+	bite_hud_button = new /atom/movable/screen/bite_hud_button()
+	bite_hud_button.hud = src
+	infodisplay += bite_hud_button
+
+	claw_hud_button = new /atom/movable/screen/claw_hud_button()
+	claw_hud_button.hud = src
+	infodisplay += claw_hud_button
+
+	tail_hud_button = new /atom/movable/screen/tail_hud_button()
+	tail_hud_button.hud = src
+	infodisplay += tail_hud_button
+
+	cuphand_hud_button = new /atom/movable/screen/cuphand_hud_button()
+	cuphand_hud_button.hud = src
+	infodisplay += cuphand_hud_button
+
+	tend_hud_button = new /atom/movable/screen/tend_hud_button()
+	tend_hud_button.hud = src
+	infodisplay += tend_hud_button
+
+	butt_hud_button = new /atom/movable/screen/butt_hud_button()
+	butt_hud_button.hud = src
+	infodisplay += butt_hud_button
 
 	pull_icon = new /atom/movable/screen/pull()
 	pull_icon.icon = ui_style
