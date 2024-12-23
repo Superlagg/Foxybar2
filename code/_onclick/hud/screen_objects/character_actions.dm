@@ -393,7 +393,98 @@
 		return
 	H.emote("kiss")
 
+////////////////////////////////////////////////////////////
+/// Bite button
+/atom/movable/screen/bite_hud_button
+	name = "bite on people!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "bite"
+	screen_loc = "EAST-1:28, SOUTH+4:-14"
 
+/atom/movable/screen/bite_hud_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(usr))
+		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	H.emote("bite")
+
+////////////////////////////////////////////////////////////
+/// Claw button
+/atom/movable/screen/claw_hud_button
+	name = "claw on people!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "claw"
+	screen_loc = "EAST-1:28, SOUTH+4:-18"
+
+/atom/movable/screen/claw_hud_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(usr))
+		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	H.emote("claw")
+
+////////////////////////////////////////////////////////////
+/// Tail button
+/atom/movable/screen/tail_hud_button
+	name = "tail on people!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "tail"
+	screen_loc = "EAST-1:28, SOUTH+4:-22"
+
+/atom/movable/screen/tail_hud_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(usr))
+		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	H.emote("tail")
+
+////////////////////////////////////////////////////////////
+/// Cuphand button
+/atom/movable/screen/cuphand_hud_button
+	name = "cuphand on people!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "cuphand"
+	screen_loc = "EAST-1:28, SOUTH+4:-26"
+
+/atom/movable/screen/cuphand_hud_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(usr))
+		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	H.emote("cuphand")
+
+////////////////////////////////////////////////////////////
+/// Tend button
+/atom/movable/screen/tend_hud_button
+	name = "tend on people!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "tend"
+	screen_loc = "EAST-1:28, SOUTH+4:-30"
+
+/atom/movable/screen/tend_hud_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(usr))
+		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	H.emote("tend")
+
+////////////////////////////////////////////////////////////
+/// Butt button
+/atom/movable/screen/butt_hud_button
+	name = "butt on people!"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "butt"
+	screen_loc = "EAST-1:28, SOUTH+4:-34"
+
+/atom/movable/screen/butt_hud_button/Click(location,control,params)
+	var/mob/living/carbon/human/H = usr
+	if(!ishuman(usr))
+		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
+		return
+	if(!H.has_butt())
+		to_chat(H, span_alert("[H], you have no butt!"))
+		return
+	H.emote("butt")
 
 /atom/movable/screen/pvp_focus_toggle
 	name = "PVP focus On/Off"
