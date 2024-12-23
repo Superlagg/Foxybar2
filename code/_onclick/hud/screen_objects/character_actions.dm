@@ -439,7 +439,7 @@
 	name = "bite on people!"
 	icon = 'icons/mob/screen_gen.dmi'
 	icon_state = "bite"
-	screen_loc = "EAST-1:28, SOUTH+4:-14"
+	screen_loc = "EAST-1:28, SOUTH+5:-14"
 
 /atom/movable/screen/bite_hud_button/Click(location,control,params)
 	var/mob/living/carbon/human/H = usr
@@ -454,7 +454,7 @@
 	name = "claw on people!"
 	icon = 'icons/mob/screen_gen.dmi'
 	icon_state = "claw"
-	screen_loc = "EAST-1:28, SOUTH+4:-18"
+	screen_loc = "EAST-1:28, SOUTH+5:-9"
 
 /atom/movable/screen/claw_hud_button/Click(location,control,params)
 	var/mob/living/carbon/human/H = usr
@@ -469,7 +469,7 @@
 	name = "tail on people!"
 	icon = 'icons/mob/screen_gen.dmi'
 	icon_state = "tail"
-	screen_loc = "EAST-1:28, SOUTH+4:-22"
+	screen_loc = "EAST-1:28, SOUTH+4:-3"
 
 /atom/movable/screen/tail_hud_button/Click(location,control,params)
 	var/mob/living/carbon/human/H = usr
@@ -484,7 +484,7 @@
 	name = "cuphand on people!"
 	icon = 'icons/mob/screen_gen.dmi'
 	icon_state = "cuphand"
-	screen_loc = "EAST-1:28, SOUTH+4:-26"
+	screen_loc = "EAST-1:4, SOUTH+4:12"
 
 /atom/movable/screen/cuphand_hud_button/Click(location,control,params)
 	var/mob/living/carbon/human/H = usr
@@ -514,7 +514,7 @@
 	name = "butt on people!"
 	icon = 'icons/mob/screen_gen.dmi'
 	icon_state = "butt"
-	screen_loc = "EAST-1:28, SOUTH+4:-34"
+	screen_loc = "EAST-1:28, SOUTH+4:-14"
 
 /atom/movable/screen/butt_hud_button/Click(location,control,params)
 	var/mob/living/carbon/human/H = usr
