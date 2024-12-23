@@ -390,6 +390,10 @@
 	newbie_hud_button.hud = src
 	infodisplay += newbie_hud_button
 
+	roll_hud_button = new /atom/movable/screen/roll_hud_button()
+	roll_hud_button.hud = src
+	infodisplay += roll_hud_button
+
 	// chardir_hud_button = new /atom/movable/screen/chardir_hud_button()
 	// chardir_hud_button.hud = src
 	// infodisplay += chardir_hud_button
