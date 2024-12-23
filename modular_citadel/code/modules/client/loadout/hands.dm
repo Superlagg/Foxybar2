@@ -1,7 +1,7 @@
 /datum/gear/hands
-	category = LOADOUT_CATEGORY_HANDS
-	subcategory = LOADOUT_SUBCATEGORY_NECK_GENERAL
-	slot = SLOT_HANDS
+	category = LOADOUT_CATEGORY_BACKPACK
+	subcategory = LOADOUT_SUBCATEGORY_BACKPACK_SMALL_ITEMS
+	slot = SLOT_IN_BACKPACK
 	cost = 0
 
 /datum/gear/hands/briefcase/crafted

@@ -22,6 +22,8 @@
 //backpack
 #define LOADOUT_CATEGORY_BACKPACK 				"In backpack"
 #define LOADOUT_SUBCATEGORY_BACKPACK_GENERAL 	"General" //basically anything that there's not enough of to have its own subcategory
+//Migrated content from the hands category
+#define LOADOUT_SUBCATEGORY_BACKPACK_SMALL_ITEMS "Small items"
 //#define LOADOUT_SUBCATEGORY_BACKPACK_TOYS 		"Toys"
 #define LOADOUT_SUBCATEGORY_BACKPACK_BACKPACKS 	"Backpacks"
 #define LOADOUT_SUBCATEGORY_BACKPACK_RATIONS 	"Snacks"
