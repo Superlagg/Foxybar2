@@ -131,6 +131,11 @@ GLOBAL_VAR_INIT(miscreants_allowed, FALSE)
 /mob/living/proc/has_womb()
 	return getorganslot(ORGAN_SLOT_WOMB)
 
+/mob/living/proc/has_tail() // A MILLION PROCS FOR DINGUSES BUT NOT ONE FOR TAILS??????????
+	return getorganslot(ORGAN_SLOT_TAIL)
+
+
+
 /mob/living/proc/is_groin_exposed(list/L)
 	if(!L)
 		L = get_equipped_items()
