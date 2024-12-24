@@ -1,5 +1,5 @@
-## Sunset Wasteland
-Based and maintained from Citadel Station by way of Desert Rose, Fortuna, The Wasteland, and Sunset Wasteland.  
+## Coyote Team - Foxybar
+Based and maintained from Citadel Station by way of Desert Rose, Fortuna, The Wasteland, Sunset Wasteland, and Coyote Bayou.
 
 [![CI Suite](https://isitmaintained.com/project/sunset-wasteland/sunset-wasteland/actions/workflows/ci_suite.yml/badge.svg?branch=master&event=push)](https://isitmaintained.com/project/sunset-wasteland/sunset-wasteland/actions/workflows/ci_suite.yml)
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/sunset-wasteland/sunset-wasteland.svg)](https://isitmaintained.com/project/LoneStarF13/LoneStar "Percentage of issues still open")
@@ -7,11 +7,19 @@ Based and maintained from Citadel Station by way of Desert Rose, Fortuna, The Wa
 
 [![forthebadge](http://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/pretty-risque.svg)](https://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](http://forthebadge.com) [![forinfinityandbyond](https://user-images.githubusercontent.com/5211576/29499758-4efff304-85e6-11e7-8267-62919c3688a9.gif)](https://www.reddit.com/r/SS13/comments/5oplxp/what_is_the_main_problem_with_byond_as_an_engine/dclbu1a)
 
+
+**Foxybar**  
+* **Code:** <https://github.com/ARF-SS13/Foxybar2>
+* **Wiki:** <>
+* **Discord:** <https://discord.gg/FYSksfduBn>
+All relevant forum content takes place on the Discord!
+
+
+Most of these places are depricated in the extreme, but left for archiving purposes.
 **The Wasteland Information**  
 * **Code:** <https://github.com/ogrigbe/thewasteland>
 * **Wiki:** <>
 * **Discord:** <https://discord.gg/xCgEwJTppx>
-All relevant forum content takes place on the Discord!
 
 **Desert Rose Information**
 * **Code** <https://github.com/DesertRose2/desertrose>
@@ -25,6 +33,7 @@ All relevant forum content takes place on the Discord!
 * **Ban Appeals:** <http://citadel-station.net/forum/forumdisplay.php?fid=8>
 * **Discord:**  <https://discord.gg/E6SQuhz>
 
+Left here despite the fact that our code has a multi-year gap in functionality.
 **/tg/station Information**  
 * **Website:** <https://www.tgstation13.org>
 * **Code:** <https://github.com/tgstation/tgstation>
