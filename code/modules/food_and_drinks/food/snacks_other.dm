@@ -1002,4 +1002,4 @@
 	name = "Strawberry Jam"
 	desc= "A Jar of really heavy and dense strawberry jam."
 	icon_state = "strawberryjam"
-	list_reagents = list(/datum/reagents/consumable/strawberryjam = 20)
+	list_reagents = list(/datum/reagent/consumable/strawberryjam = 20)
