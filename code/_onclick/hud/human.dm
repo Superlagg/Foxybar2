@@ -91,12 +91,12 @@
 	var/atom/movable/screen/using
 	var/atom/movable/screen/inventory/inv_box
 
-	using = new/atom/movable/screen/language_menu
-	using.icon = ui_style
-	if(!widescreenlayout) // CIT CHANGE
-		using.screen_loc = ui_boxlang // CIT CHANGE
-	using.hud = src
-	static_inventory += using
+	// using = new/atom/movable/screen/language_menu
+	// using.icon = ui_style
+	// if(!widescreenlayout) // CIT CHANGE
+	// 	using.screen_loc = ui_boxlang // CIT CHANGE
+	// using.hud = src
+	// static_inventory += using
 
 	using = new /atom/movable/screen/area_creator
 	using.icon = ui_style
@@ -401,6 +401,10 @@
 	// pvp_focus_toggle = new /atom/movable/screen/pvp_focus_toggle()
 	// pvp_focus_toggle.hud = src
 	// infodisplay += pvp_focus_toggle
+
+	who = new /atom/movable/screen/who()
+	who.hud = src
+	infodisplay += who
 
 	flirt_hud_button = new /atom/movable/screen/flirt_hud_button()
 	flirt_hud_button.hud = src

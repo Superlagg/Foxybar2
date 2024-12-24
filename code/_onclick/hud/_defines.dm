@@ -55,7 +55,7 @@
 #define ui_combat_toggle "WEST+7:16,SOUTH:2"
 #define ui_zonesel "WEST+7:16,SOUTH:3"
 #define ui_crafting	"WEST+6:-15,SOUTH+1:1"
-#define ui_building "WEST+5:-14,SOUTH+1:1"
+#define ui_building "WEST+5:1,SOUTH+1:1"
 #define ui_language_menu "WEST+5:1,SOUTH+1:1"
 
 

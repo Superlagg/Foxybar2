@@ -123,6 +123,15 @@
 	if(usr.client)
 		usr.client.show_character_directory()
 
+/atom/movable/screen/who
+	name = "Who"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "who" // milhouse who
+	screen_loc = "WEST+8:-16, SOUTH+1:-13"
+
+/atom/movable/screen/who/Click(location,control,params)
+	SSwho.Who(usr.client)
+
 /atom/movable/screen/flirt_hud_button
 	name = "Flirt with people!"
 	icon = 'icons/mob/screen_gen.dmi'
