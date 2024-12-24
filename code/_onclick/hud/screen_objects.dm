@@ -605,8 +605,6 @@
 	name = "health"
 	icon_state = "health0"
 	screen_loc = ui_health
-	mouse_opacity = 0
-	alpha = 0
 	var/base_state = "%100"
 	var/flicker_state = "%100"
 	var/blink_state = "%100"
@@ -669,6 +667,7 @@
 		switch(healthpercent)
 			if(90 to INFINITY)
 				smiley_base          = "^_^"
+				smiley_flicker       = "^_^"
 				smiley_flicker       = "^_^"
 				smiley_blink         = "^_^"
 				smiley_blink_flicker = "^_^"

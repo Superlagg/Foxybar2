@@ -324,7 +324,7 @@ const Lust = (props, context) => {
   const TheirMaxLust = data.TheirMaxLust || 100;
   const ItsJustMe = data.ItsJustMe || false;
   const MTTC = data.MTTC; // Mean Time To Cum
-  const CanCum = data.CanCum || false;
+  const CanCum = true; // data.CanCum || false;
   const MyName = data.MyName || "You";
   const TheirName = data.TheirName || "Them";
 
@@ -334,7 +334,7 @@ const Lust = (props, context) => {
   const LustFGColor = "pink";
 
   const CumButtonText = "!! C U M !!";
-  const AutocumText = CanCum ? "Autocum: ON" : "Autocum: OFF";
+  const AutocumText = data.CanCum ? "Autocum: ON" : "Autocum: OFF";
   // let AutocumArray = [];
   // /// run through the bitfields in AutocumFlags and assemble the appropriate text
   // if(AutocumFlags) {
@@ -364,7 +364,7 @@ const Lust = (props, context) => {
   //   AutocumText += "you feel like it!";
   // }
 
-  const AutocumColor = CanCum ? "green" : "default";
+  const AutocumColor = "green"; // CanCum ? "green" : "default";
 
   const CelWidth = ItsJustMe ? "100%" : "50%";
 

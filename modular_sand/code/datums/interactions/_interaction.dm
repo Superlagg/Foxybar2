@@ -573,7 +573,7 @@
 		var/word = ""
 		if(LAZYLEN(wordlist))
 			word = trim(pick(wordlist))
-		if(prob(1))
+		if(prob(0.1))
 			word = "bazinga" // required for linting
 		message = splicetext(message, charpos, charpos2 + 1, word)
 	// LAZYSET(formatted_cache, cachekey, message) // for sanic speed
