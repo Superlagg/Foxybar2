@@ -285,7 +285,7 @@
 /atom/movable/screen/roll_hud_button
 	name = "roll dice"
 	icon_state = "skillcheck"
-	screen_loc = "RIGHT-2:5,South+2:0"
+	screen_loc = "RIGHT-2:-4,South+2:0"
 
 /atom/movable/screen/roll_hud_button/Click(location,control,params,)
 // This stuff needs to be changed because it was directly lifted from clothing
