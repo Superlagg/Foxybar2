@@ -378,3 +378,9 @@
 /obj/item/reagent_containers/food/condiment/pack/soup
 	name = "soup bouillon pack"
 	list_reagents = list(/datum/reagent/consumable/dry_ramen = 10)
+
+/obj/item/reagent_containers/food/condiment/strawberryjam
+	name = "Strawberry Jam"
+	desc = "A jar of super heavy and dense strawberry jam"
+	icon_state = "strawberryjam"
+	list_reagents = list(/datum/reagent/consumable/strawberryjam = 50)

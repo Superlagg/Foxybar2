@@ -1051,3 +1051,10 @@
 	nutriment_factor = 4 * REAGENTS_METABOLISM
 	taste_description = "fluffy sweet cream"
 	canbrew = TRUE
+
+/datum/reagent/consumable/strawberryjam
+	name = "Strawberry Jam"
+	description = "A jar of super dense and heavy strawberry jam"
+	nutriment_factor = 60 * REAGENTS_METABOLISM
+	taste_description = "very heavy strawberry"
+	color = "661F1E"
