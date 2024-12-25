@@ -524,6 +524,7 @@
 	name = "Feral Salazzle"
 	id = "salazzle"
 	roundstart = TRUE
+	alt_prefixes = list("Old Color" = "b_")
 	simple_icon = 'modular_coyote/icons/mob/pmon/salazzle.dmi'
 /mob/living/carbon/human/species/salazzle
 	race = /datum/species/feral/pokemon/salazzle
