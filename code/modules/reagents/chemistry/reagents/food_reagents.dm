@@ -1059,11 +1059,11 @@
 	taste_description = "very heavy and dense strawberry"
 	color = "#bd0a08"
 
-/datum/reagent/consumable/rasberryjam
-	name = "Rasberry Jam"
-	description = "A jar of sweet rasberry jam"
+/datum/reagent/consumable/raspberryjam
+	name = "Raspberry Jam"
+	description = "A jar of sweet raspberry jam"
 	nutriment_factor = 10 * REAGENTS_METABOLISM
-	taste_description = "calming rasberry"
+	taste_description = "calming raspberry"
 	color = "#630807"
 
 /datum/reagent/consumable/lemonjam

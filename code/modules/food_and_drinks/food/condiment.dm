@@ -385,11 +385,11 @@
 	icon_state = "strawberryjam"
 	list_reagents = list(/datum/reagent/consumable/strawberryjam = 50)
 
-/obj/item/reagent_containers/food/condiment/rasberryjam
-	name = "Rasberry Jam"
-	desc = "A jar of sweet rasberry jam"
-	icon_state = "rasberryjam"
-	list_reagents = list(/datum/reagent/consumable/rasberryjam = 50)
+/obj/item/reagent_containers/food/condiment/raspberryjam
+	name = "Raspberry Jam"
+	desc = "A jar of sweet raspberry jam"
+	icon_state = "raspberryjam"
+	list_reagents = list(/datum/reagent/consumable/raspberryjam = 50)
 
 /obj/item/reagent_containers/food/condiment/lemonjam
 	name = "Strawberry Jam"
