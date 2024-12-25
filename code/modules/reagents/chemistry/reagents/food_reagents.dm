@@ -1054,7 +1054,21 @@
 
 /datum/reagent/consumable/strawberryjam
 	name = "Strawberry Jam"
-	description = "A jar of super dense and heavy strawberry jam"
+	description = "Very heavy and very sweet strawberry jam"
 	nutriment_factor = 60 * REAGENTS_METABOLISM
-	taste_description = "very heavy strawberry"
-	color = "661F1E"
+	taste_description = "very heavy and dense strawberry"
+	color = "#bd0a08"
+
+/datum/reagent/consumable/rasberryjam
+	name = "Rasberry Jam"
+	description = "A jar of sweet rasberry jam"
+	nutriment_factor = 10 * REAGENTS_METABOLISM
+	taste_description = "calming rasberry"
+	color = "#630807"
+
+/datum/reagent/consumable/lemonjam
+	name = "Lemon Jam"
+	description = "A jar of sweet lemon jam"
+	nutriment_factor = 10 * REAGENTS_METABOLISM
+	taste_description = "very tangy lemon"
+	color = "#f5fc19"

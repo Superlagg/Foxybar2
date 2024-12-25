@@ -384,3 +384,15 @@
 	desc = "A jar of super heavy and dense strawberry jam"
 	icon_state = "strawberryjam"
 	list_reagents = list(/datum/reagent/consumable/strawberryjam = 50)
+
+/obj/item/reagent_containers/food/condiment/rasberryjam
+	name = "Rasberry Jam"
+	desc = "A jar of sweet rasberry jam"
+	icon_state = "rasberryjam"
+	list_reagents = list(/datum/reagent/consumable/rasberryjam = 50)
+
+/obj/item/reagent_containers/food/condiment/lemonjam
+	name = "Strawberry Jam"
+	desc = "A Jar of sweet lemon jam"
+	icon_state = "lemonjam"
+	list_reagents = list(/datum/reagent/consumable/lemonjam = 50)
