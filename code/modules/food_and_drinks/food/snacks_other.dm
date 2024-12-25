@@ -1008,7 +1008,7 @@
 	name = "Raspberry Jam"
 	desc= "A Jar of sweet raspberry jam."
 	icon_state = "raspberryjam"
-	list_reagents = list(/datum/reagent/consumable/rasberryjam = 10)
+	list_reagents = list(/datum/reagent/consumable/raspberryjam = 10)
 
 /obj/item/reagent_containers/food/snacks/lemonjam
 	name = "Lemon Jam"
