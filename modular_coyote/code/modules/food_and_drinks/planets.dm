@@ -63,3 +63,5 @@
 	color = "#FF0000"
 	taste_description = "pure gluttony, that could rival that of deities"
 	taste_mult = 50
+
+
