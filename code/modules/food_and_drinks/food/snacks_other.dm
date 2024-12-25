@@ -1002,4 +1002,16 @@
 	name = "Strawberry Jam"
 	desc= "A Jar of really heavy and dense strawberry jam."
 	icon_state = "strawberryjam"
-	list_reagents = list(/datum/reagent/consumable/strawberryjam = 20)
+	list_reagents = list(/datum/reagent/consumable/strawberryjam = 40)
+
+/obj/item/reagent_containers/food/snacks/raspberryjam
+	name = "Raspberry Jam"
+	desc= "A Jar of sweet raspberry jam."
+	icon_state = "raspberryjam"
+	list_reagents = list(/datum/reagent/consumable/raspberryjam = 10)
+
+/obj/item/reagent_containers/food/snacks/lemonjam
+	name = "Lemon Jam"
+	desc= "A Jar of sweet lemon jam."
+	icon_state = "lemonjam"
+	list_reagents = list(/datum/reagent/consumable/lemonjam = 10)
