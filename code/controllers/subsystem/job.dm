@@ -711,6 +711,10 @@ SUBSYSTEM_DEF(job)
 	SLOT_W_UNIFORM,\
 	)
 
+/datum/controller/subsystem/job/proc/this_fucking_thing_keeps_runtiming_eat_my_ass(datum/gear/G)
+	var/obj/item/I = new G.path
+	return I 
+
 /datum/controller/subsystem/job/proc/equip_loadout(mob/dead/new_player/N, mob/living/M, equipbackpackstuff, bypass_prereqs = FALSE, can_drop = TRUE)
 	var/mob/the_mob = N
 	if(!the_mob)
@@ -730,8 +734,8 @@ SUBSYSTEM_DEF(job)
 				continue
 			G = GLOB.loadout_items[initial(G.category)][initial(G.subcategory)][initial(G.name)]
 			if(!G || !G.path) // are you *sure* its there? cus, it aint
-				message_admins("Invalid gear in loadout for [the_mob] at slot [the_prefs.loadout_slot]: [i[LOADOUT_ITEM]]. G.path is [G.path]. Eat me, Fenny.")
-				stack_trace("Invalid gear in loadout for [the_mob] at slot [the_prefs.loadout_slot]: [i[LOADOUT_ITEM]]. G.path is [G.path]. Eat me, Fenny.")
+				message_admins("Invalid gear in loadout for [the_mob] at slot [the_prefs.loadout_slot]: [i[LOADOUT_ITEM]]. G.path is [G ? G.path : "wow it doesnt even have a fucking path, its a [G.type]"]. Eat me, Fenny.")
+				stack_trace("Invalid gear in loadout for [the_mob] at slot [the_prefs.loadout_slot]: [i[LOADOUT_ITEM]]. G.path is [G ? G.path : "wow it doesnt even have a fucking path, its a [G.type]"]. Eat me, Fenny.")
 				the_prefs.remove_gear_from_loadout(the_prefs.loadout_slot, i[LOADOUT_ITEM])
 				continue
 			var/permitted = TRUE
@@ -745,7 +749,17 @@ SUBSYSTEM_DEF(job)
 				permitted = FALSE
 			if(!permitted)
 				continue
-			var/obj/item/I = new G.path
+			if(!G || !G.path || !ispath(G.path)) // are you *sure* its there? cus, it aint
+				message_admins("Invalid gear in loadout for [the_mob] at slot [the_prefs.loadout_slot]: [i[LOADOUT_ITEM]]. G.path is [G ? G.path : "wow it doesnt even have a fucking path, its a [G.type]"]. Eat me, Fenny.")
+				stack_trace("Invalid gear in loadout for [the_mob] at slot [the_prefs.loadout_slot]: [i[LOADOUT_ITEM]]. G.path is [G ? G.path : "wow it doesnt even have a fucking path, its a [G.type]"]. Eat me, Fenny.")
+				the_prefs.remove_gear_from_loadout(the_prefs.loadout_slot, i[LOADOUT_ITEM])
+				continue
+			var/obj/item/I = this_fucking_thing_keeps_runtiming_eat_my_ass(G)
+			if(!I)
+				message_admins("Invalid gear in loadout for [the_mob] at slot [the_prefs.loadout_slot]: [i[LOADOUT_ITEM]]. G.path is [G ? G.path : "wow it doesnt even have a fucking path, its a [G.type]"]. Eat me, Fenny.")
+				stack_trace("Invalid gear in loadout for [the_mob] at slot [the_prefs.loadout_slot]: [i[LOADOUT_ITEM]]. G.path is [G ? G.path : "wow it doesnt even have a fucking path, its a [G.type]"]. Eat me, Fenny.")
+				the_prefs.remove_gear_from_loadout(the_prefs.loadout_slot, i[LOADOUT_ITEM])
+				continue
 			if(i[LOADOUT_CUSTOM_NAME])
 				var/custom_name = i[LOADOUT_CUSTOM_NAME]
 				I.name = custom_name

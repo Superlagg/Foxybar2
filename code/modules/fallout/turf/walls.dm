@@ -309,17 +309,26 @@
 	icon_state = "subwaytop"
 
 /turf/closed/indestructible/f13/matrix //The Chosen One from Arroyo!
-	name = "matrix"
-	desc = "<font color='#6eaa2c'>You suddenly realize the truth - there is no spoon.<br>Digital simulation ends here.</font>"
+	name = "departure zone"
+	desc = "This is the way to depart from this world and go to wherever your character goes when they're not here. Click here (or drag someone here) to depart."
 	icon_state = "matrix"
 	var/in_use = FALSE
 
+/turf/closed/indestructible/f13/matrix/attack_hand(mob/user, act_intent, attackchain_flags)
+	. = ..()
+	departify(user)
+
 /turf/closed/indestructible/f13/matrix/MouseDrop_T(atom/dropping, mob/user)
 	. = ..()
-	if(!dropping || !user)
+	departify(user, dropping)
+
+/turf/closed/indestructible/f13/matrix/proc/departify(mob/living/user, mob/living/dropping = null)
+	if(!user)
 		return
+	if(!dropping)
+		dropping = user
 	if(!isliving(user))
-		to_chat(user, span_warning("Can't quite do that!"))
+		to_chat(user, span_warning("You're dead! Shoo!"))
 		return
 	if(!isliving(dropping))
 		to_chat(user, span_warning("That's not something that this thing can do anything with!"))
@@ -327,7 +336,7 @@
 	if(QDELETED(dropping))
 		to_chat(user, span_warning("They're already on their way out!"))
 		return
-	if(!isliving(user) || user.incapacitated(allow_crit = TRUE) || !isliving(dropping))
+	if(!isliving(user)|| !isliving(dropping))
 		return //No ghosts or incapacitated folk allowed to do this.
 	if(in_use) // Someone's already going in.
 		to_chat(user, span_warning("Someone is already using that thing, or it just stopped working. Try a different tile =3"))
@@ -336,13 +345,15 @@
 		to_chat(user, span_warning("This method of escape has been disabled. Sorry!"))
 		return
 	if(dropping == user)
-		depart_self(user)
+		. = depart_self(user)
 	else
-		depart_other(user, dropping)
+		. = depart_other(user, dropping)
+	if(!.)
+		message_admins("[key_name(user)] tried to depart [key_name(dropping)], but something went wrong. Be a dear and delete them manually, would you?")
 
 /turf/closed/indestructible/f13/matrix/proc/depart_self(mob/living/user)
 	if(in_use)
-		return
+		return TRUE
 	in_use = TRUE
 	var/igo = alert(
 		user,
@@ -352,7 +363,8 @@
 		"Cancel",
 	)
 	if(igo != "Depart!")
-		return
+		in_use = FALSE
+		return TRUE
 	var/dumpit = alert(
 		user,
 		"Want to dump all your stuff into a bag before you go? It'll sit here until you come back (or someone else takes it!).",
@@ -382,7 +394,7 @@
 	in_use = FALSE
 	if(!worked)
 		to_chat(user, span_warning("Okay nevermind!!"))
-		return
+		return TRUE
 	to_chat(user, span_notice("You have departed from the bar, hope to see you soon!"))
 	user.visible_message(span_notice("[user] has departed from the bar. Hope to see them soon!"))
 	if(dumpit)
@@ -390,19 +402,22 @@
 		StuffPlayerContentsIntoABag(user, get_turf(user), lockit)
 	message_admins("[key_name(user)] has departed from the bar.")
 	log_admin("[key_name(user)] has departed from the bar.")
-	if(user.client.is_in_game >= 1)
-		// if(user.client.is_in_game == 2)
-		// 	to_chat(world, span_nicegreen("I hear through the grapevine that [user.name] has left the county."))
-		user.client.is_in_game = 0
+	if(user.client)
+		if(user.client?.is_in_game >= 1)
+			// if(user.client.is_in_game == 2)
+			// 	to_chat(world, span_nicegreen("I hear through the grapevine that [user.name] has left the county."))
+			user.client.is_in_game = 0
 	whoosh(user)
 	user.despawn()
+	return TRUE
 
 /turf/closed/indestructible/f13/matrix/proc/depart_other(mob/living/user, mob/living/departing_mob)
 	if(in_use)
-		return
+		return TRUE
 	if(departing_mob.client)
 		to_chat(user, span_warning("That person is still 'with us', so they'll have to decide for themselves if they want to leave."))
-		return
+		in_use = FALSE
+		return TRUE
 	var/igo = alert(
 		user,
 		"This will depart [departing_mob] from the game (despawn them). They can come back any time they want! Are you sure you want to do this? All their stuff will be left in a sack, just in case.",
@@ -411,7 +426,8 @@
 		"Cancel",
 	)
 	if(igo != "Send them away!")
-		return
+		in_use = FALSE
+		return TRUE
 	in_use = TRUE
 	var/worked = FALSE
 	if(do_after(
@@ -433,19 +449,21 @@
 	in_use = FALSE
 	if(!worked)
 		to_chat(user, span_warning("Okay nevermind!!"))
-		return
+		return TRUE
 	var/lockit = CHECK_PREFS(user, DUMP_STUFF_ON_LOGOUT)
 	to_chat(user, span_notice("[user] has sent [departing_mob] away. Hope to see them soon!"))
 	departing_mob.visible_message(span_notice("[departing_mob] has been sent away. Hope to see them soon!"))
 	StuffPlayerContentsIntoABag(departing_mob, get_turf(departing_mob), lockit)
 	message_admins("[key_name(user)] has sent [key_name(departing_mob)] away.")
 	log_admin("[key_name(user)] has sent [key_name(departing_mob)] away.")
-	if(departing_mob.client.is_in_game >= 1)
-		// if(departing_mob.client.is_in_game == 2)
-		// 	to_chat(world, span_nicegreen("I hear through the grapevine that [departing_mob.name] has left the county."))
-		departing_mob.client.is_in_game = 0
+	if(departing_mob.client)
+		if(departing_mob.client.is_in_game >= 1)
+			// if(departing_mob.client.is_in_game == 2)
+			// 	to_chat(world, span_nicegreen("I hear through the grapevine that [departing_mob.name] has left the county."))
+			departing_mob.client.is_in_game = 0
 	whoosh(departing_mob)
 	departing_mob.despawn()
+	return TRUE
 
 /turf/closed/indestructible/f13/matrix/proc/whoosh(mob/departing_mob)
 	do_sparks(2, TRUE, get_turf(departing_mob))
@@ -470,7 +488,7 @@
 
 /obj/item/storage/despawned
 	name = "box of stuff"
-	desc = "A sack of belongings belonging to someone who left and might want to come back."
+	desc = "A box of belongings belonging to someone who left and might want to come back."
 	icon_state = "eq_box"
 	inhand_icon_state = "backpack"
 	lefthand_file = 'icons/mob/inhands/equipment/backpack_lefthand.dmi'
@@ -480,6 +498,18 @@
 	resistance_flags = INDESTRUCTIBLE
 	component_type = /datum/component/storage/concrete/debug_sack/massive
 	var/owner_key
+
+/obj/item/storage/despawned/Initialize()
+	. = ..()
+	if(prob(0.1))
+		aboob()
+
+/obj/item/storage/despawned/proc/aboob()
+	name = "Box of Abu-Kar"
+	desc = "LORE ITEM"
+	desc += "<br>WT: 2.0 Weight Reduction: 100%"
+	desc += "<br>Capacity: 10 Size Capacity: GIANT"
+	desc += "<br><br>[initial(desc)]"
 
 /obj/item/storage/despawned/examine(mob/user)
 	. = ..()
