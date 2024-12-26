@@ -397,4 +397,4 @@
 	desc = "A Jar of tangy lemon jam"
 	icon_state = "lemonjam"
 	list_reagents = list(/datum/reagent/consumable/lemonjam = 50)
-	
+
