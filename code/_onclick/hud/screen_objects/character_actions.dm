@@ -127,7 +127,7 @@
 	name = "Who"
 	icon = 'icons/mob/screen_gen.dmi'
 	icon_state = "who" // milhouse who
-	screen_loc = "WEST+8:-16, SOUTH+1:-13"
+	screen_loc = "EAST-3:-4, SOUTH+1:-13"
 
 /atom/movable/screen/who/Click(location,control,params)
 	SSwho.Who(usr.client)
