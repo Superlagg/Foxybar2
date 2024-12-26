@@ -5,6 +5,20 @@ SUBSYSTEM_DEF(hotel)
 	var/list/existing_rooms = list()
 
 /datum/controller/subsystem/hotel/Initialize(start_timeofday)
+	GeneratePrefabs()
+	GenerateMapspawnRooms()
 	. = ..()
-	
+
+/datum/controller/subsystem/hotel/proc/GeneratePrefabs()
+
+
+
+
+
+
+
+
+
+
+
 

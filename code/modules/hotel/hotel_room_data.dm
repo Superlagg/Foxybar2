@@ -26,7 +26,10 @@
 	var/room_id = ""
 	var/room_name = ""
 	var/room_description = ""
-	var/datum/map_template/room_prefab
+	var/room_prefab_key = ""
+	var/area/my_area
+	var/spawn_x = 0
+	var/spawn_y = 0
 	var/spawned_by_player = FALSE
 	var/visible_on_list = TRUE
 	var/access_style = HOTEL_UNLOCKED
