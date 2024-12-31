@@ -413,6 +413,41 @@ GLOBAL_LIST_INIT(unlocked_mutant_parts, list("horns", "insect_fluff"))
 //parts in either of the above two lists that require a second option that allows them to be coloured
 GLOBAL_LIST_INIT(colored_mutant_parts, list("insect_wings" = "wings_color", "deco_wings" = "wings_color", "horns" = "horns_color"))
 
+/// These are features that are colors (otherwise, they're vars, because THANKS DNA)
+GLOBAL_LIST_INIT(features_that_are_colors, list(
+	"derg_body_primary","derg_body_secondary","derg_body_tertiary",
+	"derg_belly_primary","derg_belly_secondary","derg_belly_tertiary",
+	"derg_horns_primary","derg_horns_secondary","derg_horns_tertiary",
+	"derg_ears_primary","derg_ears_secondary","derg_ears_tertiary",
+	"derg_mane_primary","derg_mane_secondary","derg_mane_tertiary",
+	"derg_eyes_primary","derg_eyes_secondary","derg_eyes_tertiary",
+	"xenodorsal_primary","xenodorsal_secondary","xenodorsal_tertiary",
+	"xhead_primary","xhead_secondary","xhead_tertiary",
+	"tail_primary","tail_secondary","tail_tertiary",
+	"insect_markings_primary","insect_markings_secondary","insect_markings_tertiary",
+	"insect_fluff_primary","insect_fluff_secondary","insect_fluff_tertiary",
+	"ears_primary","ears_secondary","ears_tertiary",
+	"frills_primary","frills_secondary","frills_tertiary",
+	"ipc_antenna_primary","ipc_antenna_secondary","ipc_antenna_tertiary",
+	"taur_primary","taur_secondary","taur_tertiary",
+	"snout_primary","snout_secondary","snout_tertiary",
+	"spines_primary","spines_secondary","spines_tertiary",
+	"mam_body_markings_primary", "mam_body_markings_secondary", "mam_body_markings_tertiary",
+	"mcolor","mcolor2","mcolor3",
+	"horns_color",
+	"wings_color",
+	"cock_color",
+	"balls_color",
+	"breasts_color",
+	"butt_color",
+	"belly_color",
+	"vag_color",
+	"blood_color",
+	"chat_color",
+))
+
+
+
 //body ids that have greyscale sprites
 GLOBAL_LIST_INIT(greyscale_limb_types, list(
 	"human",
@@ -487,3 +522,41 @@ GLOBAL_LIST_INIT(eye_types, list(
 GLOBAL_LIST_INIT(bodypart_names, list(num2text(HEAD) = "Head", num2text(CHEST) = "Chest", num2text(LEG_LEFT) = "Left Leg", num2text(LEG_RIGHT) = "Right Leg", num2text(ARM_LEFT) = "Left Arm", num2text(ARM_RIGHT) = "Right Arm"))
 // list linking bodypart names back to the bitflags
 GLOBAL_LIST_INIT(bodypart_values, list("Head" = num2text(HEAD), "Chest" = num2text(CHEST), "Left Leg" = num2text(LEG_LEFT), "Right Leg" = num2text(LEG_RIGHT), "Left Arm" = num2text(ARM_LEFT), "Right Arm" = num2text(ARM_RIGHT)))
+
+
+#define MARKING_LIMB_INDEX_NUM 1
+#define MARKING_NAME           2
+#define MARKING_COLOR_LIST     3
+#define MARKING_UID            4
+
+// Globals/helpers/randomness.
+GLOBAL_LIST_INIT(hair_gradients, list(
+	"None" = "none",
+	"Fade (Up)" = "fadeup",
+	"Fade (Down)" = "fadedown",
+	"Fade Low (Up)" = "fadeup_low",
+	"Bottom Flat" = "bottomflat",
+	"Fade Low (Down)" = "fadedown_low",
+	"Vertical Split" = "vsplit",
+	"Reflected" = "reflected",
+	"Reflected (Inverted)" = "reflected_inverse",
+	"Reflected High" = "reflected_high",
+	"Reflected High (Inverted)" = "reflected_inverse_high",
+	"Wavy" = "wavy",
+	"Striped" = "striped",
+	"Reversed Stripe" = "stripedreverse",
+	"Squigly" = "squigly",
+	"Swayed" = "sinewave",
+	"Vertical Swayed" = "sinewavesideways",
+	"Mixy" = "dots",
+	"Mixy Faded Down" = "fadedowndots",
+	"Spots" = "skrell_gradient_spots",
+	"Stripey" = "skr_headtail_stripes", //My beloved
+	"Horizontal Fading Stripes" = "stripeshorzfade",
+	"Horizontal Stripes" = "stripeshorz",
+	"Vertical Fading Stripes" = "stripesvertfaded",
+	"Vertical Stripes" = "stripesvert",
+	"Swirly" = "swirls",
+	"Suspect" = "amogus" //ඞ//
+	))
+

@@ -1,14 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+@import "cool.css";
 body
 {
 	padding: 0;
 	margin: 0;
 	background: #000000;
 	color: #890200;
-	font-size: 16px;
+	font-size: 12px;
 	font-family: 'VT323', Courier;
 	color: #890200;
-	line-height: 170%;
+	line-height: 100%;
+	box-sizing: border-box;
 }
 
 hr
@@ -21,14 +24,14 @@ a, button, a:link, a:visited, a:active, .linkOn, .linkOff
 {
 	color: #00dd00;
 	text-decoration: none;
-	padding: 1px 4px 1px 4px;
-	margin: 0 2px 0 0;
-	cursor:default;
+	/* padding: 1px 4px 1px 4px;
+	margin: 0 2px 0 0; */
+	cursor:pointer;
 }
 
 a:hover {
 	background-color: #5DC966;
-	color: black;	
+	color: lime;	
 }
 
 a.white, a.white:link, a.white:visited, a.white:active
@@ -388,13 +391,13 @@ ul {
 ul a:before,
 p a:before {
 	color: #00dd00;
-	content: ' > ';
+	/* content: ' > '; */
 }
 
 ul a:after,
 p a:after {
 	color: #00dd00;
-	content: '  ';	
+	/* content: '  ';	 */
 }
 ul.sparse {
 	padding-bottom:20px;

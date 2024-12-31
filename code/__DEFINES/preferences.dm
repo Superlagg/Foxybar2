@@ -149,6 +149,7 @@ GLOBAL_LIST_INIT(undie_position_strings, list("Under Clothes", "Over Clothes", "
 #define PMC_FENNY_FINISHED_124_QUESTS "and_killed_the_server" // Player Master Changelog
 #define PMC_MY_PDA_FLIES_IN_FULL_COLOR "nekooooooooo" // Player Master Changelog
 #define PMC_MOMMYCHAT_IS_COOL "ill be your mommy tonight uwu" // Player Master Changelog
+#define PMC_MARKINGS_GET_AN_ACTUAL_UID "sure_change_skunk_number-2348235t9823" // Player Master Changelog
 
 /// The master Preferences Changelog to check the player's prefs against.
 /// includes a list of actions that need to be taken to update the player's prefs.
@@ -159,6 +160,7 @@ GLOBAL_LIST_INIT(undie_position_strings, list("Under Clothes", "Over Clothes", "
 	PMC_FENNY_FINISHED_124_QUESTS,\
 	PMC_MY_PDA_FLIES_IN_FULL_COLOR,\
 	PMC_MOMMYCHAT_IS_COOL,\
+	PMC_MARKINGS_GET_AN_ACTUAL_UID,\
 )
 
 #define PMR_WHY_DOES_EVERYTHING_DEFAULT_TO_OFF "lookingatyouwiretap" // Player Master Changelog
