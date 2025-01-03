@@ -103,32 +103,33 @@
 	return FALSE
 
 	/// pooj's hall of shame
-	// dat += "<b>Primary Color</b><BR>"
-	// dat += "<span style='border:1px solid #161616; background-color: #[features[primary_feature]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=[primary_feature];task=input'>Change</a><BR>"
-	// if((accessory.color_src == MATRIXED && (matrixed_sections == MATRIX_RED_BLUE || matrixed_sections == MATRIX_GREEN_BLUE || matrixed_sections == MATRIX_RED_GREEN || matrixed_sections == MATRIX_ALL)) || (accessory.extra && (accessory.extra_color_src == MUTCOLORS || accessory.extra_color_src == MUTCOLORS2 || accessory.extra_color_src == MUTCOLORS3)))
-	// 	dat += "<b>Secondary Color</b><BR>"
-	// 	dat += "<span style='border:1px solid #161616; background-color: #[features[secondary_feature]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=[secondary_feature];task=input'>Change</a><BR>"
-	// 	if((accessory.color_src == MATRIXED && matrixed_sections == MATRIX_ALL) || (accessory.extra2 && (accessory.extra2_color_src == MUTCOLORS || accessory.extra2_color_src == MUTCOLORS2 || accessory.extra2_color_src == MUTCOLORS3)))
-	// 		dat += "<b>Tertiary Color</b><BR>"
-	// 		dat += "<span style='border:1px solid #161616; background-color: #[features[tertiary_feature]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=[tertiary_feature];task=input'>Change</a><BR>"
-	// if((accessory.color_src == MATRIXED && \
-	// 	(matrixed_sections == MATRIX_RED_BLUE || \
-	// 	matrixed_sections == MATRIX_GREEN_BLUE || \
-	// 	matrixed_sections == MATRIX_RED_GREEN || \
-	// 	matrixed_sections == MATRIX_ALL)) || \
-	// 	(accessory.extra && \
-	// 		(accessory.extra_color_src == MUTCOLORS || \
-	// 		accessory.extra_color_src == MUTCOLORS2 || \
-	// 		accessory.extra_color_src == MUTCOLORS3))) // WTF IS THIS CONDITONAL, HOLY SHYT POOJ
-	// 	dat += ColorBox(secondary_feature)
-	// 	if((accessory.color_src == MATRIXED && matrixed_sections == MATRIX_ALL) || \
-	// 		(accessory.extra2 && \
-	// 		(accessory.extra2_color_src == MUTCOLORS || \
-	// 		accessory.extra2_color_src == MUTCOLORS2 || \
-	// 		accessory.extra2_color_src == MUTCOLORS3)))
-	// 		dat += ColorBox(tertiary_feature)
+/*
+	dat += "<b>Primary Color</b><BR>"
+	dat += "<span style='border:1px solid #161616; background-color: #[features[primary_feature]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=[primary_feature];task=input'>Change</a><BR>"
+	if((accessory.color_src == MATRIXED && (matrixed_sections == MATRIX_RED_BLUE || matrixed_sections == MATRIX_GREEN_BLUE || matrixed_sections == MATRIX_RED_GREEN || matrixed_sections == MATRIX_ALL)) || (accessory.extra && (accessory.extra_color_src == MUTCOLORS || accessory.extra_color_src == MUTCOLORS2 || accessory.extra_color_src == MUTCOLORS3)))
+		dat += "<b>Secondary Color</b><BR>"
+		dat += "<span style='border:1px solid #161616; background-color: #[features[secondary_feature]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=[secondary_feature];task=input'>Change</a><BR>"
+		if((accessory.color_src == MATRIXED && matrixed_sections == MATRIX_ALL) || (accessory.extra2 && (accessory.extra2_color_src == MUTCOLORS || accessory.extra2_color_src == MUTCOLORS2 || accessory.extra2_color_src == MUTCOLORS3)))
+			dat += "<b>Tertiary Color</b><BR>"
+			dat += "<span style='border:1px solid #161616; background-color: #[features[tertiary_feature]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=[tertiary_feature];task=input'>Change</a><BR>"
+	if((accessory.color_src == MATRIXED && \
+		(matrixed_sections == MATRIX_RED_BLUE || \
+		matrixed_sections == MATRIX_GREEN_BLUE || \
+		matrixed_sections == MATRIX_RED_GREEN || \
+		matrixed_sections == MATRIX_ALL)) || \
+		(accessory.extra && \
+			(accessory.extra_color_src == MUTCOLORS || \
+			accessory.extra_color_src == MUTCOLORS2 || \
+			accessory.extra_color_src == MUTCOLORS3))) // WTF IS THIS CONDITONAL, HOLY SHYT POOJ
+		dat += ColorBox(secondary_feature)
+		if((accessory.color_src == MATRIXED && matrixed_sections == MATRIX_ALL) || \
+			(accessory.extra2 && \
+			(accessory.extra2_color_src == MUTCOLORS || \
+			accessory.extra2_color_src == MUTCOLORS2 || \
+			accessory.extra2_color_src == MUTCOLORS3)))
+			dat += ColorBox(tertiary_feature)
 
-
+ */
 
 /datum/sprite_accessory/underwear
 	icon = 'icons/mob/clothing/underwear.dmi'

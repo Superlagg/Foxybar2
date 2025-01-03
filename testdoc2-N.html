@@ -127,7 +127,6 @@
 				Showing <a href='?_src_=prefs;preference=show_this_many;num=1;' class='BlockButton'>30</a> characters, <a href='?_src_=prefs;preference=names_per_row;num=1;' class='BlockButton'>6</a> per row
 				<a href='?_src_=prefs;preference=charlist_hidden' class='BlockButton'>Show Character List</a>
 			</div>
-			<p>
 			<center>
 				<table class='TabHeader'>
 					<tr>
@@ -155,164 +154,65 @@
 				</table>
 			</center>
 			<div class='WideDivider'></div>
-			<center>
-				<table class='TabHeader'>
-					<tr>
-						<td class='TabCellselected'>
-							<a href='?_src_=prefs;preference=subtab;subtab=PPT_CHARCTER_PROPERTIES_INFO;'>
-								General
-							</a>
-						</td>
-						<td>
-							<a href='?_src_=prefs;preference=subtab;subtab=PPT_CHARCTER_PROPERTIES_VOICE;'>
-								Runechat
-							</a>
-						</td>
-						<td>
-							<a href='?_src_=prefs;preference=subtab;subtab=PPT_CHARCTER_PROPERTIES_MISC;'>
-								Ghost
-							</a>
-						</td>
-						<td>
-							<a href='?_src_=prefs;preference=subtab;subtab=PPT_CHARCTER_PROPERTIES_MISC;'>
-								Unused
-							</a>
-						</td>
-						<td>
-							<a href='?_src_=prefs;preference=subtab;subtab=PPT_CHARCTER_PROPERTIES_MISC;'>
-								Other stuff
-							</a>
-						</td>
-					</tr>
-				</table>
-			</center>
-			<div class='WideDivider'></div>
 				<!-- Rest of the owl -->
 			<div class='SettingArray'>
-				<div class='PartsContainer'>
-					<div class='PartsFlex'>
-						<div class='SettingFlexCol'>
-							<div class='SettingNameCol'>
-								Input Mode Hotkey
-							</div>
-							<a>
-								Tab
-							</a>
+				<div class='SettingFlexCol'>
+					<div class='SettingValueSplit'>
+						<div class='SettingNameCol ForceBuffer'>
+							Keymode:
 						</div>
-					</div>
-					<div class='PartsFlex'>
-						<div class='SettingFlexCol'>
-							<div class='SettingNameCol'>
-								UI style
-							</div>
-							<a>
-								Midnight
-							</a>
-						</div>
-					</div>
-					<div class='PartsFlex'>
-						<div class='SettingFlexCol'>
-							<div class='SettingNameCol'>
-								TGUI monitors
-							</div>
-							<a>
-								Primary
-							</a>
-						</div>
-					</div>
-					<div class='PartsFlex'>
-						<div class='SettingFlexCol'>
-							<div class='SettingNameCol'>
-								Input Mode Hotkey
-							</div>
-							<a>
-								Tab
-							</a>
-						</div>
-					</div>
-					<div class='PartsFlex'>
-						<div class='SettingFlexCol'>
-							<div class='SettingNameCol'>
-								UI style
-							</div>
-							<a>
-								Midnight
-							</a>
-						</div>
-					</div>
-					<div class='PartsFlex'>
-						<div class='SettingFlexCol'>
-							<div class='SettingNameCol'>
-								TGUI monitors
-							</div>
-							<a>
-								Primary
-							</a>
-						</div>
-					</div>
-					<div class='PartsFlex'>
-						<div class='SettingFlexCol'>
-							<div class='SettingNameCol'>
-								Input Mode Hotkey
-							</div>
-							<a>
-								Tab
-							</a>
-						</div>
-					</div>
-					<div class='PartsFlex'>
-						<div class='SettingFlexCol'>
-							<div class='SettingNameCol'>
-								UI style
-							</div>
-							<a>
-								Midnight
-							</a>
-						</div>
-					</div>
-					<div class='PartsFlex'>
-						<div class='SettingFlexCol'>
-							<div class='SettingNameCol'>
-								TGUI monitors
-							</div>
-							<a>
-								Primary
-							</a>
-						</div>
-					</div>
-					<div class='PartsFlex'>
-						<div class='SettingFlexCol'>
-							<div class='SettingNameCol'>
-								Input Mode Hotkey
-							</div>
-							<a>
-								Tab
-							</a>
-						</div>
-					</div>
-					<div class='PartsFlex'>
-						<div class='SettingFlexCol'>
-							<div class='SettingNameCol'>
-								UI style
-							</div>
-							<a>
-								Midnight
-							</a>
-						</div>
-					</div>
-					<div class='PartsFlex'>
-						<div class='SettingFlexCol'>
-							<div class='SettingNameCol'>
-								TGUI monitors
-							</div>
-							<a>
-								Primary
-							</a>
+						<a href='uwu' class='SmolBox'>
+							Hotkeys
+						</a>
+
+						<span class='Spacer'></span>
+						<a href='uwu' class='SmolBox'>
+							Oh cool, thanks! (hide help)
+						</a>
+				</div>
+				<!-- <div class='SettingFlexColInfo NotCol'>
+					<p>Keybindings mode controls how the game behaves with tab and map/input focus.
+					<p>If it is on Hotkeys, the game will always attempt to force you to map focus, meaning keypresses are sent directly to the map instead of the input. You will still be able to use the command bar, but you need to tab to do it every time you click on the game map.
+					<p>If it is on Input, the game will not force focus away from the input bar, and you can switch focus using TAB between these two modes: If the input bar is pink, that means that you are in non-hotkey mode, sending all keypresses of the normal alphanumeric characters, punctuation, spacebar, backspace, enter, etc, typing keys into the input bar. If the input bar is white, you are in hotkey mode, meaning all keypresses go into the game's keybind handling system unless you manually click on the input bar to shift focus there.
+					<p>Input mode is the closest thing to the old input system.
+					<p>IMPORTANT: While in input mode's non hotkey setting (tab toggled), Ctrl + KEY will send KEY to the keybind system as the key itself, not as Ctrl + KEY. This means Ctrl + T/W/A/S/D/all your familiar stuff still works, but you won't be able to access any regular Ctrl binds.
+					<p>Modifier-Independent binding - This is a singular bind that works regardless of if Ctrl/Shift/Alt are held down. For example, if combat mode is bound to C in modifier-independent binds, it'll trigger regardless of if you are holding down shift for sprint. Each keybind can only have one independent binding, and each key can only have one keybind independently bound to it. 
+				</div> -->
+				<!-- keybinds! -->
+				<div class='WideDivider'></div>
+				<div class='SettingArray'>
+					<div class='SettingValueSplit'>
+						<a class='SmolBox'>
+							>
+						</a>
+						<div class='SettingNameCol Spacer'>
+							Client
 						</div>
 					</div>
 				</div>
+				<div class='SettingFlexCol'>
+					<div class='SettingValueSplit'>
+						<div class='SettingNameCol ForceBuffer'>
+							Boss Key
+						</div>
+						<a class='KeyButton Key1Text'>
+							=
+						</a>
+						<a class='KeyButton Key2Text'>
+							None!
+						</a>
+						<a class='KeyButton Key3Text'>
+							None!
+						</a>
+						<div class='KeyBox DefaultKeyText'>
+							=
+						</div>
+						<a class='KeyButton Key4Text'>
+							UNBOUND
+						</a>
+					</div>
+				</div>
 			</div>
-			<div class='WideDivider'></div>
 	
 
 			<div class='WideDivider'></div>

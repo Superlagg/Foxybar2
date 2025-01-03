@@ -10,19 +10,6 @@
  * Part of the Great Preferences Cleanup of 2021. (its actually 2024)
  * 
  *  */
-#define PREFLINK_AUTONAME null // COOL DEFINE, DAN
-#define PREFCMD_COPYCOLOR "copycolor"
-#define PREFCMD_PASTECOLOR "pastecolor"
-#define PREFCMD_DELCOLOR "clearcolor"
-#define PREFDAT "generic_data_slug"
-/// have the handler thing interpret the color index as a marking UID
-#define PREFDAT_INDEX_IS_MARKING_UID "index_is_marking_uid"
-#define PREFCOLOR "is_color"
-#define GO_PREV "prev"
-#define GO_NEXT "next"
-#define APPEARANCE_CATEGORY_COLUMN "<td valign='top' width='17%'>"
-#define ERP_CATEGORY_ROW "<tr valign='top' width='17%'>"
-#define MAX_MUTANT_ROWS 5
 
 /* 
  * This proc takes in its args and outputs a link that'll be printed in the preferences window.
@@ -90,9 +77,10 @@
 					dat += ColorToolbar()
 					var/static/list/allnads = list()
 					if(!LAZYLEN(allnads))
-						for(var/datum/genital_data/nad in GLOB.genitals)
-							if(nad.genital_flags & GENITAL_CAN_HAVE)
-								allnads += nad.has_key
+						for(var/has_nad in GLOB.genital_data_system)
+							var/datum/genital_data/GD = GLOB.genital_data_system[has_nad]
+							if(GD.genital_flags & GENITAL_CAN_HAVE)
+								allnads += GD.has_key
 					switch(current_sub_subtab)
 						if(PPT_CHARCTER_APPEARANCE_UNDERLYING_UNDIES)
 							dat += AppearanceUnderlyingUndies()
@@ -130,77 +118,10 @@
 
 
 		if(PPT_KEYBINDINGS) // Custom keybindings
-			dat += "<b>Keybindings:</b> <a href='?_src_=prefs;preference=hotkeys'>[(hotkeys) ? "Hotkeys" : "Input"]</a><br>"
-			dat += "Keybindings mode controls how the game behaves with tab and map/input focus.<br>If it is on <b>Hotkeys</b>, the game will always attempt to force you to map focus, meaning keypresses are sent \
-			directly to the map instead of the input. You will still be able to use the command bar, but you need to tab to do it every time you click on the game map.<br>\
-			If it is on <b>Input</b>, the game will not force focus away from the input bar, and you can switch focus using TAB between these two modes: If the input bar is pink, that means that you are in non-hotkey mode, sending all keypresses of the normal \
-			alphanumeric characters, punctuation, spacebar, backspace, enter, etc, typing keys into the input bar. If the input bar is white, you are in hotkey mode, meaning all keypresses go into the game's keybind handling system unless you \
-			manually click on the input bar to shift focus there.<br>\
-			Input mode is the closest thing to the old input system.<br>\
-			<b>IMPORTANT:</b> While in input mode's non hotkey setting (tab toggled), Ctrl + KEY will send KEY to the keybind system as the key itself, not as Ctrl + KEY. This means Ctrl + T/W/A/S/D/all your familiar stuff still works, but you \
-			won't be able to access any regular Ctrl binds.<br>"
-			dat += "<br><b>Modifier-Independent binding</b> - This is a singular bind that works regardless of if Ctrl/Shift/Alt are held down. For example, if combat mode is bound to C in modifier-independent binds, it'll trigger regardless of if you are \
-			holding down shift for sprint. <b>Each keybind can only have one independent binding, and each key can only have one keybind independently bound to it.</b>"
-			// Create an inverted list of keybindings -> key
-			var/list/user_binds = list()
-			var/list/user_modless_binds = list()
-			for (var/key in key_bindings)
-				for(var/kb_name in key_bindings[key])
-					user_binds[kb_name] += list(key)
-			for (var/key in modless_key_bindings)
-				user_modless_binds[modless_key_bindings[key]] = key
+			dat += Keybindings()
 
-			var/list/kb_categories = list()
-			// Group keybinds by category
-			for (var/name in GLOB.keybindings_by_name)
-				var/datum/keybinding/kb = GLOB.keybindings_by_name[name]
-				kb_categories[kb.category] += list(kb)
-
-			dat += {"
-			<style>
-			span.bindname { display: inline-block; position: absolute; width: 20% ; left: 5px; padding: 5px; } \
-			span.bindings { display: inline-block; position: relative; width: auto; left: 20%; width: auto; right: 20%; padding: 5px; } \
-			span.independent { display: inline-block; position: absolute; width: 20%; right: 5px; padding: 5px; } \
-			</style><body>
-			"}
-
-			for (var/category in kb_categories)
-				dat += "<h3>[category]</h3>"
-				for (var/i in kb_categories[category])
-					var/datum/keybinding/kb = i
-					var/current_independent_binding = user_modless_binds[kb.name] || "Unbound"
-					if(!length(user_binds[kb.name]))
-						dat += "<span class='bindname'>[kb.full_name]</span><span class='bindings'><a href ='?_src_=prefs;preference=keybindings_capture;keybinding=[kb.name];old_key=["Unbound"]'>Unbound</a>"
-						var/list/default_keys = hotkeys ? kb.hotkey_keys : kb.classic_keys
-						if(LAZYLEN(default_keys))
-							dat += "| Default: [default_keys.Join(", ")]"
-						dat += "</span>"
-						if(!kb.special && !kb.clientside)
-							dat += "<span class='independent'>Independent Binding: <a href='?_src_=prefs;preference=keybindings_capture;keybinding=[kb.name];old_key=[current_independent_binding];independent=1'>[current_independent_binding]</a></span>"
-						dat += "<br>"
-					else
-						var/bound_key = user_binds[kb.name][1]
-						dat += "<span class='bindname'l>[kb.full_name]</span><span class='bindings'><a href ='?_src_=prefs;preference=keybindings_capture;keybinding=[kb.name];old_key=[bound_key]'>[bound_key]</a>"
-						for(var/bound_key_index in 2 to length(user_binds[kb.name]))
-							bound_key = user_binds[kb.name][bound_key_index]
-							dat += " | <a href ='?_src_=prefs;preference=keybindings_capture;keybinding=[kb.name];old_key=[bound_key]'>[bound_key]</a>"
-						if(length(user_binds[kb.name]) < MAX_KEYS_PER_KEYBIND)
-							dat += "| <a href ='?_src_=prefs;preference=keybindings_capture;keybinding=[kb.name]'>Add Secondary</a>"
-						var/list/default_keys = hotkeys ? kb.classic_keys : kb.hotkey_keys
-						if(LAZYLEN(default_keys))
-							dat += "| Default: [default_keys.Join(", ")]"
-						dat += "</span>"
-						if(!kb.special && !kb.clientside)
-							dat += "<span class='independent'>Independent Binding: <a href='?_src_=prefs;preference=keybindings_capture;keybinding=[kb.name];old_key=[current_independent_binding];independent=1'>[current_independent_binding]</a></span>"
-						dat += "<br>"
-
-			dat += "<br><br>"
-			dat += "<a href ='?_src_=prefs;preference=keybindings_reset'>\[Reset to default\]</a>"
-			dat += "</body>"
-
-
-	dat += CoolDivider()
-	dat += FooterBar()
+	// dat += CoolDivider()
+	// dat += FooterBar()
 
 	winset(user, "preferences_window", "is-visible=1;focus=0;")
 	var/datum/browser/popup = new(user, "preferences_browser", "<div align='center'>Character Setup - [real_name]</div>", 640, 770)
@@ -208,8 +129,6 @@
 	popup.open(FALSE)
 	onclose(user, "preferences_window", src)
 
-#undef APPEARANCE_CATEGORY_COLUMN
-#undef MAX_MUTANT_ROWS
 
 /datum/preferences/proc/HeaderTabs()
 	var/static/list/tablist = list(
@@ -224,13 +143,15 @@
 	dat += "<center>"
 	dat += "<table class='TabHeader'>"
 	dat += "<tr>"
+	var/colspan = 2
 	for(var/supertab in tablist)
 		if(supertab == "new_row")
 			dat += "</tr><tr>"
+			colspan = 3 // brilliant
 		else
-			dat += "<td>"
+			dat += "<td colspan='[colspan]'>"
 			var/cspan = current_tab == supertab ? "TabCellselected" : ""
-			dat += PrefLink("[tablist["[supertab]"]]", "tab", list("tab" = supertab), "BUTTON", cspan)
+			dat += PrefLink("[tablist["[supertab]"]]", PREFCMD_SET_TAB, list(PREFDAT_TAB = url_encode(supertab)), "BUTTON", cspan)
 			dat += "</td>"
 	dat += "</tr>"
 	dat += "</table>"
@@ -297,11 +218,12 @@
 	dat += "<center>"
 	dat += "<table class='TabHeader'>"
 	dat += "<tr>"
-	for(var/subtab in touse)
+	var/list/sub_listab = touse["[current_tab]"]
+	for(var/subtab in sub_listab)
 		dat += "<td>"
 		var/cspan = current_subtab == subtab ? "TabCellselected" : ""
-		var/textsay = "[touse["[subtab]"]]"
-		dat += PrefLink(textsay, PREFCMD_SET_SUBTAB, list(PREFDAT_SUBTAB = subtab), span = cspan)
+		var/textsay = "[sub_listab["[subtab]"]]"
+		dat += PrefLink(textsay, PREFCMD_SET_SUBTAB, list(PREFDAT_SUBTAB = url_encode(subtab)), span = cspan)
 		dat += "</td>"
 	dat += "</tr>"
 	dat += "</table>"
@@ -315,14 +237,14 @@
 	dat += "<div class='SettingArray'>"
 	dat += "<div class='FlexTable'>"
 	var/coolstyle = "flex-basis: 48%;"
-	var/undiespan = current_subsubtab == PPT_CHARCTER_APPEARANCE_UNDERLYING_UNDERWEAR ? "TabCellselected" : ""
-	dat += PrefLink("Underwear", PREFCMD_SET_SUBSUBTAB, list("subsubtab" = PPT_CHARCTER_APPEARANCE_UNDERLYING_UNDERWEAR), span = undiespan, style = coolstyle)
-	var/layeringspan = current_subsubtab == PPT_CHARCTER_APPEARANCE_UNDERLYING_LAYERING ? "TabCellselected" : ""
-	dat += PrefLink("Layering", PREFCMD_SET_SUBSUBTAB, list("subsubtab" = PPT_CHARCTER_APPEARANCE_UNDERLYING_LAYERING), span = layeringspan, style = coolstyle)
+	var/undiespan = current_sub_subtab == PPT_CHARCTER_APPEARANCE_UNDERLYING_UNDIES ? "TabCellselected" : ""
+	dat += PrefLink("Underwear", PREFCMD_SET_SUBSUBTAB, list(PREFDAT_SUBSUBTAB = url_encode(PPT_CHARCTER_APPEARANCE_UNDERLYING_UNDIES)), span = undiespan, style = coolstyle)
+	var/layeringspan = current_sub_subtab == PPT_CHARCTER_APPEARANCE_UNDERLYING_LAYERING ? "TabCellselected" : ""
+	dat += PrefLink("Layering", PREFCMD_SET_SUBSUBTAB, list(PREFDAT_SUBSUBTAB = url_encode(PPT_CHARCTER_APPEARANCE_UNDERLYING_LAYERING)), span = layeringspan, style = coolstyle)
 	/// and now, the rest of the tabs
 	for(var/datum/genital_data/GD in GLOB.genital_data_system)
-		var/genispan = current_subsubtab == GD.has_key ? "TabCellselected" : ""
-		dat += PrefLink(GD.name, PREFCMD_SET_SUBSUBTAB, list("subsubtab" = GD.has_key), span = genispan)
+		var/genispan = current_sub_subtab == GD.has_key ? "TabCellselected" : ""
+		dat += PrefLink(GD.name, PREFCMD_SET_SUBSUBTAB, list(PREFDAT_SUBSUBTAB = url_encode(GD.has_key)), span = genispan)
 	dat += "</div>"
 	dat += "</div>"
 	dat += "</center>"
@@ -338,7 +260,7 @@
 	dat += "<center>"
 	dat += "<div class='FlexTable WellPadded'>"
 	if(charlist_hidden)
-		dat += PrefLink("Show Character List", "charlist_hidden", "TOGGLE")
+		dat += PrefLink("Show Character List", PREFCMD_TOGGLE_SHOW_CHARACTER_LIST)
 		dat += "</center>"
 	else
 		var/name
@@ -348,17 +270,17 @@
 			if(!name)
 				name = "Character[i]"
 			var/coolspan = i == default_slot ? "TabCellselected" : ""
-			dat += PrefLink("[name]", "changeslot", list("num" = i), "INPUT", coolspan)
+			dat += PrefLink("[name]", PREFCMD_CHANGE_SLOT, list(PREFDAT_SLOT = i), span = coolspan)
 		dat += "</div>"
 		dat += "<div class='WideBarDark'>"
-		dat += "Showing [PrefLink("[show_this_many]", "show_this_many", "INPUT")] characters"
+		dat += "Showing [PrefLink("[show_this_many]", PREFCMD_SHOW_THIS_MANY_CHARS)] characters"
 		dat += "<br>"
-		dat += PrefLink("Copy", "copyslot", "BUTTON")
-		dat += PrefLink("Paste", "paste", "BUTTON")
+		dat += PrefLink("Copy", PREFCMD_SLOT_COPY)
+		dat += PrefLink("Paste", PREFCMD_SLOT_PASTE)
 		if(copyslot)
 			dat += "<br>Copying FROM: [copyslot] ([copyname])"
 		dat += "<br>"
-		dat += PrefLink("Hide Character List", "charlist_hidden", "TOGGLE")
+		dat += PrefLink("Hide Character List", PREFCMD_TOGGLE_SHOW_CHARACTER_LIST)
 		dat += "</div>"
 		dat += "</center>"
 	return dat.Join()
@@ -367,15 +289,15 @@
 /datum/preferences/proc/FooterBar()
 	var/list/dat = list()
 	dat += "<center>"
-	dat += PrefLink("Visual Chat Options", "setup_hornychat", kind = "LINK", span = "WideBarDark")
-	dat += PrefLink("Save", "save", kind = "BUTTON", span = "WideBarDark")
+	dat += PrefLink("Visual Chat Options", PREFCMD_VCHAT, span = "WideBarDark")
+	dat += PrefLink("Save", PREFCMD_SAVE, span = "WideBarDark")
 	dat += "<table class='TabHeader'>"
 	dat += "<tr>"
 	dat += "<td width='50%'>"
-	dat += PrefLink("Undo", "load", kind = "BUTTON")
+	dat += PrefLink("Undo", PREFCMD_UNDO)
 	dat += "</td>"
 	dat += "<td width='50%'>"
-	dat += PrefLink("Delete", "delete_character", kind = "BUTTON")
+	dat += PrefLink("Delete", PREFCMD_SLOT_DELETE)
 	dat += "</td>"
 	dat += "</center>"
 	return dat.Join()
@@ -386,44 +308,54 @@
 	dat += "<div class='BGsplit'>" // DIV A A
 	dat += "<div class='SettingArray'>" // DIV A A A
 	dat += "<div class='SettingFlex' style='flex-basis: 100%;'>" // DIV A A A A
-	var/pfplink = SSchat.GetPicForMode(user, MODE_PROFILE_PIC)
+	var/pfplink = SSchat.GetPicForMode(src, MODE_PROFILE_PIC)
 	if(pfplink)
 		pfplink = "<img src='[pfplink]' style='width: 125px; height: auto;'>"
 	else
 		pfplink = "<img src='https://via.placeholder.com/150' style='width: 125px; height: auto;'>"
 	dat += "<center>"
-	dat += PrefLink(pfplink, "setup_hornychat", kind = "LINK")
+	dat += PrefLink(pfplink, PREFCMD_VCHAT)
 	dat += "</center>"
 	dat += "</div>" // End of DIV A A A A
 	dat += "<div class='SettingFlex' style='flex-basis: 100%;'>" // DIV A A A B
 	dat += "<div class='SettingName'>" // DIV A A A B A
 	dat += "Name:"
 	dat += "</div>" // End of DIV A A A B A
-	dat += PrefLink("[real_name]", "name")
+	dat += PrefLink("[real_name]", PREFCMD_CHANGE_NAME)
 	dat += "</div>" // End of DIV A A A B
 	dat += "<div class='SettingFlex'>" // DIV A A A C
 	dat += "<div class='SettingName'>" // DIV A A A C A
 	dat += "Age:"
 	dat += "</div>" // End of DIV A A A C A
-	dat += PrefLink("[age]", "age")
+	dat += PrefLink("[age]", PREFCMD_CHANGE_AGE)
 	dat += "</div>" // End of DIV A A A C
 	dat += "<div class='SettingFlex'>" // DIV A A A D
 	dat += "<div class='SettingName'>" // DIV A A A D A
 	dat += "Gender:"
 	dat += "</div>" // End of DIV A A A D A
-	dat += PrefLink("[GetGenderString()]", "gender")
+	var/genwords = "amazing"
+	switch(gender)
+		if(MALE)
+			genwords = "Male"
+		if(FEMALE)
+			genwords = "Female"
+		if("object")
+			genwords = "Agender"
+		if("nonbinary")
+			genwords = "Nonbinary"
+	dat += PrefLink("[genwords]", PREFCMD_CHANGE_GENDER)
 	dat += "</div>" // End of DIV A A A D
 	dat += "<div class='SettingFlex' style='flex-basis: 100%;'>" // DIV A A A E
 	dat += "<div class='SettingName'>" // DIV A A A E A
 	dat += "I am a..."
 	dat += "</div>" // End of DIV A A A E A
-	dat += PrefLink("[GetTBSString()]", "tbs")
+	dat += PrefLink("[tbs]", PREFCMD_CHANGE_TBS)
 	dat += "</div>" // End of DIV A A A E
 	dat += "<div class='SettingFlex' style='flex-basis: 100%;'>" // DIV A A A F
 	dat += "<div class='SettingName'>" // DIV A A A F A
 	dat += "I like to kiss..."
 	dat += "</div>" // End of DIV A A A F A
-	dat += PrefLink("[GetKisserString()]", "kisser")
+	dat += PrefLink("[kisser]]", PREFCMD_CHANGE_KISSER)
 	dat += "</div>" // End of DIV A A A F
 	dat += "</div>" // End of DIV A A A
 	dat += "</div>" // End of DIV A A
@@ -433,13 +365,23 @@
 	dat += "<div class='SettingNameCol'>" // DIV A B A A A
 	dat += "Flavor Text:"
 	dat += "</div>" // End of DIV A B A A A
-	dat += PrefLink("[flavor_text]", "flavor_text")
+	var/ftbutless = "[features["flavor_text"]]"
+	if(ftbutless == initial(features["flavor_text"]))
+		ftbutless = "Click to add flavor text!"
+	if(LAZYLEN(ftbutless) > 100)
+		ftbutless = copytext(ftbutless, 0, 100) + "..."
+	dat += PrefLink("[ftbutless]", PREFCMD_CHANGE_FLAVOR_TEXT)
 	dat += "</div>" // End of DIV A B A A
 	dat += "<div class='SettingFlexCol'>" // DIV A B A B
 	dat += "<div class='SettingNameCol'>" // DIV A B A B A
 	dat += "OOC Notes:"
 	dat += "</div>" // End of DIV A B A B A
-	dat += PrefLink("[ooc_notes]", "ooc_notes")
+	var/oocbutless = "[features["ooc_notes"]]"
+	if(oocbutless == initial(features["ooc_notes"]))
+		oocbutless = "Click to add OOC notes!"
+	if(LAZYLEN(oocbutless) > 100)
+		oocbutless = copytext(oocbutless, 0, 100) + "..."
+	dat += PrefLink("[oocbutless]", PREFCMD_CHANGE_OOC_NOTES)
 	dat += "</div>" // End of DIV A B A B
 	dat += "</div>" // End of DIV A B A
 	dat += "</div>" // End of DIV A B
@@ -454,42 +396,49 @@
 	dat += "<div class='SettingNameCol'>" // DIV A A A
 	dat += "Blurble Sound"
 	dat += "</div>" // End of DIV A A A
-	dat += PrefLink("[blurble_sound]", "blurble_sound", span = "SettingValue")
+	dat += PrefLink("[features_speech["typing_indicator_sound"]]", PREFCMD_BLURBLE_SOUND, span = "SettingValue")
 	dat += "</div>" // End of DIV A A
 	
-	dat += "<div class='SettingFlexCol' style='flex-basis: 50%;'>" // DIV A B
+	dat += "<div class='SettingFlexCol' style='flex-basis: 25%;'>" // DIV A B
 	dat += "<div class='SettingNameCol'>" // DIV A B A
 	dat += "You will blurble when you..."
 	dat += "</div>" // End of DIV A B A
-	dat += PrefLink("[blurble_trigger]", "blurble_trigger", span = "SettingValue")
+	dat += PrefLink("[features_speech["typing_indicator_sound_play"]]", PREFCMD_BLURBLE_TRIGGER, span = "SettingValue")
+	dat += "</div>" // End of DIV A B
+	
+	dat += "<div class='SettingFlexCol' style='flex-basis: 25%;'>" // DIV A B
+	dat += "<div class='SettingNameCol'>" // DIV A B A
+	dat += "Your blurbles will vary..."
+	dat += "</div>" // End of DIV A B A
+	dat += PrefLink("[features_speech["typing_indicator_variance"]]", PREFCMD_BLURBLE_VARY, span = "SettingValue")
 	dat += "</div>" // End of DIV A B
 	
 	dat += "<div class='SettingFlexCol' style='flex-basis: 25%;'>" // DIV A C
 	dat += "<div class='SettingNameCol'>" // DIV A C A
 	dat += "Blurble Speed"
 	dat += "</div>" // End of DIV A C A
-	dat += PrefLink("[blurble_speed]", "blurble_speed", span = "SettingValue")
+	dat += PrefLink("[features_speech["typing_indicator_speed"]]", PREFCMD_BLURBLE_SPEED, span = "SettingValue")
 	dat += "</div>" // End of DIV A C
 	
 	dat += "<div class='SettingFlexCol' style='flex-basis: 25%;'>" // DIV A D
 	dat += "<div class='SettingNameCol'>" // DIV A D A
 	dat += "Blurble Volume"
 	dat += "</div>" // End of DIV A D A
-	dat += PrefLink("[blurble_volume]", "blurble_volume", span = "SettingValue")
+	dat += PrefLink("[features_speech["typing_indicator_volume"]]", PREFCMD_BLURBLE_VOLUME, span = "SettingValue")
 	dat += "</div>" // End of DIV A D
 	
 	dat += "<div class='SettingFlexCol' style='flex-basis: 25%;'>" // DIV A E
 	dat += "<div class='SettingNameCol'>" // DIV A E A
 	dat += "Blurble Pitch"
 	dat += "</div>" // End of DIV A E A
-	dat += PrefLink("[blurble_pitch]", "blurble_pitch", span = "SettingValue")
+	dat += PrefLink("[features_speech["typing_indicator_pitch"]]", PREFCMD_BLURBLE_PITCH, span = "SettingValue")
 	dat += "</div>" // End of DIV A E
 	
 	dat += "<div class='SettingFlexCol' style='flex-basis: 25%;'>" // DIV A F
 	dat += "<div class='SettingNameCol'>" // DIV A F A
 	dat += "Max Words Blurbled"
 	dat += "</div>" // End of DIV A F A
-	dat += PrefLink("[max_words_blurbled]", "max_words_blurbled", span = "SettingValue")
+	dat += PrefLink("[features_speech["typing_indicator_max_words_spoken"]]", PREFCMD_BLURBLE_MAX_WORDS, span = "SettingValue")
 	dat += "</div>" // End of DIV A F
 	
 	dat += "<div class='SettingFlexCol' style='flex-basis: 25%;'>" // DIV A G
@@ -523,7 +472,7 @@
 	dat += "Account Balance"
 	dat += "</div>" // End of DIV Q A A B A
 	dat += "<div class='SettingFlexColInfo'>" // DIV Q A A B B
-	dat += "[[SSeconomy.format_currency(saved_unclaimed_points, TRUE)]]"
+	dat += "[SSeconomy.format_currency(saved_unclaimed_points, TRUE)]"
 	dat += "</div>" // End of DIV Q A A B B
 	dat += "</div>" // End of DIV Q A A B
 	dat += "</div>" // End of DIV Q A A
@@ -536,14 +485,14 @@
 	dat += "<div class='SettingNameCol'>" // DIV A A A
 	dat += "PDA Kind"
 	dat += "</div>" // End of DIV A A A
-	dat += PrefLink("[pda_kind]", "pda_kind", span = "SettingValueCol")
+	dat += PrefLink("[pda_skin]", PREFCMD_PDA_KIND, span = "SettingValueCol")
 	dat += "</div>" // End of DIV A A
 
 	dat += "<div class='SettingFlexCol' style='flex-basis: 33%;'>" // DIV A B
 	dat += "<div class='SettingNameCol'>" // DIV A B A
 	dat += "PDA Ringtone"
 	dat += "</div>" // End of DIV A B A
-	dat += PrefLink("[pda_ringtone]", "pda_ringtone", span = "SettingValueCol")
+	dat += PrefLink("[pda_ringmessage]", PREFCMD_PDA_RINGTONE, span = "SettingValueCol")
 	dat += "</div>" // End of DIV A B
 
 	dat += "<div class='SettingFlexCol' style='flex-basis: 33%;'>" // DIV A C
@@ -559,7 +508,7 @@
 	dat += "<div class='SettingNameCol'>" // DIV A D A
 	dat += "Backpack Kind"
 	dat += "</div>" // End of DIV A D A
-	dat += PrefLink("[backpack_kind]", "backpack_kind", span = "SettingValueCol")
+	dat += PrefLink("[backbag]", PREFCMD_BACKPACK_KIND, span = "SettingValueCol")
 	dat += "</div>" // End of DIV A D
 
 	dat += "<div class='SettingFlexCol' style='flex-basis: 50%;'>" // DIV A E
@@ -567,64 +516,87 @@
 	dat += "Persistent Scars"
 	dat += "<div class='SettingValueSplit'>" // DIV A E A A
 	dat += "<div class='SettingValueCol' style='flex-basis: 50%;'>" // DIV A E A A A
-	dat += PrefLink("[persistent_scars]", "persistent_scars", span = "SettingValueCol")
+	dat += PrefLink("[persistent_scars]", PREFCMD_SCARS, span = "SettingValueCol")
 	dat += "</div>" // End of DIV A E A A A
 	dat += "<div class='SettingValueCol' style='flex-basis: 50%;'>" // DIV A E A A B
-	dat += PrefLink("[persistent_scars_clear]", "persistent_scars_clear", span = "SettingValueCol")
+	dat += PrefLink("Clear them?", PREFCMD_SCARS_CLEAR, span = "SettingValueCol")
 	dat += "</div>" // End of DIV A E A A B
+	dat += "</div>" // End of DIV A E A A
+	dat += "</div>" // End of DIV A E A
+	dat += "</div>" // End of DIV A E
 
 	dat += "<div class='SettingFlexCol' style='flex-basis: 100%;'>" // DIV A F
 	dat += "<div class='SettingNameCol'>" // DIV A F A
 	dat += "Attribute Stats (Affects Rolls)"
 	dat += "</div>" // End of DIV A F A
 	dat += "<div class='SettingValueSplit'>" // DIV A F B
+
 	dat += "<div class='SettingValueCol'>" // DIV A F B A
 	dat += "<div class='SettingName'>" // DIV A F B A A
 	dat += "Strength"
 	dat += "</div>" // End of DIV A F B A A
-	dat += PrefLink("[special_s]", "strength", span = "SettingValueCol")
+	var/list/statthing = list(PREFDAT_STAT = "strength")
+	dat += PrefLink("[special_s]", PREFCMD_STAT_CHANGE, statthing, span = "SettingValueCol")
 	dat += "</div>" // End of DIV A F B A
 
 	dat += "<div class='SettingValueCol'>" // DIV A F B B
 	dat += "<div class='SettingName'>" // DIV A F B B A
 	dat += "Perception"
 	dat += "</div>" // End of DIV A F B B A
-	dat += PrefLink("[special_p]", "perception", span = "SettingValueCol")
+	statthing = list(PREFDAT_STAT = "perception")
+	dat += PrefLink("[special_p]", PREFCMD_STAT_CHANGE, statthing, span = "SettingValueCol")
 	dat += "</div>" // End of DIV A F B B
 
 	dat += "<div class='SettingValueCol'>" // DIV A F B C
 	dat += "<div class='SettingName'>" // DIV A F B C A
 	dat += "Endurance"
 	dat += "</div>" // End of DIV A F B C A
-	dat += PrefLink("[special_e]", "endurance", span = "SettingValueCol")
+	statthing = list(PREFDAT_STAT = "endurance")
+	dat += PrefLink("[special_e]", PREFCMD_STAT_CHANGE, statthing, span = "SettingValueCol")
 	dat += "</div>" // End of DIV A F B C
 
 	dat += "<div class='SettingValueCol'>" // DIV A F B D
 	dat += "<div class='SettingName'>" // DIV A F B D A
 	dat += "Charisma"
 	dat += "</div>" // End of DIV A F B D A
-	dat += PrefLink("[special_c]", "charisma", span = "SettingValueCol")
+	statthing = list(PREFDAT_STAT = "charisma")
+	dat += PrefLink("[special_c]", PREFCMD_STAT_CHANGE, statthing, span = "SettingValueCol")
 	dat += "</div>" // End of DIV A F B D
 
 	dat += "<div class='SettingValueCol'>" // DIV A F B E
 	dat += "<div class='SettingName'>" // DIV A F B E A
 	dat += "Intelligence"
 	dat += "</div>" // End of DIV A F B E A
-	dat += PrefLink("[special_i]", "intelligence", span = "SettingValueCol")
+	statthing = list(PREFDAT_STAT = "intelligence")
+	dat += PrefLink("[special_i]", PREFCMD_STAT_CHANGE, statthing, span = "SettingValueCol")
 	dat += "</div>" // End of DIV A F B E
 
 	dat += "<div class='SettingValueCol'>" // DIV A F B F
 	dat += "<div class='SettingName'>" // DIV A F B F A
 	dat += "Agility"
 	dat += "</div>" // End of DIV A F B F A
-	dat += PrefLink("[special_a]", "agility", span = "SettingValueCol")
+	statthing = list(PREFDAT_STAT = "agility")
+	dat += PrefLink("[special_a]", PREFCMD_STAT_CHANGE, statthing, span = "SettingValueCol")
 	dat += "</div>" // End of DIV A F B F
 
 	dat += "<div class='SettingValueCol'>" // DIV A F B G
 	dat += "<div class='SettingName'>" // DIV A F B G A
 	dat += "Luck"
 	dat += "</div>" // End of DIV A F B G A
-	dat += PrefLink("[special_l]", "luck", span = "SettingValueCol")
+	statthing = list(PREFDAT_STAT = "luck")
+	dat += PrefLink("[special_l]", PREFCMD_STAT_CHANGE, statthing, span = "SettingValueCol")
+	dat += "</div>" // End of DIV A F B G
+
+	dat += "<div class='SettingValueCol'>" // DIV A F B G
+	dat += "<div class='SettingName'>" // DIV A F B G A
+	dat += "Total"
+	dat += "</div>" // End of DIV A F B G A
+	var/total = special_s + special_p + special_e + special_c + special_i + special_a + special_l
+	var/maximum = 40
+	statthing = list(PREFDAT_STAT = "luck")
+	dat += "<div class='SettingFlexColInfo'>" // DIV A F B G A
+	dat += "[total] / [maximum]"
+	dat += "</div>" // End of DIV A F B G A
 	dat += "</div>" // End of DIV A F B G
 
 	dat += "</div>" // End of DIV A F B
@@ -649,27 +621,27 @@
 	dat += "Species Type:"
 	dat += "</div>" // End of DIV A A A
 	var/specname = pref_species.name
-	dat += PrefLink(specname, "species")
+	dat += PrefLink(specname, PREFCMD_SPECIES)
 	dat += "<div class='SettingName'>" // DIV A A B
 	dat += "Body model:"
 	dat += "</div>" // End of DIV A A B
 	var/bmod = "N/A"
 	if(gender != NEUTER && pref_species.sexes) // oh yeah, my pref species sexes a lot
-		features["body_model"] == MALE ? "Masculine" : "Feminine"
-		dat += PrefLink(bmod, "body_model")
+		features["body_model"] = gender == MALE ? "Masculine" : "Feminine"
+		dat += PrefLink(bmod, PREFCMD_BODY_MODEL)
 	if(LAZYLEN(pref_species.allowed_limb_ids))
 		if(!chosen_limb_id || !(chosen_limb_id in pref_species.allowed_limb_ids))
 			chosen_limb_id = pref_species.limbs_id || pref_species.id
 		dat += "<div class='SettingName'>" // DIV A A C
 		dat += "Body Sprite:"
 		dat += "</div>" // End of DIV A A C
-		dat += PrefLink("[chosen_limb_id]", "bodysprite")
+		dat += PrefLink("[chosen_limb_id]", PREFCMD_BODY_SPRITE)
 	if(LAZYLEN(pref_species.alt_prefixes))
 		dat += "<div class='SettingName'>" // DIV A A C
 		dat += "Alt Style:"
 		dat += "</div>" // End of DIV A A C
 		var/altfix = alt_appearance ? "[alt_appearance]" : "Select"
-		dat += PrefLink(altfix, "alt_prefix")
+		dat += PrefLink(altfix, PREFCMD_ALT_PREFIX)
 		dat += "</div>" // End of DIV A A
 	dat += "</div>" // End of DIV A
 	dat += "<div class='SettingArray'>" // DIV B
@@ -678,7 +650,7 @@
 	dat += "Species Name:"
 	dat += "</div>" // End of DIV B A A
 	var/spename = custom_species ? custom_species : pref_species.name
-	dat += PrefLink(spename, "species")
+	dat += PrefLink(spename, PREFCMD_SPECIES_NAME)
 	dat += "<div class='SettingName'>" // DIV B A B
 	dat += "Blood Color:"
 	dat += "</div>" // End of DIV B A B
@@ -690,7 +662,7 @@
 	dat += "Rainbow Blood?"
 	dat += "</div>" // End of DIV B A C
 	var/rbw = features["blood_color"] == "rainbow" ? "Yes" : "No"
-	dat += PrefLink("[rbw]", "rainbow_blood")
+	dat += PrefLink("[rbw]", PREFCMD_RAINBOW_BLOOD)
 	dat += "</div>" // End of DIV B A
 	dat += "</div>" // End of DIV B
 	dat += "<div class='SettingArray'>" // DIV C
@@ -699,14 +671,14 @@
 	dat += "Meat Type:"
 	dat += "</div>" // End of DIV C A A
 	var/meat = features["meat_type"] || "Meaty"
-	dat += PrefLink("[meat]", "meat_type")
+	dat += PrefLink("[meat]", PREFCMD_MEAT_TYPE)
 	dat += "<div class='SettingName'>" // DIV C A B
 	dat += "Taste:"
 	dat += "</div>" // End of DIV C A B
 	if(!features["taste"])
 		features["taste"] = "something"
 	var/tasted = features["taste"] || "somthing"
-	dat += PrefLink(tasted, "taste")
+	dat += PrefLink(tasted, PREFCMD_TASTE)
 	dat += "</div>" // End of DIV C A
 	dat += "</div>" // End of DIV C
 	dat += "<div class='SettingArray'>" // DIV D
@@ -715,17 +687,17 @@
 	dat += "Scale:"
 	dat += "</div>" // End of DIV D A A
 	var/bscale = features["body_size"]*100
-	dat += PrefLink("[bscale]", "body_size")
+	dat += PrefLink("[bscale]", PREFCMD_SCALE)
 	dat += "<div class='SettingName'>" // DIV D A B
 	dat += "Width:"
 	dat += "</div>" // End of DIV D A B
 	var/bwidth = features["body_width"]*100
-	dat += PrefLink(bwidth, "width")
+	dat += PrefLink(bwidth, PREFCMD_WIDTH)
 	dat += "<div class='SettingName'>" // DIV D A C
 	dat += "Scaling"
 	dat += "</div>" // End of DIV D A C
 	var/fuzsharp = fuzzy ? "Fuzzy" : "Sharp"
-	dat += PrefLink(fuzsharp, "scaling")
+	dat += PrefLink(fuzsharp, PREFCMD_FUZZY)
 	dat += "</div>" // End of DIV D A
 	dat += "</div>" // End of DIV D
 	dat += "<div class='SettingArray'>" // DIV E
@@ -734,17 +706,17 @@
 	dat += "Offset &udarr;"
 	dat += "</div>" // End of DIV E A A
 	var/pye = features["pixel_y"] > 0 ? "+[features["pixel_y"]]" : "[features["pixel_y"]]"
-	dat += PrefLink(pye, "pixel_y")
+	dat += PrefLink(pye, PREFCMD_PIXEL_Y)
 	dat += "<div class='SettingName'>" // DIV E A B
 	dat += "Offset &lrarr;"
 	dat += "</div>" // End of DIV E A B
 	var/pxe = features["pixel_x"] > 0 ? "+[features["pixel_x"]]" : "[features["pixel_x"]]"
-	dat += PrefLink(pxe, "pixel_x")
+	dat += PrefLink(pxe, PREFCMD_PIXEL_X)
 	dat += "<div class='SettingName'>" // DIV E A C
 	dat += "Legs:"
 	dat += "</div>" // End of DIV E A C
 	var/d_legs = features["legs"]
-	dat += PrefLink(d_legs, "legs")
+	dat += PrefLink(d_legs, PREFCMD_LEGS)
 	dat += "</div>" // End of DIV E A
 	var/use_skintones = pref_species.use_skintones
 	if(use_skintones) // humans suck
@@ -756,7 +728,7 @@
 			data = list(PREFDAT_COLKEY_IS_VAR = TRUE)
 			dat += ColorBox("skin_tone", data = data)
 		else
-			dat += PrefLink("[skin_tone]", "skintone")
+			dat += PrefLink("[skin_tone]", PREFCMD_SKIN_TONE)
 		dat += "</div>" // End of DIV E B
 	dat += "</div>" // End of DIV E
 	return dat.Join()
@@ -774,9 +746,9 @@
 	dat += "<div class='SettingNameCol'>" // DIV A A A B A
 	dat += "Style:"
 	dat += "</div>" // End of DIV A A A B A
-	dat += PrefLink("<", "eye_type", list(PREFDAT = GO_PREV), span = "SmolButton")
-	dat += PrefLink(">", "eye_type", list(PREFDAT = GO_NEXT), span = "SmolButton")
-	dat += PrefLink(capitalize("[eye_type]"), "eye_type")
+	dat += PrefLink("<", PREFCMD_EYE_TYPE, list(PREFDAT_GO_PREV = TRUE), span = "SmolBox")
+	dat += PrefLink(">", PREFCMD_EYE_TYPE, list(PREFDAT_GO_NEXT = TRUE), span = "SmolBox")
+	dat += PrefLink(capitalize("[eye_type]"), PREFCMD_EYE_TYPE)
 	dat += "<div class='SettingNameCol'>" // DIV A A A B B
 	dat += "Left Color:"
 	dat += "</div>" // End of DIV A A A B B
@@ -798,9 +770,9 @@
 	dat += "<div class='SettingNameCol'>" // DIV A A B B A
 	dat += "Style:"
 	dat += "</div>" // End of DIV A A B B A
-	dat += PrefLink("<", "hair_style", list(PREFDAT = GO_PREV), span = "SmolButton")
-	dat += PrefLink(">", "hair_style", list(PREFDAT = GO_NEXT), span = "SmolButton")
-	dat += PrefLink("[hair_style]", "hair_style")
+	dat += PrefLink("<", PREFCMD_HAIR_STYLE_1, list(PREFDAT_GO_PREV = TRUE), span = "SmolBox")
+	dat += PrefLink(">", PREFCMD_HAIR_STYLE_1, list(PREFDAT_GO_NEXT = TRUE), span = "SmolBox")
+	dat += PrefLink("[hair_style]", PREFCMD_HAIR_STYLE_1)
 	dat += "<div class='SettingNameCol'>" // DIV A A B B B
 	dat += "Color:"
 	dat += "</div>" // End of DIV A A B B B
@@ -810,9 +782,9 @@
 	dat += "<div class='SettingNameCol'>" // DIV A A B C A
 	dat += "Gradient:"
 	dat += "</div>" // End of DIV A A B C A
-	dat += PrefLink("<", "hair_gradient_style_1", list(PREFDAT = GO_PREV), span = "SmolButton")
-	dat += PrefLink(">", "hair_gradient_style_1", list(PREFDAT = GO_NEXT), span = "SmolButton")
-	dat += PrefLink("[features["grad_style"]]", "hair_gradient_style_1")
+	dat += PrefLink("<", PREFCMD_HAIR_GRADIENT_1, list(PREFDAT_GO_PREV = TRUE), span = "SmolBox")
+	dat += PrefLink(">", PREFCMD_HAIR_GRADIENT_1, list(PREFDAT_GO_NEXT = TRUE), span = "SmolBox")
+	dat += PrefLink("[features["grad_style"]]", PREFCMD_HAIR_GRADIENT_1)
 	dat += "<div class='SettingNameCol'>" // DIV A A B C B
 	dat += "Color:"
 	dat += "</div>" // End of DIV A A B C B
@@ -829,9 +801,9 @@
 	dat += "<div class='SettingNameCol'>" // DIV A B A B A
 	dat += "Style:"
 	dat += "</div>" // End of DIV A B A B A
-	dat += PrefLink("<", "hair_style_2", list(PREFDAT = GO_PREV), span = "SmolButton")
-	dat += PrefLink(">", "hair_style_2", list(PREFDAT = GO_NEXT), span = "SmolButton")
-	dat += PrefLink("[features["hair_style_2"]]", "hair_style_2")
+	dat += PrefLink("<", PREFCMD_HAIR_STYLE_2, list(PREFDAT_GO_PREV = TRUE), span = "SmolBox")
+	dat += PrefLink(">", PREFCMD_HAIR_STYLE_2, list(PREFDAT_GO_NEXT = TRUE), span = "SmolBox")
+	dat += PrefLink("[features["hair_style_2"]]", PREFCMD_HAIR_STYLE_2)
 	dat += "<div class='SettingNameCol'>" // DIV A B A B B
 	dat += "Color:"
 	dat += "</div>" // End of DIV A B A B B
@@ -841,9 +813,9 @@
 	dat += "<div class='SettingNameCol'>" // DIV A B A C A
 	dat += "Gradient:"
 	dat += "</div>" // End of DIV A B A C A
-	dat += PrefLink("<", "grad_style_2", list(PREFDAT = GO_PREV), span = "SmolButton")
-	dat += PrefLink(">", "grad_style_2", list(PREFDAT = GO_NEXT), span = "SmolButton")
-	dat += PrefLink("[features["grad_style_2"]]", "grad_style_2")
+	dat += PrefLink("<", PREFCMD_HAIR_GRADIENT_2, list(PREFDAT_GO_PREV = TRUE), span = "SmolBox")
+	dat += PrefLink(">", PREFCMD_HAIR_GRADIENT_2, list(PREFDAT_GO_NEXT = TRUE), span = "SmolBox")
+	dat += PrefLink("[features["grad_style_2"]]", PREFCMD_HAIR_GRADIENT_2)
 	dat += "<div class='SettingNameCol'>" // DIV A B A C B
 	dat += "Color:"
 	dat += "</div>" // End of DIV A B A C B
@@ -860,9 +832,9 @@
 	dat += "<div class='SettingNameCol'>" // DIV A C A B A
 	dat += "Style:"
 	dat += "</div>" // End of DIV A C A B A
-	dat += PrefLink("<", "facial_hair_style", list(PREFDAT = GO_PREV), span = "SmolButton")
-	dat += PrefLink(">", "facial_hair_style", list(PREFDAT = GO_NEXT), span = "SmolButton")
-	dat += PrefLink("[facial_hair_style]", "facial_hair_style")
+	dat += PrefLink("<", PREFCMD_FACIAL_HAIR_STYLE, list(PREFDAT_GO_PREV = TRUE), span = "SmolBox")
+	dat += PrefLink(">", PREFCMD_FACIAL_HAIR_STYLE, list(PREFDAT_GO_NEXT = TRUE), span = "SmolBox")
+	dat += PrefLink("[facial_hair_style]", PREFCMD_FACIAL_HAIR_STYLE)
 	dat += "<div class='SettingNameCol'>" // DIV A C A B B
 	dat += "Color:"
 	dat += "</div>" // End of DIV A C A B B
@@ -878,10 +850,19 @@
 /datum/preferences/proc/AppearanceParts()
 	var/list/dat = list()
 	dat += "<div class='SettingArray'>" // DIV A
+	// dat += "<div class='SettingFlexCol'>" // DIV A A
+	// dat += "<div class='SettingValueSplit'>" // DIV A A A
+	// var/mismash = "Show Mismatched Parts"
+	// if(show_all_parts)
+	// 	mismash = "Show Only Recommended Parts"
+	// dat += PrefLink("[mismash]", PREFCMD_MISMATCHED_MARKINGS, span = "SmolBox")
+	// dat += "<span class='Spacer'></span>"
+	// dat += "</div>" // End of DIV A A A
+	// dat += "</div>" // End of DIV A A
 	dat += "<div class='PartsContainer'>" // DIV A A
 	for(var/mutant_part in GLOB.all_mutant_parts)
 		if(mutant_part == "mam_body_markings")
-			continue
+			continue // we'll get to this
 		if(!parent.can_have_part(mutant_part))
 			continue
 		dat += "<div class='PartsFlex'>" // DIV A A A
@@ -893,9 +874,9 @@
 		dat += "<div class='SettingNameCol'>" // DIV A A A A B A
 		dat += "Style:"
 		dat += "</div>" // End of DIV A A A A B A
-		dat += PrefLink("<", "change_part", list("partkind" = mutant_part, PREFDAT = GO_PREV), span = "SmolButton")
-		dat += PrefLink(">", "change_part", list("partkind" = mutant_part, PREFDAT = GO_NEXT), span = "SmolButton")
-		dat += PrefLink("[features[mutant_part]]", "change_part", list("partkind" = mutant_part))
+		dat += PrefLink("<", PREFCMD_CHANGE_PART, list(PREFDAT_PARTKIND = mutant_part, PREFDAT_GO_PREV = TRUE), span = "SmolBox")
+		dat += PrefLink(">", PREFCMD_CHANGE_PART, list(PREFDAT_PARTKIND = mutant_part, PREFDAT_GO_NEXT = TRUE), span = "SmolBox")
+		dat += PrefLink("[features[mutant_part]]", PREFCMD_CHANGE_PART, list(PREFDAT_PARTKIND = mutant_part))
 		dat += "</div>" // End of DIV A A A A B
 		/// now for the hell that is *colors*
 		dat += "<div class='SettingValueSplit'>" // DIV A A A A C
@@ -966,14 +947,14 @@
 		dat += "<div class='SettingNameCol'>"
 		dat += "[modification]"
 		dat += "</div>"
-		dat += PrefLink("X", "modify_limbs", list("remove", modification), span = "SmolButton")
+		dat += PrefLink("X", PREFCMD_REMOVE_LIMB, list(PREFDAT_REMOVE_LIMB_MOD = modification), span = "SmolBox")
 		var/toshow = modified_limbs[modification][1]
 		if(toshow == LOADOUT_LIMB_PROSTHETIC)
 			toshow = modified_limbs[modification][2]
-		dat += PrefLink(toshow, "modify_limbs", list("modify", modification))
+		dat += PrefLink(toshow, PREFCMD_MODIFY_LIMB, list(PREFDAT_MODIFY_LIMB_MOD = modification))
 		dat += "</div>"
 	dat += "<div class='SettingValueSplit'>" // DIV A B A B
-	dat += PrefLink("+ Add Something!", "modify_limbs", list(PREFDAT = "add"))
+	dat += PrefLink("+ Add Something!", PREFCMD_ADD_LIMB)
 	dat += "</div>" // End of DIV A B A B
 	dat += "</div>" // End of DIV A B A
 	dat += "</div>" // End of DIV A B
@@ -987,7 +968,7 @@
 	dat += "<div class='SettingName'>" // DIV A A A
 	dat += "Cool Markings"
 	dat += "</div>" // End of DIV A A A
-	if(!parent.parent.can_have_part("mam_body_markings"))
+	if(!parent.can_have_part("mam_body_markings"))
 		dat += "<div class='SettingNameCol'>" // DIV A A A B
 		dat += "Oh no, you can't have any! Tough luck :("
 		dat += "</div>" // End of DIV A A A B
@@ -1008,6 +989,7 @@
 			var/limb_name = GLOB.bodypart_names[num2text(limb_value)]
 			if(!markings_by_part[limb_name])
 				markings_by_part[limb_name] = list()
+			mark = SanitizeMarking(mark)
 			/// make the HTML glonch
 			var/m_uid = mark[MARKING_UID]
 			var/cm_dat = ""
@@ -1019,31 +1001,31 @@
 				"X",
 				PREFCMD_MARKING_REMOVE,
 				m_uid,
-				span = "SmolButton"
+				span = "SmolBox"
 			)
 			cm_dat += MarkingPrefLink(
 				"&uarr;",
 				PREFCMD_MARKING_MOVE_UP,
 				m_uid,
-				span = "SmolButton"
+				span = "SmolBox"
 			)
 			cm_dat += MarkingPrefLink(
 				"&darr;",
 				PREFCMD_MARKING_MOVE_DOWN,
 				m_uid,
-				span = "SmolButton"
+				span = "SmolBox"
 			)
 			cm_dat += MarkingPrefLink(
 				"<",
 				PREFCMD_MARKING_PREV,
 				m_uid,
-				span = "SmolButton"
+				span = "SmolBox"
 			)
 			cm_dat += MarkingPrefLink(
 				">",
 				PREFCMD_MARKING_NEXT,
 				m_uid,
-				span = "SmolButton"
+				span = "SmolBox"
 			)
 			cm_dat += MarkingPrefLink(
 				"[mark[MARKING_NAME]]",
@@ -1054,49 +1036,54 @@
 			/// and here come the colors
 			cm_dat += "<div class='SettingValueSplit'>" // DIV A A A B B
 			var/datum/sprite_accessory/mam_body_markings/S = GLOB.mam_body_markings_list[mark[2]]
-			var/matrixed_sections = S.covered_limbs[limb_name]
-			if(S && matrixed_sections)
-				// if it has nothing initialize it to white
-				if(LAZYLEN(mark) == 2)
-					mark.len = 3
-					var/first = "#FFFFFF"
-					var/second = "#FFFFFF"
-					var/third = "#FFFFFF"
-					if(features["mcolor"])
-						first = "#[features["mcolor"]]"
-					if(features["mcolor2"])
-						second = "#[features["mcolor2"]]"
-					if(features["mcolor3"])
-						third = "#[features["mcolor3"]]"
-					mark[MARKING_COLOR_LIST] = list(first, second, third) // just assume its 3 colours if it isnt it doesnt matter we just wont use the other values
-				// index magic
-				var/primary_index = 1
-				var/secondary_index = 2
-				var/tertiary_index = 3
-				switch(matrixed_sections)
-					if(MATRIX_GREEN)
-						primary_index = 2
-					if(MATRIX_BLUE)
-						primary_index = 3
-					if(MATRIX_RED_BLUE)
-						secondary_index = 2
-					if(MATRIX_GREEN_BLUE)
-						primary_index = 2
-						secondary_index = 3
-				cm_dat += MarkingColorBox(mark, primary_index, m_uid)
-				if(matrixed_sections == MATRIX_RED_BLUE || \
-					matrixed_sections == MATRIX_GREEN_BLUE || \
-					matrixed_sections == MATRIX_RED_GREEN || \
-					matrixed_sections == MATRIX_ALL)
-					cm_dat += MarkingColorBox(mark, secondary_index, m_uid)
-				if(matrixed_sections == MATRIX_ALL)
-					cm_dat += MarkingColorBox(mark, tertiary_index, m_uid)
+			if(S)
+				var/matrixed_sections = S.covered_limbs[limb_name]
+				if(matrixed_sections)
+					// if it has nothing initialize it to white
+					if(LAZYLEN(mark) == 2)
+						mark.len = 3
+						var/first = "#FFFFFF"
+						var/second = "#FFFFFF"
+						var/third = "#FFFFFF"
+						if(features["mcolor"])
+							first = "#[features["mcolor"]]"
+						if(features["mcolor2"])
+							second = "#[features["mcolor2"]]"
+						if(features["mcolor3"])
+							third = "#[features["mcolor3"]]"
+						mark[MARKING_COLOR_LIST] = list(first, second, third) // just assume its 3 colours if it isnt it doesnt matter we just wont use the other values
+					// index magic
+					var/primary_index = 1
+					var/secondary_index = 2
+					var/tertiary_index = 3
+					switch(matrixed_sections)
+						if(MATRIX_GREEN)
+							primary_index = 2
+						if(MATRIX_BLUE)
+							primary_index = 3
+						if(MATRIX_RED_BLUE)
+							secondary_index = 2
+						if(MATRIX_GREEN_BLUE)
+							primary_index = 2
+							secondary_index = 3
+					cm_dat += MarkingColorBox(mark, primary_index)
+					if(matrixed_sections == MATRIX_RED_BLUE || \
+						matrixed_sections == MATRIX_GREEN_BLUE || \
+						matrixed_sections == MATRIX_RED_GREEN || \
+						matrixed_sections == MATRIX_ALL)
+						cm_dat += MarkingColorBox(mark, secondary_index)
+					if(matrixed_sections == MATRIX_ALL)
+						cm_dat += MarkingColorBox(mark, tertiary_index)
 			cm_dat += "</div>" // End of DIV A A A B B
 			/// just kidding, we're not sorting anything!
 			markings_by_part += cm_dat
 		/// now we display the markings
 		for(var/part in markings_by_part)
 			dat += "[part]"
+	dat += "<div class='SettingValueSplit'>" // DIV A A B
+	dat += PrefLink("+ Add Something!", PREFCMD_MARKING_ADD)
+	dat += "</div>" // End of DIV A A B
+	dat += "</div>" // End of DIV A A
 	dat += "</div>" // End of DIV A
 	return dat.Join()
 
@@ -1115,9 +1102,11 @@
 	dat += "<div class='SettingNameCol'>" // DIV A A A A A B A
 	dat += "Style:"
 	dat += "</div>" // End of DIV A A A A A B A
-	dat += PrefLink("<", "undershirt", list(PREFDAT = GO_PREV), span = "SmolButton")
-	dat += PrefLink(">", "undershirt", list(PREFDAT = GO_NEXT), span = "SmolButton")
-	dat += PrefLink("[undershirt]", "undershirt")
+	dat += PrefLink("<", PREFCMD_UNDERSHIRT, list(PREFDAT_GO_PREV = TRUE), span = "SmolBox")
+	dat += PrefLink(">", PREFCMD_UNDERSHIRT, list(PREFDAT_GO_NEXT = TRUE), span = "SmolBox")
+	dat += PrefLink("[undershirt]", PREFCMD_UNDERSHIRT)
+	var/whereisit = LAZYACCESS(GLOB.undie_position_strings, undershirt_overclothes + 1)
+	dat += PrefLink("[whereisit]", PREFCMD_UNDERSHIRT_OVERCLOTHES, span = "SmolBox")
 	dat += "</div>" // End of DIV A A A A A B
 	dat += "<div class='SettingValueSplit'>" // DIV A A A A A C
 	dat += "<div class='SettingNameCol'>" // DIV A A A A A C A
@@ -1137,9 +1126,11 @@
 	dat += "<div class='SettingNameCol'>" // DIV A A A B A B A
 	dat += "Style:"
 	dat += "</div>" // End of DIV A A A B A B A
-	dat += PrefLink("<", "underwear", list(PREFDAT = GO_PREV), span = "SmolButton")
-	dat += PrefLink(">", "underwear", list(PREFDAT = GO_NEXT), span = "SmolButton")
-	dat += PrefLink("[underwear]", "underwear")
+	dat += PrefLink("<", PREFCMD_UNDERWEAR, list(PREFDAT_GO_PREV = TRUE), span = "SmolBox")
+	dat += PrefLink(">", PREFCMD_UNDERWEAR, list(PREFDAT_GO_NEXT = TRUE), span = "SmolBox")
+	dat += PrefLink("[underwear]", PREFCMD_UNDERWEAR)
+	var/underwear_position = LAZYACCESS(GLOB.undie_position_strings, undies_overclothes + 1)
+	dat += PrefLink("[underwear_position]", PREFCMD_UNDERWEAR_OVERCLOTHES, span = "SmolBox")
 	dat += "</div>" // End of DIV A A A B A B
 	dat += "<div class='SettingValueSplit'>" // DIV A A A B A C
 	dat += "<div class='SettingNameCol'>" // DIV A A A B A C A
@@ -1158,9 +1149,11 @@
 	dat += "<div class='SettingNameCol'>" // DIV A A A C A B A
 	dat += "Style:"
 	dat += "</div>" // End of DIV A A A C A B A
-	dat += PrefLink("<", "socks", list(PREFDAT = GO_PREV), span = "SmolButton")
-	dat += PrefLink(">", "socks", list(PREFDAT = GO_NEXT), span = "SmolButton")
-	dat += PrefLink("[socks]", "socks")
+	dat += PrefLink("<", PREFCMD_SOCKS, list(PREFDAT_GO_PREV = TRUE), span = "SmolBox")
+	dat += PrefLink(">", PREFCMD_SOCKS, list(PREFDAT_GO_NEXT = TRUE), span = "SmolBox")
+	dat += PrefLink("[socks]", PREFCMD_SOCKS)
+	var/socks_position = LAZYACCESS(GLOB.undie_position_strings, socks_overclothes + 1)
+	dat += PrefLink("[socks_position]", PREFCMD_SOCKS_OVERCLOTHES, span = "SmolBox")
 	dat += "</div>" // End of DIV A A A C A B
 	dat += "<div class='SettingValueSplit'>" // DIV A A A C A C
 	dat += "<div class='SettingNameCol'>" // DIV A A A C A C A
@@ -1222,27 +1215,27 @@
 		dat += "</td>"
 		dat += "<td>"
 		if(index > 1) // dir is flipped, because the list is reversed
-			dat += PrefLink("&uarr;", PREFCMD_SHIFT_GENITAL, list("part" = has_donk, "dir" = "down"), span = "SmolButton")
+			dat += PrefLink("&uarr;", PREFCMD_SHIFT_GENITAL, list(PREFDAT_GENITAL_HAS = has_donk, PREFDAT_GO_PREV = TRUE), span = "SmolBox")
 		else
 			dat += "&nbsp;"
 		dat += "</td>"
 		dat += "<td>"
 		if(index < LAZYLEN(cakestring))
-			dat += PrefLink("&darr;", PREFCMD_SHIFT_GENITAL, list("part" = has_donk, "dir" = "up"), span = "SmolButton")
+			dat += PrefLink("&darr;", PREFCMD_SHIFT_GENITAL, list(PREFDAT_GENITAL_HAS = has_donk, PREFDAT_GO_NEXT = TRUE), span = "SmolBox")
 		else
 			dat += "&nbsp;"
 		dat += "</td>"
 		dat += "<td>"
 		var/undiehidspan
 		if(features[GD.vis_flags_key] & GENITAL_RESPECT_UNDERWEAR)
-			udiehidspan = "TabCellselected"
-		dat += PrefLink("Underwear", PREFCMD_HIDE_GENITAL, list("part" = has_donk, "hide" = "undies"), span = undiehidspan)
+			undiehidspan = "TabCellselected"
+		dat += PrefLink("Underwear", PREFCMD_HIDE_GENITAL, list(PREFDAT_GENITAL_HAS = has_donk, PREFDAT_HIDDEN_BY = "undies"), span = undiehidspan)
 		dat += "</td>"
 		dat += "<td>"
 		var/clotheshidspan
-		if(features[GD.vis_flags_key] & GENITAL_RESPECT_CLOTHES)
+		if(features[GD.vis_flags_key] & GENITAL_RESPECT_CLOTHING)
 			clotheshidspan = "TabCellselected"
-		dat += PrefLink("Clothes", PREFCMD_HIDE_GENITAL, list("part" = has_donk, "hide" = "clothes"), span = clotheshidspan)
+		dat += PrefLink("Clothes", PREFCMD_HIDE_GENITAL, list(PREFDAT_GENITAL_HAS = has_donk, PREFDAT_HIDDEN_BY = "clothes"), span = clotheshidspan)
 		dat += "</td>"
 		dat += "<td>"
 		var/peen_vis_override
@@ -1252,13 +1245,13 @@
 			peen_vis_override = "Always Visible"
 		else
 			peen_vis_override = "Check Coverage"
-		dat += PrefLink(peen_vis_override, PREFCMD_OVERRIDE_GENITAL, list("part" = has_donk), span = "SmolButton")
+		dat += PrefLink(peen_vis_override, PREFCMD_OVERRIDE_GENITAL, list(PREFDAT_GENITAL_HAS = has_donk), span = "SmolBox")
 		dat += "</td>"
 		dat += "<td>"
 		var/peen_see_span
 		if(!(features["genital_hide"] & GD.hide_flag))
 			peen_see_span = "TabCellselected"
-		dat += PrefLink("Yes", PREFCMD_SEE_GENITAL, list("part" = has_donk), span = peen_see_span)
+		dat += PrefLink("Yes", PREFCMD_SEE_GENITAL, list(PREFDAT_GENITAL_HAS = has_donk), span = peen_see_span)
 		dat += "</td>"
 		dat += "<td>"
 		var/peen_has_span
@@ -1266,7 +1259,7 @@
 		if(features[GD.has_key])
 			peen_has_span = "TabCellselected"
 			peen_word = "Yes"
-		dat += PrefLink(peen_word, PREFCMD_TOGGLE_GENITAL, list("part" = has_donk), span = peen_has_span)
+		dat += PrefLink(peen_word, PREFCMD_TOGGLE_GENITAL, list(PREFDAT_GENITAL_HAS = has_donk), span = peen_has_span)
 		dat += "</td>"
 		dat += "</tr>"
 		index += 1
@@ -1294,7 +1287,7 @@
 	var/yesno = "No"
 	if(features[GD.has_key])
 		yesno = "Yes"
-	dat += PrefLink(yesno, PREFCMD_TOGGLE_GENITAL, list("part" = current_sub_subtab))
+	dat += PrefLink(yesno, PREFCMD_TOGGLE_GENITAL, list(PREFDAT_GENITAL_HAS = current_sub_subtab))
 	var/can_color = GD.genital_flags & GENITAL_CAN_RECOLOR
 	if(can_color)
 		var/list/feat_data = list(PREFDAT_COLKEY_IS_FEATURE = TRUE)
@@ -1309,14 +1302,14 @@
 				dat += "<div class='SettingNameCol ForceBuffer'>" // DIV A A B A
 				dat += "Shape:"
 				dat += "</div>" // End of DIV A A B A
-				dat += PrefLink("[capitalize(features[GD.shape_key])]", PREFCMD_CHANGE_GENITAL_SHAPE, list("part" = current_sub_subtab))
+				dat += PrefLink("[capitalize(features[GD.shape_key])]", PREFCMD_CHANGE_GENITAL_SHAPE, list(PREFDAT_GENITAL_HAS = current_sub_subtab))
 			if(can_size)
 				dat += "<div class='SettingNameCol ForceBuffer'>" // DIV A A B B
 				dat += "Size:"
 				dat += "</div>" // End of DIV A A B B
-				dat += PrefLink("[GD.SizeString(features[GD.size_key])]", PREFCMD_CHANGE_GENITAL_SIZE, list("part" = current_sub_subtab))
+				dat += PrefLink("[GD.SizeString(features[GD.size_key])]", PREFCMD_CHANGE_GENITAL_SIZE, list(PREFDAT_GENITAL_HAS = current_sub_subtab))
 			dat += "</div>" // End of DIV A A B
-		var/hidden_by_clothes = GD.genital_flags & GENITAL_RESPECT_CLOTHES
+		var/hidden_by_clothes = GD.genital_flags & GENITAL_RESPECT_CLOTHING
 		var/hbc_span = ""
 		if(hidden_by_clothes)
 			hbc_span = "TabCellselected"
@@ -1328,8 +1321,8 @@
 		dat += "<div class='SettingNameCol ForceBuffer'>" // DIV A A C A
 		dat += "Hidden by:"
 		dat += "</div>" // End of DIV A A C A
-		dat += PrefLink("Clothes", PREFCMD_HIDE_GENITAL, list("part" = current_sub_subtab, "hide" = "clothes"), span = hbc_span)
-		dat += PrefLink("Underpants", PREFCMD_HIDE_GENITAL, list("part" = current_sub_subtab, "hide" = "undies"), span = hbu_span)
+		dat += PrefLink("Clothes", PREFCMD_HIDE_GENITAL, list(PREFDAT_GENITAL_HAS = current_sub_subtab, PREFDAT_HIDDEN_BY = "clothes"), span = hbc_span)
+		dat += PrefLink("Underpants", PREFCMD_HIDE_GENITAL, list(PREFDAT_GENITAL_HAS = current_sub_subtab, PREFDAT_HIDDEN_BY = "undies"), span = hbu_span)
 		dat += "</div>" // End of DIV A A C
 		var/override = "Check Coverage"
 		if(CHECK_BITFIELD(features[GD.override_key], GENITAL_ALWAYS_HIDDEN))
@@ -1340,7 +1333,7 @@
 		dat += "<div class='SettingNameCol ForceBuffer'>" // DIV A A D A
 		dat += "Override:"
 		dat += "</div>" // End of DIV A A D A
-		dat += PrefLink(override, PREFCMD_OVERRIDE_GENITAL, list("part" = current_sub_subtab))
+		dat += PrefLink(override, PREFCMD_OVERRIDE_GENITAL, list(PREFDAT_GENITAL_HAS = current_sub_subtab))
 		dat += "</div>" // End of DIV A A D
 		var/see_on_others = "No"
 		if(!(features["genital_hide"] & GD.hide_flag))
@@ -1349,7 +1342,7 @@
 		dat += "<div class='SettingNameCol ForceBuffer'>" // DIV A A E A
 		dat += "See on others:"
 		dat += "</div>" // End of DIV A A E A
-		dat += PrefLink(see_on_others, PREFCMD_SEE_GENITAL, list("part" = current_sub_subtab))
+		dat += PrefLink(see_on_others, PREFCMD_SEE_GENITAL, list(PREFDAT_GENITAL_HAS = current_sub_subtab))
 		dat += "</div>" // End of DIV A A E
 	dat += "</div>" // End of DIV A A
 	dat += "</div>" // End of DIV A
@@ -1377,11 +1370,11 @@
 		points_color = "#FF0000"
 	dat += "You have <font color='[points_color]'>[gear_points]</font> points!"
 	dat += "</div>" // End of DIV A A A
-	dat += PrefLink("Reset", PREFCMD_LOADOUT_RESET, list("loadout_slot" = loadout_slot), span = "SmolButton")
+	dat += PrefLink("Reset", PREFCMD_LOADOUT_RESET, list(PREFDAT_LOADOUT_SLOT = loadout_slot), span = "SmolBox")
 	dat += "<span class='Spacer'></span>"
-	dat += PrefLink("X", PREFCMD_LOADOUT_SEARCH_CLEAR, span = "SmolButton")
-	var/searchterm = search_term ? copytext(search_term, 1, 30) : "Search"
-	dat += PrefLink("[searchterm]", PREFCMD_LOADOUT_SEARCH, span = "SmolButton Wider100")
+	dat += PrefLink("X", PREFCMD_LOADOUT_SEARCH_CLEAR, span = "SmolBox")
+	var/searchterm = loadout_search ? copytext(loadout_search, 1, 30) : "Search"
+	dat += PrefLink("[searchterm]", PREFCMD_LOADOUT_SEARCH, span = "SmolBox Wider100")
 	dat += "</div>" // End of DIV A A
 	dat += "</div>" // End of DIV A
 	// now we need to build the actual gear list
@@ -1389,66 +1382,63 @@
 	if(!GLOB.loadout_categories[gear_category] && gear_category != GEAR_CAT_ALL_EQUIPPED)
 		gear_category = GLOB.loadout_categories[1]
 	dat += "<div class='FlexTable'>" // DIV A A
-	for(var/category in (GEAR_CAT_ALL_EQUIPPED | GLOB.loadout_categories))
+	for(var/category in (list(GEAR_CAT_ALL_EQUIPPED = list()) | GLOB.loadout_categories))
 		var/selspan = ""
 		if(category == gear_category)
 			selspan = "TabCellselected"
-		dat += PrefLink(category, PREFCMD_LOADOUT_CATEGORY, list("category" = html_encode(category)), span = selspan)
+		dat += PrefLink(category, PREFCMD_LOADOUT_CATEGORY, list(PREFDAT_LOADOUT_CATEGORY = html_encode(category)), span = selspan)
 	dat += "</div>" // End of DIV A A
 	dat += "<div class='CoolDivider'></div>" // DIV A B End of DIV A B
 	// Subcategories!
 	var/list/subcategories = GLOB.loadout_categories[gear_category]
 	if(gear_category != GEAR_CAT_ALL_EQUIPPED && !subcategories.Find(gear_subcategory))
 		gear_subcategory = subcategories[1]
-	dat += "<div class='FlexTable'>" // DIV A C
-	for(var/subcategory in subcategories)
-		var/selspan = ""
-		if(subcategory == gear_subcategory)
-			selspan = "TabCellselected"
-		dat += PrefLink(subcategory, PREFCMD_LOADOUT_SUBCATEGORY, list("subcategory" = html_encode(subcategory)), span = selspan)
-	dat += "</div>" // End of DIV A C
-	dat += "<div class='CoolDivider'></div>" // DIV A D End of DIV A D
+	if(!searchterm && gear_category != GEAR_CAT_ALL_EQUIPPED)
+		dat += "<div class='FlexTable'>" // DIV A C
+		for(var/subcategory in subcategories)
+			var/selspan = ""
+			if(subcategory == gear_subcategory)
+				selspan = "TabCellselected"
+			dat += PrefLink(subcategory, PREFCMD_LOADOUT_SUBCATEGORY, list(PREFDAT_LOADOUT_SUBCATEGORY = html_encode(subcategory)), span = selspan)
+		dat += "</div>" // End of DIV A C
+		dat += "<div class='CoolDivider'></div>" // DIV A D End of DIV A D
 	// now we need to build the actual gear list
 	// first lets get all the gear
-	var/list/gear_list = list()
 	var/list/mystuff = list()
 	var/list/my_saved = loadout_data["SAVE_[loadout_slot]"]
-	var/minestuff = gear_category == GEAR_CAT_ALL_EQUIPPED
 	for(var/loadout_gear in my_saved)
-		my_stuff["[loadout_gear[LOADOUT_ITEM]]"] = TRUE // typecache!
+		mystuff["[loadout_gear[LOADOUT_ITEM]]"] = TRUE // typecache!
 	var/list/flatlyss
-	if(search_term || gear_category == GEAR_CAT_ALL_EQUIPPED)
+	if(loadout_search || gear_category == GEAR_CAT_ALL_EQUIPPED)
 		var/list/searchmine = list()
 		if(gear_category == GEAR_CAT_ALL_EQUIPPED)
-			searchmine = my_stuff
+			searchmine = mystuff
 		else
 			searchmine = list()
-		flatlyss = GetGearFlatList(search_term, searchmine)
+		flatlyss = GetGearFlatList(loadout_search, searchmine)
 	else
-		for(var/name in GLOB.loadout_items[gear_category][gear_subcategory])
-			flatlyss += GLOB.loadout_items[gear_category][gear_subcategory][name]
-	// now we need to sort the gear
-	flatlyss = sort_list(flatlyss, /proc/cmp_gear_name_asc)
+		flatlyss = flatten_list(GLOB.loadout_items[gear_category][gear_subcategory])
 	// now we need to display the gear
 	dat += "<div class='SettingArray'>" // DIV A E
 	dat += "<div class='PartsContainer'>" // DIV A E A
 	for(var/datum/gear/gear in flatlyss)
 		var/donoritem = gear.donoritem
-		if(donoritem && !gear.donator_ckey_check(user.ckey))
+		if(donoritem && !gear.donator_ckey_check(parent.ckey))
 			continue
-		var/i_have_it = my_stuff["[gear.type]"]
+		var/i_have_it = mystuff["[gear.type]"]
 		var/edited_name
 		var/edited_desc
-		var/edited_color
+		var/edited_color = "FFFFFF"
 		if(i_have_it)
-			var/list/loadout_item = has_loadout_gear(loadout_slot, "[gear.type]")
+			var/list/loadout_item = has_loadout_gear(loadout_slot, "[gear.name]")
 			if(loadout_item)
+				if(!loadout_item[LOADOUT_CUSTOM_COLOR])
+					loadout_item[LOADOUT_CUSTOM_COLOR] = "FFFFFF"
+				edited_color = loadout_item[LOADOUT_CUSTOM_COLOR]
 				if(LAZYLEN(loadout_item[LOADOUT_CUSTOM_NAME]))
 					edited_name = loadout_item[LOADOUT_CUSTOM_NAME]
-				if(LAZYLEN(loadout_item[LOADOUT_CUSTOM_DESC]))
-					edited_desc = loadout_item[LOADOUT_CUSTOM_DESC]
-				if(LAZYLEN(loadout_item[LOADOUT_CUSTOM_COLOR]))
-					edited_color = loadout_item[LOADOUT_CUSTOM_COLOR]
+				if(LAZYLEN(loadout_item[LOADOUT_CUSTOM_DESCRIPTION]))
+					edited_desc = loadout_item[LOADOUT_CUSTOM_DESCRIPTION]
 		dat += "<div class='PartsFlex'>" // DIV A E A A
 		dat += "<div class='FlexTable'>" // DIV A E A A A
 		var/list/namespan = list()
@@ -1459,7 +1449,7 @@
 			namespan += "EditedEntry"
 		var/truenamespan = namespan.Join(" ")
 		var/namedisplay = edited_name ? edited_name : gear.name
-		dat += PrefLink(namedisplay, PREFCMD_LOADOUT_TOGGLE, list("gear" = "[gear.type]"), span = truenamespan)
+		dat += PrefLink(namedisplay, PREFCMD_LOADOUT_TOGGLE, list(PREFDAT_LOADOUT_GEAR_NAME = "[gear.type]"), span = truenamespan)
 		var/canafford = (gear_points - gear.cost) >= 0
 		var/costspan = "SettingName SmolBox"
 		if(!canafford)
@@ -1470,19 +1460,19 @@
 		var/descspan = "SettingValueSplit"
 		if(edited_desc)
 			descspan += " EditedEntry"
+		dat += "</div>" // End of DIV A E A A
 		dat += "<div class='[descspan]'>" // DIV A E A A A C
 		dat += "<div class='LoadoutDesc'>" // DIV A E A A A C A
-		var/descdisplay = edited_desc ? edited_desc : gear.desc
+		var/descdisplay = edited_desc ? edited_desc : gear.description
 		dat += descdisplay
 		dat += "</div>" // End of DIV A E A A A C A
 		dat += "</div>" // End of DIV A E A A A C
 		if(i_have_it) // show the customization things
 			dat += "<div class='SettingValueSplit'>" // DIV A E A A A D
 			dat += GearColorBox(gear, edited_color)
-			dat += PrefLink("Edit <br>Name", PREFCMD_LOADOUT_RENAME, list("gear" = "[gear.type]"), span = "SmolButton NotSoSmolBox")
-			dat += PrefLink("Edit <br>Desc", PREFCMD_LOADOUT_REDESC, list("gear" = "[gear.type]"), span = "SmolButton NotSoSmolBox")
+			dat += PrefLink("Edit <br>Name", PREFCMD_LOADOUT_RENAME, list(PREFDAT_GEAR_TYPE = "[gear.type]"), span = "SmolBox NotSoSmolBox")
+			dat += PrefLink("Edit <br>Desc", PREFCMD_LOADOUT_REDESC, list(PREFDAT_GEAR_TYPE = "[gear.type]"), span = "SmolBox NotSoSmolBox")
 			dat += "</div>" // End of DIV A E A A A D
-		dat += "</div>" // End of DIV A E A A A
 		dat += "</div>" // End of DIV A E A A
 	dat += "</div>" // End of DIV A E A
 	dat += "</div>" // End of DIV A E
@@ -1584,7 +1574,7 @@
 	dat += "<div class='SettingNameCol'>" // DIV A A A A A
 	dat += "UI Style"
 	dat += "</div>" // End of DIV A A A A A
-	dat += PrefLink("[ui_style]", PREFCMD_UI_STYLE)
+	dat += PrefLink("[UI_style]", PREFCMD_UI_STYLE)
 	dat += "</div>" // End of DIV A A A A
 	dat += "</div>" // End of DIV A A A
 	// tgui Monitors
@@ -1881,7 +1871,7 @@
 	dat += "Runechat off-screen"
 	dat += "</div>" // End of DIV A A D A A
 	var/showtext2 = "Disabled"
-	if(offscreen)
+	if(see_fancy_offscreen_runechat)
 		showtext2 = "Enabled"
 	dat += PrefLink(showtext2, PREFCMD_OFFSCREEN)
 	dat += "</div>" // End of DIV A A D A
@@ -1923,14 +1913,14 @@
 	dat += "</div>" // End of DIV A A G A
 	dat += "</div>" // End of DIV A A G
 	// See Runechat / hear sounds above/below you
-	dat += "<div class='PartsFlex'>" // DIV A A H
-	dat += "<div class='SettingFlexCol'>" // DIV A A H A
-	dat += "<div class='SettingNameCol'>" // DIV A A H A A
-	dat += "See Runechat / hear sounds above/below you"
-	dat += "</div>" // End of DIV A A H A A
-	dat += PrefLink("[upperlowerfloor]", PREFCMD_UPPERLOWERFLOOR)
-	dat += "</div>" // End of DIV A A H A
-	dat += "</div>" // End of DIV A A H
+	// dat += "<div class='PartsFlex'>" // DIV A A H
+	// dat += "<div class='SettingFlexCol'>" // DIV A A H A
+	// dat += "<div class='SettingNameCol'>" // DIV A A H A A
+	// dat += "See Runechat / hear sounds above/below you"
+	// dat += "</div>" // End of DIV A A H A A
+	// dat += PrefLink("[upperlowerfloor]", PREFCMD_UPPERLOWERFLOOR)
+	// dat += "</div>" // End of DIV A A H A
+	// dat += "</div>" // End of DIV A A H
 	dat += "</div>" // End of DIV A A
 	dat += "</div>" // End of DIV A
 	return dat.Join()
@@ -1993,10 +1983,10 @@
 	dat += "<div class='SettingNameCol'>" // DIV A A E A A
 	dat += "Ghost PDA"
 	dat += "</div>" // End of DIV A A E A A
-	var/showtext5 = "Nearest Creatures"
+	var/showtext500 = "Nearest Creatures"
 	if(chat_toggles & CHAT_GHOSTPDA)
-		showtext5 = "All Messages"
-	dat += PrefLink(showtext5, PREFCMD_GHOST_PDA)
+		showtext500 = "All Messages"
+	dat += PrefLink(showtext500, PREFCMD_GHOST_PDA)
 	dat += "</div>" // End of DIV A A E A
 	dat += "</div>" // End of DIV A A E
 	if(unlock_content || check_rights(R_ADMIN))
@@ -2203,7 +2193,7 @@
 	dat += "Butt Slapping"
 	dat += "</div>" // End of DIV A A C A A
 	var/showtext3 = "Allowed"
-	if(cit_toggles & NO_butt_SLAP)
+	if(cit_toggles & NO_BUTT_SLAP)
 		showtext3 = "Disallowed"
 	dat += PrefLink(showtext3, PREFCMD_BUTT_SLAP)
 	dat += "</div>" // End of DIV A A C A
@@ -2214,9 +2204,9 @@
 	dat += "<div class='SettingNameCol'>" // DIV A A D A A
 	dat += "Auto Wag"
 	dat += "</div>" // End of DIV A A D A A
-	var/showtext4 = "Disabled"
-	if(cit_toggles & AUTO_WAG)
-		showtext4 = "Enabled"
+	var/showtext4 = "Enabled"
+	if(cit_toggles & NO_AUTO_WAG)
+		showtext4 = "Disabled"
 	dat += PrefLink(showtext4, PREFCMD_AUTO_WAG)
 	dat += "</div>" // End of DIV A A D A
 	dat += "</div>" // End of DIV A A
@@ -2344,48 +2334,132 @@
 	dat += "</div>" // End of DIV A
 	return dat.Join()
 
-
-
-
-
-/* 
-
- */
-
-/* 
-
-
-
-
- */
-
-
-
-
-
+/datum/preferences/proc/Keybindings()
+	var/list/dat = list()
+	dat += "<div class='SettingArray'>" // DIV A
+	dat += "<div class='SettingFlexCol'>" // DIV A A
+	dat += "<div class='SettingValueSplit'>" // DIV A A A
+	dat += "<div class='SettingNameCol ForceBuffer'>" // DIV A A A A
+	dat += "Keymode:"
+	dat += "</div>" // End of DIV A A A A
+	var/showtext1 = "Input"
+	if(hotkeys)
+		showtext1 = "Hotkeys"
+	dat += PrefLink(showtext1, PREFCMD_HOTKEYS)
+	dat += "<span class='Spacer'></span>"
+	var/showtext2 = "What's hotkeys / input mean?"
+	if(keybind_hotkey_helpmode)
+		showtext2 = "Oh cool, thanks! (Hide help)"
+	dat += PrefLink(showtext2, PREFCMD_HOTKEY_HELP)
+	dat += "</div>" // End of DIV A A A
+	dat += "</div>" // End of DIV A A
+	if(keybind_hotkey_helpmode)
+		dat += "<div class='SettingFlexColInfo NotCol'>" // DIV A B
+		dat += "<p>Keybindings mode controls how the game behaves with tab and map/input focus."
+		dat += "<p>If it is on <b>Hotkeys</b>, the game will always attempt to force you to map focus, meaning keypresses are sent directly to the map instead of the input. You will still be able to use the command bar, but you need to tab to do it every time you click on the game map."
+		dat += "<p>If it is on <b>Input</b>, the game will not force focus away from the input bar, and you can switch focus using TAB between these two modes: If the input bar is pink, that means that you are in non-hotkey mode, sending all keypresses of the normal alphanumeric characters, punctuation, spacebar, backspace, enter, etc, typing keys into the input bar. If the input bar is white, you are in hotkey mode, meaning all keypresses go into the game's keybind handling system unless you manually click on the input bar to shift focus there."
+		dat += "<p>Input mode is the closest thing to the old input system."
+		dat += "<p><b>IMPORTANT:</b> While in input mode's non hotkey setting (tab toggled), Ctrl + KEY will send KEY to the keybind system as the key itself, not as Ctrl + KEY. This means Ctrl + T/W/A/S/D/all your familiar stuff still works, but you won't be able to access any regular Ctrl binds."
+		dat += "<p><b>Modifier-Independent binding</b> - This is a singular bind that works regardless of if Ctrl/Shift/Alt are held down. For example, if combat mode is bound to C in modifier-independent binds, it'll trigger regardless of if you are holding down shift for sprint. <b>Each keybind can only have one independent binding, and each key can only have one keybind independently bound to it."
+		dat += "</div>" // End of DIV A B
+	// keybinds!
+	// Create an inverted list of keybindings -> key
+	var/list/user_binds = list()
+	var/list/user_modless_binds = list()
+	for (var/key in key_bindings)
+		for(var/kb_name in key_bindings[key])
+			user_binds[kb_name] += list(key)
+	for (var/key in modless_key_bindings)
+		user_modless_binds[modless_key_bindings[key]] = key
+	var/list/kb_categories = list()
+	// Group keybinds by category
+	for (var/name in GLOB.keybindings_by_name)
+		var/datum/keybinding/kb = GLOB.keybindings_by_name[name]
+		kb_categories[kb.category] += list(kb)
+	for (var/category in kb_categories)
+		dat += "<div class='SettingArray'>" // DIV A A
+		dat += "<div class='SettingValueSplit'>" // DIV A A A
+		var/arrowshow = ">"
+		if(keybind_cat_open[category])
+			arrowshow = "v"
+		dat += PrefLink(arrowshow, PREFCMD_KEYBINDING_CATEGORY_TOGGLE, list(PREFDAT_CATEGORY = category))
+		dat += "<div class='SettingNameCol Spacer'>" // DIV A A A A
+		dat += category
+		dat += "</div>" // End of DIV A A A A
+		dat += "</div>" // End of DIV A A A
+		dat += "</div>" // End of DIV A A
+		if(!keybind_cat_open[category])
+			continue // Skip if the category is closed
+		for (var/i in kb_categories[category])
+			var/datum/keybinding/kb = i
+			var/current_independent_binding = "Unbound"
+			if(user_modless_binds[kb.name])
+				current_independent_binding = user_modless_binds[kb.name]
+			var/list/binds_for_entry = list()
+			for(var/j in 1 to MAX_KEYS_PER_KEYBIND)
+				binds_for_entry += "None!"
+			if(LAZYLEN(user_binds[kb.name])) // they have something set...?
+				for(var/bound_key_index in 1 to length(user_binds[kb.name]))
+					binds_for_entry[bound_key_index] = user_binds[kb.name][bound_key_index]
+			var/list/default_keys = hotkeys ? kb.classic_keys : kb.hotkey_keys
+			var/defkeys = "None!"
+			if(LAZYLEN(default_keys))
+				defkeys = default_keys.Join(", ")
+			dat += "<div class='SettingFlexCol'>" // DIV A A
+			dat += "<div class='SettingValueSplit'>" // DIV A A A
+			dat += "<div class='SettingNameCol ForceBuffer'>" // DIV A A A A
+			dat += kb.full_name
+			dat += "</div>" // End of DIV A A A A
+			var/indx = 1
+			for(var/bind in binds_for_entry)
+				var/keydata = list(
+					PREFDAT_KEYBINDING = kb.name,
+					PREFDAT_OLD_KEY = bind
+				)
+				var/keyclass = "KeyButton Key[indx]Text"
+				dat += PrefLink("[bind]", PREFCMD_KEYBINDING_CAPTURE, keydata, span = keyclass)
+				indx++
+			dat += "<div class='KeyBox DefaultKeyText'>" // DIV A A A A
+			dat += defkeys
+			dat += "</div>" // End of DIV A A A A
+			/// then the special independent binding
+			if(!kb.special && !kb.clientside)
+				dat += "<div class='KeyBox DefaultKeyText'>" // DIV A A A A
+				dat += "Independent Binding: "
+				var/keydata = list(
+					PREFDAT_KEYBINDING = kb.name,
+					PREFDAT_OLD_KEY = current_independent_binding,
+					PREFDAT_INDEPENDENT = 1
+				)
+				dat += PrefLink(current_independent_binding, PREFCMD_KEYBINDING_CAPTURE, keydata, span = "KeyButton Key[indx]Text")
+				dat += "</div>" // End of DIV A A A A
+			dat += "</div>" // End of DIV A A A
+			dat += "</div>" // End of DIV A A
+		dat += "</div>" // End of DIV A A
+	dat += "</div>" // End of DIV A
+	return dat.Join()
 
 /datum/preferences/proc/GetGearFlatList(search, list/mystuff, mine)
 	var/list/flatlyss = list()
-	for(var/category in GLOB.loadout_categories)
-		for(var/subcategory in GLOB.loadout_categories[category])
-			for(var/name in GLOB.loadout_items[category][subcategory])
-				var/gear = GLOB.loadout_items[category][subcategory][name]
-				if(gear)
-					if(mine)
-						if(!onlymine["[gear.type]"])
-							continue
-					if(search)
-						if(!findtext(name, search))
-							continue
-					flatlyss += gear
+	for(var/gitem in GLOB.flat_loadout_items)
+		var/datum/gear/gear = GLOB.flat_loadout_items[gitem]
+		if(gear)
+			if(mine)
+				if(!mystuff["[gear.type]"])
+					continue
+			if(search)
+				if(!findtext(gitem, search))
+					continue
+			flatlyss += gear
 	return flatlyss
 
-/datum/preferences/proc/GearColorBox(gear, edited_color)
+/datum/preferences/proc/GearColorBox(datum/gear/gear, edited_color)
 	var/list/datae = list(
 		PREFDAT_COLKEY_IS_COLOR = TRUE,
 		PREFDAT_IS_GEAR = TRUE,
+		PREFDAT_GEAR_NAME = "[html_encode(gear.name)]",
 		PREFDAT_GEAR_PATH = "[gear.type]",
-		PREFDAT_LOADOUT_SLOT = loadout_slot
+		PREFDAT_LOADOUT_SLOT = "[loadout_slot]"
 	)
 	return ColorBox(edited_color, data = datae)
 
@@ -2437,14 +2511,12 @@
 	dat += "<div class='SettingFlexCol'>" // DIV A
 	dat += "<div class='SettingValueSplit'>" // DIV A A
 	var/list/data = list(PREFDAT_COLKEY_IS_FEATURE = TRUE)
-	dat += ColorBox("mcolor" data = data)
-	dat += ColorBox("mcolor2" data = data)
-	dat += ColorBox("mcolor3" data = data)
+	dat += ColorBox("mcolor", data = data)
+	dat += ColorBox("mcolor2", data = data)
+	dat += ColorBox("mcolor3", data = data)
 	dat += "<span class='Spacer'></span>"
-	dat += "<div class='SettingFlex' style='white-space: nowrap;'>" // DIV A A A
 	var/chundies = preview_hide_undies ? "Hiding Undies" : "Showing Undies"
-	dat += PrefLink("[chundies]", "showing_undies", kind = "BUTTON")
-	dat += "</div>" // End of DIV A A A
+	dat += PrefLink("[chundies]", PREFDAT_TOGGLE_HIDE_UNDIES, span = "SettingName")
 	dat += "</div>" // End of DIV A A
 	/// History of colors
 	dat += "<div class='SettingValueSplit'>" // DIV A B
@@ -2457,11 +2529,12 @@
 
 /datum/preferences/proc/ColorBox(colkey, history = FALSE, list/data = list())
 	var/list/dat = list()
-	data[PREFDAT_COLOR] = colkey
+	data[PREFDAT_COLOR_KEY] = colkey
 	dat += "<div class='ColorContainer'>" // DIV A
 	var/col = "FFFFFF"
 	if(history)
 		col = colkey
+		data[PREFDAT_COLOR_HEX] = col
 		dat += "<div class='ColorBoxxo CrunchBox' style='background-color: #[col];'>"
 		dat += "[colkey]"
 		dat += "</div>" // End of DIV A A
@@ -2470,53 +2543,28 @@
 			col = colkey
 		else
 			col = GetColor(colkey)
-		dat += PrefLink("[col]", PREFCMD_CHANGECOLOR, data, span = "ColorBoxxo", style = "background-color: #[col];")
+		data[PREFDAT_COLOR_HEX] = col
+		dat += PrefLink("[col]", PREFCMD_COLOR_CHANGE, data, span = "ColorBoxxo", style = "background-color: #[col];")
 	var/cbut = "<i class='fa fa-copy'></i>"
-	dat += PrefLink("[cbut]", PREFCMD_COPYCOLOR, data, span = "SmolButton")
 	var/pbut = "<i class='fa fa-paste'></i>"
-	dat += PrefLink("[pbut]", PREFCMD_PASTECOLOR, data, span = "SmolButton")
+	dat += PrefLink("[cbut]", PREFCMD_COLOR_COPY, data, span = "SmolBox")
+	dat += PrefLink("[pbut]", PREFCMD_COLOR_PASTE, data, span = "SmolBox")
 	if(history)
-		dat += PrefLink("X", PREFCMD_DELCOLOR, data, span = "SmolButton")
+		dat += PrefLink("X", PREFCMD_COLOR_DEL, data, span = "SmolBox")
 	dat += "</div>" // End of DIV A
 	return dat.Join()
 
-/datum/preferences/proc/CleanupColorHistory()
-	if(!LAZYLEN(color_history))
-		return
-	color_history.len = min(5, color_history.len)
-
-/datum/preferences/proc/CopyColor(col_hex)
-	if(!is_color(col_hex))
-		return
-	color_history -= col_hex
-	color_history.Insert(1, col_hex)
-	current_color = col_hex
-	CleanupColorHistory()
-
-/datum/preferences/proc/PasteColor(colkey)
-	if(!is_color(current_color))
-		return
-	SetColor(colkey, current_color)
-
-/datum/preferences/proc/RemoveColor(col_hex)
-	color_history -= col_hex
-	CleanupColorHistory()
-
-/datum/preferences/proc/SetColor(colkey, set_to)
-	GetColor(colkey, set_to) // COOL PROC DAN
-
-/datum/preferences/proc/GetColor(colkey, set_to)
-	if(is_color(GLOB.features_that_are_colors[colkey]))
-		if(istext(set_to))
-			features[colkey] = "[set_to]"
+/datum/preferences/proc/GetColor(colkey)
+	if(GLOB.features_that_are_colors[colkey])
+		if(!is_color(features[colkey]))
+			features[colkey] = "FFFFFF"
 		return features[colkey]
 	/// because we have some colors in the features and SOME colors as hardvars
 	/// we need to suck this dikc
-	var/maybecolor = vars["[colkey]"]
-	if(is_color(maybecolor))
-		if(istext(set_to))
-			vars["[colkey]"] = "[set_to]"
-		return maybecolor
+	if(colkey in vars)
+		var/maybecolor = vars["[colkey]"]
+		if(is_color(maybecolor))
+			return maybecolor
 	stack_trace("GetColor: Couldn't find color for [colkey]!")
 	return "FFFFFF"
 
@@ -2548,6 +2596,17 @@
 	var/list/data = list(PREFDAT_MARKING_UID = marking_uid)
 	data[PREFDAT_MARKING_ACTION] = cmd
 	return PrefLink(text, command, data, span = span)
+
+/datum/preferences/proc/SanitizeMarking(list/marking)
+	marking.len = 4
+	if(!islist(marking[MARKING_COLOR_LIST]))
+		marking[MARKING_COLOR_LIST] = list("FFFFFF", "FFFFFF", "FFFFFF")
+	for(var/i in 1 to 3)
+		if(!LAZYLEN(marking[MARKING_COLOR_LIST][i]))
+			marking[MARKING_COLOR_LIST][i] = "FFFFFF"
+	if(!marking[MARKING_UID])
+		marking[MARKING_UID] = GenerateMarkingUID()
+	return marking
 
 /datum/preferences/proc/CoolDivider()
 	return "<div class='WideDivider'></div>"
@@ -2606,32 +2665,32 @@ randomize_human(mob/living/carbon/human/H)
 	switch(href_list["task"])
 		if("input")
 			switch(href_list["preference"])
-				if("grad_color")
-					var/new_grad_color = input(user, "Choose your character's fading hair colour:", "Character Preference","#"+features["grad_color"]) as color|null
-					if(new_grad_color)
-						features["grad_color"] = sanitize_hexcolor(new_grad_color, 6, default = COLOR_ALMOST_BLACK)
+				// if("grad_color")
+				// 	var/new_grad_color = input(user, "Choose your character's fading hair colour:", "Character Preference","#"+features["grad_color"]) as color|null
+				// 	if(new_grad_color)
+				// 		features["grad_color"] = sanitize_hexcolor(new_grad_color, 6, default = COLOR_ALMOST_BLACK)
 
-				if("grad_style")
-					var/new_grad_style
-					new_grad_style = input(user, "Choose your character's hair fade style:", "Character Preference")  as null|anything in GLOB.hair_gradients
-					if(new_grad_style)
-						features["grad_style"] = new_grad_style
+				// if("grad_style")
+				// 	var/new_grad_style
+				// 	new_grad_style = input(user, "Choose your character's hair fade style:", "Character Preference")  as null|anything in GLOB.hair_gradients
+				// 	if(new_grad_style)
+				// 		features["grad_style"] = new_grad_style
 				
-				if("grad_color_2")
-					var/new_grad_color = input(user, "Choose your character's fading hair colour:", "Character Preference","#"+features["grad_color_2"]) as color|null
-					if(new_grad_color)
-						features["grad_color_2"] = sanitize_hexcolor(new_grad_color, 6, default = COLOR_ALMOST_BLACK)
+				// if("grad_color_2")
+				// 	var/new_grad_color = input(user, "Choose your character's fading hair colour:", "Character Preference","#"+features["grad_color_2"]) as color|null
+				// 	if(new_grad_color)
+				// 		features["grad_color_2"] = sanitize_hexcolor(new_grad_color, 6, default = COLOR_ALMOST_BLACK)
 
-				if("grad_style_2")
-					var/new_grad_style
-					new_grad_style = input(user, "Choose your character's hair fade style:", "Character Preference")  as null|anything in GLOB.hair_gradients
-					if(new_grad_style)
-						features["grad_style_2"] = new_grad_style
+				// if("grad_style_2")
+				// 	var/new_grad_style
+				// 	new_grad_style = input(user, "Choose your character's hair fade style:", "Character Preference")  as null|anything in GLOB.hair_gradients
+				// 	if(new_grad_style)
+				// 		features["grad_style_2"] = new_grad_style
 				
-				if("hair_color_2")
-					var/new_color = input(user, "Choose your character's fading hair colour:", "Character Preference","#"+features["hair_color_2"]) as color|null
-					if(new_color)
-						features["hair_color_2"] = sanitize_hexcolor(new_color, 6, default = COLOR_ALMOST_BLACK)
+				// if("hair_color_2")
+				// 	var/new_color = input(user, "Choose your character's fading hair colour:", "Character Preference","#"+features["hair_color_2"]) as color|null
+				// 	if(new_color)
+				// 		features["hair_color_2"] = sanitize_hexcolor(new_color, 6, default = COLOR_ALMOST_BLACK)
 
 				if("hair_style_2")
 					var/new_style
@@ -2639,11 +2698,11 @@ randomize_human(mob/living/carbon/human/H)
 					if(new_style)
 						features["hair_style_2"] = new_style
 				
-				if("previous_hair_style_2")
-					features["hair_style_2"] = previous_list_item(features["hair_style_2"], GLOB.hair_styles_list)
+				// if("previous_hair_style_2")
+				// 	features["hair_style_2"] = previous_list_item(features["hair_style_2"], GLOB.hair_styles_list)
 				
-				if("next_hair_style_2")
-					features["hair_style_2"] = next_list_item(features["hair_style_2"], GLOB.hair_styles_list)
+				// if("next_hair_style_2")
+				// 	features["hair_style_2"] = next_list_item(features["hair_style_2"], GLOB.hair_styles_list)
 	..()
 
 

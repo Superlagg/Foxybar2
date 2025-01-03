@@ -1,7 +1,3 @@
-#define MAX_FREE_PER_CAT	4
-#define HANDS_SLOT_AMT		2
-#define BACKPACK_SLOT_AMT	4
-
 #define DEFAULT_FEATURES list(\
 		"mcolor" = "CCCCCC",\
 		"mcolor2" = "EEEEEE",\
@@ -260,7 +256,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/tbs = TBS_DEFAULT // turner broadcasting system
 	var/kisser = KISS_DEFAULT // Kiss this  /         V         \.
 	/// which quester UID we're using      (          |          ).
-	var/quester_uid //                    (__________) (__________)
+	var/quester_uid //                    (___________|___________)
 	var/dm_open = TRUE
 	var/needs_a_friend = FALSE // for the quest
 	var/list/blocked_from_dms = list() // list of quids
@@ -376,6 +372,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	// 0 = character settings, 1 = game preferences
 	var/current_tab = PPT_CHARCTER_PROPERTIES
 
+	// 0 = character settings, 1 = game preferences
+	var/current_subtab = PPT_CHARCTER_PROPERTIES_INFO
+
+	// 0 = character settings, 1 = game preferences
+	var/current_sub_subtab = PPT_CHARCTER_APPEARANCE_UNDERLYING_UNDIES
+
 	// If in the ERP tab, are we rearranging genitals
 	var/erp_tab_page = ERP_TAB_HOME
 
@@ -414,6 +416,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/list/bgstate_options = list("000", "midgrey", "FFF", "white", "steel", "techmaint", "dark", "plating", "reinforced")
 
 	var/show_mismatched_markings = TRUE //determines whether or not the markings lists should show markings that don't match the currently selected species. Intentionally left unsaved.
+	var/show_all_parts = FALSE //determines whether or not the markings lists should show markings that don't match the currently selected species. Intentionally left unsaved.
 
 	var/no_tetris_storage = FALSE
 
@@ -491,8 +494,16 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 	var/show_this_many = 30
 	var/names_per_row = 6
+	var/charlist_hidden = FALSE
 
 	var/hear_people_on_other_zs = TRUE
+
+	var/list/color_history = list()
+	var/current_color
+
+	var/list/keybind_cat_open = list()
+	var/keybind_hotkey_helpmode = FALSE
+	var/loadout_search
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -858,30 +869,30 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		our_genitals = reverseList(our_genitals)
 	encode_cockstring(our_genitals) // post it!	
 
-/datum/preferences/proc/CaptureKeybinding(mob/user, datum/keybinding/kb, old_key, independent = FALSE, special = FALSE)
-	var/HTML = {"
-	<div id='focus' style="outline: 0;" tabindex=0>Keybinding: [kb.full_name]<br>[kb.description]<br><br><b>Press any key to change<br>Press ESC to clear</b></div>
-	<script>
-	var deedDone = false;
-	document.onkeyup = function(e) {
-		if(deedDone){ return; }
-		var alt = e.altKey ? 1 : 0;
-		var ctrl = e.ctrlKey ? 1 : 0;
-		var shift = e.shiftKey ? 1 : 0;
-		var numpad = (95 < e.keyCode && e.keyCode < 112) ? 1 : 0;
-		var escPressed = e.keyCode == 27 ? 1 : 0;
-		var url = 'byond://?_src_=prefs;preference=keybindings_set;keybinding=[kb.name];old_key=[old_key];[independent?"independent=1;":""][special?"special=1;":""]clear_key='+escPressed+';key='+e.key+';alt='+alt+';ctrl='+ctrl+';shift='+shift+';numpad='+numpad+';key_code='+e.keyCode;
-		window.location=url;
-		deedDone = true;
-	}
-	document.getElementById('focus').focus();
-	</script>
-	"}
-	winshow(user, "capturekeypress", TRUE)
-	var/datum/browser/popup = new(user, "capturekeypress", "<div align='center'>Keybindings</div>", 350, 300)
-	popup.set_content(HTML)
-	popup.open(FALSE)
-	onclose(user, "capturekeypress", src)
+// /datum/preferences/proc/CaptureKeybinding(mob/user, datum/keybinding/kb, old_key, independent = FALSE, special = FALSE)
+// 	var/HTML = {"
+// 	<div id='focus' style="outline: 0;" tabindex=0>Keybinding: [kb.full_name]<br>[kb.description]<br><br><b>Press any key to change<br>Press ESC to clear</b></div>
+// 	<script>
+// 	var deedDone = false;
+// 	document.onkeyup = function(e) {
+// 		if(deedDone){ return; }
+// 		var alt = e.altKey ? 1 : 0;
+// 		var ctrl = e.ctrlKey ? 1 : 0;
+// 		var shift = e.shiftKey ? 1 : 0;
+// 		var numpad = (95 < e.keyCode && e.keyCode < 112) ? 1 : 0;
+// 		var escPressed = e.keyCode == 27 ? 1 : 0;
+// 		var url = 'byond://?_src_=prefs;preference=keybindings_set;keybinding=[kb.name];old_key=[old_key];[independent?"independent=1;":""][special?"special=1;":""]clear_key='+escPressed+';key='+e.key+';alt='+alt+';ctrl='+ctrl+';shift='+shift+';numpad='+numpad+';key_code='+e.keyCode;
+// 		window.location=url;
+// 		deedDone = true;
+// 	}
+// 	document.getElementById('focus').focus();
+// 	</script>
+// 	"}
+// 	winshow(user, "capturekeypress", TRUE)
+// 	var/datum/browser/popup = new(user, "capturekeypress", "<div align='center'>Keybindings</div>", 350, 300)
+// 	popup.set_content(HTML)
+// 	popup.open(FALSE)
+// 	onclose(user, "capturekeypress", src)
 
 /datum/preferences/proc/SetChoices(mob/user, limit = 17, list/splitJobs = list("Chief Engineer"), widthPerColumn = 295, height = 620)
 	if(!SSjob)
@@ -1173,18 +1184,18 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	popup.set_content(dat.Join())
 	popup.open(0)
 	return
+/* 
+/datum/preferences/proc/GetQuirkBalance()
+	var/bal = 100
+	for(var/V in char_quirks)
+		var/datum/quirk/T = SSquirks.quirks[V]
+		bal -= initial(T.value)
+	for(var/modification in modified_limbs)
+		if(modified_limbs[modification][1] == LOADOUT_LIMB_PROSTHETIC)
+			return bal + 33 //max 33 point regardless of how many prosthetics
+	return bal
 
-// /datum/preferences/proc/GetQuirkBalance()
-// 	var/bal = 100
-// 	for(var/V in char_quirks)
-// 		var/datum/quirk/T = SSquirks.quirks[V]
-// 		bal -= initial(T.value)
-// 	for(var/modification in modified_limbs)
-// 		if(modified_limbs[modification][1] == LOADOUT_LIMB_PROSTHETIC)
-// 			return bal + 33 //max 33 point regardless of how many prosthetics
-// 	return bal
-
-/datum/preferences/proc/update_genital_whitelist()
+/datum/preferences/proc/ChangePHUDWhitelist()
 	var/new_genital_whitelist = stripped_multiline_input_or_reflect(
 		parent, 
 		"Which people are you okay with seeing their genitals when exposed? If a humanlike mob has a name containing \
@@ -1203,18 +1214,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			return
 	genital_whitelist = new_genital_whitelist
 	to_chat(parent, span_notice("Updated your genital whitelist! It should kick in soon!"))
-	save_preferences()
+	save_preferences() */
 
-/datum/preferences/Topic(href, href_list, hsrc)			//yeah, gotta do this I guess..
-	if(lockdown)
-		return
-	. = ..()
-	if(href_list["close"])
-		var/client/C = usr.client
-		if(C)
-			C.clear_character_previews()
 
-/datum/preferences/proc/process_link(mob/user, list/href_list)
+/datum/preferences/proc/process_link_old(mob/user, list/href_list)
 	if(lockdown)
 		return
 	if(href_list["jobbancheck"])
@@ -1245,7 +1248,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	if(href_list["preference"] == "change_genital_order")
 		shift_genital_order(href_list["which"], (href_list["direction"]=="up"))
 	if(href_list["preference"] == "change_genital_whitelist")
-		update_genital_whitelist()
+		ChangePHUDWhitelist()
 	if(href_list["preference"] == "change_genital_clothing")
 		var/list/genital_overrides = GENITAL_CLOTHING_FLAG_LIST
 		var/new_visibility = input(user, "When your genitals are visible, how should they appear in relation to your clothes/underwear?", "Character Preference", href_list["nadflag"]) as null|anything in GENITAL_CLOTHING_FLAG_LIST
@@ -1258,27 +1261,27 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	if(href_list["preference"] == "toggle_undie_preview")
 		TOGGLE_VAR(preview_hide_undies)
 
-	if(href_list["preference"] == "choose_pda_skin")
-		var/pickedPDASkin = input(user, "Choose your DataPal appearance. (You can change this in-game by ctrl-shift-clicking the DataPal!)", "Character Preference", pda_skin) as null|anything in GLOB.pda_skins
-		if(pickedPDASkin)
-			pda_skin = pickedPDASkin
+	// if(href_list["preference"] == "choose_pda_skin")
+	// 	var/pickedPDASkin = input(user, "Choose your DataPal appearance. (You can change this in-game by ctrl-shift-clicking the DataPal!)", "Character Preference", pda_skin) as null|anything in GLOB.pda_skins
+	// 	if(pickedPDASkin)
+	// 		pda_skin = pickedPDASkin
 
-	if(href_list["preference"] == "choose_pda_message")
-		var/new_message = stripped_multiline_input_or_reflect(
-			user, 
-			"What message would you like to display when someone rings your DataPal? (Leave blank to disable)",
-			"DataPal Ring Message",
-			pda_ringmessage,
-			30)
-		if(!isnull(new_message))
-			if(new_message)
-				pda_ringmessage = new_message
-			else
-				pda_ringmessage = "beep-boop"
+	// if(href_list["preference"] == "choose_pda_message")
+	// 	var/new_message = stripped_multiline_input_or_reflect(
+	// 		user, 
+	// 		"What message would you like to display when someone rings your DataPal? (Leave blank to disable)",
+	// 		"DataPal Ring Message",
+	// 		pda_ringmessage,
+	// 		30)
+	// 	if(!isnull(new_message))
+	// 		if(new_message)
+	// 			pda_ringmessage = new_message
+	// 		else
+	// 			pda_ringmessage = "beep-boop"
 
-	if(href_list["preference"] == "genital_hide")
-		var/hideit = text2num(href_list["hideflag"])
-		TOGGLE_BITFIELD(features["genital_hide"], hideit)
+	// if(href_list["preference"] == "genital_hide")
+	// 	var/hideit = text2num(href_list["hideflag"])
+	// 	TOGGLE_BITFIELD(features["genital_hide"], hideit)
 
 	if(href_list["preference"] == "job")
 		switch(href_list["task"])
@@ -1404,107 +1407,107 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			if(href_list["preference"] in GLOB.preferences_custom_names)
 				ask_for_custom_name(user,href_list["preference"])
 			switch(href_list["preference"])
-				if("max_pfp_hight")
-					var/newhight = input(user, "How many pixels tall should profile examine images be when you see em?", "tall") as num|null
-					if(newhight)
-						see_pfp_max_hight = newhight
-					else
-						to_chat("Okay!")
-					return 1
-				if("max_pfp_with")
-					var/newhight = input(user, "How many pixels wide should profile examine images be when you see em?", "wide") as num|null
-					if(newhight)
-						see_pfp_max_widht = newhight
-					else
-						to_chat("Okay!")
-					return 1
-				if("show_health_smilies")
-					TOGGLE_VAR(show_health_smilies)
-					return 1
-				if("special_s")
-					var/new_point = input(user, "Choose Amount(1-9)", "Strength") as num|null
-					if(new_point)
-						special_s = max(min(round(text2num(new_point)), 9),1)
-					SetSpecial(user)
-					return 1
-				if("special_p")
-					var/new_point = input(user, "Choose Amount(1-9)", "Perception") as num|null
-					if(new_point)
-						special_p = max(min(round(text2num(new_point)), 9),1)
-					SetSpecial(user)
-					return 1
-				if("special_e")
-					var/new_point = input(user, "Choose Amount(1-9)", "Endurance") as num|null
-					if(new_point)
-						special_e = max(min(round(text2num(new_point)), 9),1)
-					SetSpecial(user)
-					return 1
-				if("special_c")
-					var/new_point = input(user, "Choose Amount(1-9)", "Charisma") as num|null
-					if(new_point)
-						special_c = max(min(round(text2num(new_point)), 9),1)
-					SetSpecial(user)
-					return 1
-				if("special_i")
-					var/new_point = input(user, "Choose Amount(1-9)", "Intelligence") as num|null
-					if(new_point)
-						special_i = max(min(round(text2num(new_point)), 9),1)
-					SetSpecial(user)
-					return 1
-				if("special_a")
-					var/new_point = input(user, "Choose Amount(1-9)", "Agility") as num|null
-					if(new_point)
-						special_a = max(min(round(text2num(new_point)), 9),1)
-					SetSpecial(user)
-					return 1
-				if("special_l")
-					var/new_point = input(user, "Choose Amount(1-9)", "Luck") as num|null
-					if(new_point)
-						special_l = max(min(round(text2num(new_point)), 9),1)
-					SetSpecial(user)
-					return 1
-				if("ghostform")
-					if(unlock_content)
-						var/new_form = input(user, "Thanks for supporting BYOND - Choose your ghostly form:","Thanks for supporting BYOND",null) as null|anything in GLOB.ghost_forms
-						if(new_form)
-							ghost_form = new_form
-				if("ghostorbit")
-					if(unlock_content)
-						var/new_orbit = input(user, "Thanks for supporting BYOND - Choose your ghostly orbit:","Thanks for supporting BYOND", null) as null|anything in GLOB.ghost_orbits
-						if(new_orbit)
-							ghost_orbit = new_orbit
+				// if("max_pfp_hight")
+				// 	var/newhight = input(user, "How many pixels tall should profile examine images be when you see em?", "tall") as num|null
+				// 	if(newhight)
+				// 		see_pfp_max_hight = newhight
+				// 	else
+				// 		to_chat("Okay!")
+				// 	return 1
+				// if("max_pfp_with")
+				// 	var/newhight = input(user, "How many pixels wide should profile examine images be when you see em?", "wide") as num|null
+				// 	if(newhight)
+				// 		see_pfp_max_widht = newhight
+				// 	else
+				// 		to_chat("Okay!")
+				// 	return 1
+				// if("show_health_smilies")
+				// 	TOGGLE_VAR(show_health_smilies)
+				// 	return 1
+				// if("special_s")
+				// 	var/new_point = input(user, "Choose Amount(1-9)", "Strength") as num|null
+				// 	if(new_point)
+				// 		special_s = max(min(round(text2num(new_point)), 9),1)
+				// 	SetSpecial(user)
+				// 	return 1
+				// if("special_p")
+				// 	var/new_point = input(user, "Choose Amount(1-9)", "Perception") as num|null
+				// 	if(new_point)
+				// 		special_p = max(min(round(text2num(new_point)), 9),1)
+				// 	SetSpecial(user)
+				// 	return 1
+				// if("special_e")
+				// 	var/new_point = input(user, "Choose Amount(1-9)", "Endurance") as num|null
+				// 	if(new_point)
+				// 		special_e = max(min(round(text2num(new_point)), 9),1)
+				// 	SetSpecial(user)
+				// 	return 1
+				// if("special_c")
+				// 	var/new_point = input(user, "Choose Amount(1-9)", "Charisma") as num|null
+				// 	if(new_point)
+				// 		special_c = max(min(round(text2num(new_point)), 9),1)
+				// 	SetSpecial(user)
+				// 	return 1
+				// if("special_i")
+				// 	var/new_point = input(user, "Choose Amount(1-9)", "Intelligence") as num|null
+				// 	if(new_point)
+				// 		special_i = max(min(round(text2num(new_point)), 9),1)
+				// 	SetSpecial(user)
+				// 	return 1
+				// if("special_a")
+				// 	var/new_point = input(user, "Choose Amount(1-9)", "Agility") as num|null
+				// 	if(new_point)
+				// 		special_a = max(min(round(text2num(new_point)), 9),1)
+				// 	SetSpecial(user)
+				// 	return 1
+				// if("special_l")
+				// 	var/new_point = input(user, "Choose Amount(1-9)", "Luck") as num|null
+				// 	if(new_point)
+				// 		special_l = max(min(round(text2num(new_point)), 9),1)
+				// 	SetSpecial(user)
+				// 	return 1
+				// if("ghostform")
+				// 	if(unlock_content)
+				// 		var/new_form = input(user, "Thanks for supporting BYOND - Choose your ghostly form:","Thanks for supporting BYOND",null) as null|anything in GLOB.ghost_forms
+				// 		if(new_form)
+				// 			ghost_form = new_form
+				// if("ghostorbit")
+				// 	if(unlock_content)
+				// 		var/new_orbit = input(user, "Thanks for supporting BYOND - Choose your ghostly orbit:","Thanks for supporting BYOND", null) as null|anything in GLOB.ghost_orbits
+				// 		if(new_orbit)
+				// 			ghost_orbit = new_orbit
 
-				if("ghostaccs")
-					var/new_ghost_accs = alert("Do you want your ghost to show full accessories where possible, hide accessories but still use the directional sprites where possible, or also ignore the directions and stick to the default sprites?",,GHOST_ACCS_FULL_NAME, GHOST_ACCS_DIR_NAME, GHOST_ACCS_NONE_NAME)
-					switch(new_ghost_accs)
-						if(GHOST_ACCS_FULL_NAME)
-							ghost_accs = GHOST_ACCS_FULL
-						if(GHOST_ACCS_DIR_NAME)
-							ghost_accs = GHOST_ACCS_DIR
-						if(GHOST_ACCS_NONE_NAME)
-							ghost_accs = GHOST_ACCS_NONE
+				// if("ghostaccs")
+				// 	var/new_ghost_accs = alert("Do you want your ghost to show full accessories where possible, hide accessories but still use the directional sprites where possible, or also ignore the directions and stick to the default sprites?",,GHOST_ACCS_FULL_NAME, GHOST_ACCS_DIR_NAME, GHOST_ACCS_NONE_NAME)
+				// 	switch(new_ghost_accs)
+				// 		if(GHOST_ACCS_FULL_NAME)
+				// 			ghost_accs = GHOST_ACCS_FULL
+				// 		if(GHOST_ACCS_DIR_NAME)
+				// 			ghost_accs = GHOST_ACCS_DIR
+				// 		if(GHOST_ACCS_NONE_NAME)
+				// 			ghost_accs = GHOST_ACCS_NONE
 
-				if("ghostothers")
-					var/new_ghost_others = alert("Do you want the ghosts of others to show up as their own setting, as their default sprites or always as the default white ghost?",,GHOST_OTHERS_THEIR_SETTING_NAME, GHOST_OTHERS_DEFAULT_SPRITE_NAME, GHOST_OTHERS_SIMPLE_NAME)
-					switch(new_ghost_others)
-						if(GHOST_OTHERS_THEIR_SETTING_NAME)
-							ghost_others = GHOST_OTHERS_THEIR_SETTING
-						if(GHOST_OTHERS_DEFAULT_SPRITE_NAME)
-							ghost_others = GHOST_OTHERS_DEFAULT_SPRITE
-						if(GHOST_OTHERS_SIMPLE_NAME)
-							ghost_others = GHOST_OTHERS_SIMPLE
+				// if("ghostothers")
+				// 	var/new_ghost_others = alert("Do you want the ghosts of others to show up as their own setting, as their default sprites or always as the default white ghost?",,GHOST_OTHERS_THEIR_SETTING_NAME, GHOST_OTHERS_DEFAULT_SPRITE_NAME, GHOST_OTHERS_SIMPLE_NAME)
+				// 	switch(new_ghost_others)
+				// 		if(GHOST_OTHERS_THEIR_SETTING_NAME)
+				// 			ghost_others = GHOST_OTHERS_THEIR_SETTING
+				// 		if(GHOST_OTHERS_DEFAULT_SPRITE_NAME)
+				// 			ghost_others = GHOST_OTHERS_DEFAULT_SPRITE
+				// 		if(GHOST_OTHERS_SIMPLE_NAME)
+				// 			ghost_others = GHOST_OTHERS_SIMPLE
 
-				if("name")
-					var/new_name = input(user, "Choose your character's name:", "Character Preference")  as text|null
-					if(new_name)
-						new_name = reject_bad_name(new_name)
-						if(new_name)
-							real_name = new_name
-							if(isnewplayer(parent.mob)) // Update the player panel with the new name.
-								var/mob/dead/new_player/player_mob = parent.mob
-								player_mob.new_player_panel()
-						else
-							to_chat(user, "<font color='red'>Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ' and .</font>")
+				// if("name")
+				// 	var/new_name = input(user, "Choose your character's name:", "Character Preference")  as text|null
+				// 	if(new_name)
+				// 		new_name = reject_bad_name(new_name)
+				// 		if(new_name)
+				// 			real_name = new_name
+				// 			if(isnewplayer(parent.mob)) // Update the player panel with the new name.
+				// 				var/mob/dead/new_player/player_mob = parent.mob
+				// 				player_mob.new_player_panel()
+				// 		else
+				// 			to_chat(user, "<font color='red'>Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ' and .</font>")
 				if("creature_name")
 					var/new_name = input(user, "Choose your creature character's name:", "Character Preference")  as text|null
 					if(new_name)
@@ -1540,77 +1543,77 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(!isnull(msg))
 						creature_ooc = msg
 
-				if("tbs")
-					var/new_tbs = input(user, "Are you a top, bottom, or switch? (or none of the above)", "Character Preference") as null|anything in TBS_LIST
-					if(new_tbs)
-						tbs = new_tbs
-				if("kisser")
-					var/newkiss = input(user, "What sort of person do you like to kisser?", "Character Preference") as null|anything in KISS_LIST
-					if(newkiss)
-						kisser = newkiss
+				// if("tbs")
+				// 	var/new_tbs = input(user, "Are you a top, bottom, or switch? (or none of the above)", "Character Preference") as null|anything in TBS_LIST
+				// 	if(new_tbs)
+				// 		tbs = new_tbs
+				// if("kisser")
+				// 	var/newkiss = input(user, "What sort of person do you like to kisser?", "Character Preference") as null|anything in KISS_LIST
+				// 	if(newkiss)
+				// 		kisser = newkiss
 				if("stash_equipment_on_logout")
 					TOGGLE_VAR(stash_equipment_on_logout)
 				if("lock_equipment_on_logout")
 					TOGGLE_VAR(lock_equipment_on_logout)
-				if("age")
-					var/new_age = input(user, "Choose your character's age:\n([AGE_MIN]-[AGE_MAX])", "Character Preference") as num|null
-					if(new_age)
-						age = max(min( round(text2num(new_age)), AGE_MAX),AGE_MIN)
-				if("pixel_x")
-					var/newx = input(user, "A new left/right pixel offset:\n([PIXELSHIFT_MAX] - [PIXELSHIFT_MIN])", "Character Preference", custom_pixel_x) as num|null
-					if(newx)
-						custom_pixel_x = round(clamp(newx, PIXELSHIFT_MIN, PIXELSHIFT_MAX), 1)
-					else
-						custom_pixel_x = 0
-				if("pixel_y")
-					var/newy = input(user, "A new up/down pixel offset:\n([PIXELSHIFT_MAX] - [PIXELSHIFT_MIN])", "Character Preference", custom_pixel_y) as num|null
-					if(newy)
-						custom_pixel_y = round(clamp(newy, PIXELSHIFT_MIN, PIXELSHIFT_MAX), 1)
-					else
-						custom_pixel_y = 0
-				if("custom_say")
-					var/verb_type = href_list["verbtype"]
-					var/lastvalue = ""
-					if(length(features[verb_type]))
-						lastvalue = jointext(features[verb_type],",")
-					var/msg = input(usr, "Give a custom set of verbs for this character's [verb_type]. Separate them with a single comma and nothing else.", "Custom [verb_type]", lastvalue) as message|null
-					if(!isnull(msg))
-						features[verb_type] = splittext(msg,",")
+				// if("age")
+				// 	var/new_age = input(user, "Choose your character's age:\n([AGE_MIN]-[AGE_MAX])", "Character Preference") as num|null
+				// 	if(new_age)
+				// 		age = max(min( round(text2num(new_age)), AGE_MAX),AGE_MIN)
+				// if("pixel_x")
+				// 	var/newx = input(user, "A new left/right pixel offset:\n([PIXELSHIFT_MAX] - [PIXELSHIFT_MIN])", "Character Preference", custom_pixel_x) as num|null
+				// 	if(newx)
+				// 		custom_pixel_x = round(clamp(newx, PIXELSHIFT_MIN, PIXELSHIFT_MAX), 1)
+				// 	else
+				// 		custom_pixel_x = 0
+				// if("pixel_y")
+				// 	var/newy = input(user, "A new up/down pixel offset:\n([PIXELSHIFT_MAX] - [PIXELSHIFT_MIN])", "Character Preference", custom_pixel_y) as num|null
+				// 	if(newy)
+				// 		custom_pixel_y = round(clamp(newy, PIXELSHIFT_MIN, PIXELSHIFT_MAX), 1)
+				// 	else
+				// 		custom_pixel_y = 0
+				// if("custom_say")
+				// 	var/verb_type = href_list["verbtype"]
+				// 	var/lastvalue = ""
+				// 	if(length(features[verb_type]))
+				// 		lastvalue = jointext(features[verb_type],",")
+				// 	var/msg = input(usr, "Give a custom set of verbs for this character's [verb_type]. Separate them with a single comma and nothing else.", "Custom [verb_type]", lastvalue) as message|null
+				// 	if(!isnull(msg))
+				// 		features[verb_type] = splittext(msg,",")
 				////////////////// VORE STUFF /
-				if("master_vore_toggle")
-					TOGGLE_VAR(master_vore_toggle)
-				if("allow_being_prey")
-					TOGGLE_VAR(allow_being_prey)
-				if("allow_being_fed_prey")
-					TOGGLE_VAR(allow_being_fed_prey)
-				if("allow_digestion_damage")
-					TOGGLE_VAR(allow_digestion_damage)
-				if("allow_digestion_death")
-					TOGGLE_VAR(allow_digestion_death)
-				if("allow_trash_messages")
-					TOGGLE_VAR(allow_trash_messages)
-				if("allow_vore_messages")
-					TOGGLE_VAR(allow_vore_messages)
-				if("allow_death_messages")
-					TOGGLE_VAR(allow_death_messages)
-				if("allow_eating_sounds")
-					TOGGLE_VAR(allow_eating_sounds)
-				if("allow_digestion_sounds")
-					TOGGLE_VAR(allow_digestion_sounds)
-				if("flavor_text")
-					var/msg = stripped_multiline_input(usr, "Set the flavor text in your 'examine' verb. This can also be used for OOC notes and preferences!", "Flavor Text", html_decode(features["flavor_text"]), MAX_FLAVOR_LEN, TRUE)
-					if(!isnull(msg))
-						features["flavor_text"] = msg
+				// if("master_vore_toggle")
+				// 	TOGGLE_VAR(master_vore_toggle)
+				// if("allow_being_prey")
+				// 	TOGGLE_VAR(allow_being_prey)
+				// if("allow_being_fed_prey")
+				// 	TOGGLE_VAR(allow_being_fed_prey)
+				// if("allow_digestion_damage")
+				// 	TOGGLE_VAR(allow_digestion_damage)
+				// if("allow_digestion_death")
+				// 	TOGGLE_VAR(allow_digestion_death)
+				// if("allow_trash_messages")
+				// 	TOGGLE_VAR(allow_trash_messages)
+				// if("allow_vore_messages")
+				// 	TOGGLE_VAR(allow_vore_messages)
+				// if("allow_death_messages")
+				// 	TOGGLE_VAR(allow_death_messages)
+				// if("allow_eating_sounds")
+				// 	TOGGLE_VAR(allow_eating_sounds)
+				// if("allow_digestion_sounds")
+				// 	TOGGLE_VAR(allow_digestion_sounds)
+				// if("flavor_text")
+				// 	var/msg = stripped_multiline_input(usr, "Set the flavor text in your 'examine' verb. This can also be used for OOC notes and preferences!", "Flavor Text", html_decode(features["flavor_text"]), MAX_FLAVOR_LEN, TRUE)
+				// 	if(!isnull(msg))
+				// 		features["flavor_text"] = msg
 
 				if("silicon_flavor_text")
 					var/msg = stripped_multiline_input(usr, "Set the silicon flavor text in your 'examine' verb. This can also be used for OOC notes and preferences!", "Silicon Flavor Text", html_decode(features["silicon_flavor_text"]), MAX_FLAVOR_LEN, TRUE)
 					if(!isnull(msg))
 						features["silicon_flavor_text"] = msg
 
-				if("ooc_notes")
-					var/msg = stripped_multiline_input(usr, "Set always-visible OOC notes related to content preferences. THIS IS NOT FOR CHARACTER DESCRIPTIONS!", "OOC notes", html_decode(features["ooc_notes"]), MAX_FLAVOR_LEN, TRUE)
-					if(!isnull(msg))
-						features["ooc_notes"] = msg
+				// if("ooc_notes")
+				// 	var/msg = stripped_multiline_input(usr, "Set always-visible OOC notes related to content preferences. THIS IS NOT FOR CHARACTER DESCRIPTIONS!", "OOC notes", html_decode(features["ooc_notes"]), MAX_FLAVOR_LEN, TRUE)
+				// 	if(!isnull(msg))
+						// features["ooc_notes"] = msg
 				
 				if("background_info_notes")
 					var/msg = stripped_multiline_input(usr, "Set always-visible character's background!", "Background Info Notes", html_decode(features["background_info_notes"]), MAX_FLAVOR_LEN, TRUE)
@@ -1633,134 +1636,134 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(user)
 						user.mind?.hide_ckey = hide_ckey
 
-				if("hair")
-					var/new_hair = input(user, "Choose your character's hair colour:", "Character Preference","#"+hair_color) as color|null
-					if(new_hair)
-						hair_color = sanitize_hexcolor(new_hair, 6)
+				// if("hair")
+				// 	var/new_hair = input(user, "Choose your character's hair colour:", "Character Preference","#"+hair_color) as color|null
+				// 	if(new_hair)
+				// 		hair_color = sanitize_hexcolor(new_hair, 6)
 
-				if("hair_style")
-					var/new_hair_style
-					new_hair_style = input(user, "Choose your character's hair style:", "Character Preference")  as null|anything in GLOB.hair_styles_list
-					if(new_hair_style)
-						hair_style = new_hair_style
+				// if("hair_style")
+				// 	var/new_hair_style
+				// 	new_hair_style = input(user, "Choose your character's hair style:", "Character Preference")  as null|anything in GLOB.hair_styles_list
+				// 	if(new_hair_style)
+				// 		hair_style = new_hair_style
 
-				if("next_hair_style")
-					hair_style = next_list_item(hair_style, GLOB.hair_styles_list)
+				// if("next_hair_style")
+				// 	hair_style = next_list_item(hair_style, GLOB.hair_styles_list)
 
-				if("previous_hair_style")
-					hair_style = previous_list_item(hair_style, GLOB.hair_styles_list)
+				// if("previous_hair_style")
+				// 	hair_style = previous_list_item(hair_style, GLOB.hair_styles_list)
 
-				if("facial")
-					var/new_facial = input(user, "Choose your character's facial-hair colour:", "Character Preference","#"+facial_hair_color) as color|null
-					if(new_facial)
-						facial_hair_color = sanitize_hexcolor(new_facial, 6)
+				// if("facial")
+				// 	var/new_facial = input(user, "Choose your character's facial-hair colour:", "Character Preference","#"+facial_hair_color) as color|null
+				// 	if(new_facial)
+				// 		facial_hair_color = sanitize_hexcolor(new_facial, 6)
 
-				if("facial_hair_style")
-					var/new_facial_hair_style
-					new_facial_hair_style = input(user, "Choose your character's facial-hair style:", "Character Preference")  as null|anything in GLOB.facial_hair_styles_list
-					if(new_facial_hair_style)
-						facial_hair_style = new_facial_hair_style
+				// if("facial_hair_style")
+				// 	var/new_facial_hair_style
+				// 	new_facial_hair_style = input(user, "Choose your character's facial-hair style:", "Character Preference")  as null|anything in GLOB.facial_hair_styles_list
+				// 	if(new_facial_hair_style)
+				// 		facial_hair_style = new_facial_hair_style
 
-				if("next_facehair_style")
-					facial_hair_style = next_list_item(facial_hair_style, GLOB.facial_hair_styles_list)
+				// if("next_facehair_style")
+				// 	facial_hair_style = next_list_item(facial_hair_style, GLOB.facial_hair_styles_list)
 
-				if("previous_facehair_style")
-					facial_hair_style = previous_list_item(facial_hair_style, GLOB.facial_hair_styles_list)
+				// if("previous_facehair_style")
+				// 	facial_hair_style = previous_list_item(facial_hair_style, GLOB.facial_hair_styles_list)
 
 				if("cycle_bg")
 					bgstate = next_list_item(bgstate, bgstate_options)
 
-				if("modify_limbs")
-					var/limb_type = input(user, "Choose the limb to modify:", "Character Preference") as null|anything in LOADOUT_ALLOWED_LIMB_TARGETS
-					if(!limb_type)
-						return
-					var/modification_type = input(user, "Choose the modification to the limb:", "Character Preference") as null|anything in LOADOUT_LIMBS
-					if(!modification_type)
-						return
-					if(modification_type == LOADOUT_LIMB_PROSTHETIC)
-						var/prosthetic_type = input(user, "Choose the type of prosthetic", "Character Preference") as null|anything in (list("prosthetic") + GLOB.prosthetic_limb_types)
-						if(!prosthetic_type)
-							return
-						var/number_of_prosthetics = 0
-						for(var/modified_limb in modified_limbs)
-							if(modified_limbs[modified_limb][1] == LOADOUT_LIMB_PROSTHETIC && modified_limb != limb_type)
-								number_of_prosthetics += 1
-						if(number_of_prosthetics > MAXIMUM_LOADOUT_PROSTHETICS)
-							to_chat(user, span_danger("I can only have up to two prosthetic limbs!"))
-						else
-							//save the actual prosthetic data
-							modified_limbs[limb_type] = list(modification_type, prosthetic_type)
-					else
-						if(modification_type == LOADOUT_LIMB_NORMAL)
-							modified_limbs -= limb_type
-						else
-							modified_limbs[limb_type] = list(modification_type)
+				// if("modify_limbs")
+				// 	var/limb_type = input(user, "Choose the limb to modify:", "Character Preference") as null|anything in LOADOUT_ALLOWED_LIMB_TARGETS
+				// 	if(!limb_type)
+				// 		return
+				// 	var/modification_type = input(user, "Choose the modification to the limb:", "Character Preference") as null|anything in LOADOUT_LIMBS
+				// 	if(!modification_type)
+				// 		return
+				// 	if(modification_type == LOADOUT_LIMB_PROSTHETIC)
+				// 		var/prosthetic_type = input(user, "Choose the type of prosthetic", "Character Preference") as null|anything in (list("prosthetic") + GLOB.prosthetic_limb_types)
+				// 		if(!prosthetic_type)
+				// 			return
+				// 		var/number_of_prosthetics = 0
+				// 		for(var/modified_limb in modified_limbs)
+				// 			if(modified_limbs[modified_limb][1] == LOADOUT_LIMB_PROSTHETIC && modified_limb != limb_type)
+				// 				number_of_prosthetics += 1
+				// 		if(number_of_prosthetics > MAXIMUM_LOADOUT_PROSTHETICS)
+				// 			to_chat(user, span_danger("I can only have up to two prosthetic limbs!"))
+				// 		else
+				// 			//save the actual prosthetic data
+				// 			modified_limbs[limb_type] = list(modification_type, prosthetic_type)
+				// 	else
+				// 		if(modification_type == LOADOUT_LIMB_NORMAL)
+				// 			modified_limbs -= limb_type
+				// 		else
+				// 			modified_limbs[limb_type] = list(modification_type)
 
-				if("underwear")
-					var/new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in GLOB.underwear_list
-					if(new_underwear)
-						underwear = new_underwear
+				// if("underwear")
+				// 	var/new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in GLOB.underwear_list
+				// 	if(new_underwear)
+				// 		underwear = new_underwear
 
-				if("undie_color")
-					var/n_undie_color = input(user, "Choose your underwear's color.", "Character Preference", "#[undie_color]") as color|null
-					if(n_undie_color)
-						undie_color = sanitize_hexcolor(n_undie_color, 6)
+				// if("undie_color")
+				// 	var/n_undie_color = input(user, "Choose your underwear's color.", "Character Preference", "#[undie_color]") as color|null
+				// 	if(n_undie_color)
+				// 		undie_color = sanitize_hexcolor(n_undie_color, 6)
 
-				if("undershirt")
-					var/new_undershirt = input(user, "Choose your character's undershirt:", "Character Preference") as null|anything in GLOB.undershirt_list
-					if(new_undershirt)
-						undershirt = new_undershirt
+				// if("undershirt")
+				// 	var/new_undershirt = input(user, "Choose your character's undershirt:", "Character Preference") as null|anything in GLOB.undershirt_list
+				// 	if(new_undershirt)
+				// 		undershirt = new_undershirt
 
-				if("shirt_color")
-					var/n_shirt_color = input(user, "Choose your undershirt's color.", "Character Preference", "#[shirt_color]") as color|null
-					if(n_shirt_color)
-						shirt_color = sanitize_hexcolor(n_shirt_color, 6)
+				// if("shirt_color")
+				// 	var/n_shirt_color = input(user, "Choose your undershirt's color.", "Character Preference", "#[shirt_color]") as color|null
+				// 	if(n_shirt_color)
+				// 		shirt_color = sanitize_hexcolor(n_shirt_color, 6)
 
-				if("socks")
-					var/new_socks = input(user, "Choose your character's socks:", "Character Preference") as null|anything in GLOB.socks_list
-					if(new_socks)
-						socks = new_socks
+				// if("socks")
+				// 	var/new_socks = input(user, "Choose your character's socks:", "Character Preference") as null|anything in GLOB.socks_list
+				// 	if(new_socks)
+				// 		socks = new_socks
 
-				if("socks_color")
-					var/n_socks_color = input(user, "Choose your socks' color.", "Character Preference", "#[socks_color]") as color|null
-					if(n_socks_color)
-						socks_color = sanitize_hexcolor(n_socks_color, 6)
+				// if("socks_color")
+				// 	var/n_socks_color = input(user, "Choose your socks' color.", "Character Preference", "#[socks_color]") as color|null
+				// 	if(n_socks_color)
+				// 		socks_color = sanitize_hexcolor(n_socks_color, 6)
 
-				if("undershirt_overclothes")
-					undershirt_overclothes = undershirt_overclothes+1
-					if(undershirt_overclothes > UNDERWEAR_OVER_EVERYTHING)
-						undershirt_overclothes = UNDERWEAR_UNDER_CLOTHES
+				// if("undershirt_overclothes")
+				// 	undershirt_overclothes = undershirt_overclothes+1
+				// 	if(undershirt_overclothes > UNDERWEAR_OVER_EVERYTHING)
+				// 		undershirt_overclothes = UNDERWEAR_UNDER_CLOTHES
 
-				if("undies_overclothes")
-					undies_overclothes = undies_overclothes+1
-					if(undies_overclothes > UNDERWEAR_OVER_EVERYTHING)
-						undies_overclothes = UNDERWEAR_UNDER_CLOTHES
+				// if("undies_overclothes")
+				// 	undies_overclothes = undies_overclothes+1
+				// 	if(undies_overclothes > UNDERWEAR_OVER_EVERYTHING)
+				// 		undies_overclothes = UNDERWEAR_UNDER_CLOTHES
 
-				if("socks_overclothes")
-					socks_overclothes = socks_overclothes+1
-					if(socks_overclothes > UNDERWEAR_OVER_EVERYTHING)
-						socks_overclothes = UNDERWEAR_UNDER_CLOTHES
+				// if("socks_overclothes")
+				// 	socks_overclothes = socks_overclothes+1
+				// 	if(socks_overclothes > UNDERWEAR_OVER_EVERYTHING)
+				// 		socks_overclothes = UNDERWEAR_UNDER_CLOTHES
 
-				if("eyes")
-					var/new_eyes = input(user, "Choose your character's eye colour:", "Character Preference","#"+left_eye_color) as color|null
-					if(new_eyes)
-						left_eye_color = sanitize_hexcolor(new_eyes, 6)
-						right_eye_color = sanitize_hexcolor(new_eyes, 6)
+				// if("eyes")
+				// 	var/new_eyes = input(user, "Choose your character's eye colour:", "Character Preference","#"+left_eye_color) as color|null
+				// 	if(new_eyes)
+				// 		left_eye_color = sanitize_hexcolor(new_eyes, 6)
+				// 		right_eye_color = sanitize_hexcolor(new_eyes, 6)
 
-				if("eye_left")
-					var/new_eyes = input(user, "Choose your character's left eye colour:", "Character Preference","#"+left_eye_color) as color|null
-					if(new_eyes)
-						left_eye_color = sanitize_hexcolor(new_eyes, 6)
+				// if("eye_left")
+				// 	var/new_eyes = input(user, "Choose your character's left eye colour:", "Character Preference","#"+left_eye_color) as color|null
+				// 	if(new_eyes)
+				// 		left_eye_color = sanitize_hexcolor(new_eyes, 6)
 
-				if("eye_right")
-					var/new_eyes = input(user, "Choose your character's right eye colour:", "Character Preference","#"+right_eye_color) as color|null
-					if(new_eyes)
-						right_eye_color = sanitize_hexcolor(new_eyes, 6)
+				// if("eye_right")
+				// 	var/new_eyes = input(user, "Choose your character's right eye colour:", "Character Preference","#"+right_eye_color) as color|null
+				// 	if(new_eyes)
+				// 		right_eye_color = sanitize_hexcolor(new_eyes, 6)
 
-				if("eye_type")
-					var/new_eye_type = input(user, "Choose your character's eye type.", "Character Preference") as null|anything in GLOB.eye_types
-					if(new_eye_type)
-						eye_type = new_eye_type
+				// if("eye_type")
+				// 	var/new_eye_type = input(user, "Choose your character's eye type.", "Character Preference") as null|anything in GLOB.eye_types
+				// 	if(new_eye_type)
+				// 		eye_type = new_eye_type
 
 				if("toggle_split_eyes")
 					split_eye_colors = !split_eye_colors
@@ -1769,634 +1772,632 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("toggle_eye_over_hair")
 					TOGGLE_VAR(eye_over_hair)
 
-				if("species")
-					var/result = input(user, "Select a species", "Species Selection") as null|anything in GLOB.roundstart_race_names
-					if(result)
-						var/newtype = GLOB.species_list[GLOB.roundstart_race_names[result]]
-						pref_species = new newtype()
-						//let's ensure that no weird shit happens on species swapping.
-						custom_species = null
-						if(!parent.can_have_part("mam_body_markings"))
-							features["mam_body_markings"] = list()
-						if(parent.can_have_part("mam_body_markings"))
-							if(features["mam_body_markings"] == "None")
-								features["mam_body_markings"] = list()
-						if(parent.can_have_part("tail_lizard"))
-							features["tail_lizard"] = "Smooth"
-						if(pref_species.id == "felinid")
-							features["mam_tail"] = "Cat"
-							features["mam_ears"] = "Cat"
+				// if("species")
+				// 	var/result = input(user, "Select a species", "Species Selection") as null|anything in GLOB.roundstart_race_names
+				// 	if(result)
+				// 		var/newtype = GLOB.species_list[GLOB.roundstart_race_names[result]]
+				// 		pref_species = new newtype()
+				// 		//let's ensure that no weird shit happens on species swapping.
+				// 		custom_species = null
+				// 		if(!parent.can_have_part("mam_body_markings"))
+				// 			features["mam_body_markings"] = list()
+				// 		if(parent.can_have_part("mam_body_markings"))
+				// 			if(features["mam_body_markings"] == "None")
+				// 				features["mam_body_markings"] = list()
+				// 		if(parent.can_have_part("tail_lizard"))
+				// 			features["tail_lizard"] = "Smooth"
+				// 		if(pref_species.id == "felinid")
+				// 			features["mam_tail"] = "Cat"
+				// 			features["mam_ears"] = "Cat"
 
-						//Now that we changed our species, we must verify that the mutant colour is still allowed.
-						var/temp_hsv = RGBtoHSV(features["mcolor"])
-						if(features["mcolor"] == "#000000" || (!(MUTCOLORS_PARTSONLY in pref_species.species_traits) && ReadHSV(temp_hsv)[3] < ReadHSV("#202020")[3]))
-							features["mcolor"] = pref_species.default_color
-						if(features["mcolor2"] == "#000000" || (!(MUTCOLORS_PARTSONLY in pref_species.species_traits) && ReadHSV(temp_hsv)[3] < ReadHSV("#202020")[3]))
-							features["mcolor2"] = pref_species.default_color
-						if(features["mcolor3"] == "#000000" || (!(MUTCOLORS_PARTSONLY in pref_species.species_traits) && ReadHSV(temp_hsv)[3] < ReadHSV("#202020")[3]))
-							features["mcolor3"] = pref_species.default_color
+				// 		//Now that we changed our species, we must verify that the mutant colour is still allowed.
+				// 		var/temp_hsv = RGBtoHSV(features["mcolor"])
+				// 		if(features["mcolor"] == "#000000" || (!(MUTCOLORS_PARTSONLY in pref_species.species_traits) && ReadHSV(temp_hsv)[3] < ReadHSV("#202020")[3]))
+				// 			features["mcolor"] = pref_species.default_color
+				// 		if(features["mcolor2"] == "#000000" || (!(MUTCOLORS_PARTSONLY in pref_species.species_traits) && ReadHSV(temp_hsv)[3] < ReadHSV("#202020")[3]))
+				// 			features["mcolor2"] = pref_species.default_color
+				// 		if(features["mcolor3"] == "#000000" || (!(MUTCOLORS_PARTSONLY in pref_species.species_traits) && ReadHSV(temp_hsv)[3] < ReadHSV("#202020")[3]))
+				// 			features["mcolor3"] = pref_species.default_color
 
-						//switch to the type of eyes the species uses
-						eye_type = pref_species.eye_type
-				if("species_alt_prefix")
-					if(LAZYLEN(pref_species.alt_prefixes))//if there are alt sprites to even pick from
-						var/list/pickfrom = list("Default" = "")
-						pickfrom |= pref_species.alt_prefixes
-						var/result = input(user, "Select an alternate species appearance or press cancel to clear it.", "Alternate Appearance") as null|anything in pickfrom
-						if(isnull(result) || result == "")
-							alt_appearance = "Default"
-						else
-							alt_appearance = result
-					else //this species has none so I'm not sure how you clicked this button but clear it anyway
-						alt_appearance = "Default"
-				if("custom_species")
-					var/new_species = reject_bad_name(input(user, "Choose your species subtype, if unique. This will show up on examinations and health scans. Do not abuse this:", "Character Preference", custom_species) as null|text)
-					if(new_species)
-						custom_species = new_species
-					else
-						custom_species = null
+				// 		//switch to the type of eyes the species uses
+				// 		eye_type = pref_species.eye_type
+				// if("species_alt_prefix")
+				// 	if(LAZYLEN(pref_species.alt_prefixes))//if there are alt sprites to even pick from
+				// 		var/list/pickfrom = list("Default" = "")
+				// 		pickfrom |= pref_species.alt_prefixes
+				// 		var/result = input(user, "Select an alternate species appearance or press cancel to clear it.", "Alternate Appearance") as null|anything in pickfrom
+				// 		if(isnull(result) || result == "")
+				// 			alt_appearance = "Default"
+				// 		else
+				// 			alt_appearance = result
+				// 	else //this species has none so I'm not sure how you clicked this button but clear it anyway
+				// 		alt_appearance = "Default"
+				// if("custom_species")
+				// 	var/new_species = reject_bad_name(input(user, "Choose your species subtype, if unique. This will show up on examinations and health scans. Do not abuse this:", "Character Preference", custom_species) as null|text)
+				// 	if(new_species)
+				// 		custom_species = new_species
+				// 	else
+				// 		custom_species = null
 
-				if("taste")
-					var/new_taste = reject_bad_name(input(user, "What do you taste like?", "Character Preference", features["taste"]) as null|text)
-					if(new_taste)
-						features["taste"] = new_taste
-					else
-						features["taste"] = "something"
+				// if("taste")
+				// 	var/new_taste = reject_bad_name(input(user, "What do you taste like?", "Character Preference", features["taste"]) as null|text)
+				// 	if(new_taste)
+				// 		features["taste"] = new_taste
+				// 	else
+				// 		features["taste"] = "something"
 
-				if("chat_color")
-					var/new_runecolor = input(user, "Choose your character's runechat color:", "Character Preference","#"+features["chat_color"]) as color|null
-					if(new_runecolor)
-						features["chat_color"] = sanitize_hexcolor(new_runecolor, 6)
-
-
-				if("mismatched_markings")
-					show_mismatched_markings = !show_mismatched_markings
-
-				if("ipc_screen")
-					var/new_ipc_screen
-					new_ipc_screen = input(user, "Choose your character's screen:", "Character Preference") as null|anything in GLOB.ipc_screens_list
-					if(new_ipc_screen)
-						features["ipc_screen"] = new_ipc_screen
-
-				if("ipc_antenna")
-					var/list/snowflake_antenna_list = list()
-					//Potential todo: turn all of THIS into a define to reduce copypasta.
-					for(var/path in GLOB.ipc_antennas_list)
-						var/datum/sprite_accessory/antenna/instance = GLOB.ipc_antennas_list[path]
-						if(istype(instance, /datum/sprite_accessory))
-							var/datum/sprite_accessory/S = instance
-							if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
-								continue
-							if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
-								snowflake_antenna_list[S.name] = path
-					var/new_ipc_antenna
-					new_ipc_antenna = input(user, "Choose your character's antenna:", "Character Preference") as null|anything in snowflake_antenna_list
-					if(new_ipc_antenna)
-						features["ipc_antenna"] = new_ipc_antenna
-
-				if("tail_lizard")
-					var/new_tail
-					new_tail = input(user, "Choose your character's tail:", "Character Preference") as null|anything in GLOB.tails_list_lizard
-					if(new_tail)
-						features["tail_lizard"] = new_tail
-						if(new_tail != "None")
-							features["taur"] = "None"
-							features["tail_human"] = "None"
-							features["mam_tail"] = "None"
-
-				if("tail_human")
-					var/list/snowflake_tails_list = list()
-					for(var/path in GLOB.tails_list_human)
-						var/datum/sprite_accessory/tails/human/instance = GLOB.tails_list_human[path]
-						if(istype(instance, /datum/sprite_accessory))
-							var/datum/sprite_accessory/S = instance
-							if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
-								continue
-							if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
-								snowflake_tails_list[S.name] = path
-					var/new_tail
-					new_tail = input(user, "Choose your character's tail:", "Character Preference") as null|anything in snowflake_tails_list
-					if(new_tail)
-						features["tail_human"] = new_tail
-						if(new_tail != "None")
-							features["taur"] = "None"
-							features["tail_lizard"] = "None"
-							features["mam_tail"] = "None"
-
-				if("mam_tail")
-					var/list/snowflake_tails_list = list()
-					for(var/path in GLOB.mam_tails_list)
-						var/datum/sprite_accessory/tails/mam_tails/instance = GLOB.mam_tails_list[path]
-						if(istype(instance, /datum/sprite_accessory))
-							var/datum/sprite_accessory/S = instance
-							if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
-								continue
-							if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
-								snowflake_tails_list[S.name] = path
-					var/new_tail
-					new_tail = input(user, "Choose your character's tail:", "Character Preference") as null|anything in snowflake_tails_list
-					if(new_tail)
-						features["mam_tail"] = new_tail
-						if(new_tail != "None")
-							features["taur"] = "None"
-							features["tail_human"] = "None"
-							features["tail_lizard"] = "None"
-
-				if("meat_type")
-					var/new_meat
-					new_meat = input(user, "Choose your character's meat type:", "Character Preference") as null|anything in GLOB.meat_types
-					if(new_meat)
-						features["meat_type"] = new_meat
-
-				if("snout")
-					var/list/snowflake_snouts_list = list()
-					for(var/path in GLOB.snouts_list)
-						var/datum/sprite_accessory/snouts/mam_snouts/instance = GLOB.snouts_list[path]
-						if(istype(instance, /datum/sprite_accessory))
-							var/datum/sprite_accessory/S = instance
-							if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
-								continue
-							if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
-								snowflake_snouts_list[S.name] = path
-					var/new_snout
-					new_snout = input(user, "Choose your character's snout:", "Character Preference") as null|anything in snowflake_snouts_list
-					if(new_snout)
-						features["snout"] = new_snout
-						features["mam_snouts"] = "None"
+				// if("chat_color")
+				// 	var/new_runecolor = input(user, "Choose your character's runechat color:", "Character Preference","#"+features["chat_color"]) as color|null
+				// 	if(new_runecolor)
+				// 		features["chat_color"] = sanitize_hexcolor(new_runecolor, 6)
 
 
-				if("mam_snouts")
-					var/list/snowflake_mam_snouts_list = list()
-					for(var/path in GLOB.mam_snouts_list)
-						var/datum/sprite_accessory/snouts/mam_snouts/instance = GLOB.mam_snouts_list[path]
-						if(istype(instance, /datum/sprite_accessory))
-							var/datum/sprite_accessory/S = instance
-							if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
-								continue
-							if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
-								snowflake_mam_snouts_list[S.name] = path
-					var/new_mam_snouts
-					new_mam_snouts = input(user, "Choose your character's snout:", "Character Preference") as null|anything in snowflake_mam_snouts_list
-					if(new_mam_snouts)
-						features["mam_snouts"] = new_mam_snouts
-						features["snout"] = "None"
+				// if("mismatched_markings")
+				// 	show_mismatched_markings = !show_mismatched_markings
 
-				if("horns")
-					var/new_horns
-					new_horns = input(user, "Choose your character's horns:", "Character Preference") as null|anything in GLOB.horns_list
-					if(new_horns)
-						features["horns"] = new_horns
+				// if("ipc_screen")
+				// 	var/new_ipc_screen
+				// 	new_ipc_screen = input(user, "Choose your character's screen:", "Character Preference") as null|anything in GLOB.ipc_screens_list
+				// 	if(new_ipc_screen)
+				// 		features["ipc_screen"] = new_ipc_screen
 
-				if("horns_color")
-					var/new_horn_color = input(user, "Choose your character's horn colour:", "Character Preference","#"+features["horns_color"]) as color|null
-					if(new_horn_color)
-						if (new_horn_color == "#000000")
-							features["horns_color"] = "85615A"
-						else
-							features["horns_color"] = sanitize_hexcolor(new_horn_color, 6)
+				// if("ipc_antenna")
+				// 	var/list/snowflake_antenna_list = list()
+				// 	//Potential todo: turn all of THIS into a define to reduce copypasta.
+				// 	for(var/path in GLOB.ipc_antennas_list)
+				// 		var/datum/sprite_accessory/antenna/instance = GLOB.ipc_antennas_list[path]
+				// 		if(istype(instance, /datum/sprite_accessory))
+				// 			var/datum/sprite_accessory/S = instance
+				// 			if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
+				// 				continue
+				// 			if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
+				// 				snowflake_antenna_list[S.name] = path
+				// 	var/new_ipc_antenna
+				// 	new_ipc_antenna = input(user, "Choose your character's antenna:", "Character Preference") as null|anything in snowflake_antenna_list
+				// 	if(new_ipc_antenna)
+				// 		features["ipc_antenna"] = new_ipc_antenna
 
-				if("blood_color")
-					var/new_color
-					new_color = input(user, "Choose your character's blood color", "#"+features["blood_color"]) as color|null
-					if(!isnull(new_color))
-						features["blood_color"] = sanitize_hexcolor(new_color, 6)
-					//else
-						//var/rainbow = alert(user, "Do you want rainbow blood?", "Hi!", "Yes", "No")
-						//if(rainbow == "Yes")
-						//	features["blood_color"] = "rainbow"
-				if("reset_blood_color")
-					features["blood_color"] = ""
-				if("rainbow_blood_color")
-					features["blood_color"] = "rainbow"
-				if("wings")
-					var/new_wings
-					new_wings = input(user, "Choose your character's wings:", "Character Preference") as null|anything in GLOB.r_wings_list
-					if(new_wings)
-						features["wings"] = new_wings
+				// if("tail_lizard")
+				// 	var/new_tail
+				// 	new_tail = input(user, "Choose your character's tail:", "Character Preference") as null|anything in GLOB.tails_list_lizard
+				// 	if(new_tail)
+				// 		features["tail_lizard"] = new_tail
+				// 		if(new_tail != "None")
+				// 			features["taur"] = "None"
+				// 			features["tail_human"] = "None"
+				// 			features["mam_tail"] = "None"
 
-				if("wings_color")
-					var/new_wing_color = input(user, "Choose your character's wing colour:", "Character Preference","#"+features["wings_color"]) as color|null
-					if(new_wing_color)
-						if (new_wing_color == "#000000")
-							features["wings_color"] = "#FFFFFF"
-						else
-							features["wings_color"] = sanitize_hexcolor(new_wing_color, 6)
+				// if("tail_human")
+				// 	var/list/snowflake_tails_list = list()
+				// 	for(var/path in GLOB.tails_list_human)
+				// 		var/datum/sprite_accessory/tails/human/instance = GLOB.tails_list_human[path]
+				// 		if(istype(instance, /datum/sprite_accessory))
+				// 			var/datum/sprite_accessory/S = instance
+				// 			if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
+				// 				continue
+				// 			if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
+				// 				snowflake_tails_list[S.name] = path
+				// 	var/new_tail
+				// 	new_tail = input(user, "Choose your character's tail:", "Character Preference") as null|anything in snowflake_tails_list
+				// 	if(new_tail)
+				// 		features["tail_human"] = new_tail
+				// 		if(new_tail != "None")
+				// 			features["taur"] = "None"
+				// 			features["tail_lizard"] = "None"
+				// 			features["mam_tail"] = "None"
 
-				if("frills")
-					var/new_frills
-					new_frills = input(user, "Choose your character's frills:", "Character Preference") as null|anything in GLOB.frills_list
-					if(new_frills)
-						features["frills"] = new_frills
+				// if("mam_tail")
+				// 	var/list/snowflake_tails_list = list()
+				// 	for(var/path in GLOB.mam_tails_list)
+				// 		var/datum/sprite_accessory/tails/mam_tails/instance = GLOB.mam_tails_list[path]
+				// 		if(istype(instance, /datum/sprite_accessory))
+				// 			var/datum/sprite_accessory/S = instance
+				// 			if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
+				// 				continue
+				// 			if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
+				// 				snowflake_tails_list[S.name] = path
+				// 	var/new_tail
+				// 	new_tail = input(user, "Choose your character's tail:", "Character Preference") as null|anything in snowflake_tails_list
+				// 	if(new_tail)
+				// 		features["mam_tail"] = new_tail
+				// 		if(new_tail != "None")
+				// 			features["taur"] = "None"
+				// 			features["tail_human"] = "None"
+				// 			features["tail_lizard"] = "None"
 
-				if("spines")
-					var/new_spines
-					new_spines = input(user, "Choose your character's spines:", "Character Preference") as null|anything in GLOB.spines_list
-					if(new_spines)
-						features["spines"] = new_spines
+				// if("meat_type")
+				// 	var/new_meat
+				// 	new_meat = input(user, "Choose your character's meat type:", "Character Preference") as null|anything in GLOB.meat_types
+				// 	if(new_meat)
+				// 		features["meat_type"] = new_meat
 
-				if("legs")
-					var/new_legs
-					new_legs = input(user, "Choose your character's legs:", "Character Preference") as null|anything in GLOB.legs_list
-					if(new_legs)
-						features["legs"] = new_legs
+				// if("snout")
+				// 	var/list/snowflake_snouts_list = list()
+				// 	for(var/path in GLOB.snouts_list)
+				// 		var/datum/sprite_accessory/snouts/mam_snouts/instance = GLOB.snouts_list[path]
+				// 		if(istype(instance, /datum/sprite_accessory))
+				// 			var/datum/sprite_accessory/S = instance
+				// 			if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
+				// 				continue
+				// 			if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
+				// 				snowflake_snouts_list[S.name] = path
+				// 	var/new_snout
+				// 	new_snout = input(user, "Choose your character's snout:", "Character Preference") as null|anything in snowflake_snouts_list
+				// 	if(new_snout)
+				// 		features["snout"] = new_snout
+				// 		features["mam_snouts"] = "None"
 
-				if("insect_wings")
-					var/new_insect_wings
-					new_insect_wings = input(user, "Choose your character's wings:", "Character Preference") as null|anything in GLOB.insect_wings_list
-					if(new_insect_wings)
-						features["insect_wings"] = new_insect_wings
 
-				if("deco_wings")
-					var/new_deco_wings
-					new_deco_wings = input(user, "Choose your character's wings:", "Character Preference") as null|anything in GLOB.deco_wings_list
-					if(new_deco_wings)
-						features["deco_wings"] = new_deco_wings
+				// if("mam_snouts")
+				// 	var/list/snowflake_mam_snouts_list = list()
+				// 	for(var/path in GLOB.mam_snouts_list)
+				// 		var/datum/sprite_accessory/snouts/mam_snouts/instance = GLOB.mam_snouts_list[path]
+				// 		if(istype(instance, /datum/sprite_accessory))
+				// 			var/datum/sprite_accessory/S = instance
+				// 			if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
+				// 				continue
+				// 			if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
+				// 				snowflake_mam_snouts_list[S.name] = path
+				// 	var/new_mam_snouts
+				// 	new_mam_snouts = input(user, "Choose your character's snout:", "Character Preference") as null|anything in snowflake_mam_snouts_list
+				// 	if(new_mam_snouts)
+				// 		features["mam_snouts"] = new_mam_snouts
+				// 		features["snout"] = "None"
 
-				if("insect_fluff")
-					var/new_insect_fluff
-					new_insect_fluff = input(user, "Choose your character's wings:", "Character Preference") as null|anything in GLOB.insect_fluffs_list
-					if(new_insect_fluff)
-						features["insect_fluff"] = new_insect_fluff
+				// if("horns")
+				// 	var/new_horns
+				// 	new_horns = input(user, "Choose your character's horns:", "Character Preference") as null|anything in GLOB.horns_list
+				// 	if(new_horns)
+				// 		features["horns"] = new_horns
 
-				if("insect_markings")
-					var/new_insect_markings
-					new_insect_markings = input(user, "Choose your character's markings:", "Character Preference") as null|anything in GLOB.insect_markings_list
-					if(new_insect_markings)
-						features["insect_markings"] = new_insect_markings
+				// if("horns_color")
+				// 	var/new_horn_color = input(user, "Choose your character's horn colour:", "Character Preference","#"+features["horns_color"]) as color|null
+				// 	if(new_horn_color)
+				// 		if (new_horn_color == "#000000")
+				// 			features["horns_color"] = "85615A"
+				// 		else
+				// 			features["horns_color"] = sanitize_hexcolor(new_horn_color, 6)
 
-				if("s_tone")
-					var/list/choices = GLOB.skin_tones - GLOB.nonstandard_skin_tones
-					if(CONFIG_GET(flag/allow_custom_skintones))
-						choices += "custom"
-					var/new_s_tone = input(user, "Choose your character's skin tone:", "Character Preference")  as null|anything in choices
-					if(new_s_tone)
-						if(new_s_tone == "custom")
-							var/default = use_custom_skin_tone ? skin_tone : null
-							var/custom_tone = input(user, "Choose your custom skin tone:", "Character Preference", default) as color|null
-							if(custom_tone)
-								var/temp_hsv = RGBtoHSV(custom_tone)
-								if(ReadHSV(temp_hsv)[3] < ReadHSV("#333333")[3]) // rgb(50,50,50)
-									to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
-								else
-									use_custom_skin_tone = TRUE
-									skin_tone = custom_tone
-						else
-							use_custom_skin_tone = FALSE
-							skin_tone = new_s_tone
+				// if("blood_color")
+				// 	var/new_color
+				// 	new_color = input(user, "Choose your character's blood color", "#"+features["blood_color"]) as color|null
+				// 	if(!isnull(new_color))
+				// 		features["blood_color"] = sanitize_hexcolor(new_color, 6)
+				// 	//else
+				// 		//var/rainbow = alert(user, "Do you want rainbow blood?", "Hi!", "Yes", "No")
+				// 		//if(rainbow == "Yes")
+				// 		//	features["blood_color"] = "rainbow"
+				// if("reset_blood_color")
+				// 	features["blood_color"] = ""
+				// if("rainbow_blood_color")
+				// 	features["blood_color"] = "rainbow"
+				// if("wings")
+				// 	var/new_wings
+				// 	new_wings = input(user, "Choose your character's wings:", "Character Preference") as null|anything in GLOB.r_wings_list
+				// 	if(new_wings)
+				// 		features["wings"] = new_wings
 
-				if("taur")
-					var/list/snowflake_taur_list = list()
-					for(var/path in GLOB.taur_list)
-						var/datum/sprite_accessory/taur/instance = GLOB.taur_list[path]
-						if(istype(instance, /datum/sprite_accessory))
-							var/datum/sprite_accessory/S = instance
-							if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
-								continue
-							if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
-								snowflake_taur_list[S.name] = path
-					var/new_taur
-					new_taur = input(user, "Choose your character's tauric body:", "Character Preference") as null|anything in snowflake_taur_list
-					if(new_taur)
-						features["taur"] = new_taur
-						if(new_taur != "None")
-							features["mam_tail"] = "None"
-							features["xenotail"] = "None"
-							features["tail_human"] = "None"
-							features["tail_lizard"] = "None"
+				// if("wings_color")
+				// 	var/new_wing_color = input(user, "Choose your character's wing colour:", "Character Preference","#"+features["wings_color"]) as color|null
+				// 	if(new_wing_color)
+				// 		if (new_wing_color == "#000000")
+				// 			features["wings_color"] = "#FFFFFF"
+				// 		else
+				// 			features["wings_color"] = sanitize_hexcolor(new_wing_color, 6)
 
-				if("ears")
-					var/list/snowflake_ears_list = list()
-					for(var/path in GLOB.ears_list)
-						var/datum/sprite_accessory/ears/instance = GLOB.ears_list[path]
-						if(istype(instance, /datum/sprite_accessory))
-							var/datum/sprite_accessory/S = instance
-							if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
-								continue
-							if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
-								snowflake_ears_list[S.name] = path
-					var/new_ears
-					new_ears = input(user, "Choose your character's ears:", "Character Preference") as null|anything in snowflake_ears_list
-					if(new_ears)
-						features["ears"] = new_ears
+				// if("frills")
+				// 	var/new_frills
+				// 	new_frills = input(user, "Choose your character's frills:", "Character Preference") as null|anything in GLOB.frills_list
+				// 	if(new_frills)
+				// 		features["frills"] = new_frills
 
-				if("mam_ears")
-					var/list/snowflake_ears_list = list()
-					for(var/path in GLOB.mam_ears_list)
-						var/datum/sprite_accessory/ears/mam_ears/instance = GLOB.mam_ears_list[path]
-						if(istype(instance, /datum/sprite_accessory))
-							var/datum/sprite_accessory/S = instance
-							if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
-								continue
-							if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
-								snowflake_ears_list[S.name] = path
-					var/new_ears
-					new_ears = input(user, "Choose your character's ears:", "Character Preference") as null|anything in snowflake_ears_list
-					if(new_ears)
-						features["mam_ears"] = new_ears
+				// if("spines")
+				// 	var/new_spines
+				// 	new_spines = input(user, "Choose your character's spines:", "Character Preference") as null|anything in GLOB.spines_list
+				// 	if(new_spines)
+				// 		features["spines"] = new_spines
 
-				//Xeno Bodyparts
-				if("xenohead")//Head or caste type
-					var/new_head
-					new_head = input(user, "Choose your character's caste:", "Character Preference") as null|anything in GLOB.xeno_head_list
-					if(new_head)
-						features["xenohead"] = new_head
+				// if("legs")
+					// var/new_legs
+					// new_legs = input(user, "Choose your character's legs:", "Character Preference") as null|anything in GLOB.legs_list
+					// if(new_legs)
+					// 	features["legs"] = new_legs
 
-				if("xenotail")//Currently one one type, more maybe later if someone sprites them. Might include animated variants in the future.
-					var/new_tail
-					new_tail = input(user, "Choose your character's tail:", "Character Preference") as null|anything in GLOB.xeno_tail_list
-					if(new_tail)
-						features["xenotail"] = new_tail
-						if(new_tail != "None")
-							features["mam_tail"] = "None"
-							features["taur"] = "None"
-							features["tail_human"] = "None"
-							features["tail_lizard"] = "None"
+				// if("insect_wings")
+				// 	var/new_insect_wings
+				// 	new_insect_wings = input(user, "Choose your character's wings:", "Character Preference") as null|anything in GLOB.insect_wings_list
+				// 	if(new_insect_wings)
+				// 		features["insect_wings"] = new_insect_wings
 
-				if("xenodorsal")
-					var/new_dors
-					new_dors = input(user, "Choose your character's dorsal tube type:", "Character Preference") as null|anything in GLOB.xeno_dorsal_list
-					if(new_dors)
-						features["xenodorsal"] = new_dors
+				// if("deco_wings")
+				// 	var/new_deco_wings
+				// 	new_deco_wings = input(user, "Choose your character's wings:", "Character Preference") as null|anything in GLOB.deco_wings_list
+				// 	if(new_deco_wings)
+				// 		features["deco_wings"] = new_deco_wings
 
-				//Dragon Bodyparts
-				if("derg_body") //dragon main body
-					var/new_body
-					new_body = input(user, "Choose your character's body type:", "Character Preference") as null|anything in GLOB.derg_body_list
-					if(new_body)
-						features["derg_body"] = new_body
+				// if("insect_fluff")
+				// 	var/new_insect_fluff
+				// 	new_insect_fluff = input(user, "Choose your character's wings:", "Character Preference") as null|anything in GLOB.insect_fluffs_list
+				// 	if(new_insect_fluff)
+				// 		features["insect_fluff"] = new_insect_fluff
 
-				if("derg_belly") //dragon underside
-					var/new_belly
-					new_belly = input(user, "Choose your character's belly type:", "Character Preference") as null|anything in GLOB.derg_belly_list
-					if(new_belly)
-						features["derg_belly"] = new_belly
+				// if("insect_markings")
+				// 	var/new_insect_markings
+				// 	new_insect_markings = input(user, "Choose your character's markings:", "Character Preference") as null|anything in GLOB.insect_markings_list
+				// 	if(new_insect_markings)
+				// 		features["insect_markings"] = new_insect_markings
 
-				if("derg_horns")
-					var/new_horn
-					new_horn = input(user, "Choose your character's horn type:", "Character Preference") as null|anything in GLOB.derg_horn_list
-					if(new_horn)
-						features["derg_horns"] = new_horn
+				// if("s_tone")
+				// 	var/list/choices = GLOB.skin_tones - GLOB.nonstandard_skin_tones
+				// 	if(CONFIG_GET(flag/allow_custom_skintones))
+				// 		choices += "custom"
+				// 	var/new_s_tone = input(user, "Choose your character's skin tone:", "Character Preference")  as null|anything in choices
+				// 	if(new_s_tone)
+				// 		if(new_s_tone == "custom")
+				// 			var/default = use_custom_skin_tone ? skin_tone : null
+				// 			var/custom_tone = input(user, "Choose your custom skin tone:", "Character Preference", default) as color|null
+				// 			if(custom_tone)
+				// 				var/temp_hsv = RGBtoHSV(custom_tone)
+				// 				if(ReadHSV(temp_hsv)[3] < ReadHSV("#333333")[3]) // rgb(50,50,50)
+				// 					to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
+				// 				else
+				// 					use_custom_skin_tone = TRUE
+				// 					skin_tone = custom_tone
+				// 		else
+				// 			use_custom_skin_tone = FALSE
+				// 			skin_tone = new_s_tone
 
-				if("derg_ears")
-					var/new_ears
-					new_ears = input(user, "Choose your character's ear type:", "Character Preference") as null|anything in GLOB.derg_ear_list
-					if(new_ears)
-						features["derg_ears"] = new_ears
+				// if("taur")
+				// 	var/list/snowflake_taur_list = list()
+				// 	for(var/path in GLOB.taur_list)
+				// 		var/datum/sprite_accessory/taur/instance = GLOB.taur_list[path]
+				// 		if(istype(instance, /datum/sprite_accessory))
+				// 			var/datum/sprite_accessory/S = instance
+				// 			if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
+				// 				continue
+				// 			if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
+				// 				snowflake_taur_list[S.name] = path
+				// 	var/new_taur
+				// 	new_taur = input(user, "Choose your character's tauric body:", "Character Preference") as null|anything in snowflake_taur_list
+				// 	if(new_taur)
+				// 		features["taur"] = new_taur
+				// 		if(new_taur != "None")
+				// 			features["mam_tail"] = "None"
+				// 			features["xenotail"] = "None"
+				// 			features["tail_human"] = "None"
+				// 			features["tail_lizard"] = "None"
 
-				if("derg_mane")
-					var/new_mane
-					new_mane = input(user, "Choose your character's mane type:", "Character Preference") as null|anything in GLOB.derg_mane_list
-					if(new_mane)
-						features["derg_mane"] = new_mane
+				// if("ears")
+				// 	var/list/snowflake_ears_list = list()
+				// 	for(var/path in GLOB.ears_list)
+				// 		var/datum/sprite_accessory/ears/instance = GLOB.ears_list[path]
+				// 		if(istype(instance, /datum/sprite_accessory))
+				// 			var/datum/sprite_accessory/S = instance
+				// 			if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
+				// 				continue
+				// 			if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
+				// 				snowflake_ears_list[S.name] = path
+				// 	var/new_ears
+				// 	new_ears = input(user, "Choose your character's ears:", "Character Preference") as null|anything in snowflake_ears_list
+				// 	if(new_ears)
+				// 		features["ears"] = new_ears
 
-				if("derg_eyes")
-					var/new_eye
-					new_eye = input(user, "Choose your character's eye type:", "Character Preference") as null|anything in GLOB.derg_eye_list
-					if(new_eye)
-						features["derg_eyes"] = new_eye
+				// if("mam_ears")
+				// 	var/list/snowflake_ears_list = list()
+				// 	for(var/path in GLOB.mam_ears_list)
+				// 		var/datum/sprite_accessory/ears/mam_ears/instance = GLOB.mam_ears_list[path]
+				// 		if(istype(instance, /datum/sprite_accessory))
+				// 			var/datum/sprite_accessory/S = instance
+				// 			if(!show_mismatched_markings && S.recommended_species && !S.recommended_species.Find(pref_species.id))
+				// 				continue
+				// 			if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
+				// 				snowflake_ears_list[S.name] = path
+				// 	var/new_ears
+				// 	new_ears = input(user, "Choose your character's ears:", "Character Preference") as null|anything in snowflake_ears_list
+				// 	if(new_ears)
+				// 		features["mam_ears"] = new_ears
+
+				// if("xenohead")//Head or caste type
+				// 	var/new_head
+				// 	new_head = input(user, "Choose your character's caste:", "Character Preference") as null|anything in GLOB.xeno_head_list
+				// 	if(new_head)
+				// 		features["xenohead"] = new_head
+
+				// if("xenotail")//Currently one one type, more maybe later if someone sprites them. Might include animated variants in the future.
+				// 	var/new_tail
+				// 	new_tail = input(user, "Choose your character's tail:", "Character Preference") as null|anything in GLOB.xeno_tail_list
+				// 	if(new_tail)
+				// 		features["xenotail"] = new_tail
+				// 		if(new_tail != "None")
+				// 			features["mam_tail"] = "None"
+				// 			features["taur"] = "None"
+				// 			features["tail_human"] = "None"
+				// 			features["tail_lizard"] = "None"
+
+				// if("xenodorsal")
+				// 	var/new_dors
+				// 	new_dors = input(user, "Choose your character's dorsal tube type:", "Character Preference") as null|anything in GLOB.xeno_dorsal_list
+				// 	if(new_dors)
+				// 		features["xenodorsal"] = new_dors
+
+				// if("derg_body") //dragon main body
+				// 	var/new_body
+				// 	new_body = input(user, "Choose your character's body type:", "Character Preference") as null|anything in GLOB.derg_body_list
+				// 	if(new_body)
+				// 		features["derg_body"] = new_body
+
+				// if("derg_belly") //dragon underside
+				// 	var/new_belly
+				// 	new_belly = input(user, "Choose your character's belly type:", "Character Preference") as null|anything in GLOB.derg_belly_list
+				// 	if(new_belly)
+				// 		features["derg_belly"] = new_belly
+
+				// if("derg_horns")
+				// 	var/new_horn
+				// 	new_horn = input(user, "Choose your character's horn type:", "Character Preference") as null|anything in GLOB.derg_horn_list
+				// 	if(new_horn)
+				// 		features["derg_horns"] = new_horn
+
+				// if("derg_ears")
+				// 	var/new_ears
+				// 	new_ears = input(user, "Choose your character's ear type:", "Character Preference") as null|anything in GLOB.derg_ear_list
+				// 	if(new_ears)
+				// 		features["derg_ears"] = new_ears
+
+				// if("derg_mane")
+				// 	var/new_mane
+				// 	new_mane = input(user, "Choose your character's mane type:", "Character Preference") as null|anything in GLOB.derg_mane_list
+				// 	if(new_mane)
+				// 		features["derg_mane"] = new_mane
+
+				// if("derg_eyes")
+				// 	var/new_eye
+				// 	new_eye = input(user, "Choose your character's eye type:", "Character Preference") as null|anything in GLOB.derg_eye_list
+				// 	if(new_eye)
+				// 		features["derg_eyes"] = new_eye
 
 				//every single primary/secondary/tertiary colouring done at once
-				if(
-				"derg_body_primary","derg_body_secondary","derg_body_tertiary",
-				"derg_belly_primary","derg_belly_secondary","derg_belly_tertiary",
-				"derg_horns_primary","derg_horns_secondary","derg_horns_tertiary",
-				"derg_ears_primary","derg_ears_secondary","derg_ears_tertiary",
-				"derg_mane_primary","derg_mane_secondary","derg_mane_tertiary",
-				"derg_eyes_primary","derg_eyes_secondary","derg_eyes_tertiary",
-				"xenodorsal_primary","xenodorsal_secondary","xenodorsal_tertiary",
-				"xhead_primary","xhead_secondary","xhead_tertiary",
-				"tail_primary","tail_secondary","tail_tertiary",
-				"insect_markings_primary","insect_markings_secondary","insect_markings_tertiary",
-				"insect_fluff_primary","insect_fluff_secondary","insect_fluff_tertiary",
-				"ears_primary","ears_secondary","ears_tertiary",
-				"frills_primary","frills_secondary","frills_tertiary",
-				"ipc_antenna_primary","ipc_antenna_secondary","ipc_antenna_tertiary",
-				"taur_primary","taur_secondary","taur_tertiary",
-				"snout_primary","snout_secondary","snout_tertiary",
-				"spines_primary","spines_secondary","spines_tertiary",
-				"mam_body_markings_primary", "mam_body_markings_secondary", "mam_body_markings_tertiary")
-					var/the_feature = features[href_list["preference"]]
-					if(!the_feature)
-						features[href_list["preference"]] = "FFFFFF"
-						the_feature = "FFFFFF"
-					var/new_feature_color = input(user, "Choose your character's mutant part colour:", "Character Preference","#"+features[href_list["preference"]]) as color|null
-					if(new_feature_color)
-						var/temp_hsv = RGBtoHSV(new_feature_color)
-						if(new_feature_color == "#000000")
-							features[href_list["preference"]] = pref_species.default_color
-						else if(ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3])
-							features[href_list["preference"]] = sanitize_hexcolor(new_feature_color, 6)
-						else
-							to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
+				// if(
+				// "derg_body_primary","derg_body_secondary","derg_body_tertiary",
+				// "derg_belly_primary","derg_belly_secondary","derg_belly_tertiary",
+				// "derg_horns_primary","derg_horns_secondary","derg_horns_tertiary",
+				// "derg_ears_primary","derg_ears_secondary","derg_ears_tertiary",
+				// "derg_mane_primary","derg_mane_secondary","derg_mane_tertiary",
+				// "derg_eyes_primary","derg_eyes_secondary","derg_eyes_tertiary",
+				// "xenodorsal_primary","xenodorsal_secondary","xenodorsal_tertiary",
+				// "xhead_primary","xhead_secondary","xhead_tertiary",
+				// "tail_primary","tail_secondary","tail_tertiary",
+				// "insect_markings_primary","insect_markings_secondary","insect_markings_tertiary",
+				// "insect_fluff_primary","insect_fluff_secondary","insect_fluff_tertiary",
+				// "ears_primary","ears_secondary","ears_tertiary",
+				// "frills_primary","frills_secondary","frills_tertiary",
+				// "ipc_antenna_primary","ipc_antenna_secondary","ipc_antenna_tertiary",
+				// "taur_primary","taur_secondary","taur_tertiary",
+				// "snout_primary","snout_secondary","snout_tertiary",
+				// "spines_primary","spines_secondary","spines_tertiary",
+				// "mam_body_markings_primary", "mam_body_markings_secondary", "mam_body_markings_tertiary")
+				// 	var/the_feature = features[href_list["preference"]]
+				// 	if(!the_feature)
+				// 		features[href_list["preference"]] = "FFFFFF"
+				// 		the_feature = "FFFFFF"
+				// 	var/new_feature_color = input(user, "Choose your character's mutant part colour:", "Character Preference","#"+features[href_list["preference"]]) as color|null
+				// 	if(new_feature_color)
+				// 		var/temp_hsv = RGBtoHSV(new_feature_color)
+				// 		if(new_feature_color == "#000000")
+				// 			features[href_list["preference"]] = pref_species.default_color
+				// 		else if(ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3])
+				// 			features[href_list["preference"]] = sanitize_hexcolor(new_feature_color, 6)
+				// 		else
+				// 			to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
 
 
 				//advanced color mode toggle
-				if("color_scheme")
-					if(features["color_scheme"] == ADVANCED_CHARACTER_COLORING)
-						features["color_scheme"] = OLD_CHARACTER_COLORING
-					else
-						features["color_scheme"] = ADVANCED_CHARACTER_COLORING
+				// if("color_scheme")
+				// 	if(features["color_scheme"] == ADVANCED_CHARACTER_COLORING)
+				// 		features["color_scheme"] = OLD_CHARACTER_COLORING
+				// 	else
+				// 		features["color_scheme"] = ADVANCED_CHARACTER_COLORING
 
 				//Genital code
 				// visibility stuff~
-				if(GENITAL_VIS_OVERRIDE_SET)
-					var/list/genital_overrides = GENITAL_VIS_FLAG_LIST
-					var/new_visibility = input(user, "Set a visibility override! If set, this part will always be visible/hidden, regardless of how covered it is.", "Character Preference", href_list["genital_flag"]) as null|anything in genital_overrides
-					if(new_visibility)
-						var/new_bit = genital_overrides[new_visibility]
-						var/which_gunt = GENITAL_VIS_OVERRIDE2FLAGS_LIST[href_list["preference"]]
-						DISABLE_BITFIELD(features[which_gunt], GENITAL_ALWAYS_HIDDEN | GENITAL_ALWAYS_VISIBLE)
-						ENABLE_BITFIELD(features[which_gunt], new_bit)
+				// if(GENITAL_VIS_OVERRIDE_SET)
+				// 	var/list/genital_overrides = GENITAL_VIS_FLAG_LIST
+				// 	var/new_visibility = input(user, "Set a visibility override! If set, this part will always be visible/hidden, regardless of how covered it is.", "Character Preference", href_list["genital_flag"]) as null|anything in genital_overrides
+				// 	if(new_visibility)
+				// 		var/new_bit = genital_overrides[new_visibility]
+				// 		var/which_gunt = GENITAL_VIS_OVERRIDE2FLAGS_LIST[href_list["preference"]]
+				// 		DISABLE_BITFIELD(features[which_gunt], GENITAL_ALWAYS_HIDDEN | GENITAL_ALWAYS_VISIBLE)
+				// 		ENABLE_BITFIELD(features[which_gunt], new_bit)
 
-				if(GENITAL_VIS_FLAGS_SET)
-					var/which_gunt = href_list["preference"]
-					var/dicflag = text2num(href_list["genital_flag"]) // it gets something like "2"
-					TOGGLE_BITFIELD(features[which_gunt], dicflag)
+				// if(GENITAL_VIS_FLAGS_SET)
+				// 	var/which_gunt = href_list["preference"]
+				// 	var/dicflag = text2num(href_list["genital_flag"]) // it gets something like "2"
+				// 	TOGGLE_BITFIELD(features[which_gunt], dicflag)
 
-				if("cock_color")
-					var/new_cockcolor = input(user, "Penis color:", "Character Preference","#"+features["cock_color"]) as color|null
-					if(new_cockcolor)
-						var/temp_hsv = RGBtoHSV(new_cockcolor)
-						if(new_cockcolor == "#000000")
-							features["cock_color"] = pref_species.default_color
-						else if(ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3])
-							features["cock_color"] = sanitize_hexcolor(new_cockcolor, 6)
-						else
-							to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
+				// if("cock_color")
+				// 	var/new_cockcolor = input(user, "Penis color:", "Character Preference","#"+features["cock_color"]) as color|null
+				// 	if(new_cockcolor)
+				// 		var/temp_hsv = RGBtoHSV(new_cockcolor)
+				// 		if(new_cockcolor == "#000000")
+				// 			features["cock_color"] = pref_species.default_color
+				// 		else if(ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3])
+				// 			features["cock_color"] = sanitize_hexcolor(new_cockcolor, 6)
+				// 		else
+				// 			to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
 
-				if("cock_size")
-					var/min_D = CONFIG_GET(number/penis_min_inches_prefs)
-					var/max_D = CONFIG_GET(number/penis_max_inches_prefs)
-					var/new_length = input(user, "Penis length in inches:\n([min_D]-[max_D])", "Character Preference") as num|null
-					if(new_length)
-						features["cock_size"] = clamp(round(new_length), min_D, max_D)
+				// if("cock_size")
+				// 	var/min_D = CONFIG_GET(number/penis_min_inches_prefs)
+				// 	var/max_D = CONFIG_GET(number/penis_max_inches_prefs)
+				// 	var/new_length = input(user, "Penis length in inches:\n([min_D]-[max_D])", "Character Preference") as num|null
+				// 	if(new_length)
+				// 		features["cock_size"] = clamp(round(new_length), min_D, max_D)
 
-				if("cock_shape")
-					var/new_shape
-					var/list/hockeys = list()
-					if(parent.can_have_part("taur"))
-						var/datum/sprite_accessory/taur/T = GLOB.taur_list[features["taur"]]
-						for(var/A in GLOB.cock_shapes_list)
-							var/datum/sprite_accessory/penis/P = GLOB.cock_shapes_list[A]
-							if(P.taur_icon && T.taur_mode & P.accepted_taurs)
-								LAZYSET(hockeys, "[A] (Taur)", A)
-					new_shape = input(user, "Penis shape:", "Character Preference") as null|anything in (GLOB.cock_shapes_list + hockeys)
-					if(new_shape)
-						features["cock_taur"] = FALSE
-						if(hockeys[new_shape])
-							new_shape = hockeys[new_shape]
-							features["cock_taur"] = TRUE
-						features["cock_shape"] = new_shape
+				// if("cock_shape")
+				// 	var/new_shape
+				// 	var/list/hockeys = list()
+				// 	if(parent.can_have_part("taur"))
+				// 		var/datum/sprite_accessory/taur/T = GLOB.taur_list[features["taur"]]
+				// 		for(var/A in GLOB.cock_shapes_list)
+				// 			var/datum/sprite_accessory/penis/P = GLOB.cock_shapes_list[A]
+				// 			if(P.taur_icon && T.taur_mode & P.accepted_taurs)
+				// 				LAZYSET(hockeys, "[A] (Taur)", A)
+				// 	new_shape = input(user, "Penis shape:", "Character Preference") as null|anything in (GLOB.cock_shapes_list + hockeys)
+				// 	if(new_shape)
+				// 		features["cock_taur"] = FALSE
+				// 		if(hockeys[new_shape])
+				// 			new_shape = hockeys[new_shape]
+				// 			features["cock_taur"] = TRUE
+				// 		features["cock_shape"] = new_shape
 
-				if("cock_visibility")
-					var/n_vis = input(user, "Penis Visibility", "Character Preference") as null|anything in CONFIG_GET(keyed_list/safe_visibility_toggles)
-					if(n_vis)
-						features["cock_visibility"] = n_vis
+				// if("cock_visibility")
+				// 	var/n_vis = input(user, "Penis Visibility", "Character Preference") as null|anything in CONFIG_GET(keyed_list/safe_visibility_toggles)
+				// 	if(n_vis)
+				// 		features["cock_visibility"] = n_vis
 
-				if("balls_color")
-					var/new_ballscolor = input(user, "Testicles Color:", "Character Preference","#"+features["balls_color"]) as color|null
-					if(new_ballscolor)
-						var/temp_hsv = RGBtoHSV(new_ballscolor)
-						if(new_ballscolor == "#000000")
-							features["balls_color"] = pref_species.default_color
-						else if(ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3])
-							features["balls_color"] = sanitize_hexcolor(new_ballscolor, 6)
-						else
-							to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
+				// if("balls_color")
+				// 	var/new_ballscolor = input(user, "Testicles Color:", "Character Preference","#"+features["balls_color"]) as color|null
+				// 	if(new_ballscolor)
+				// 		var/temp_hsv = RGBtoHSV(new_ballscolor)
+				// 		if(new_ballscolor == "#000000")
+				// 			features["balls_color"] = pref_species.default_color
+				// 		else if(ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3])
+				// 			features["balls_color"] = sanitize_hexcolor(new_ballscolor, 6)
+				// 		else
+				// 			to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
 
-				if("balls_shape")
-					var/new_shape
-					new_shape = input(user, "Balls Shape", "Character Preference") as null|anything in GLOB.balls_shapes_list
-					if(new_shape)
-						features["balls_shape"] = new_shape
+				// if("balls_shape")
+				// 	var/new_shape
+				// 	new_shape = input(user, "Balls Shape", "Character Preference") as null|anything in GLOB.balls_shapes_list
+				// 	if(new_shape)
+				// 		features["balls_shape"] = new_shape
 
-				if("balls_size")
-					var/min_B = 1
-					var/max_B = BALLS_SIZE_MAX
-					var/new_length = input(user, "Testicle size in decigrundles:\n([min_B]-[max_B])", "Character Preference") as num|null
-					if(new_length)
-						features["balls_size"] = clamp(round(new_length), min_B, max_B)
+				// if("balls_size")
+				// 	var/min_B = 1
+				// 	var/max_B = BALLS_SIZE_MAX
+				// 	var/new_length = input(user, "Testicle size in decigrundles:\n([min_B]-[max_B])", "Character Preference") as num|null
+				// 	if(new_length)
+				// 		features["balls_size"] = clamp(round(new_length), min_B, max_B)
 
-				if("balls_visibility")
-					var/n_vis = input(user, "Testicles Visibility", "Character Preference") as null|anything in CONFIG_GET(keyed_list/safe_visibility_toggles)
-					if(n_vis)
-						features["balls_visibility"] = n_vis
+				// if("balls_visibility")
+				// 	var/n_vis = input(user, "Testicles Visibility", "Character Preference") as null|anything in CONFIG_GET(keyed_list/safe_visibility_toggles)
+				// 	if(n_vis)
+						// features["balls_visibility"] = n_vis
 
-				if("breasts_size")
-					var/new_size = input(user, "Breast Size", "Character Preference") as null|anything in CONFIG_GET(keyed_list/breasts_cups_prefs)
-					if(new_size)
-						features["breasts_size"] = new_size
+				// if("breasts_size")
+				// 	var/new_size = input(user, "Breast Size", "Character Preference") as null|anything in CONFIG_GET(keyed_list/breasts_cups_prefs)
+				// 	if(new_size)
+				// 		features["breasts_size"] = new_size
 
-				if("breasts_shape")
-					var/new_shape
-					new_shape = input(user, "Breast Shape", "Character Preference") as null|anything in GLOB.breasts_shapes_list
-					if(new_shape)
-						features["breasts_shape"] = new_shape
+				// if("breasts_shape")
+				// 	var/new_shape
+				// 	new_shape = input(user, "Breast Shape", "Character Preference") as null|anything in GLOB.breasts_shapes_list
+				// 	if(new_shape)
+				// 		features["breasts_shape"] = new_shape
 
-				if("breasts_color")
-					var/new_breasts_color = input(user, "Breast Color:", "Character Preference","#"+features["breasts_color"]) as color|null
-					if(new_breasts_color)
-						var/temp_hsv = RGBtoHSV(new_breasts_color)
-						if(new_breasts_color == "#000000")
-							features["breasts_color"] = pref_species.default_color
-						else if(ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3])
-							features["breasts_color"] = sanitize_hexcolor(new_breasts_color, 6)
-						else
-							to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
+				// if("breasts_color")
+				// 	var/new_breasts_color = input(user, "Breast Color:", "Character Preference","#"+features["breasts_color"]) as color|null
+				// 	if(new_breasts_color)
+				// 		var/temp_hsv = RGBtoHSV(new_breasts_color)
+				// 		if(new_breasts_color == "#000000")
+				// 			features["breasts_color"] = pref_species.default_color
+				// 		else if(ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3])
+				// 			features["breasts_color"] = sanitize_hexcolor(new_breasts_color, 6)
+				// 		else
+				// 			to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
 
-				if("breasts_visibility")
-					var/n_vis = input(user, "Breasts Visibility", "Character Preference") as null|anything in CONFIG_GET(keyed_list/safe_visibility_toggles)
-					if(n_vis)
-						features["breasts_visibility"] = n_vis
+				// if("breasts_visibility")
+				// 	var/n_vis = input(user, "Breasts Visibility", "Character Preference") as null|anything in CONFIG_GET(keyed_list/safe_visibility_toggles)
+				// 	if(n_vis)
+				// 		features["breasts_visibility"] = n_vis
 
-				if("belly_size")
-					var/min_B = CONFIG_GET(number/belly_min_size_prefs)
-					var/max_B = CONFIG_GET(number/belly_max_size_prefs)
-					var/new_length = input(user, "Belly size:\n([min_B]-[max_B])", "Character Preference") as num|null
-					if(new_length)
-						features["belly_size"] = clamp(round(new_length), min_B, max_B)
+				// if("belly_size")
+				// 	var/min_B = CONFIG_GET(number/belly_min_size_prefs)
+				// 	var/max_B = CONFIG_GET(number/belly_max_size_prefs)
+				// 	var/new_length = input(user, "Belly size:\n([min_B]-[max_B])", "Character Preference") as num|null
+				// 	if(new_length)
+				// 		features["belly_size"] = clamp(round(new_length), min_B, max_B)
 
-				if("belly_shape")
-					var/new_shape
-					new_shape = input(user, "Belly Shape", "Character Preference") as null|anything in GLOB.belly_shapes_list
-					if(new_shape)
-						features["belly_shape"] = new_shape
+				// if("belly_shape")
+				// 	var/new_shape
+				// 	new_shape = input(user, "Belly Shape", "Character Preference") as null|anything in GLOB.belly_shapes_list
+				// 	if(new_shape)
+				// 		features["belly_shape"] = new_shape
 
-				if("belly_color")
-					var/new_belly_color = input(user, "Belly Color:", "Character Preference","#"+features["belly_color"]) as color|null
-					if(new_belly_color)
-						var/temp_hsv = RGBtoHSV(new_belly_color)
-						if(new_belly_color == "#000000")
-							features["belly_color"] = pref_species.default_color
-						else if(ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3])
-							features["belly_color"] = sanitize_hexcolor(new_belly_color, 6)
-						else
-							to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
+				// if("belly_color")
+				// 	var/new_belly_color = input(user, "Belly Color:", "Character Preference","#"+features["belly_color"]) as color|null
+				// 	if(new_belly_color)
+				// 		var/temp_hsv = RGBtoHSV(new_belly_color)
+				// 		if(new_belly_color == "#000000")
+				// 			features["belly_color"] = pref_species.default_color
+				// 		else if(ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3])
+				// 			features["belly_color"] = sanitize_hexcolor(new_belly_color, 6)
+				// 		else
+				// 			to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
 
-				if("belly_visibility")
-					var/n_vis = input(user, "Belly Visibility", "Character Preference") as null|anything in CONFIG_GET(keyed_list/safe_visibility_toggles)
-					if(n_vis)
-						features["belly_visibility"] = n_vis
+				// if("belly_visibility")
+				// 	var/n_vis = input(user, "Belly Visibility", "Character Preference") as null|anything in CONFIG_GET(keyed_list/safe_visibility_toggles)
+				// 	if(n_vis)
+				// 		features["belly_visibility"] = n_vis
 
-				if("vag_shape")
-					var/new_shape
-					new_shape = input(user, "Vagina Type", "Character Preference") as null|anything in GLOB.vagina_shapes_list
-					if(new_shape)
-						features["vag_shape"] = new_shape
+				// if("vag_shape")
+				// 	var/new_shape
+				// 	new_shape = input(user, "Vagina Type", "Character Preference") as null|anything in GLOB.vagina_shapes_list
+				// 	if(new_shape)
+				// 		features["vag_shape"] = new_shape
 
-				if("vag_color")
-					var/new_vagcolor = input(user, "Vagina color:", "Character Preference","#"+features["vag_color"]) as color|null
-					if(new_vagcolor)
-						var/temp_hsv = RGBtoHSV(new_vagcolor)
-						if(new_vagcolor == "#000000")
-							features["vag_color"] = pref_species.default_color
-						else if(ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3])
-							features["vag_color"] = sanitize_hexcolor(new_vagcolor, 6)
-						else
-							to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
+				// if("vag_color")
+				// 	var/new_vagcolor = input(user, "Vagina color:", "Character Preference","#"+features["vag_color"]) as color|null
+				// 	if(new_vagcolor)
+				// 		var/temp_hsv = RGBtoHSV(new_vagcolor)
+				// 		if(new_vagcolor == "#000000")
+				// 			features["vag_color"] = pref_species.default_color
+				// 		else if(ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3])
+				// 			features["vag_color"] = sanitize_hexcolor(new_vagcolor, 6)
+				// 		else
+				// 			to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
 
-				if("vag_visibility")
-					var/n_vis = input(user, "Vagina Visibility", "Character Preference") as null|anything in CONFIG_GET(keyed_list/safe_visibility_toggles)
-					if(n_vis)
-						features["vag_visibility"] = n_vis
+				// if("vag_visibility")
+				// 	var/n_vis = input(user, "Vagina Visibility", "Character Preference") as null|anything in CONFIG_GET(keyed_list/safe_visibility_toggles)
+				// 	if(n_vis)
+				// 		features["vag_visibility"] = n_vis
 
-				if("butt_color")
-					var/new_buttcolor = input(user, "Butt color:", "Character Preference","#"+features["butt_color"]) as color|null
-					if(new_buttcolor)
-						var/temp_hsv = RGBtoHSV(new_buttcolor)
-						if(new_buttcolor == "#000000")
-							features["butt_color"] = pref_species.default_color
-						else if(ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3])
-							features["butt_color"] = sanitize_hexcolor(new_buttcolor, 6)
-						else
-							to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
+				// if("butt_color")
+				// 	var/new_buttcolor = input(user, "Butt color:", "Character Preference","#"+features["butt_color"]) as color|null
+				// 	if(new_buttcolor)
+				// 		var/temp_hsv = RGBtoHSV(new_buttcolor)
+				// 		if(new_buttcolor == "#000000")
+				// 			features["butt_color"] = pref_species.default_color
+				// 		else if(ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3])
+				// 			features["butt_color"] = sanitize_hexcolor(new_buttcolor, 6)
+				// 		else
+				// 			to_chat(user,span_danger("Invalid color. Your color is not bright enough."))
 
-				if("butt_size")
-					var/min_B = CONFIG_GET(number/butt_min_size_prefs)
-					var/max_B = CONFIG_GET(number/butt_max_size_prefs)
-					var/new_length = input(user, "Butt size:\n([min_B]-[max_B])", "Character Preference") as num|null
-					if(new_length)
-						features["butt_size"] = clamp(round(new_length), min_B, max_B)
+				// if("butt_size")
+				// 	var/min_B = CONFIG_GET(number/butt_min_size_prefs)
+				// 	var/max_B = CONFIG_GET(number/butt_max_size_prefs)
+				// 	var/new_length = input(user, "Butt size:\n([min_B]-[max_B])", "Character Preference") as num|null
+				// 	if(new_length)
+				// 		features["butt_size"] = clamp(round(new_length), min_B, max_B)
 
-				if("butt_visibility")
-					var/n_vis = input(user, "Butt Visibility", "Character Preference") as null|anything in CONFIG_GET(keyed_list/safe_visibility_toggles)
-					if(n_vis)
-						features["butt_visibility"] = n_vis
+				// if("butt_visibility")
+				// 	var/n_vis = input(user, "Butt Visibility", "Character Preference") as null|anything in CONFIG_GET(keyed_list/safe_visibility_toggles)
+				// 	if(n_vis)
+				// 		features["butt_visibility"] = n_vis
 
-				if("ooccolor")
-					var/new_ooccolor = input(user, "Choose your OOC colour:", "Game Preference",ooccolor) as color|null
-					if(new_ooccolor)
-						ooccolor = new_ooccolor
+				// if("ooccolor")
+				// 	var/new_ooccolor = input(user, "Choose your OOC colour:", "Game Preference",ooccolor) as color|null
+				// 	if(new_ooccolor)
+				// 		ooccolor = new_ooccolor
 
-				if("aooccolor")
-					var/new_aooccolor = input(user, "Choose your Antag OOC colour:", "Game Preference",ooccolor) as color|null
-					if(new_aooccolor)
-						aooccolor = new_aooccolor
+				// if("aooccolor")
+				// 	var/new_aooccolor = input(user, "Choose your Antag OOC colour:", "Game Preference",ooccolor) as color|null
+				// 	if(new_aooccolor)
+				// 		aooccolor = new_aooccolor
 
-				if("bag")
-					var/new_backbag = input(user, "Choose your character's style of bag:", "Character Preference")  as null|anything in GLOB.backbaglist
-					if(new_backbag)
-						backbag = new_backbag
+				// if("bag")
+				// 	var/new_backbag = input(user, "Choose your character's style of bag:", "Character Preference")  as null|anything in GLOB.backbaglist
+				// 	if(new_backbag)
+				// 		backbag = new_backbag
 
 				if("suit")
 					if(jumpsuit_style == PREF_SUIT)
@@ -2433,90 +2434,90 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if (!isnull(desiredfps))
 						clientfps = desiredfps
 						parent.fps = desiredfps
-				if("input_mode_hotkey")
-					if(input_mode_hotkey == "Tab")
-						input_mode_hotkey = "Ctrl+Tab"
-					else
-						input_mode_hotkey = "Tab"
-					parent.change_input_toggle_key(input_mode_hotkey, send_chat = TRUE)
+				// if("input_mode_hotkey")
+				// 	if(input_mode_hotkey == "Tab")
+				// 		input_mode_hotkey = "Ctrl+Tab"
+				// 	else
+				// 		input_mode_hotkey = "Tab"
+				// 	parent.change_input_toggle_key(input_mode_hotkey, send_chat = TRUE)
 					
-				if("ui")
-					var/pickedui = input(user, "Choose your UI style.", "Character Preference", UI_style)  as null|anything in GLOB.available_ui_styles
-					if(pickedui)
-						UI_style = pickedui
-						if (parent && parent.mob && parent.mob.hud_used)
-							parent.mob.hud_used.update_ui_style(ui_style2icon(UI_style))
-				if("pda_style")
-					var/pickedPDAStyle = input(user, "Choose your PDA style.", "Character Preference", pda_style)  as null|anything in GLOB.pda_styles
-					if(pickedPDAStyle)
-						pda_style = pickedPDAStyle
-				if("pda_color")
-					var/pickedPDAColor = input(user, "Choose your PDA Interface color.", "Character Preference",pda_color) as color|null
-					if(pickedPDAColor)
-						pda_color = pickedPDAColor
-				if ("max_chat_length")
-					var/desiredlength = input(user, "Choose the max character length of shown Runechat messages. Valid range is 1 to [CHAT_MESSAGE_MAX_LENGTH] (default: [initial(max_chat_length)]))", "Character Preference", max_chat_length)  as null|num
-					if (!isnull(desiredlength))
-						max_chat_length = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_LENGTH)
+				// if("ui")
+				// 	var/pickedui = input(user, "Choose your UI style.", "Character Preference", UI_style)  as null|anything in GLOB.available_ui_styles
+				// 	if(pickedui)
+				// 		UI_style = pickedui
+				// 		if (parent && parent.mob && parent.mob.hud_used)
+				// 			parent.mob.hud_used.update_ui_style(ui_style2icon(UI_style))
+				// if("pda_style")
+				// 	var/pickedPDAStyle = input(user, "Choose your PDA style.", "Character Preference", pda_style)  as null|anything in GLOB.pda_styles
+				// 	if(pickedPDAStyle)
+				// 		pda_style = pickedPDAStyle
+				// if("pda_color")
+				// 	var/pickedPDAColor = input(user, "Choose your PDA Interface color.", "Character Preference",pda_color) as color|null
+				// 	if(pickedPDAColor)
+				// 		pda_color = pickedPDAColor
+				// if ("max_chat_length")
+				// 	var/desiredlength = input(user, "Choose the max character length of shown Runechat messages. Valid range is 1 to [CHAT_MESSAGE_MAX_LENGTH] (default: [initial(max_chat_length)]))", "Character Preference", max_chat_length)  as null|num
+				// 	if (!isnull(desiredlength))
+				// 		max_chat_length = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_LENGTH)
 
-				if ("chat_width")
-					var/desiredlength = input(user, "Choose the max character length of shown Runechat messages. Valid range is 1 to [CHAT_MESSAGE_MAX_LENGTH] (default: [initial(max_chat_length)]))", "Character Preference", max_chat_length)  as null|num
-					if (!isnull(desiredlength))
-						chat_width = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_WIDTH)
+				// if ("chat_width")
+				// 	var/desiredlength = input(user, "Choose the max character length of shown Runechat messages. Valid range is 1 to [CHAT_MESSAGE_MAX_LENGTH] (default: [initial(max_chat_length)]))", "Character Preference", max_chat_length)  as null|num
+				// 	if (!isnull(desiredlength))
+				// 		chat_width = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_WIDTH)
 					
-				if("offscreen")
-					TOGGLE_VAR(see_hidden_runechat)
+				// if("offscreen")
+				// 	TOGGLE_VAR(see_hidden_runechat)
 
-				if("hud_toggle_color")
-					var/new_toggle_color = input(user, "Choose your HUD toggle flash color:", "Game Preference",hud_toggle_color) as color|null
-					if(new_toggle_color)
-						hud_toggle_color = new_toggle_color
+				// if("hud_toggle_color")
+				// 	var/new_toggle_color = input(user, "Choose your HUD toggle flash color:", "Game Preference",hud_toggle_color) as color|null
+				// 	if(new_toggle_color)
+				// 		hud_toggle_color = new_toggle_color
 
-				if("setup_hornychat")
-					SSchat.HornyPreferences(user)
+				// if("setup_hornychat")
+				// 	SSchat.HornyPreferences(user)
 
-				if("gender")
-					var/chosengender = input(user, "Select your character's gender.", "Gender Selection", gender) as null|anything in list(MALE,FEMALE,"nonbinary","object")
-					if(!chosengender)
-						return
-					switch(chosengender)
-						if("nonbinary")
-							chosengender = PLURAL
-							features["body_model"] = pick(MALE, FEMALE)
-						if("object")
-							chosengender = NEUTER
-							features["body_model"] = MALE
-						else
-							features["body_model"] = chosengender
-					gender = chosengender
+				// if("gender")
+				// 	var/chosengender = input(user, "Select your character's gender.", "Gender Selection", gender) as null|anything in list(MALE,FEMALE,"nonbinary","object")
+				// 	if(!chosengender)
+				// 		return
+				// 	switch(chosengender)
+				// 		if("nonbinary")
+				// 			chosengender = PLURAL
+				// 			features["body_model"] = pick(MALE, FEMALE)
+				// 		if("object")
+				// 			chosengender = NEUTER
+				// 			features["body_model"] = MALE
+				// 		else
+				// 			features["body_model"] = chosengender
+				// 	gender = chosengender
 
-				if("body_size")
-					var/min = CONFIG_GET(number/body_size_min)
-					var/max = CONFIG_GET(number/body_size_max)
-					var/danger = CONFIG_GET(number/threshold_body_size_slowdown)
-					var/new_body_size = input(user, "Choose your desired sprite size: ([min*100]%-[max*100]%)\nWarning: This may make your character look distorted[danger > min ? "! Additionally, a proportional movement speed penalty will be applied to characters smaller than [danger*100]%." : "!"]", "Character Preference", features["body_size"]*100) as num|null
-					if (new_body_size)
-						new_body_size = clamp(new_body_size * 0.01, min, max)
-						var/dorfy
-						if((new_body_size + 0.01) < danger) // Adding 0.01 as a dumb fix to prevent the warning message from appearing when exactly at threshold... Not sure why that happens in the first place.
-							dorfy = alert(user, "I have chosen a size below the slowdown threshold of [danger*100]%. For balancing purposes, the further you go below this percentage, the slower your character will be. Do you wish to keep this size?", "Speed Penalty Alert", "Yes", "Move it to the threshold", "No")
-							if(dorfy == "Move it to the threshold")
-								new_body_size = danger
-							if(!dorfy) //Aborts if this var is somehow empty
-								return
-						if(dorfy != "No")
-							features["body_size"] = new_body_size
+				// if("body_size")
+				// 	var/min = CONFIG_GET(number/body_size_min)
+				// 	var/max = CONFIG_GET(number/body_size_max)
+				// 	var/danger = CONFIG_GET(number/threshold_body_size_slowdown)
+				// 	var/new_body_size = input(user, "Choose your desired sprite size: ([min*100]%-[max*100]%)\nWarning: This may make your character look distorted[danger > min ? "! Additionally, a proportional movement speed penalty will be applied to characters smaller than [danger*100]%." : "!"]", "Character Preference", features["body_size"]*100) as num|null
+				// 	if (new_body_size)
+				// 		new_body_size = clamp(new_body_size * 0.01, min, max)
+				// 		var/dorfy
+				// 		if((new_body_size + 0.01) < danger) // Adding 0.01 as a dumb fix to prevent the warning message from appearing when exactly at threshold... Not sure why that happens in the first place.
+				// 			dorfy = alert(user, "I have chosen a size below the slowdown threshold of [danger*100]%. For balancing purposes, the further you go below this percentage, the slower your character will be. Do you wish to keep this size?", "Speed Penalty Alert", "Yes", "Move it to the threshold", "No")
+				// 			if(dorfy == "Move it to the threshold")
+				// 				new_body_size = danger
+				// 			if(!dorfy) //Aborts if this var is somehow empty
+				// 				return
+				// 		if(dorfy != "No")
+				// 			features["body_size"] = new_body_size
 
-				if("toggle_fuzzy")
-					fuzzy = !fuzzy
+				// if("toggle_fuzzy")
+				// 	fuzzy = !fuzzy
 
-				if("body_width")
-					var/min = CONFIG_GET(number/body_width_min)
-					var/max = CONFIG_GET(number/body_width_max)
-					var/new_body_width = input(user, "Choose your desired sprite size: ([min*100]%-[max*100]%)\nWarning: This may make your character look distorted", "Character Preference", features["body_width"]*100) as num|null
-					if (new_body_width)
-						new_body_width = clamp(new_body_width * 0.01, min, max)
-						features["body_width"] = new_body_width
+				// if("body_width")
+				// 	var/min = CONFIG_GET(number/body_width_min)
+				// 	var/max = CONFIG_GET(number/body_width_max)
+				// 	var/new_body_width = input(user, "Choose your desired sprite size: ([min*100]%-[max*100]%)\nWarning: This may make your character look distorted", "Character Preference", features["body_width"]*100) as num|null
+				// 	if (new_body_width)
+				// 		new_body_width = clamp(new_body_width * 0.01, min, max)
+				// 		features["body_width"] = new_body_width
 				
 				if("waddle_amount")
 					var/new_waddle_amount = input(user, "Choose how many pixels you want to move when walking(4 Recommended): ([WADDLE_MIN]-[WADDLE_MAX])", "Character Preference", waddle_amount) as num|null
@@ -2558,138 +2559,138 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(selected_custom_speech_verb)
 						custom_speech_verb = selected_custom_speech_verb
 
-				if("bodysprite")
-					var/selected_body_sprite = input(user, "Choose your desired body sprite", "Character Preference") as null|anything in pref_species.allowed_limb_ids
-					if(selected_body_sprite)
-						chosen_limb_id = selected_body_sprite //this gets sanitized before loading
+				// if("bodysprite")
+				// 	var/selected_body_sprite = input(user, "Choose your desired body sprite", "Character Preference") as null|anything in pref_species.allowed_limb_ids
+				// 	if(selected_body_sprite)
+				// 		chosen_limb_id = selected_body_sprite //this gets sanitized before loading
 
-				if("marking_down")
-					// move the specified marking down
-					var/index = text2num(href_list["marking_index"])
-					var/marking_type = href_list["marking_type"]
-					if(index && marking_type && features[marking_type] && index != length(features[marking_type]))
-						var/index_down = index + 1
-						var/markings = features[marking_type]
-						var/first_marking = markings[index]
-						var/second_marking = markings[index_down]
-						markings[index] = second_marking
-						markings[index_down] = first_marking
+				// if("marking_down")
+				// 	// move the specified marking down
+				// 	var/index = text2num(href_list["marking_index"])
+				// 	var/marking_type = href_list["marking_type"]
+				// 	if(index && marking_type && features[marking_type] && index != length(features[marking_type]))
+				// 		var/index_down = index + 1
+				// 		var/markings = features[marking_type]
+				// 		var/first_marking = markings[index]
+				// 		var/second_marking = markings[index_down]
+				// 		markings[index] = second_marking
+				// 		markings[index_down] = first_marking
 
-				if("marking_up")
-					// move the specified marking up
-					var/index = text2num(href_list["marking_index"])
-					var/marking_type = href_list["marking_type"]
-					if(index && marking_type && features[marking_type] && index != 1)
-						var/index_up = index - 1
-						var/markings = features[marking_type]
-						var/first_marking = markings[index]
-						var/second_marking = markings[index_up]
-						markings[index] = second_marking
-						markings[index_up] = first_marking
+				// if("marking_up")
+				// 	// move the specified marking up
+				// 	var/index = text2num(href_list["marking_index"])
+				// 	var/marking_type = href_list["marking_type"]
+				// 	if(index && marking_type && features[marking_type] && index != 1)
+				// 		var/index_up = index - 1
+				// 		var/markings = features[marking_type]
+				// 		var/first_marking = markings[index]
+				// 		var/second_marking = markings[index_up]
+				// 		markings[index] = second_marking
+				// 		markings[index_up] = first_marking
 
-				if("marking_remove")
-					// move the specified marking up
-					var/index = text2num(href_list["marking_index"])
-					var/marking_type = href_list["marking_type"]
-					if(index && marking_type && features[marking_type])
-						// because linters are just absolutely awful:
-						var/list/L = features[marking_type]
-						L.Cut(index, index + 1)
+				// if("marking_remove")
+				// 	// move the specified marking up
+				// 	var/index = text2num(href_list["marking_index"])
+				// 	var/marking_type = href_list["marking_type"]
+				// 	if(index && marking_type && features[marking_type])
+				// 		// because linters are just absolutely awful:
+				// 		var/list/L = features[marking_type]
+				// 		L.Cut(index, index + 1)
 
-				if("marking_add")
-					// add a marking
-					var/marking_type = href_list["marking_type"]
-					if(marking_type && features[marking_type])
-						var/selected_limb = input(user, "Choose the limb to apply to.", "Character Preference") as null|anything in list("Head", "Chest", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "All")
-						if(selected_limb)
-							var/list/marking_list = GLOB.mam_body_markings_list
-							var/list/snowflake_markings_list = list()
-							for(var/path in marking_list)
-								var/datum/sprite_accessory/S = marking_list[path]
-								if(istype(S))
-									if(istype(S, /datum/sprite_accessory/mam_body_markings))
-										var/datum/sprite_accessory/mam_body_markings/marking = S
-										if(!(selected_limb in marking.covered_limbs) && selected_limb != "All")
-											continue
+				// if("marking_add")
+				// 	// add a marking
+				// 	var/marking_type = href_list["marking_type"]
+				// 	if(marking_type && features[marking_type])
+				// 		var/selected_limb = input(user, "Choose the limb to apply to.", "Character Preference") as null|anything in list("Head", "Chest", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "All")
+				// 		if(selected_limb)
+				// 			var/list/marking_list = GLOB.mam_body_markings_list
+				// 			var/list/snowflake_markings_list = list()
+				// 			for(var/path in marking_list)
+				// 				var/datum/sprite_accessory/S = marking_list[path]
+				// 				if(istype(S))
+				// 					if(istype(S, /datum/sprite_accessory/mam_body_markings))
+				// 						var/datum/sprite_accessory/mam_body_markings/marking = S
+				// 						if(!(selected_limb in marking.covered_limbs) && selected_limb != "All")
+				// 							continue
 
-									if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
-										snowflake_markings_list[S.name] = path
+				// 					if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
+				// 						snowflake_markings_list[S.name] = path
 
-							var/selected_marking = input(user, "Select the marking to apply to the limb.") as null|anything in snowflake_markings_list
-							if(selected_marking)
-								if(selected_limb != "All")
-									var/limb_value = text2num(GLOB.bodypart_values[selected_limb])
-									features[marking_type] += list(list(limb_value, selected_marking))
-								else
-									var/datum/sprite_accessory/mam_body_markings/S = marking_list[selected_marking]
-									for(var/limb in S.covered_limbs)
-										var/limb_value = text2num(GLOB.bodypart_values[limb])
-										features[marking_type] += list(list(limb_value, selected_marking))
+				// 			var/selected_marking = input(user, "Select the marking to apply to the limb.") as null|anything in snowflake_markings_list
+				// 			if(selected_marking)
+				// 				if(selected_limb != "All")
+				// 					var/limb_value = text2num(GLOB.bodypart_values[selected_limb])
+				// 					features[marking_type] += list(list(limb_value, selected_marking))
+				// 				else
+				// 					var/datum/sprite_accessory/mam_body_markings/S = marking_list[selected_marking]
+				// 					for(var/limb in S.covered_limbs)
+				// 						var/limb_value = text2num(GLOB.bodypart_values[limb])
+				// 						features[marking_type] += list(list(limb_value, selected_marking))
 
-				if("marking_color")
-					var/index = text2num(href_list["marking_index"])
-					var/marking_type = href_list["marking_type"]
-					if(index && marking_type && features[marking_type])
-						// work out the input options to show the user
-						var/list/options = list("Primary")
-						var/number_colors = text2num(href_list["number_colors"])
-						var/color_number = 1 // 1-3 which color are we editing
-						if(number_colors >= 2)
-							options += "Secondary"
-						if(number_colors == 3)
-							options += "Tertiary"
-						var/color_option = input(user, "Select the colour you wish to edit") as null|anything in options
-						if(color_option)
-							if(color_option == "Secondary") color_number = 2
-							if(color_option == "Tertiary") color_number = 3
-							// perform some magic on the color number
-							var/list/marking_list = features[marking_type][index]
-							var/datum/sprite_accessory/mam_body_markings/S = GLOB.mam_body_markings_list[marking_list[2]]
-							var/matrixed_sections = S.covered_limbs[GLOB.bodypart_names[num2text(marking_list[1])]]
-							if(color_number == 1)
-								switch(matrixed_sections)
-									if(MATRIX_GREEN)
-										color_number = 2
-									if(MATRIX_BLUE)
-										color_number = 3
-							else if(color_number == 2)
-								switch(matrixed_sections)
-									if(MATRIX_RED_BLUE)
-										color_number = 3
-									if(MATRIX_GREEN_BLUE)
-										color_number = 3
+				// if("marking_color")
+				// 	var/index = text2num(href_list["marking_index"])
+				// 	var/marking_type = href_list["marking_type"]
+				// 	if(index && marking_type && features[marking_type])
+				// 		// work out the input options to show the user
+				// 		var/list/options = list("Primary")
+				// 		var/number_colors = text2num(href_list["number_colors"])
+				// 		var/color_number = 1 // 1-3 which color are we editing
+				// 		if(number_colors >= 2)
+				// 			options += "Secondary"
+				// 		if(number_colors == 3)
+				// 			options += "Tertiary"
+				// 		var/color_option = input(user, "Select the colour you wish to edit") as null|anything in options
+				// 		if(color_option)
+				// 			if(color_option == "Secondary") color_number = 2
+				// 			if(color_option == "Tertiary") color_number = 3
+				// 			// perform some magic on the color number
+				// 			var/list/marking_list = features[marking_type][index]
+				// 			var/datum/sprite_accessory/mam_body_markings/S = GLOB.mam_body_markings_list[marking_list[2]]
+				// 			var/matrixed_sections = S.covered_limbs[GLOB.bodypart_names[num2text(marking_list[1])]]
+				// 			if(color_number == 1)
+				// 				switch(matrixed_sections)
+				// 					if(MATRIX_GREEN)
+				// 						color_number = 2
+				// 					if(MATRIX_BLUE)
+				// 						color_number = 3
+				// 			else if(color_number == 2)
+				// 				switch(matrixed_sections)
+				// 					if(MATRIX_RED_BLUE)
+				// 						color_number = 3
+				// 					if(MATRIX_GREEN_BLUE)
+				// 						color_number = 3
 
-							var/color_list = features[marking_type][index][3]
-							var/new_marking_color = input(user, "Choose your character's marking color:", "Character Preference","#"+color_list[color_number]) as color|null
-							if(new_marking_color)
-								var/temp_hsv = RGBtoHSV(new_marking_color)
-								if((MUTCOLORS_PARTSONLY in pref_species.species_traits) || ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3]) // mutantcolors must be bright, but only if they affect the skin
-									color_list[color_number] = "#[sanitize_hexcolor(new_marking_color, 6)]"
-								else
-									to_chat(user, span_danger("Invalid color. Your color is not bright enough."))
+				// 			var/color_list = features[marking_type][index][3]
+				// 			var/new_marking_color = input(user, "Choose your character's marking color:", "Character Preference","#"+color_list[color_number]) as color|null
+				// 			if(new_marking_color)
+				// 				var/temp_hsv = RGBtoHSV(new_marking_color)
+				// 				if((MUTCOLORS_PARTSONLY in pref_species.species_traits) || ReadHSV(temp_hsv)[3] >= ReadHSV(MINIMUM_MUTANT_COLOR)[3]) // mutantcolors must be bright, but only if they affect the skin
+				// 					color_list[color_number] = "#[sanitize_hexcolor(new_marking_color, 6)]"
+				// 				else
+				// 					to_chat(user, span_danger("Invalid color. Your color is not bright enough."))
 		else
 			switch(href_list["preference"])
 				//CITADEL PREFERENCES EDIT - I can't figure out how to modularize these, so they have to go here. :c -Pooj
-				if("arousable")
-					arousable = !arousable
-				if("has_cock")
-					features["has_cock"] = !features["has_cock"]
-				if("has_balls")
-					features["has_balls"] = !features["has_balls"]
-				if("has_breasts")
-					features["has_breasts"] = !features["has_breasts"]
-					if(features["has_breasts"] == FALSE)
-						features["breasts_producing"] = FALSE
-				if("breasts_producing")
-					features["breasts_producing"] = !features["breasts_producing"]
-				if("has_vag")
-					features["has_vag"] = !features["has_vag"]
-				if("has_womb")
-					features["has_womb"] = !features["has_womb"]
-				if("has_butt")
-					features["has_butt"] = !features["has_butt"]
-				if("has_belly")
-					features["has_belly"] = !features["has_belly"]
+				// if("arousable")
+				// // 	arousable = !arousable
+				// if("has_cock")
+				// 	features["has_cock"] = !features["has_cock"]
+				// if("has_balls")
+				// 	features["has_balls"] = !features["has_balls"]
+				// if("has_breasts")
+				// 	features["has_breasts"] = !features["has_breasts"]
+				// 	if(features["has_breasts"] == FALSE)
+				// 		features["breasts_producing"] = FALSE
+				// if("breasts_producing")
+				// 	features["breasts_producing"] = !features["breasts_producing"]
+				// if("has_vag")
+				// 	features["has_vag"] = !features["has_vag"]
+				// if("has_womb")
+				// 	features["has_womb"] = !features["has_womb"]
+				// if("has_butt")
+				// 	features["has_butt"] = !features["has_butt"]
+				// if("has_belly")
+				// 	features["has_belly"] = !features["has_belly"]
 				if("widescreenpref")
 					TOGGLE_VAR(widescreenpref)
 					user.client.change_view(CONFIG_GET(string/default_view))
@@ -2712,106 +2713,106 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 									matchmaking_prefs -= matchmake_type
 								else
 									matchmaking_prefs[matchmake_type] = clamp(desired_matches, 1, max_matches)
-				if("autostand")
-					autostand = !autostand
-				if("auto_ooc")
-					auto_ooc = !auto_ooc
+				// if("autostand")
+				// 	autostand = !autostand
+				// if("auto_ooc")
+				// 	auto_ooc = !auto_ooc
 				if("no_tetris_storage")
 					no_tetris_storage = !no_tetris_storage
-				if("guncursor")
-					cb_toggles ^= AIM_CURSOR_ON
+				// if("guncursor")
+				// 	cb_toggles ^= AIM_CURSOR_ON
 				if ("screenshake")
 					var/desiredshake = input(user, "Set the amount of screenshake you want. \n(0 = disabled, 100 = full, 200 = maximum.)", "Character Preference", screenshake)  as null|num
 					if (!isnull(desiredshake))
 						screenshake = desiredshake
-				if("damagescreenshake")
-					switch(damagescreenshake)
-						if(0)
-							damagescreenshake = 1
-						if(1)
-							damagescreenshake = 2
-						if(2)
-							damagescreenshake = 0
-						else
-							damagescreenshake = 1
+				// if("damagescreenshake")
+				// 	switch(damagescreenshake)
+				// 		if(0)
+				// 			damagescreenshake = 1
+				// 		if(1)
+				// 			damagescreenshake = 2
+				// 		if(2)
+				// 			damagescreenshake = 0
+				// 		else
+				// 			damagescreenshake = 1
 				//END CITADEL EDIT
-				if("publicity")
-					if(unlock_content)
-						toggles ^= MEMBER_PUBLIC
+				// if("publicity")
+				// 	if(unlock_content)
+				// 		toggles ^= MEMBER_PUBLIC
 
-				if("body_model")
-					features["body_model"] = features["body_model"] == MALE ? FEMALE : MALE
+				// if("body_model")
+				// 	features["body_model"] = features["body_model"] == MALE ? FEMALE : MALE
 
-				if("hotkeys")
-					hotkeys = !hotkeys
-					user.client.ensure_keys_set(src)
+				// if("hotkeys")
+				// 	hotkeys = !hotkeys
+				// 	user.client.ensure_keys_set(src)
 
-				if("keybindings_capture")
-					var/datum/keybinding/kb = GLOB.keybindings_by_name[href_list["keybinding"]]
-					CaptureKeybinding(user, kb, href_list["old_key"], text2num(href_list["independent"]), kb.special || kb.clientside)
-					return
+				// if("keybindings_capture")
+				// 	var/datum/keybinding/kb = GLOB.keybindings_by_name[href_list["keybinding"]]
+				// 	CaptureKeybinding(user, kb, href_list["old_key"], text2num(href_list["independent"]), kb.special || kb.clientside)
+				// 	return
 
-				if("keybindings_set")
-					var/kb_name = href_list["keybinding"]
-					if(!kb_name)
-						user << browse(null, "window=capturekeypress")
-						ShowChoices(user)
-						return
+				// if("keybindings_set")
+				// 	var/kb_name = href_list["keybinding"]
+				// 	if(!kb_name)
+				// 		user << browse(null, "window=capturekeypress")
+				// 		ShowChoices(user)
+				// 		return
 
-					var/independent = href_list["independent"]
+				// 	var/independent = href_list["independent"]
 
-					var/clear_key = text2num(href_list["clear_key"])
-					var/old_key = href_list["old_key"]
-					if(clear_key)
-						if(independent)
-							modless_key_bindings -= old_key
-						else
-							if(key_bindings[old_key])
-								key_bindings[old_key] -= kb_name
-								LAZYADD(key_bindings["Unbound"], kb_name)
-								if(!length(key_bindings[old_key]))
-									key_bindings -= old_key
-						user << browse(null, "window=capturekeypress")
-						if(href_list["special"])		// special keys need a full reset
-							user.client.ensure_keys_set(src)
-						save_preferences()
-						ShowChoices(user)
-						return
+				// 	var/clear_key = text2num(href_list["clear_key"])
+				// 	var/old_key = href_list["old_key"]
+				// 	if(clear_key)
+				// 		if(independent)
+				// 			modless_key_bindings -= old_key
+				// 		else
+				// 			if(key_bindings[old_key])
+				// 				key_bindings[old_key] -= kb_name
+				// 				LAZYADD(key_bindings["Unbound"], kb_name)
+				// 				if(!length(key_bindings[old_key]))
+				// 					key_bindings -= old_key
+				// 		user << browse(null, "window=capturekeypress")
+				// 		if(href_list["special"])		// special keys need a full reset
+				// 			user.client.ensure_keys_set(src)
+				// 		save_preferences()
+				// 		ShowChoices(user)
+				// 		return
 
-					var/new_key = uppertext(href_list["key"])
-					var/AltMod = text2num(href_list["alt"]) ? "Alt" : ""
-					var/CtrlMod = text2num(href_list["ctrl"]) ? "Ctrl" : ""
-					var/ShiftMod = text2num(href_list["shift"]) ? "Shift" : ""
-					var/numpad = text2num(href_list["numpad"]) ? "Numpad" : ""
-					// var/key_code = text2num(href_list["key_code"])
+				// 	var/new_key = uppertext(href_list["key"])
+				// 	var/AltMod = text2num(href_list["alt"]) ? "Alt" : ""
+				// 	var/CtrlMod = text2num(href_list["ctrl"]) ? "Ctrl" : ""
+				// 	var/ShiftMod = text2num(href_list["shift"]) ? "Shift" : ""
+				// 	var/numpad = text2num(href_list["numpad"]) ? "Numpad" : ""
+				// 	// var/key_code = text2num(href_list["key_code"])
 
-					if(GLOB._kbMap[new_key])
-						new_key = GLOB._kbMap[new_key]
+				// 	if(GLOB._kbMap[new_key])
+				// 		new_key = GLOB._kbMap[new_key]
 
-					var/full_key
-					switch(new_key)
-						if("Alt")
-							full_key = "[new_key][CtrlMod][ShiftMod]"
-						if("Ctrl")
-							full_key = "[AltMod][new_key][ShiftMod]"
-						if("Shift")
-							full_key = "[AltMod][CtrlMod][new_key]"
-						else
-							full_key = "[AltMod][CtrlMod][ShiftMod][numpad][new_key]"
-					if(independent)
-						modless_key_bindings -= old_key
-						modless_key_bindings[full_key] = kb_name
-					else
-						if(key_bindings[old_key])
-							key_bindings[old_key] -= kb_name
-							if(!length(key_bindings[old_key]))
-								key_bindings -= old_key
-						key_bindings[full_key] += list(kb_name)
-						key_bindings[full_key] = sortList(key_bindings[full_key])
-					if(href_list["special"])		// special keys need a full reset
-						user.client.ensure_keys_set(src)
-					user << browse(null, "window=capturekeypress")
-					save_preferences()
+				// 	var/full_key
+				// 	switch(new_key)
+				// 		if("Alt")
+				// 			full_key = "[new_key][CtrlMod][ShiftMod]"
+				// 		if("Ctrl")
+				// 			full_key = "[AltMod][new_key][ShiftMod]"
+				// 		if("Shift")
+				// 			full_key = "[AltMod][CtrlMod][new_key]"
+				// 		else
+				// 			full_key = "[AltMod][CtrlMod][ShiftMod][numpad][new_key]"
+				// 	if(independent)
+				// 		modless_key_bindings -= old_key
+				// 		modless_key_bindings[full_key] = kb_name
+				// 	else
+				// 		if(key_bindings[old_key])
+				// 			key_bindings[old_key] -= kb_name
+				// 			if(!length(key_bindings[old_key]))
+				// 				key_bindings -= old_key
+				// 		key_bindings[full_key] += list(kb_name)
+				// 		key_bindings[full_key] = sortList(key_bindings[full_key])
+				// 	if(href_list["special"])		// special keys need a full reset
+				// 		user.client.ensure_keys_set(src)
+				// 	user << browse(null, "window=capturekeypress")
+				// 	save_preferences()
 
 				if("keybindings_reset")
 					var/choice = tgalert(user, "Would you prefer 'hotkey' or 'classic' defaults?", "Setup keybindings", "Hotkey", "Classic", "Cancel")
@@ -2823,31 +2824,31 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					modless_key_bindings = list()
 					user.client.ensure_keys_set(src)
 
-				if("chat_on_map")
-					chat_on_map = !chat_on_map
-				if("see_chat_non_mob")
-					see_chat_non_mob = !see_chat_non_mob
-				if("see_rc_emotes")
-					see_rc_emotes = !see_rc_emotes
-				if("color_chat_log")
-					color_chat_log = !color_chat_log
+				// if("chat_on_map")
+				// 	chat_on_map = !chat_on_map
+				// if("see_chat_non_mob")
+				// 	see_chat_non_mob = !see_chat_non_mob
+				// if("see_rc_emotes")
+				// 	see_rc_emotes = !see_rc_emotes
+				// if("color_chat_log")
+				// 	color_chat_log = !color_chat_log
 
-				if("action_buttons")
-					buttons_locked = !buttons_locked
+				// if("action_buttons")
+				// 	buttons_locked = !buttons_locked
 				if("tgui_fancy")
 					tgui_fancy = !tgui_fancy
 				if("tgui_lock")
 					tgui_lock = !tgui_lock
 				if("winflash")
 					windowflashing = !windowflashing
-				if("hear_adminhelps")
-					toggles ^= SOUND_ADMINHELP
-				if("announce_login")
-					toggles ^= ANNOUNCE_LOGIN
-				if("combohud_lighting")
-					toggles ^= COMBOHUD_LIGHTING
-				if("toggle_split_admin_tabs")
-					toggles ^= SPLIT_ADMIN_TABS
+				// if("hear_adminhelps")
+				// 	toggles ^= SOUND_ADMINHELP
+				// if("announce_login")
+				// 	toggles ^= ANNOUNCE_LOGIN
+				// if("combohud_lighting")
+				// 	toggles ^= COMBOHUD_LIGHTING
+				// if("toggle_split_admin_tabs")
+				// 	toggles ^= SPLIT_ADMIN_TABS
 
 				if("be_special")
 					var/be_special_type = href_list["be_special_type"]
@@ -2865,62 +2866,62 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("all")
 					be_random_body = !be_random_body
 
-				if("hear_hunting_horns")
-					toggles ^= SOUND_HUNTINGHORN
+				// if("hear_hunting_horns")
+				// 	toggles ^= SOUND_HUNTINGHORN
 					
-				if("hear_sprint_buffer")
-					toggles ^= SOUND_SPRINTBUFFER
+				// if("hear_sprint_buffer")
+				// 	toggles ^= SOUND_SPRINTBUFFER
 					
-				if("hear_midis")
-					toggles ^= SOUND_MIDI
+				// if("hear_midis")
+				// 	toggles ^= SOUND_MIDI
 
-				if("persistent_scars")
-					persistent_scars = !persistent_scars
+				// if("persistent_scars")
+				// 	persistent_scars = !persistent_scars
 
 				if("underwear_hands")
 					TOGGLE_VAR(underwear_overhands)
 
-				if("clear_scars")
-					to_chat(user, span_notice("All scar slots cleared. Please save character to confirm."))
-					scars_list["1"] = ""
-					scars_list["2"] = ""
-					scars_list["3"] = ""
-					scars_list["4"] = ""
-					scars_list["5"] = ""
+				// if("clear_scars")
+				// 	to_chat(user, span_notice("All scar slots cleared. Please save character to confirm."))
+				// 	scars_list["1"] = ""
+				// 	scars_list["2"] = ""
+				// 	scars_list["3"] = ""
+				// 	scars_list["4"] = ""
+				// 	scars_list["5"] = ""
 
-				if("lobby_music")
-					toggles ^= SOUND_LOBBY
-					if((toggles & SOUND_LOBBY) && user.client && isnewplayer(user))
-						user.client.playtitlemusic()
-					else
-						user.stop_sound_channel(CHANNEL_LOBBYMUSIC)
+				// if("lobby_music")
+				// 	toggles ^= SOUND_LOBBY
+				// 	if((toggles & SOUND_LOBBY) && user.client && isnewplayer(user))
+				// 		user.client.playtitlemusic()
+				// 	else
+				// 		user.stop_sound_channel(CHANNEL_LOBBYMUSIC)
 
-				if("ghost_ears")
-					chat_toggles ^= CHAT_GHOSTEARS
+				// if("ghost_ears")
+				// 	chat_toggles ^= CHAT_GHOSTEARS
 
-				if("ghost_sight")
-					chat_toggles ^= CHAT_GHOSTSIGHT
+				// if("ghost_sight")
+				// 	chat_toggles ^= CHAT_GHOSTSIGHT
 
-				if("ghost_whispers")
-					chat_toggles ^= CHAT_GHOSTWHISPER
+				// if("ghost_whispers")
+				// 	chat_toggles ^= CHAT_GHOSTWHISPER
 
-				if("ghost_radio")
-					chat_toggles ^= CHAT_GHOSTRADIO
+				// if("ghost_radio")
+				// 	chat_toggles ^= CHAT_GHOSTRADIO
 
-				if("ghost_pda")
-					chat_toggles ^= CHAT_GHOSTPDA
+				// if("ghost_pda")
+				// 	chat_toggles ^= CHAT_GHOSTPDA
 
-				if("income_pings")
-					chat_toggles ^= CHAT_BANKCARD
+				// if("income_pings")
+				// 	chat_toggles ^= CHAT_BANKCARD
 
-				if("static_blurble")
-					chat_toggles ^= CHAT_HEAR_RADIOBLURBLES
+				// if("static_blurble")
+				// 	chat_toggles ^= CHAT_HEAR_RADIOBLURBLES
 
-				if("static_radio")
-					chat_toggles ^= CHAT_HEAR_RADIOSTATIC
+				// if("static_radio")
+				// 	chat_toggles ^= CHAT_HEAR_RADIOSTATIC
 
-				if("pull_requests")
-					chat_toggles ^= CHAT_PULLR
+				// if("pull_requests")
+				// 	chat_toggles ^= CHAT_PULLR
 
 				if("allow_midround_antag")
 					toggles ^= MIDROUND_ANTAG
@@ -2967,183 +2968,183 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("aphro")
 					cit_toggles ^= NO_APHRO
 
-				if("ass_slap")
-					cit_toggles ^= NO_ASS_SLAP
+				// if("ass_slap")
+				// 	cit_toggles ^= NO_BUTT_SLAP
 
 				if("bimbo")
 					cit_toggles ^= BIMBOFICATION
 
-				if("auto_wag")
-					cit_toggles ^= NO_AUTO_WAG
+				// if("auto_wag")
+				// 	cit_toggles ^= NO_AUTO_WAG
 
 				//END CITADEL EDIT
 
-				if("ambientocclusion")
-					ambientocclusion = !ambientocclusion
-					if(parent && parent.screen && parent.screen.len)
-						var/atom/movable/screen/plane_master/game_world/G = parent.mob.hud_used.plane_masters["[GAME_PLANE]"]
-						var/atom/movable/screen/plane_master/objitem/OI = parent.mob.hud_used.plane_masters["[OBJITEM_PLANE]"]
-						var/atom/movable/screen/plane_master/mob/M = parent.mob.hud_used.plane_masters["[MOB_PLANE]"]
-						var/atom/movable/screen/plane_master/above_wall/A = parent.mob.hud_used.plane_masters["[ABOVE_WALL_PLANE]"]
-						var/atom/movable/screen/plane_master/wall/W = parent.mob.hud_used.plane_masters["[WALL_PLANE]"]
-						G.backdrop(parent.mob)
-						OI.backdrop(parent.mob)
-						M.backdrop(parent.mob)
-						A.backdrop(parent.mob)
-						W.backdrop(parent.mob)
+				// if("ambientocclusion")
+				// 	ambientocclusion = !ambientocclusion
+				// 	if(parent && parent.screen && parent.screen.len)
+				// 		var/atom/movable/screen/plane_master/game_world/G = parent.mob.hud_used.plane_masters["[GAME_PLANE]"]
+				// 		var/atom/movable/screen/plane_master/objitem/OI = parent.mob.hud_used.plane_masters["[OBJITEM_PLANE]"]
+				// 		var/atom/movable/screen/plane_master/mob/M = parent.mob.hud_used.plane_masters["[MOB_PLANE]"]
+				// 		var/atom/movable/screen/plane_master/above_wall/A = parent.mob.hud_used.plane_masters["[ABOVE_WALL_PLANE]"]
+				// 		var/atom/movable/screen/plane_master/wall/W = parent.mob.hud_used.plane_masters["[WALL_PLANE]"]
+				// 		G.backdrop(parent.mob)
+				// 		OI.backdrop(parent.mob)
+				// 		M.backdrop(parent.mob)
+				// 		A.backdrop(parent.mob)
+				// 		W.backdrop(parent.mob)
 
-				if("auto_fit_viewport")
-					auto_fit_viewport = !auto_fit_viewport
-					if(auto_fit_viewport && parent)
-						parent.fit_viewport()
+				// if("auto_fit_viewport")
+				// 	auto_fit_viewport = !auto_fit_viewport
+				// 	if(auto_fit_viewport && parent)
+				// 		parent.fit_viewport()
 
-				if("hud_toggle_flash")
-					hud_toggle_flash = !hud_toggle_flash
+				// if("hud_toggle_flash")
+				// 	hud_toggle_flash = !hud_toggle_flash
 
-				if("save")
-					save_preferences()
-					save_character()
+				// if("save")
+				// 	save_preferences()
+				// 	save_character()
 
-				if("load")
-					load_preferences()
-					load_character()
+				// if("load")
+				// 	load_preferences()
+				// 	load_character()
 
-				if("delete_character")
-					run_deletion_song_and_dance()
+				// if("delete_character")
+				// 	run_deletion_song_and_dance()
 
-				if("copyslot")
-					set_copyslot()
+				// if("copyslot")
+				// 	set_copyslot()
 				
-				if("paste")
-					run_paste_song_and_dance()
+				// if("paste")
+				// 	run_paste_song_and_dance()
 
-				if("show_this_many")
-					var/s_howmany = input(
-						user,
-						"How many character slots do you want to be able to see? This will just \
-						hide the rest, they'll still be there when you change this back later. \
-						(1-[max_save_slots])",
-						"Hide The Unused",
-						show_this_many
-					) as null|num
-					if(s_howmany)
-						show_this_many = clamp(s_howmany, 1, max_save_slots)
-						to_chat(user, span_notice("You will now see [show_this_many] character slots! Any characters in the hidden slots will be inaccessible until you change this back. If there aren't any characters there, then, good, all is well!"))
+				// if("show_this_many")
+				// 	var/s_howmany = input(
+				// 		user,
+				// 		"How many character slots do you want to be able to see? This will just 
+				// 		hide the rest, they'll still be there when you change this back later. 
+				// 		(1-[max_save_slots])",
+				// 		"Hide The Unused",
+				// 		show_this_many
+				// 	) as null|num
+				// 	if(s_howmany)
+				// 		show_this_many = clamp(s_howmany, 1, max_save_slots)
+				// 		to_chat(user, span_notice("You will now see [show_this_many] character slots! Any characters in the hidden slots will be inaccessible until you change this back. If there aren't any characters there, then, good, all is well!"))
 
-				if("names_per_row")
-					var/narow = input(
-						user,
-						"How many character names do you want to see per row? (1-10)",
-						"Character Preference",
-						names_per_row
-					) as null|num
-					if(narow)
-						names_per_row = clamp(narow, 1, 10)
-						to_chat(user, span_notice("You will now see [names_per_row] character names per row!"))
+				// if("names_per_row")
+				// 	var/narow = input(
+				// 		user,
+				// 		"How many character names do you want to see per row? (1-10)",
+				// 		"Character Preference",
+				// 		names_per_row
+				// 	) as null|num
+				// 	if(narow)
+				// 		names_per_row = clamp(narow, 1, 10)
+				// 		to_chat(user, span_notice("You will now see [names_per_row] character names per row!"))
 
-				if("changeslot")
-					if(!load_character(text2num(href_list["num"])))
-						initialize_preferences() // just so we dont carry over literally everything from the last character
-						random_character()
-						real_name = random_unique_name(gender)
-						save_character()
-					if(isnewplayer(parent.mob)) // Update the player panel with the new name.
-						var/mob/dead/new_player/player_mob = parent.mob
-						player_mob.new_player_panel()
+				// if("changeslot")
+				// 	if(!load_character(text2num(href_list["num"])))
+				// 		initialize_preferences() // just so we dont carry over literally everything from the last character
+				// 		random_character()
+				// 		real_name = random_unique_name(gender)
+				// 		save_character()
+				// 	if(isnewplayer(parent.mob)) // Update the player panel with the new name.
+				// 		var/mob/dead/new_player/player_mob = parent.mob
+				// 		player_mob.new_player_panel()
 
-				if("tab")
-					if(href_list["tab"])
-						current_tab = text2num(href_list["tab"])
-				if("erp_tab")
-					if(href_list["newtab"])
-						if(href_list["nonumber"])
-							erp_tab_page = href_list["newtab"]
-						else
-							erp_tab_page = text2num(href_list["newtab"])
+				// if("tab")
+				// 	if(href_list["tab"])
+				// 		current_tab = text2num(href_list["tab"])
+				// if("erp_tab")
+				// 	if(href_list["newtab"])
+				// 		if(href_list["nonumber"])
+				// 			erp_tab_page = href_list["newtab"]
+				// 		else
+				// 			erp_tab_page = text2num(href_list["newtab"])
 
 	chat_toggles |= CHAT_LOOC // the LOOC stays on during sex
-	if(href_list["preference"] == "gear")
-		if(href_list["clear_loadout"])
-			loadout_data["SAVE_[loadout_slot]"] = list()
+	// if(href_list["preference"] == "gear")
+		// if(href_list["clear_loadout"])
+		// 	loadout_data["SAVE_[loadout_slot]"] = list()
 
-			save_preferences()
-		if(href_list["select_category"])
-			gear_category = html_decode(href_list["select_category"])
-			gear_subcategory = GLOB.loadout_categories[gear_category][1]
-		if(href_list["select_subcategory"])
-			gear_subcategory = html_decode(href_list["select_subcategory"])
-		if(href_list["toggle_gear_path"])
-			var/name = html_decode(href_list["toggle_gear_path"])
-			var/datum/gear/G = GLOB.loadout_items[gear_category][gear_subcategory][name]
-			if(!G)
-				return
-			var/toggle = text2num(href_list["toggle_gear"])
-			if(!toggle && has_loadout_gear(loadout_slot, "[G.type]"))//toggling off and the item effectively is in chosen gear)
-				remove_gear_from_loadout(loadout_slot, "[G.type]")
-			else if(toggle && !(has_loadout_gear(loadout_slot, "[G.type]")))
+		// 	save_preferences()
+		// if(href_list["select_category"])
+		// 	gear_category = html_decode(href_list["select_category"])
+		// 	gear_subcategory = GLOB.loadout_categories[gear_category][1]
+		// if(href_list["select_subcategory"])
+		// 	gear_subcategory = html_decode(href_list["select_subcategory"])
+		// if(href_list["toggle_gear_path"])
+		// 	var/name = html_decode(href_list["toggle_gear_path"])
+		// 	var/datum/gear/G = GLOB.loadout_items[gear_category][gear_subcategory][name]
+		// 	if(!G)
+		// 		return
+		// 	var/toggle = text2num(href_list["toggle_gear"])
+		// 	if(!toggle && has_loadout_gear(loadout_slot, "[G.type]"))//toggling off and the item effectively is in chosen gear)
+		// 		RemoveGearFromLoadout(loadout_slot, "[G.type]")
+		// 	else if(toggle && !(has_loadout_gear(loadout_slot, "[G.type]")))
 				
-				if(!is_loadout_slot_available(G.category, G.cost))
-					to_chat(user, span_danger("I can only take [MAX_FREE_PER_CAT] free items from this category!"))
-					return
+		// 		if(!is_loadout_slot_available(G.category, G.cost))
+		// 			to_chat(user, span_danger("I can only take [MAX_FREE_PER_CAT] free items from this category!"))
+		// 			return
 				
-				if(G.donoritem && !G.donator_ckey_check(user.ckey))
-					to_chat(user, span_danger("This is an item intended for donator use only. You are not authorized to use this item."))
-					return
-				if(gear_points >= initial(G.cost))
-					var/list/new_loadout_data = list(LOADOUT_ITEM = "[G.type]")
-					if(loadout_data["SAVE_[loadout_slot]"])
-						loadout_data["SAVE_[loadout_slot]"] += list(new_loadout_data) //double packed because it does the union of the CONTENTS of the lists
-					else
-						loadout_data["SAVE_[loadout_slot]"] = list(new_loadout_data) //double packed because you somehow had no save slot in your loadout?
+		// 		if(G.donoritem && !G.donator_ckey_check(user.ckey))
+		// 			to_chat(user, span_danger("This is an item intended for donator use only. You are not authorized to use this item."))
+		// 			return
+		// 		if(gear_points >= initial(G.cost))
+		// 			var/list/new_loadout_data = list(LOADOUT_ITEM = "[G.type]")
+		// 			if(loadout_data["SAVE_[loadout_slot]"])
+		// 				loadout_data["SAVE_[loadout_slot]"] += list(new_loadout_data) //double packed because it does the union of the CONTENTS of the lists
+		// 			else
+		// 				loadout_data["SAVE_[loadout_slot]"] = list(new_loadout_data) //double packed because you somehow had no save slot in your loadout?
 
-		if(href_list["loadout_color"] || href_list["loadout_rename"] || href_list["loadout_redescribe"] || href_list["loadout_recolor"])
-		//if the gear doesn't exist, or they don't have it, ignore the request
-			var/name = html_decode(href_list["loadout_gear_name"])
-			var/datum/gear/G = GLOB.loadout_items[gear_category][gear_subcategory][name]
-			if(!G)
-				return
-			var/user_gear = has_loadout_gear(loadout_slot, "[G.type]")
-			if(!user_gear)
-				return
+		// if(href_list["loadout_color"] || href_list["loadout_rename"] || href_list["loadout_redescribe"] || href_list["loadout_recolor"])
+		// //if the gear doesn't exist, or they don't have it, ignore the request
+		// 	var/name = html_decode(href_list["loadout_gear_name"])
+		// 	var/datum/gear/G = GLOB.loadout_items[gear_category][gear_subcategory][name]
+		// 	if(!G)
+		// 		return
+		// 	var/user_gear = has_loadout_gear(loadout_slot, "[G.type]")
+		// 	if(!user_gear)
+		// 		return
 
-			//possible requests: rename, redescribe (recolor/recolor polychrom not ported)
-			//always make sure the gear allows said request before proceeding
+		// 	//possible requests: rename, redescribe (recolor/recolor polychrom not ported)
+		// 	//always make sure the gear allows said request before proceeding
 
-			//both renaming and redescribing strip the input to stop html injection
+		// 	//both renaming and redescribing strip the input to stop html injection
 
-			//renaming is only allowed if it has the flag for it
-			if(href_list["loadout_rename"] && (G.loadout_flags & LOADOUT_CAN_NAME))
-				var/new_name = stripped_input(user, "Enter new name for item. Maximum [MAX_NAME_LEN] characters.", "Loadout Item Naming", null, MAX_NAME_LEN)
-				if(new_name)
-					user_gear[LOADOUT_CUSTOM_NAME] = new_name
+		// 	//renaming is only allowed if it has the flag for it
+		// 	if(href_list["loadout_rename"] && (G.loadout_flags & LOADOUT_CAN_NAME))
+		// 		var/new_name = stripped_input(user, "Enter new name for item. Maximum [MAX_NAME_LEN] characters.", "Loadout Item Naming", null, MAX_NAME_LEN)
+		// 		if(new_name)
+		// 			user_gear[LOADOUT_CUSTOM_NAME] = new_name
 
-			//redescribing is only allowed if it has the flag for it
-			if(href_list["loadout_redescribe"] && (G.loadout_flags & LOADOUT_CAN_DESCRIPTION)) //redescribe isnt a real word but i can't think of the right term to use
-				var/new_description = stripped_input(user, "Enter new description for item. Maximum 500 characters.", "Loadout Item Redescribing", null, 500)
-				if(new_description)
-					user_gear[LOADOUT_CUSTOM_DESCRIPTION] = new_description
+		// 	//redescribing is only allowed if it has the flag for it
+		// 	if(href_list["loadout_redescribe"] && (G.loadout_flags & LOADOUT_CAN_DESCRIPTION)) //redescribe isnt a real word but i can't think of the right term to use
+		// 		var/new_description = stripped_input(user, "Enter new description for item. Maximum 500 characters.", "Loadout Item Redescribing", null, 500)
+		// 		if(new_description)
+		// 			user_gear[LOADOUT_CUSTOM_DESCRIPTION] = new_description
 
-			if(href_list["loadout_recolor"] && (G.loadout_flags & LOADOUT_CAN_COLOR))
-				// var/enter_the_matrix = alert(
-				// 	user,
-				// 	"Use the simple Color Picker to choose a solid color, or use the more advanced (and convoluted) Color Matrix editor to recolor this?",
-				// 	"Colorize, Quick or Advanced?",
-				// 	"Color Picker",
-				// 	"Matrix Editor",
-				// 	"Cancel",
-				// )
-				// if(enter_the_matrix == "Color Picker")
-				var/new_color = input(
-					user,
-					"Pick a cool new color for your [G.name]! =3",
-					"Recolor Your Thing",
-					user_gear[LOADOUT_CUSTOM_COLOR] || "#FFFFFF",
-				) as color|null
-				if(new_color)
-					user_gear[LOADOUT_CUSTOM_COLOR] = "#[sanitize_hexcolor(new_color, 6)]"
-					to_chat(user, span_notice("Your [G.name] has been recolored to [user_gear[LOADOUT_CUSTOM_COLOR]]!"))
-				// else if(enter_the_matrix == "Matrix Editor")
-				// 	gear_color_matrix_setup_thing(user, user_gear, G)
+		// 	if(href_list["loadout_recolor"] && (G.loadout_flags & LOADOUT_CAN_COLOR))
+		// 		// var/enter_the_matrix = alert(
+		// 		// 	user,
+		// 		// 	"Use the simple Color Picker to choose a solid color, or use the more advanced (and convoluted) Color Matrix editor to recolor this?",
+		// 		// 	"Colorize, Quick or Advanced?",
+		// 		// 	"Color Picker",
+		// 		// 	"Matrix Editor",
+		// 		// 	"Cancel",
+		// 		// )
+		// 		// if(enter_the_matrix == "Color Picker")
+		// 		var/new_color = input(
+		// 			user,
+		// 			"Pick a cool new color for your [G.name]! =3",
+		// 			"Recolor Your Thing",
+		// 			user_gear[LOADOUT_CUSTOM_COLOR] || "#FFFFFF",
+		// 		) as color|null
+		// 		if(new_color)
+		// 			user_gear[LOADOUT_CUSTOM_COLOR] = "#[sanitize_hexcolor(new_color, 6)]"
+		// 			to_chat(user, span_notice("Your [G.name] has been recolored to [user_gear[LOADOUT_CUSTOM_COLOR]]!"))
+		// 		// else if(enter_the_matrix == "Matrix Editor")
+		// 		// 	gear_color_matrix_setup_thing(user, user_gear, G)
 
 	ShowChoices(user)
 	return 1
@@ -3378,34 +3379,34 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			key_bindings[key] = oldkeys[key]
 	parent?.ensure_keys_set(src)
 
-/datum/preferences/proc/is_loadout_slot_available(category, cost)
-	if(cost)
-		return TRUE
-	var/list/L
-	LAZYINITLIST(L)
-	for(var/i in loadout_data["SAVE_[loadout_slot]"])
-		var/loadie = i[LOADOUT_ITEM]
-		var/datum/gear/G = text2path(loadie)
-		if(initial(G.cost) > 0) // oh right, these are uninitialized, mb
-			continue // non-free items are self limiting
-		if(initial(G.category) != category)
-			continue
-		var/occupied_slots = L[initial(G.category)] ? L[initial(G.category)] + 1 : 1
-		LAZYSET(L, initial(G.category), occupied_slots)
-	for(var/things_got in L)
-		if(L[things_got] > MAX_FREE_PER_CAT)
-			return FALSE
-	return TRUE
-	/* switch(slot)
-		if(SLOT_IN_BACKPACK)
-			if(L[LOADOUT_CATEGORY_BACKPACK] < BACKPACK_SLOT_AMT)
-				return TRUE
-		if(SLOT_HANDS)
-			if(L[LOADOUT_CATEGORY_HANDS] < HANDS_SLOT_AMT)
-				return TRUE
-		else
-			if(L[slot] < MAX_FREE_PER_CAT)
-				return TRUE */
+// /datum/preferences/proc/is_loadout_slot_available(category, cost)
+// 	if(cost)
+// 		return TRUE
+// 	var/list/L
+// 	LAZYINITLIST(L)
+// 	for(var/i in loadout_data["SAVE_[loadout_slot]"])
+// 		var/loadie = i[LOADOUT_ITEM]
+// 		var/datum/gear/G = text2path(loadie)
+// 		if(initial(G.cost) > 0) // oh right, these are uninitialized, mb
+// 			continue // non-free items are self limiting
+// 		if(initial(G.category) != category)
+// 			continue
+// 		var/occupied_slots = L[initial(G.category)] ? L[initial(G.category)] + 1 : 1
+// 		LAZYSET(L, initial(G.category), occupied_slots)
+// 	for(var/things_got in L)
+// 		if(L[things_got] > MAX_FREE_PER_CAT)
+// 			return FALSE
+// 	return TRUE
+// 	/* switch(slot)
+// 		if(SLOT_IN_BACKPACK)
+// 			if(L[LOADOUT_CATEGORY_BACKPACK] < BACKPACK_SLOT_AMT)
+// 				return TRUE
+// 		if(SLOT_HANDS)
+// 			if(L[LOADOUT_CATEGORY_HANDS] < HANDS_SLOT_AMT)
+// 				return TRUE
+// 		else
+// 			if(L[slot] < MAX_FREE_PER_CAT)
+// 				return TRUE */
 
 /datum/preferences/proc/generate_quester_id()
 	var/list/new_quid = list()
@@ -3426,10 +3427,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			return loadout_gear
 	return FALSE
 
-/datum/preferences/proc/remove_gear_from_loadout(save_slot, gear_type)
-	var/find_gear = has_loadout_gear(save_slot, gear_type)
-	if(find_gear)
-		loadout_data["SAVE_[save_slot]"] -= list(find_gear)
+// /datum/preferences/proc/RemoveGearFromLoadout(save_slot, gear_type)
+// 	var/find_gear = has_loadout_gear(save_slot, gear_type)
+// 	if(find_gear)
+// 		loadout_data["SAVE_[save_slot]"] -= list(find_gear)
 
 /// sux0rs I gotta do this, but hey, I love to sux0r my cox0r
 /datum/preferences/proc/initialize_preferences()
@@ -3557,8 +3558,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	input_mode_hotkey             = initial(input_mode_hotkey)
 	pref_species                  = new /datum/species/mammal()
 	quester_uid                   = generate_quester_id()
-
-/datum/preferences/proc/run_deletion_song_and_dance()
+/*
+/datum/preferences/proc/run_deletion_s ong_and_dance()
 	lockdown = TRUE
 	/// stage one, ask if they are sure, and detail the fact that this will delete the character forever
 	/// with no chance of retrieval
@@ -3599,7 +3600,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	to_chat(usr, span_danger("So be it. Deleting [real_name]..."))
 	delete_character(default_slot, real_name)
 	to_chat(usr, span_danger("Character deletion complete. They are gone, forever."))
-	lockdown = FALSE
+	lockdown = FALSE */
 
 /datum/preferences/proc/get_my_quirks()
 	if(!LAZYLEN(char_quirks))
@@ -3632,7 +3633,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	dat += "</table>"
 	return dat.Join()
 
-/datum/preferences/proc/set_copyslot()
+/* /datum/preferences/proc/set_copyslot()
 	copyslot = default_slot
 	copyname = real_name
 	to_chat(usr, span_notice("Copied [real_name] to the clipboard."))
@@ -3666,8 +3667,5 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		return
 	load_character(copyslot, TRUE)
 	save_character()
-	to_chat(usr, span_notice("Character pasted successfully!"))
+	to_chat(usr, span_notice("Character pasted successfully!")) */
 
-#undef MAX_FREE_PER_CAT
-#undef HANDS_SLOT_AMT
-#undef BACKPACK_SLOT_AMT

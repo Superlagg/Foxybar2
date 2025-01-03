@@ -415,35 +415,73 @@ GLOBAL_LIST_INIT(colored_mutant_parts, list("insect_wings" = "wings_color", "dec
 
 /// These are features that are colors (otherwise, they're vars, because THANKS DNA)
 GLOBAL_LIST_INIT(features_that_are_colors, list(
-	"derg_body_primary","derg_body_secondary","derg_body_tertiary",
-	"derg_belly_primary","derg_belly_secondary","derg_belly_tertiary",
-	"derg_horns_primary","derg_horns_secondary","derg_horns_tertiary",
-	"derg_ears_primary","derg_ears_secondary","derg_ears_tertiary",
-	"derg_mane_primary","derg_mane_secondary","derg_mane_tertiary",
-	"derg_eyes_primary","derg_eyes_secondary","derg_eyes_tertiary",
-	"xenodorsal_primary","xenodorsal_secondary","xenodorsal_tertiary",
-	"xhead_primary","xhead_secondary","xhead_tertiary",
-	"tail_primary","tail_secondary","tail_tertiary",
-	"insect_markings_primary","insect_markings_secondary","insect_markings_tertiary",
-	"insect_fluff_primary","insect_fluff_secondary","insect_fluff_tertiary",
-	"ears_primary","ears_secondary","ears_tertiary",
-	"frills_primary","frills_secondary","frills_tertiary",
-	"ipc_antenna_primary","ipc_antenna_secondary","ipc_antenna_tertiary",
-	"taur_primary","taur_secondary","taur_tertiary",
-	"snout_primary","snout_secondary","snout_tertiary",
-	"spines_primary","spines_secondary","spines_tertiary",
-	"mam_body_markings_primary", "mam_body_markings_secondary", "mam_body_markings_tertiary",
-	"mcolor","mcolor2","mcolor3",
-	"horns_color",
-	"wings_color",
-	"cock_color",
-	"balls_color",
-	"breasts_color",
-	"butt_color",
-	"belly_color",
-	"vag_color",
-	"blood_color",
-	"chat_color",
+	"derg_body_primary"            = TRUE,
+	"derg_body_secondary"          = TRUE,
+	"derg_body_tertiary"           = TRUE,
+	"derg_belly_primary"           = TRUE,
+	"derg_belly_secondary"         = TRUE,
+	"derg_belly_tertiary"          = TRUE,
+	"derg_horns_primary"           = TRUE,
+	"derg_horns_secondary"         = TRUE,
+	"derg_horns_tertiary"          = TRUE,
+	"derg_ears_primary"            = TRUE,
+	"derg_ears_secondary"          = TRUE,
+	"derg_ears_tertiary"           = TRUE,
+	"derg_mane_primary"            = TRUE,
+	"derg_mane_secondary"          = TRUE,
+	"derg_mane_tertiary"           = TRUE,
+	"derg_eyes_primary"            = TRUE,
+	"derg_eyes_secondary"          = TRUE,
+	"derg_eyes_tertiary"           = TRUE,
+	"xenodorsal_primary"           = TRUE,
+	"xenodorsal_secondary"         = TRUE,
+	"xenodorsal_tertiary"          = TRUE,
+	"xhead_primary"                = TRUE,
+	"xhead_secondary"              = TRUE,
+	"xhead_tertiary"               = TRUE,
+	"tail_primary"                 = TRUE,
+	"tail_secondary"               = TRUE,
+	"tail_tertiary"                = TRUE,
+	"insect_markings_primary"      = TRUE,
+	"insect_markings_secondary"    = TRUE,
+	"insect_markings_tertiary"     = TRUE,
+	"insect_fluff_primary"         = TRUE,
+	"insect_fluff_secondary"       = TRUE,
+	"insect_fluff_tertiary"        = TRUE,
+	"ears_primary"                 = TRUE,
+	"ears_secondary"               = TRUE,
+	"ears_tertiary"                = TRUE,
+	"frills_primary"               = TRUE,
+	"frills_secondary"             = TRUE,
+	"frills_tertiary"              = TRUE,
+	"ipc_antenna_primary"          = TRUE,
+	"ipc_antenna_secondary"        = TRUE,
+	"ipc_antenna_tertiary"         = TRUE,
+	"taur_primary"                 = TRUE,
+	"taur_secondary"               = TRUE,
+	"taur_tertiary"                = TRUE,
+	"snout_primary"                = TRUE,
+	"snout_secondary"              = TRUE,
+	"snout_tertiary"               = TRUE,
+	"spines_primary"               = TRUE,
+	"spines_secondary"             = TRUE,
+	"spines_tertiary"              = TRUE,
+	"mam_body_markings_primary"    = TRUE,
+	"mam_body_markings_secondary"  = TRUE,
+	"mam_body_markings_tertiary"   = TRUE,
+	"mcolor"                       = TRUE,
+	"mcolor2"                      = TRUE,
+	"mcolor3"                      = TRUE,
+	"horns_color"                  = TRUE,
+	"wings_color"                  = TRUE,
+	"cock_color"                   = TRUE,
+	"balls_color"                  = TRUE,
+	"breasts_color"                = TRUE,
+	"butt_color"                   = TRUE,
+	"belly_color"                  = TRUE,
+	"vag_color"                    = TRUE,
+	"blood_color"                  = TRUE,
+	"chat_color"                   = TRUE,
 ))
 
 
@@ -524,10 +562,13 @@ GLOBAL_LIST_INIT(bodypart_names, list(num2text(HEAD) = "Head", num2text(CHEST) =
 GLOBAL_LIST_INIT(bodypart_values, list("Head" = num2text(HEAD), "Chest" = num2text(CHEST), "Left Leg" = num2text(LEG_LEFT), "Right Leg" = num2text(LEG_RIGHT), "Left Arm" = num2text(ARM_LEFT), "Right Arm" = num2text(ARM_RIGHT)))
 
 
-#define MARKING_LIMB_INDEX_NUM 1
-#define MARKING_NAME           2
-#define MARKING_COLOR_LIST     3
-#define MARKING_UID            4
+#define MARKING_LIMB_INDEX_NUM  1
+#define MARKING_NAME            2
+#define MARKING_COLOR_LIST      3
+#define MARKING_UID             4
+#define MARKING_LIST_LENGTH     4
+
+#define MARKING_COLOR_LIST_LENGTH 3
 
 // Globals/helpers/randomness.
 GLOBAL_LIST_INIT(hair_gradients, list(

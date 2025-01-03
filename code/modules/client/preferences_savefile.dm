@@ -137,16 +137,23 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 				pda_skin = "Random!"
 				WRITE_FILE(S["pda_skin"], pda_skin)
 				current_version |= PMC_MOMMYCHAT_IS_COOL
-			if(PMC_MARKINGS_GET_AN_ACTUAL_UID) // i broke it =3
-				var/list/markings = list()
-				if(S["feature_mam_body_markings"])
-					markings = safe_json_decode(S["feature_mam_body_markings"])
-				if(islist(markings))
-					for(var/list/mark in markings)
-						mark.len = 4
-						mark[4] = GenerateMarkingUID()
-					WRITE_FILE(S["feature_mam_body_markings"], safe_json_encode(markings))
-				current_version |= PMC_MARKINGS_GET_AN_ACTUAL_UID
+			if(PMR_REMOVE_CORK_STRING) // i broke it =3
+				var/corkstring = ""
+				S["feature_genital_order"] >> corkstring
+				var/list/corkboard = splittext(corkstring, ":")
+				var/newjson = json_encode(corkboard)
+				WRITE_FILE(S["feature_genital_order"], newjson)
+				current_version |= PMR_REMOVE_CORK_STRING
+			// if(PMC_MARKINGS_GET_AN_ACTUAL_UID) // i broke it =3
+			// 	var/list/markings = list()
+			// 	if(S["feature_mam_body_markings"])
+			// 		markings = safe_json_decode(S["feature_mam_body_markings"])
+			// 	if(islist(markings))
+			// 		for(var/list/mark in markings)
+			// 			mark.len = 4
+			// 			mark[4] = GenerateMarkingUID()
+			// 		WRITE_FILE(S["feature_mam_body_markings"], safe_json_encode(markings))
+			// 	current_version |= PMC_MARKINGS_GET_AN_ACTUAL_UID
 			if(PMC_FENNY_FINISHED_124_QUESTS) // i broke it =3
 				current_version |= PMC_FENNY_FINISHED_124_QUESTS
 				var/list/huge_quest_list = list()
@@ -903,8 +910,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["feature_vag_visibility_flags"]	>> features["vag_visibility_flags"]
 	//womb features
 	S["feature_has_womb"]				>> features["has_womb"]
-	//cockstring
-	S["feature_genital_order"]			>> features["genital_order"]
+	features["genital_order"] = safe_json_decode(S["feature_genital_order"])
 	S["feature_genital_hide"]			>> features["genital_hide"]
 	S["feature_genital_visibility_flags"] >> features["genital_visibility_flags"]
 	//taste
@@ -1255,7 +1261,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	security_records				= copytext(security_records, 1, MAX_FLAVOR_LEN)
 	medical_records					= copytext(medical_records, 1, MAX_FLAVOR_LEN)
 
-	features["genital_order"]		= sanitize_text(features["genital_order"], DEF_COCKSTRING)
+	features["genital_order"]		= sanitize_islist(features["genital_order"], PREFS_ALL_HAS_GENITALS)
 	features["genital_hide"]		= sanitize_integer(features["genital_hide"], 0, 4096, 0)
 	features["taste"]				= copytext(features["taste"], 1, MAX_TASTE_LEN)
 	features["flavor_text"]			= copytext(features["flavor_text"], 1, MAX_FLAVOR_LEN)
@@ -1314,6 +1320,17 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 						S["feature_[secondary_string]"]		>> features[secondary_string]
 					if(S["feature_[tertiary_string]"])
 						S["feature_[tertiary_string]"]		>> features[tertiary_string]
+
+	//Sanitize markings
+	for(var/list/marking in features["mam_body_markings"])
+		marking.len = MARKING_LIST_LENGTH
+		if(LAZYLEN(marking[MARKING_COLOR_LIST]) != 3)
+			for(var/indx in 1 to 3)
+				if(marking[MARKING_COLOR_LIST][indx])
+					continue
+				marking[MARKING_COLOR_LIST][indx] = "FFFFFF"
+			if(!marking[MARKING_UID])
+				marking[MARKING_UID] = GenerateMarkingUID()
 
 	persistent_scars = sanitize_integer(persistent_scars)
 	scars_list["1"] = sanitize_text(scars_list["1"])
@@ -1520,7 +1537,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["feature_belly_shape"], features["belly_shape"])
 	WRITE_FILE(S["feature_belly_visibility"], features["belly_visibility"])
 	WRITE_FILE(S["feature_belly_visibility_flags"], features["belly_visibility_flags"])
-	WRITE_FILE(S["feature_genital_order"], features["genital_order"])
+	WRITE_FILE(S["feature_genital_order"], safe_json_encode(features["genital_order"]))
 	WRITE_FILE(S["feature_genital_hide"], features["genital_hide"])
 	WRITE_FILE(S["feature_genital_visibility_flags"], features["genital_visibility_flags"])
 

@@ -592,7 +592,7 @@ GLOBAL_LIST_INIT(genital_layers, list(
 	//okay cool, compile a list of genitals that are visible
 	var/list/genitals_to_add[GENITAL_LAYER_INDEX_LENGTH]
 	var/has_nads = FALSE
-	var/list/nad_order = splittext(dna?.features["genital_order"], ":") // NOT reversed cus the reversal is only for UI shit
+	var/list/nad_order = dna?.features["genital_order"] // NOT reversed cus the reversal is only for UI shit
 	for(var/obj/item/organ/genital/geni in internal_organs)
 		if(geni.is_exposed()) //Checks appropriate clothing slot and if it's through_clothes
 			genitals_to_add[clamp(nad_order.Find(geni.associated_has), 1, GENITAL_LAYER_INDEX_LENGTH)] = geni
