@@ -158,7 +158,7 @@ div.SettingArray {
 	Contains one setting name and one setting value
 */
 div.SettingFlex {
-	/* display: flex; */
+	display: flex;
 	flex-direction: row;
 	width: 100%;
 	background-color: rgb(0, 32, 0);
@@ -169,14 +169,16 @@ div.SettingFlex {
 	Setting Name
 */
 .SettingName {
+	display: flex;
 	width: auto;
 	padding: 5px;
-	margin: auto;
-	height: 100%;
 	font-weight: bold;
 	color: lime;
 	text-align: center;
 	line-height: 1;
+	justify-content: center;
+	flex-direction: column;
+	flex: 1;
 	white-space: nowrap;
 	box-sizing: border-box;
 	border: 1px solid green;
@@ -188,13 +190,13 @@ div.SettingFlex {
 	text-decoration: none;
 	margin: 0px !important;
 	height: 100%;
-	/* display: flex; */
+	display: flex;
 	background-color: rgb(0, 64, 0);
-	/* width: 100%; */
+	width: 100%;
 	color: lime;
-	/* line-height: 1; */
-	/* justify-content: center; */
-	/* flex-direction: column; */
+	line-height: 1;
+	justify-content: center;
+	flex-direction: column;
 	box-sizing: border-box;
 	border: 1px solid green;
 }
@@ -226,13 +228,12 @@ div.SettingArrayCol {
 	Contains one setting name and one setting value
 */
 div.SettingFlexCol {
-	/* display: flex; */
-	/* flex-direction: column; */
-	/* width: 100%; */
-	/* margin: 0px; */
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 	background-color: rgba(0, 32, 0);
 	box-sizing: border-box;
-	/* flex: 1; */
+	flex: 1;
 }
 
 /* 
@@ -245,14 +246,13 @@ div.SettingFlexCol {
 	color: lime;
 	text-align: left;
 	line-height: 1;
-	margin: 0px;
 	box-sizing: border-box;
 	border: 1px solid green;
 	white-space: nowrap;
-	/* display: flex; */
-	/* justify-content: center; */
-	/* flex-direction: column; */
-	/* white-space: wrap; */
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	white-space: wrap;
 }
 
 /* 
@@ -262,13 +262,13 @@ div.SettingFlexCol a {
 	border: 1px solid green;
 	text-decoration: none;
 	padding: 5px;
-	/* display: flex; */
-	margin: 0px !important;
+	display: flex;
+	/* margin: auto; */
 	background-color: rgb(0, 64, 0);
 	width: 100%;
 	color: lime;
 	line-height: 1;
-	/* flex-grow: 1; */
+	flex-grow: 1;
 	box-sizing: border-box;
 	word-wrap: break-word;
 }
@@ -278,12 +278,12 @@ div.SettingFlexCol a {
 div.SettingFlexColInfo {
 	border: 1px solid green;
 	padding: 5px;
-	/* display: flex; */
+	display: flex;
 	background-color: rgb(0, 64, 0);
 	width: 100%;
 	color: lime;
 	line-height: 1;
-	/* flex-grow: 1; */
+	flex-grow: 1;
 	box-sizing: border-box;
 }
 /* 
@@ -322,17 +322,15 @@ div.SettingValueSplit {
 	background-color: rgba(0, 32, 0);
 	border: 1px solid green;
 	box-sizing: border-box;
-	word-wrap:normal;
-	/* white-space: nowrap; */
 	flex: 1;
 }
 /* 
 	Setting Value, but split into multiple columns
 */
 a.SettingValue {
-	/* flex-grow: 1; */
-	/* width: 999px; */
-	/* display: flex; */
+	flex-grow: 1;
+	width: 999px;
+	display: flex;
 }
 
 /* 
@@ -357,7 +355,7 @@ div.SettingValueRowable {
 	background-color: rgba(0, 32, 0);
 	box-sizing: border-box;
 	margin: 0px;
-	/* flex: 1; */
+	flex: 1;
 	flex-basis: 25%;
 }
 
@@ -367,12 +365,13 @@ div.SettingValueRowable {
 .WideBar {
 	background-color: rgba(0, 64, 0);
 	border: 1px solid green;
+	color: black;
 	text-align: center;
 	margin: auto;
 	padding: 5px;
 	white-space: nowrap;
 	color: lime;
-	display: block;
+	display: inline-block;
 	width: 100%;
 	box-sizing: border-box;
 }
@@ -383,6 +382,7 @@ div.SettingValueRowable {
 	background-color: green;
 	border: 1px solid green;
 	text-align: center;
+	/* width: auto; */
 	color: lime;
 }
 /* 
@@ -451,6 +451,27 @@ div.BGsplit {
 div.uiContent {
 	/* cool subtle gradient */
 	/* background: linear-gradient(to bottom, rgba(0, 128, 0, 0.3), rgba(0, 128, 0, 0.1)); */
+	border: 1px solid green;
+	width: auto;
+	height: inherit;
+	margin: 0px;
+	padding: 2px;
+	font-size: 12px;
+	color: lime;
+	font-family: 'Courier New', Courier, monospace;
+}
+/* 
+	ColorBox
+*/
+div.ColorBox {
+	background-color: rgba(0, 64, 0);
+	border: 1px solid green;
+	color: black;
+	padding: 0px;
+	white-space: nowrap;
+	display: inline-block;
+	box-sizing: border-box;
+	max-width: fit-content;
 }
 /* 
 	ColorContainer for the cool color thing
@@ -468,12 +489,12 @@ div.ColorContainer {
 	ColorName for the cool color thing
 */
 div.ColorName {
-	/* display: flex; */
-	/* justify-content: center; */
-	/* flex-direction: column; */
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
 	font-size: inherit;
 	border: 1px solid green;
-	/* margin: auto; */
+	margin: auto;
 	padding: auto;
 	text-align: center;
 	font-size: 8px;
@@ -485,12 +506,12 @@ div.ColorName {
 */
 a.ColorBoxxo {
 	border: 1px solid green;
-	/* height: 100%; */
-	margin: 0px;
-	text-align: center;
-	/* display: flex; */
-	/* justify-content: center; */
-	/* flex-direction: column; */
+	height: 100%;
+	margin: auto;
+	padding: 0px !important;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
 }
 /* 
 	A smol button
@@ -500,15 +521,15 @@ a.SmolButton {
 	border: 1px solid green;
 	text-align: center;
 	padding: 5px;
-	/* margin: auto; */
+	margin: auto;
 	white-space: nowrap;
 	color: lime;
 	box-sizing: border-box;
-	/* display: flex; */
-	/* justify-content: center; */
-	/* flex-direction: column; */
-	/* flex-shrink: 1; */
-	/* height: 100%; */
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	flex-shrink: 1;
+	height: 100%;
 	flex: 1;
 	/* font-size: 8px; */
 }
@@ -543,15 +564,15 @@ div.PartsFlex {
 	font-size: inherit;
 	border: 1px solid green;
 	flex: 1;
+	min-width: 150px;
 }
 /*
 A spacer for the PartsFlex
 */
 .PartsSpacer {
-	display: block;
+	display: flex;
 	flex-grow: 1;
 	flex-shrink: 1;
-	min-width: 10px;
 	margin: 5px 5px 0px 0px;
 }
 /*
@@ -604,7 +625,7 @@ A spacer for the PartsFlex
 	Loadout Description
 */
 .LoadoutDesc {
-	/* display: flex; */
+	display: flex;
 	width: 100%;
 	padding: 5px;
 	color: lime;
